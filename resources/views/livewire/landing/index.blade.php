@@ -15,4 +15,8 @@
     <x-landing.features />
 
     <x-landing.live-deposits />
+
+    <x-landing.how-it-works />
+
+    <x-landing.marketing-cta />
 </div>
