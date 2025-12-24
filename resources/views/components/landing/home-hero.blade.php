@@ -1,3 +1,10 @@
+@props([
+    'title' => 'Weclome to ' . env('APP_NAME'),
+    'desc' => 'Your Journey to Financial Freedom Starts Here',
+    'subtitle' => 'Your journey to financial freedom starts here with Capwise. Let our expert strategies and personalized guidance help you build lasting wealth and achieve your investment goals with confidence.',
+    'showCta' => true
+])
+
 <div 
     class="elementor-element elementor-element-359f100 e-flex e-con-boxed e-con e-parent" 
     data-id="359f100"
@@ -13,7 +20,7 @@
                     data-settings="{&quot;_animation&quot;:&quot;fadeInUp&quot;,&quot;_animation_delay&quot;:200}"
                     data-widget_type="heading.default">
                     <div class="elementor-widget-container">
-                        <h6 class="elementor-heading-title elementor-size-default">Weclome to {{ env('APP_NAME') }}</h6>
+                        <h6 class="elementor-heading-title elementor-size-default">{{ $title }}</h6>
                     </div>
                 </div>
                 <div class="elementor-element elementor-element-48a99d2 elementor-invisible elementor-widget elementor-widget-heading"
@@ -21,8 +28,8 @@
                     data-settings="{&quot;_animation&quot;:&quot;fadeInUp&quot;,&quot;_animation_delay&quot;:300}"
                     data-widget_type="heading.default">
                     <div class="elementor-widget-container">
-                        <h1 class="elementor-heading-title elementor-size-default">Your Journey to Financial Freedom
-                            Starts Here
+                        <h1 class="elementor-heading-title elementor-size-default">
+                            {{ $desc }}
 
                         </h1>
                     </div>
@@ -33,12 +40,11 @@
                     data-widget_type="heading.default">
                     <div class="elementor-widget-container">
                         <div class="elementor-heading-title elementor-size-default">
-                            Your journey to financial
-                            freedom starts here with Capwise. Let our expert strategies and personalized guidance
-                            help you build lasting wealth and achieve your investment goals with confidence.
+                            {{ $subtitle }}
                         </div>
                     </div>
                 </div>
+                @if ($showCta)
                 <div class="elementor-element elementor-element-14e873f e-con-full e-flex elementor-invisible e-con e-child"
                     data-id="14e873f" data-element_type="container"
                     data-settings="{&quot;animation&quot;:&quot;fadeInUp&quot;,&quot;animation_delay&quot;:375}">
@@ -74,6 +80,8 @@
                         </div>
                     </div>
                 </div>
+
+                @endif
             </div>
         </div>
     </div>

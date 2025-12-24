@@ -50,8 +50,38 @@
                                             <a href="{{ route('faq') }}" class="elementor-sub-item">FAQs</a></li>
                                         <li
                                             class="menu-item menu-item-type-custom menu-item-object-custom menu-item-30">
-                                            <a href="pricing-plan/index.html" class="elementor-sub-item">Pricing
-                                                plan</a></li>
+                                            <a href="{{ route('how-it-works') }}" class="elementor-sub-item">
+                                                How it works
+                                            </a>
+                                        </li>
+
+                                        <li
+                                            class="menu-item menu-item-type-custom menu-item-object-custom menu-item-30">
+                                            <a href="{{ route('trading-bots') }}" class="elementor-sub-item">
+                                                Trading bots
+                                            </a>
+                                        </li>
+
+                                        <li
+                                            class="menu-item menu-item-type-custom menu-item-object-custom menu-item-30">
+                                            <a href="{{ route('privacy-policy') }}" class="elementor-sub-item">
+                                                Privacy policy
+                                            </a>
+                                        </li>
+
+                                        <li
+                                            class="menu-item menu-item-type-custom menu-item-object-custom menu-item-30">
+                                            <a href="{{ route('terms') }}" class="elementor-sub-item">
+                                                Terms & conditions
+                                            </a>
+                                        </li>
+
+                                        <li
+                                            class="menu-item menu-item-type-custom menu-item-object-custom menu-item-30">
+                                            <a href="{{ route('risk-disclosure') }}" class="elementor-sub-item">
+                                                Risk disclosure
+                                            </a>
+                                        </li>
                                     </ul>
                                 </li>
                             </ul>
@@ -95,8 +125,43 @@
                                                 tabindex="-1">FAQs</a></li>
                                         <li
                                             class="menu-item menu-item-type-custom menu-item-object-custom menu-item-30">
-                                            <a href="pricing-plan/index.html" class="elementor-sub-item"
-                                                tabindex="-1">Pricing plan</a></li>
+                                            <a href="{{ route('how-it-works') }}" class="elementor-sub-item"
+                                                tabindex="-1">
+                                                How it works
+                                            </a>
+                                        </li>
+
+                                        <li
+                                            class="menu-item menu-item-type-custom menu-item-object-custom menu-item-30">
+                                            <a href="{{ route('trading-bots') }}" class="elementor-sub-item"
+                                                tabindex="-1">
+                                                Trading bots
+                                            </a>
+                                        </li>
+
+                                        <li
+                                            class="menu-item menu-item-type-custom menu-item-object-custom menu-item-30">
+                                            <a href="{{ route('privacy-policy') }}" class="elementor-sub-item"
+                                                tabindex="-1">
+                                                Privacy policy
+                                            </a>
+                                        </li>
+
+                                        <li
+                                            class="menu-item menu-item-type-custom menu-item-object-custom menu-item-30">
+                                            <a href="{{ route('terms') }}" class="elementor-sub-item"
+                                                tabindex="-1">
+                                                Terms & conditions
+                                            </a>
+                                        </li>
+
+                                        <li
+                                            class="menu-item menu-item-type-custom menu-item-object-custom menu-item-30">
+                                            <a href="{{ route('risk-disclosure') }}" class="elementor-sub-item"
+                                                tabindex="-1">
+                                                Risk disclosure
+                                            </a>
+                                        </li>
                                     </ul>
                                 </li>
                             </ul>
