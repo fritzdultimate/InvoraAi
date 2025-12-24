@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\Landing\AboutUs;
 use App\Livewire\Settings\Appearance;
 use App\Livewire\Landing\Index as LandingIndex;
 use App\Livewire\Settings\Password;
@@ -9,6 +10,7 @@ use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Features;
 
 Route::get('/', LandingIndex::class)->name('home-landing');
+Route::get('/about-us', AboutUs::class)->name('about-us');
 
 
 Route::middleware(['auth'])->group(function () {

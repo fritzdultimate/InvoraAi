@@ -44,6 +44,7 @@
 	<link rel='stylesheet' id='elementor-frontend-css' href='wp-content/plugins/elementor/assets/css/frontend.min37de.css?ver=3.33.4' media='all' />
 	<link rel='stylesheet' id='elementor-post-8-css' href='wp-content/uploads/sites/9/elementor/css/post-80fdf.css?ver=1765358485' media='all' />
 	<link rel='stylesheet' id='elementor-post-9-css' href="{{ asset('wp-content/uploads/sites/9/elementor/css/post-2955ae0.css') }}" media='all' />
+	<link rel='stylesheet' id='elementor-post-10-css' href="{{ asset('wp-content/uploads/sites/9/elementor/css/post-480cc6e.css') }}" media='all' />
 	<link rel='stylesheet' id='widget-image-css' href='wp-content/plugins/elementor/assets/css/widget-image.min37de.css?ver=3.33.4' media='all' />
 	<link rel='stylesheet' id='widget-nav-menu-css' href='wp-content/plugins/elementor-pro/assets/css/widget-nav-menu.min7ddb.css?ver=3.33.1' media='all' />
 	<link rel='stylesheet' id='widget-heading-css' href='wp-content/plugins/elementor/assets/css/widget-heading.min37de.css?ver=3.33.4' media='all' />

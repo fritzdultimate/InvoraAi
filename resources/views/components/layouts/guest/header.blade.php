@@ -8,7 +8,7 @@
                 <div class="elementor-element elementor-element-0a381cc elementor-widget elementor-widget-image"
                     data-id="0a381cc" data-element_type="widget" data-widget_type="image.default">
                     <div class="elementor-widget-container">
-                        <a href="/">
+                        <a href="{{ route('home-landing') }}">
                             <img 
                                 src="{{ asset('logo/invora-logo.png') }}"
                                 title="{{ env('APP_NAME') }}" 
@@ -31,16 +31,11 @@
                             <ul id="menu-1-b4929b7" class="elementor-nav-menu">
                                 <li
                                     class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-25">
-                                    <a href="homepage/index.html" class="elementor-item">Homepage</a>
-                                    <ul class="sub-menu elementor-nav-menu--dropdown">
-                                        <li
-                                            class="menu-item menu-item-type-custom menu-item-object-custom menu-item-26">
-                                            <a href="homepage-2/index.html" class="elementor-sub-item">Homepage 2</a>
-                                        </li>
-                                    </ul>
+                                    <a href="{{ route('home-landing') }}" class="elementor-item">Home</a>
                                 </li>
-                                <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-27"><a
-                                        href="about-us/index.html" class="elementor-item">About us</a></li>
+                                <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-27">
+                                    <a
+                                        href="{{ route('about-us') }}" class="elementor-item">About us</a></li>
                                 <li
                                     class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-29">
                                     <a href="services/index.html" class="elementor-item">Services</a>
@@ -103,16 +98,10 @@
                             <ul id="menu-2-b4929b7" class="elementor-nav-menu">
                                 <li
                                     class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-25">
-                                    <a href="homepage/index.html" class="elementor-item" tabindex="-1">Homepage</a>
-                                    <ul class="sub-menu elementor-nav-menu--dropdown">
-                                        <li
-                                            class="menu-item menu-item-type-custom menu-item-object-custom menu-item-26">
-                                            <a href="homepage-2/index.html" class="elementor-sub-item"
-                                                tabindex="-1">Homepage 2</a></li>
-                                    </ul>
+                                    <a href="{{ route('home-landing') }}" class="elementor-item" tabindex="-1">Home</a>
                                 </li>
                                 <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-27"><a
-                                        href="about-us/index.html" class="elementor-item" tabindex="-1">About us</a>
+                                        href="{{ route('about-us') }}" class="elementor-item" tabindex="-1">About us</a>
                                 </li>
                                 <li
                                     class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-29">

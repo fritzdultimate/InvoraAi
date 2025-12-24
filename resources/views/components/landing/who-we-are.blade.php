@@ -41,6 +41,7 @@
                 </div>
             </div>
         </div>
+        
         <div class="elementor-element elementor-element-efe4489 e-con-full e-flex e-con e-child" data-id="efe4489"
             data-element_type="container">
             <div class="elementor-element elementor-element-a54c1eb elementor-invisible elementor-widget elementor-widget-heading"
@@ -139,22 +140,6 @@
                                     <span class="elementor-button-text">View Trading Bots</span>
                                 </span>
                             </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="elementor-element elementor-element-3ce3e31 elementor-widget elementor-widget-elementskit-video"
-                    data-id="3ce3e31" data-element_type="widget" data-widget_type="elementskit-video.default">
-                    <div class="elementor-widget-container">
-                        <div class="ekit-wid-con">
-                            <div class="video-content" data-video-player="[]"
-                                data-video-setting="{&quot;videoVolume&quot;:&quot;horizontal&quot;,&quot;startVolume&quot;:0.8000000000000000444089209850062616169452667236328125,&quot;videoType&quot;:&quot;iframe&quot;,&quot;videoClass&quot;:&quot;mfp-fade&quot;,&quot;popupIcon&quot;:{&quot;value&quot;:&quot;icon icon-cancel&quot;,&quot;library&quot;:&quot;ekiticons&quot;},&quot;videoStyle&quot;:&quot;popup&quot;,&quot;videoTypeName&quot;:&quot;youtube&quot;,&quot;autoplay&quot;:false,&quot;muted&quot;:false,&quot;loop&quot;:false}">
-
-                                <a class="ekit_icon_button glow-ripple ekit-video-popup ekit-video-popup-btn"
-                                    href="https://www.youtube.com/embed/VhBl3dHT5SY?feature=oembed?playlist=VhBl3dHT5SY&amp;mute=0&amp;autoplay=0&amp;loop=no&amp;controls=0&amp;start=0&amp;end="
-                                    aria-label="video-popup">
-                                    <i aria-hidden="true" class="icon icon-play-button"></i>
-                                </a>
-                            </div>
                         </div>
                     </div>
                 </div>
