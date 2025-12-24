@@ -1,6 +1,8 @@
 <?php
 
 use App\Livewire\Landing\AboutUs;
+use App\Livewire\Landing\ContactUs;
+use App\Livewire\Landing\Faq;
 use App\Livewire\Settings\Appearance;
 use App\Livewire\Landing\Index as LandingIndex;
 use App\Livewire\Settings\Password;
@@ -11,6 +13,8 @@ use Laravel\Fortify\Features;
 
 Route::get('/', LandingIndex::class)->name('home-landing');
 Route::get('/about-us', AboutUs::class)->name('about-us');
+Route::get('/contact-us', ContactUs::class)->name('contact-us');
+Route::get('/frequently-asked-questions', Faq::class)->name('faq');
 
 
 Route::middleware(['auth'])->group(function () {

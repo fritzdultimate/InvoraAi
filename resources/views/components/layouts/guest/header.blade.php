@@ -36,44 +36,22 @@
                                 <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-27">
                                     <a
                                         href="{{ route('about-us') }}" class="elementor-item">About us</a></li>
+
+                                <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-36">
+                                    <a href="{{ route('contact-us') }}" class="elementor-item">Contact us</a>
+                                </li>
+
                                 <li
                                     class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-29">
-                                    <a href="services/index.html" class="elementor-item">Services</a>
+                                    <a href="#" class="elementor-item">Others</a>
                                     <ul class="sub-menu elementor-nav-menu--dropdown">
                                         <li
                                             class="menu-item menu-item-type-custom menu-item-object-custom menu-item-32">
-                                            <a href="detail-service/index.html" class="elementor-sub-item">Detail
-                                                service</a></li>
+                                            <a href="{{ route('faq') }}" class="elementor-sub-item">FAQs</a></li>
                                         <li
                                             class="menu-item menu-item-type-custom menu-item-object-custom menu-item-30">
                                             <a href="pricing-plan/index.html" class="elementor-sub-item">Pricing
                                                 plan</a></li>
-                                    </ul>
-                                </li>
-                                <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-36"><a
-                                        href="contact-us/index.html" class="elementor-item">Contact us</a></li>
-                                <li
-                                    class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-37">
-                                    <a href="#" class="elementor-item elementor-item-anchor">Pages</a>
-                                    <ul class="sub-menu elementor-nav-menu--dropdown">
-                                        <li
-                                            class="menu-item menu-item-type-custom menu-item-object-custom menu-item-31">
-                                            <a href="portfolio/index.html" class="elementor-sub-item">Portfolio</a></li>
-                                        <li
-                                            class="menu-item menu-item-type-custom menu-item-object-custom menu-item-28">
-                                            <a href="our-team/index.html" class="elementor-sub-item">Our Team</a></li>
-                                        <li
-                                            class="menu-item menu-item-type-custom menu-item-object-custom menu-item-33">
-                                            <a href="indexbb2b.html?elementor_library=capwise-blog-archive"
-                                                class="elementor-sub-item">Blog Archive</a></li>
-                                        <li
-                                            class="menu-item menu-item-type-custom menu-item-object-custom menu-item-34">
-                                            <a href="key-economic-indicators-every-trader-should-watch-closely/index.html"
-                                                class="elementor-sub-item">Single post</a></li>
-                                        <li
-                                            class="menu-item menu-item-type-custom menu-item-object-custom menu-item-35">
-                                            <a href="index45cd.html?elementor_library=capwise-error-404"
-                                                class="elementor-sub-item">Error 404</a></li>
                                     </ul>
                                 </li>
                             </ul>
@@ -103,47 +81,22 @@
                                 <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-27"><a
                                         href="{{ route('about-us') }}" class="elementor-item" tabindex="-1">About us</a>
                                 </li>
+                                
+                                <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-36"><a
+                                        href="{{ route('contact-us') }}" class="elementor-item" tabindex="-1">Contact us</a>
+                                </li>
                                 <li
                                     class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-29">
-                                    <a href="services/index.html" class="elementor-item" tabindex="-1">Services</a>
+                                    <a href="#" class="elementor-item" tabindex="-1">Others</a>
                                     <ul class="sub-menu elementor-nav-menu--dropdown">
                                         <li
                                             class="menu-item menu-item-type-custom menu-item-object-custom menu-item-32">
-                                            <a href="detail-service/index.html" class="elementor-sub-item"
-                                                tabindex="-1">Detail service</a></li>
+                                            <a href="{{ route('faq') }}" class="elementor-sub-item"
+                                                tabindex="-1">FAQs</a></li>
                                         <li
                                             class="menu-item menu-item-type-custom menu-item-object-custom menu-item-30">
                                             <a href="pricing-plan/index.html" class="elementor-sub-item"
                                                 tabindex="-1">Pricing plan</a></li>
-                                    </ul>
-                                </li>
-                                <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-36"><a
-                                        href="contact-us/index.html" class="elementor-item" tabindex="-1">Contact us</a>
-                                </li>
-                                <li
-                                    class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-37">
-                                    <a href="#" class="elementor-item elementor-item-anchor" tabindex="-1">Pages</a>
-                                    <ul class="sub-menu elementor-nav-menu--dropdown">
-                                        <li
-                                            class="menu-item menu-item-type-custom menu-item-object-custom menu-item-31">
-                                            <a href="portfolio/index.html" class="elementor-sub-item"
-                                                tabindex="-1">Portfolio</a></li>
-                                        <li
-                                            class="menu-item menu-item-type-custom menu-item-object-custom menu-item-28">
-                                            <a href="our-team/index.html" class="elementor-sub-item" tabindex="-1">Our
-                                                Team</a></li>
-                                        <li
-                                            class="menu-item menu-item-type-custom menu-item-object-custom menu-item-33">
-                                            <a href="indexbb2b.html?elementor_library=capwise-blog-archive"
-                                                class="elementor-sub-item" tabindex="-1">Blog Archive</a></li>
-                                        <li
-                                            class="menu-item menu-item-type-custom menu-item-object-custom menu-item-34">
-                                            <a href="key-economic-indicators-every-trader-should-watch-closely/index.html"
-                                                class="elementor-sub-item" tabindex="-1">Single post</a></li>
-                                        <li
-                                            class="menu-item menu-item-type-custom menu-item-object-custom menu-item-35">
-                                            <a href="index45cd.html?elementor_library=capwise-error-404"
-                                                class="elementor-sub-item" tabindex="-1">Error 404</a></li>
                                     </ul>
                                 </li>
                             </ul>
