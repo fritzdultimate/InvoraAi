@@ -47,12 +47,17 @@
                         <div class="elementor-form-fields-wrapper elementor-labels-above">
                             <div
                                 class="elementor-field-type-text elementor-field-group elementor-column elementor-field-group-name elementor-col-50 elementor-md-100">
-                                <label for="form-field-name" class="elementor-field-label">
+                                <label for="email" class="elementor-field-label">
                                     Email
                                 </label>
-                                <input size="1" type="text"
+                                <input
+                                    id="email"
+                                    size="1" 
+                                    type="text"
                                     class="elementor-field elementor-size-sm  elementor-field-textual"
-                                    placeholder="Name" wire:model.defer="email">
+                                    placeholder="Name" 
+                                    wire:model.defer="email"
+                                >
 
                                 @error('email') <small class="text-red-500 text-xs">{{ $message }}</small> @enderror
                             </div>
@@ -62,10 +67,10 @@
                                 x-data="{ show: false }"
                                 class="elementor-field-type-text elementor-field-group elementor-column elementor-field-group-field_98da870 elementor-col-50 elementor-md-100"
                             >
-                                <label for="form-field-field_98da870" class="elementor-field-label">
+                                <label for="password" class="elementor-field-label">
                                     Password
                                 </label>
-                                <div class="relative elementor-column">
+                                <div id="password" class="relative elementor-column">
                                     <input 
                                         size="1" 
                                         type="password"
@@ -111,7 +116,8 @@
                             </div>
 
                             <div
-                                class="elementor-field-group elementor-column elementor-field-type-submit elementor-col-100 e-form__buttons">
+                                class="elementor-field-group elementor-column elementor-field-type-submit elementor-col-100 e-form__buttons"
+                            >
                                 <button class="elementor-button elementor-size-sm" type="submit">
                                     <span class="elementor-button-content-wrapper">
                                         <span class="elementor-button-icon">
