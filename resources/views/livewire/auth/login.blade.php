@@ -41,7 +41,7 @@
                 data-settings="{&quot;step_next_label&quot;:&quot;Next&quot;,&quot;step_previous_label&quot;:&quot;Previous&quot;,&quot;button_width&quot;:&quot;100&quot;,&quot;step_type&quot;:&quot;number_text&quot;,&quot;step_icon_shape&quot;:&quot;circle&quot;}"
                 data-widget_type="form.default">
                 <div class="elementor-widget-container">
-                    <form class="elementor-form" method="post" name="New Form" aria-label="New Form"
+                    <form class="" aria-label="Login Form"
                         wire:submit.prevent="login">
 
                         <div class="elementor-form-fields-wrapper elementor-labels-above">
@@ -54,7 +54,7 @@
                                     class="elementor-field elementor-size-sm  elementor-field-textual"
                                     placeholder="Name" wire:model.defer="email">
 
-                                @error('email') <small class="text-danger">{{ $message }}</small> @enderror
+                                @error('email') <small class="text-red-500 text-xs">{{ $message }}</small> @enderror
                             </div>
 
 
@@ -107,6 +107,7 @@
 
                                     </button>
                                 </div>
+                                @error('password') <div class="text-red-500 text-xs block">{{ $message }}</div> @enderror
                             </div>
 
                             <div
