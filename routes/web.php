@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\Auth\Login;
 use App\Livewire\Landing\AboutUs;
 use App\Livewire\Landing\ContactUs;
 use App\Livewire\Landing\Faq;
@@ -25,6 +26,9 @@ Route::get('/privacy-policy', PrivacyPolicy::class)->name('privacy-policy');
 Route::get('/terms-and-conditions', Terms::class)->name('terms');
 Route::get('/risk-disclosure', RiskDisclosure::class)->name('risk-disclosure');
 Route::get('/trading-bots', TradingBots::class)->name('trading-bots');
+
+// AUTH
+Route::get('/login', Login::class);
 
 
 Route::middleware(['auth'])->group(function () {
