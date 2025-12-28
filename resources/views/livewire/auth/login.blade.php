@@ -41,8 +41,7 @@
                 data-settings="{&quot;step_next_label&quot;:&quot;Next&quot;,&quot;step_previous_label&quot;:&quot;Previous&quot;,&quot;button_width&quot;:&quot;100&quot;,&quot;step_type&quot;:&quot;number_text&quot;,&quot;step_icon_shape&quot;:&quot;circle&quot;}"
                 data-widget_type="form.default">
                 <div class="elementor-widget-container">
-                    <form class="" aria-label="Login Form"
-                        wire:submit.prevent="login">
+                    <form class="" aria-label="Login Form" wire:submit.prevent="login">
 
                         <div class="elementor-form-fields-wrapper elementor-labels-above">
                             <div
@@ -50,44 +49,27 @@
                                 <label for="email" class="elementor-field-label">
                                     Email
                                 </label>
-                                <input
-                                    id="email"
-                                    size="1" 
-                                    type="text"
+                                <input id="email" size="1" type="text"
                                     class="elementor-field elementor-size-sm  elementor-field-textual"
-                                    placeholder="Name" 
-                                    wire:model.defer="email"
-                                >
+                                    placeholder="Name" wire:model.defer="email">
 
                                 @error('email') <small class="text-red-500 text-xs">{{ $message }}</small> @enderror
                             </div>
 
 
-                            <div
-                                x-data="{ show: false }"
-                                class="elementor-field-type-text elementor-field-group elementor-column elementor-field-group-field_98da870 elementor-col-50 elementor-md-100"
-                            >
+                            <div x-data="{ show: false }"
+                                class="elementor-field-type-text elementor-field-group elementor-column elementor-field-group-field_98da870 elementor-col-50 elementor-md-100">
                                 <label for="password" class="elementor-field-label">
                                     Password
                                 </label>
                                 <div id="password" class="relative elementor-column">
-                                    <input 
-                                        size="1" 
-                                        type="password"
+                                    <input size="1" type="password"
                                         class="elementor-field elementor-size-sm  elementor-field-textual"
-                                        placeholder="********" 
-                                        wire:model.defer="password"
-                                        :type="show ? 'text' : 'password'"
-                                        autocomplete="new-password"
-                                        autocorrect="off"
-                                        autocapitalize="off"
-                                        spellcheck="false"
-                                        inputmode="text"
-                                    >
+                                        placeholder="********" wire:model.defer="password"
+                                        :type="show ? 'text' : 'password'" autocomplete="new-password" autocorrect="off"
+                                        autocapitalize="off" spellcheck="false" inputmode="text">
 
-                                    <button 
-                                        type="button" 
-                                        @click="show = !show"
+                                    <button type="button" @click="show = !show"
                                         class="absolute inset-y-0 right-3 flex items-center bg-transparent! hover:bg-transparent!">
 
                                         <!-- show -->
@@ -100,7 +82,7 @@
                                         </svg>
 
                                         <!-- hide -->
-                                        <svg x-show="show" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5"x-cloak
+                                        <svg x-show="show" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" x-cloak
                                             fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                 d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.542-7a9.956 9.956 0 012.042-3.368" />
@@ -112,20 +94,41 @@
 
                                     </button>
                                 </div>
-                                @error('password') <div class="text-red-500 text-xs block">{{ $message }}</div> @enderror
+                                @error('password') <div class="text-red-500 text-xs block">{{ $message }}</div>
+                                @enderror
                             </div>
 
                             <div
-                                class="elementor-field-group elementor-column elementor-field-type-submit elementor-col-100 e-form__buttons"
-                            >
-                                <button class="elementor-button elementor-size-sm" type="submit">
+                                class="elementor-field-group elementor-column elementor-field-type-submit elementor-col-100 e-form__buttons">
+                                <button class="elementor-button elementor-size-sm" type="submit"
+                                    wire:loading.attr="disabled" wire:target="login">
                                     <span class="elementor-button-content-wrapper">
-                                        <span class="elementor-button-icon">
-                                            <i aria-hidden="true" class="icons icon-user"></i> </span>
-                                        <span class="elementor-button-text">Login</span>
+
+                                        <!-- Normal state -->
+                                        <span class="elementor-button-icon" wire:loading.remove wire:target="login">
+                                            <i aria-hidden="true" class="icons icon-user"></i>
+                                        </span>
+                                        <span class="elementor-button-text" wire:loading.remove wire:target="login">
+                                            Login
+                                        </span>
+
+                                        <!-- Loading state -->
+                                         <span class="elementor-button-icon" wire:loading wire:target="login">
+                                            <svg class="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none">
+                                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                                    stroke-width="4"></circle>
+                                                <path class="opacity-75" fill="currentColor"
+                                                    d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+                                            </svg>
+                                        </span>
+                                        <span class="elementor-button-text" wire:loading wire:target="login">
+                                            Logging in...
+                                        </span>
+
                                     </span>
                                 </button>
                             </div>
+
                         </div>
                     </form>
                 </div>
