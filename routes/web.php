@@ -1,6 +1,14 @@
 <?php
 
+use App\Livewire\Auth\ForgotPassword;
 use App\Livewire\Auth\Login;
+use App\Livewire\Auth\PasswordLinkSent;
+use App\Livewire\Auth\PasswordResetSuccess;
+use App\Livewire\Auth\Register;
+use App\Livewire\Auth\RegistrationSuccess;
+use App\Livewire\Auth\ResetPassword;
+use App\Livewire\Auth\VerificationFailure;
+use App\Livewire\Auth\VerificationSuccess;
 use App\Livewire\Landing\AboutUs;
 use App\Livewire\Landing\ContactUs;
 use App\Livewire\Landing\Faq;
@@ -28,7 +36,17 @@ Route::get('/risk-disclosure', RiskDisclosure::class)->name('risk-disclosure');
 Route::get('/trading-bots', TradingBots::class)->name('trading-bots');
 
 // AUTH
-Route::get('/login', Login::class);
+Route::get('/login', Login::class)->name('login');
+Route::get('/register', Register::class)->name('register');
+Route::get('/registration-success', RegistrationSuccess::class)->name('registration-success');
+Route::get('/verification-success', VerificationSuccess::class)->name('verification-success');
+Route::get('/verification-failure', VerificationFailure::class)->name('verification-failure');
+Route::get('/resend-verification', VerificationFailure::class)->name('resend.verification');
+
+Route::get('/forgot-password', ForgotPassword::class)->name('password.request');
+Route::get('/password/link-sent', PasswordLinkSent::class)->name('password.link.sent');
+Route::get('/reset-password/{token}/{email}', ResetPassword::class)->name('password.reset');
+Route::get('/password/reset-success', PasswordResetSuccess::class)->name('password.reset.success');
 
 
 Route::middleware(['auth'])->group(function () {
