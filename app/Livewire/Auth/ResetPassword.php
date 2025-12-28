@@ -58,4 +58,4 @@ class ResetPassword extends Component {
         //     return redirect()->route('password.reset.success');
         // }
 
-        // if($status === Password::InvalidUser) {6
+        // if($status === Password::InvalidUser) {
