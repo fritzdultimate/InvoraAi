@@ -1,52 +1,81 @@
-<x-layouts.auth>
-    <div class="flex flex-col gap-6">
-        <x-auth-header :title="__('Reset password')" :description="__('Please enter your new password below')" />
+<div class="elementor-element elementor-element-d054b34 e-flex e-con-boxed e-con e-parent">
+    <div class="e-con-inner">
+        <div class="elementor-element e-con-full e-flex e-con e-child">
 
-        <!-- Session Status -->
-        <x-auth-session-status class="text-center" :status="session('status')" />
-
-        <form method="POST" action="{{ route('password.update') }}" class="flex flex-col gap-6">
-            @csrf
-            <!-- Token -->
-            <input type="hidden" name="token" value="{{ request()->route('token') }}">
-
-            <!-- Email Address -->
-            <flux:input
-                name="email"
-                value="{{ request('email') }}"
-                :label="__('Email')"
-                type="email"
-                required
-                autocomplete="email"
-            />
-
-            <!-- Password -->
-            <flux:input
-                name="password"
-                :label="__('Password')"
-                type="password"
-                required
-                autocomplete="new-password"
-                :placeholder="__('Password')"
-                viewable
-            />
-
-            <!-- Confirm Password -->
-            <flux:input
-                name="password_confirmation"
-                :label="__('Confirm password')"
-                type="password"
-                required
-                autocomplete="new-password"
-                :placeholder="__('Confirm password')"
-                viewable
-            />
-
-            <div class="flex items-center justify-end">
-                <flux:button type="submit" variant="primary" class="w-full" data-test="reset-password-button">
-                    {{ __('Reset password') }}
-                </flux:button>
+            <div class="elementor-widget elementor-widget-heading">
+                <h2 class="elementor-heading-title">
+                    Reset Your Password
+                </h2>
             </div>
-        </form>
+
+            
+
+            <div 
+                class="elementor-element elementor-element-649ce4e elementor-button-align-stretch elementor-widget elementor-widget-form"
+                data-id="649ce4e" 
+                data-element_type="widget"
+                data-settings="{&quot;step_next_label&quot;:&quot;Next&quot;,&quot;step_previous_label&quot;:&quot;Previous&quot;,&quot;button_width&quot;:&quot;100&quot;,&quot;step_type&quot;:&quot;number_text&quot;,&quot;step_icon_shape&quot;:&quot;circle&quot;}"
+                data-widget_type="form.default"
+            >
+                <div class="elementor-widget-container">
+                    <form wire:submit.prevent="resetPassword">
+
+                        <div class="elementor-form-fields-wrapper elementor-labels-above">
+
+                            
+                            <div
+                                class="elementor-field-type-text elementor-field-group elementor-column elementor-field-group-name elementor-col-50 elementor-md-100">
+                                <label for="password" class="elementor-field-label">
+                                    Password
+                                </label>
+                                <input id="password" size="1" type="text"
+                                    class="elementor-field elementor-size-sm  elementor-field-textual"
+                                    placeholder="********" wire:model.defer="password">
+
+                                @error('password') <small class="text-red-500 text-xs">{{ $message }}</small> @enderror
+                            </div>
+
+                            <div
+                                class="elementor-field-type-text elementor-field-group elementor-column elementor-field-group-name elementor-col-50 elementor-md-100">
+                                <label for="password_confirmation" class="elementor-field-label">
+                                    Confirm Password
+                                </label>
+                                <input 
+                                    id="password_confirmation" 
+                                    size="1" 
+                                    type="text"
+                                    class="elementor-field elementor-size-sm  elementor-field-textual"
+                                    placeholder="********" 
+                                    wire:model.defer="password_confirmation"
+                                >
+                            </div>
+
+                            <div class="elementor-field-group elementor-column elementor-field-type-submit elementor-col-100 e-form__buttons">
+                                <button class="elementor-button elementor-size-sm" type="submit"
+                                    wire:loading.attr="disabled">
+                                    <span class="elementor-button-content-wrapper">
+
+                                        <span wire:loading.remove>
+                                            Reset Password
+                                        </span>
+
+                                        <span wire:loading>
+                                            Reseting...
+                                        </span>
+
+                                    </span>
+                                </button>
+                            </div>
+
+                            
+                            
+
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+        </div>
     </div>
-</x-layouts.auth>
+</div>
