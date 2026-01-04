@@ -8,13 +8,14 @@
                 data-settings="{&quot;_animation&quot;:&quot;rotateIn&quot;,&quot;_animation_delay&quot;:200}"
                 data-widget_type="image.default">
                 <div class="elementor-widget-container">
-                    <img decoding="async" width="1280" height="853"
-                        data-src="https://demokit.creativemox.com/capwise/wp-content/uploads/sites/9/2025/04/young-business-couple-make-a-deal-and-shake-hands.jpg"
+                    <img 
+                        decoding="async" 
+                        width="1280" 
+                        height="853"
+                        data-src="{{ asset('wp-content/uploads/sites/9/2025/04/who-we-are-banner.avif') }}"
                         class="attachment-full size-full wp-image-498 lazyload"
-                        alt="Young business couple make a deal and shake hands"
-                        data-srcset="https://demokit.creativemox.com/capwise/wp-content/uploads/sites/9/2025/04/young-business-couple-make-a-deal-and-shake-hands.jpg 1280w, https://demokit.creativemox.com/capwise/wp-content/uploads/sites/9/2025/04/young-business-couple-make-a-deal-and-shake-hands-300x200.jpg 300w, https://demokit.creativemox.com/capwise/wp-content/uploads/sites/9/2025/04/young-business-couple-make-a-deal-and-shake-hands-1024x682.jpg 1024w, https://demokit.creativemox.com/capwise/wp-content/uploads/sites/9/2025/04/young-business-couple-make-a-deal-and-shake-hands-768x512.jpg 768w, https://demokit.creativemox.com/capwise/wp-content/uploads/sites/9/2025/04/young-business-couple-make-a-deal-and-shake-hands-1536x1024.jpg 1536w, https://demokit.creativemox.com/capwise/wp-content/uploads/sites/9/2025/04/young-business-couple-make-a-deal-and-shake-hands-800x533.jpg 800w"
+                        alt="Trading Bots"
                         data-sizes="(max-width: 1280px) 100vw, 1280px"
-                        src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMSIgaGVpZ2h0PSIxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjwvc3ZnPg=="
                         style="--smush-placeholder-width: 1280px; --smush-placeholder-aspect-ratio: 1280/853;" />
                 </div>
             </div>
@@ -23,13 +24,16 @@
                 data-settings="{&quot;_position&quot;:&quot;absolute&quot;,&quot;_animation&quot;:&quot;zoomIn&quot;,&quot;_animation_delay&quot;:300}"
                 data-widget_type="image.default">
                 <div class="elementor-widget-container">
-                    <img decoding="async" width="800" height="433"
-                        data-src="https://demokit.creativemox.com/capwise/wp-content/uploads/sites/9/2025/04/business-1024x554.jpg"
-                        class="attachment-large size-large wp-image-444 lazyload" alt="business"
-                        data-srcset="https://demokit.creativemox.com/capwise/wp-content/uploads/sites/9/2025/04/business-1024x554.jpg 1024w, https://demokit.creativemox.com/capwise/wp-content/uploads/sites/9/2025/04/business-300x162.jpg 300w, https://demokit.creativemox.com/capwise/wp-content/uploads/sites/9/2025/04/business-768x415.jpg 768w, https://demokit.creativemox.com/capwise/wp-content/uploads/sites/9/2025/04/business-1536x831.jpg 1536w, https://demokit.creativemox.com/capwise/wp-content/uploads/sites/9/2025/04/business-800x433.jpg 800w, https://demokit.creativemox.com/capwise/wp-content/uploads/sites/9/2025/04/business.jpg 1280w"
+                    <img 
+                        decoding="async" 
+                        width="800" 
+                        height="433"
+                        data-src="{{ asset('wp-content/uploads/sites/9/2025/04/54iyBrSX81nkGw3mnNDpDZTqSw.avif') }}"
+                        class="attachment-large size-large wp-image-444 lazyload" 
+                        alt="bot"
                         data-sizes="(max-width: 800px) 100vw, 800px"
-                        src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMSIgaGVpZ2h0PSIxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjwvc3ZnPg=="
-                        style="--smush-placeholder-width: 800px; --smush-placeholder-aspect-ratio: 800/433;" />
+                        style="--smush-placeholder-width: 800px; --smush-placeholder-aspect-ratio: 800/433;" 
+                    />
                 </div>
             </div>
             <div class="elementor-element elementor-element-156a311 elementor-absolute e-transform elementor-widget elementor-widget-heading"
