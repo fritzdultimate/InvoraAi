@@ -10,6 +10,8 @@
 
     <x-landing.who-we-are />
 
+    <x-landing.live-crypto-price />
+
     <x-landing.subscription-plans />
 
     <x-landing.features />
