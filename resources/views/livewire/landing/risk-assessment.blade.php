@@ -106,7 +106,9 @@
                         data-settings="{&quot;_animation&quot;:&quot;fadeInUp&quot;,&quot;_animation_delay&quot;:200}"
                         data-widget_type="heading.default">
                         <div class="elementor-widget-container">
-                            <h1 class="elementor-heading-title elementor-size-default">Contact us</h1>
+                            <h1 class="elementor-heading-title elementor-size-default">
+                                Investment Risk Assessment
+                            </h1>
                         </div>
                     </div>
                     <div class="elementor-element elementor-element-68551fe elementor-widget elementor-widget-heading animated fadeInUp"
@@ -115,7 +117,7 @@
                         data-widget_type="heading.default">
                         <div class="elementor-widget-container">
                             <h4 class="elementor-heading-title elementor-size-default">
-                                Let’s Start a Meaningful Conversation About Your Financial Future
+                                Understand your risk profile before making any investment decision.
                             </h4>
                         </div>
                     </div>
@@ -140,7 +142,7 @@
                                 data-id="283fe67" data-element_type="widget" data-widget_type="heading.default">
                                 <div class="elementor-widget-container">
                                     <h2 class="elementor-heading-title elementor-size-default">
-                                        Check if your question has been answerd.
+                                        Key Investment Risk Considerations
                                     </h2>
                                 </div>
                             </div>
@@ -148,8 +150,7 @@
                                 data-id="9803166" data-element_type="widget" data-widget_type="heading.default">
                                 <div class="elementor-widget-container">
                                     <div class="elementor-heading-title elementor-size-default">
-                                        Before contactiong us, please check through to confirm that your question has
-                                        not been given answers to.
+                                        Review the factors we use to assess risk suitability before requesting a personalized investment review.
                                     </div>
                                 </div>
                             </div>
@@ -166,7 +167,7 @@
                                                 aria-controls="e-n-accordion-item-6110">
                                                 <span class="e-n-accordion-item-title-header">
                                                     <div class="e-n-accordion-item-title-text">
-                                                        How does the platform personalize my investment strategy?
+                                                        How is my risk tolerance evaluated before recommending a strategy?
                                                     </div>
                                                 </span>
                                                 <span class="e-n-accordion-item-title-icon">
@@ -212,7 +213,7 @@
                                                 aria-controls="e-n-accordion-item-6111">
                                                 <span class="e-n-accordion-item-title-header">
                                                     <div class="e-n-accordion-item-title-text">
-                                                        What technology powers your trading and investment systems?
+                                                        How does technology help manage and mitigate investment risk?
                                                     </div>
                                                 </span>
                                                 <span class="e-n-accordion-item-title-icon">
@@ -255,7 +256,7 @@
                                                 aria-controls="e-n-accordion-item-6112">
                                                 <span class="e-n-accordion-item-title-header">
                                                     <div class="e-n-accordion-item-title-text">
-                                                        What investment plans and wealth solutions are available?
+                                                        What risk levels are associated with the available investment plans?
                                                     </div>
                                                 </span>
                                                 <span class="e-n-accordion-item-title-icon">
@@ -299,7 +300,7 @@
                                                 aria-controls="e-n-accordion-item-6113">
                                                 <span class="e-n-accordion-item-title-header">
                                                     <div class="e-n-accordion-item-title-text">
-                                                        How can I monitor performance and withdraw my earnings?
+                                                        How do liquidity, performance tracking, and withdrawals affect risk exposure?
                                                     </div>
                                                 </span>
                                                 <span class="e-n-accordion-item-title-icon">
@@ -351,7 +352,7 @@
                         data-id="c3e1e76" data-element_type="widget" data-widget_type="heading.default">
                         <div class="elementor-widget-container">
                             <h2 class="elementor-heading-title elementor-size-default">
-                                Have Questions? Our Investment Experts Are Ready to Help
+                                Request a Personalized Risk Review
                             </h2>
                         </div>
                     </div>
@@ -359,8 +360,7 @@
                         data-id="cc6086c" data-element_type="widget" data-widget_type="heading.default">
                         <div class="elementor-widget-container">
                             <div class="elementor-heading-title elementor-size-default">
-                                Whether you’re exploring investment opportunities, need clarity on our services, or want
-                                personalized guidance, our team is here to support you every step of the way.
+                                After reviewing the risk considerations above, you may request a personalized assessment based on your objectives, timeline, and tolerance for risk.
                             </div>
                         </div>
                     </div>
@@ -485,7 +485,7 @@
                             data-id="4aa7a04" data-element_type="widget" data-widget_type="heading.default">
                             <div class="elementor-widget-container">
                                 <h3 class="elementor-heading-title elementor-size-default">
-                                    LLet’s Discuss Your Investment Goals and Strategy
+                                    Let’s Discuss Your Investment Goals and Strategy
                                 </h3>
                             </div>
                         </div>
@@ -612,7 +612,7 @@
     const searchWrap = document.createElement('div');
     searchWrap.className = 'faq-search-wrap';
     searchWrap.innerHTML = `
-        <input type="search" class="faq-search-input" placeholder="Search your question…">
+        <input type="search" class="faq-search-input" placeholder="Search risk factors or concerns…">
         <div class="faq-result-count"></div>
     `;
     accordion.parentNode.insertBefore(searchWrap, accordion);
@@ -676,10 +676,10 @@
     overlay.className = 'form-lock-overlay';
     overlay.innerHTML = `
         <div class="form-lock-box">
-            <h4 class="text-gray-900">Have you checked our FAQs?</h4>
+            <h4 class="text-gray-900">Complete Risk Review First</h4>
             <p>
-                Many questions are already answered above.
-                Please search or open a question before contacting our team.
+                Investment decisions involve risk.
+                Please review the risk considerations above before requesting a personalized assessment.
             </p>
         </div>
     `;
