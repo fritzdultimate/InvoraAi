@@ -70,6 +70,8 @@
     .form-lock-box h4 {
         margin: 0 0 8px;
         font-size: 18px;
+        @apply text-gray-950;
+        color: oklch(13% 0.028 261.692);
     }
 
     .form-lock-box p {
@@ -674,7 +676,7 @@
     overlay.className = 'form-lock-overlay';
     overlay.innerHTML = `
         <div class="form-lock-box">
-            <h4>Have you checked our FAQs?</h4>
+            <h4 class="text-gray-900">Have you checked our FAQs?</h4>
             <p>
                 Many questions are already answered above.
                 Please search or open a question before contacting our team.
