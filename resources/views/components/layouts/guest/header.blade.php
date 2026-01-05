@@ -118,6 +118,10 @@
                                 <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-36"><a
                                         href="{{ route('contact-us') }}" class="elementor-item" tabindex="-1">Contact us</a>
                                 </li>
+
+                                <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-36"><a
+                                        href="{{ route('risk-assessment') }}" class="elementor-item" tabindex="-1">Risk Assessment</a>
+                                </li>
                                 <li
                                     class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-29">
                                     <a href="#" class="elementor-item" tabindex="-1">Others</a>
