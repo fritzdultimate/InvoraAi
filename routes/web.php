@@ -14,6 +14,7 @@ use App\Livewire\Landing\ContactUs;
 use App\Livewire\Landing\Faq;
 use App\Livewire\Landing\HowItWorks;
 use App\Livewire\Landing\PrivacyPolicy;
+use App\Livewire\Landing\RiskAssessment;
 use App\Livewire\Landing\RiskDisclosure;
 use App\Livewire\Landing\Terms;
 use App\Livewire\Landing\TradingBots;
@@ -34,6 +35,7 @@ Route::get('/privacy-policy', PrivacyPolicy::class)->name('privacy-policy');
 Route::get('/terms-and-conditions', Terms::class)->name('terms');
 Route::get('/risk-disclosure', RiskDisclosure::class)->name('risk-disclosure');
 Route::get('/trading-bots', TradingBots::class)->name('trading-bots');
+Route::get('/risk-assessment', RiskAssessment::class)->name('risk-assessment');
 
 // AUTH
 Route::get('/login', Login::class)->name('login');
