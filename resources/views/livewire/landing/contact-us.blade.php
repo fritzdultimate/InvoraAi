@@ -32,12 +32,12 @@
         display: none !important;
     }
 
-    mark {
+    /* mark {
         background: rgba(37,99,235,.15);
         color: inherit;
         padding: 0 2px;
         border-radius: 3px;
-    }
+    } */
 
     .form-locked {
         position: relative;
