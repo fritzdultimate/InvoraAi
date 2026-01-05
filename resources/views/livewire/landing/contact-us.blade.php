@@ -84,7 +84,7 @@
 
     @media (max-width: 768px) {
         .faq-search-input {
-            font-size: 25px;
+            font-size: 25px!important;
             padding: 12px 14px;
         }
     }
