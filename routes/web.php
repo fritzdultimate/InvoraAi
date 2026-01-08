@@ -18,6 +18,7 @@ use App\Livewire\Landing\RiskAssessment;
 use App\Livewire\Landing\RiskDisclosure;
 use App\Livewire\Landing\Terms;
 use App\Livewire\Landing\TradingBots;
+use App\Livewire\Landing\TradingExecution;
 use App\Livewire\Settings\Appearance;
 use App\Livewire\Landing\Index as LandingIndex;
 use App\Livewire\Settings\Password;
@@ -36,6 +37,7 @@ Route::get('/terms-and-conditions', Terms::class)->name('terms');
 Route::get('/risk-disclosure', RiskDisclosure::class)->name('risk-disclosure');
 Route::get('/trading-bots', TradingBots::class)->name('trading-bots');
 Route::get('/risk-assessment', RiskAssessment::class)->name('risk-assessment');
+Route::get('/trading-execution', TradingExecution::class)->name('trading-execution');
 
 // AUTH
 Route::get('/login', Login::class)->name('login');
