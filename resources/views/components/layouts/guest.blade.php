@@ -10,5 +10,6 @@
 
         @include('components.layouts.guest.footer')
         @include('components.layouts.guest.footer-scripts')
+        @include('components.layouts.live-chat')
     </body>
 </html>
