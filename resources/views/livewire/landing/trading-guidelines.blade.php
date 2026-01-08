@@ -15,7 +15,7 @@
                         data-widget_type="heading.default">
                         <div class="elementor-widget-container">
                             <h1 class="elementor-heading-title elementor-size-default">
-                                AI-Powered Portfolio Management
+                                AI Trading Guidelines
                             </h1>
                         </div>
                     </div>
@@ -25,8 +25,7 @@
                         data-widget_type="heading.default">
                         <div class="elementor-widget-container">
                             <h4 class="elementor-heading-title elementor-size-default">
-                                Intelligent portfolio construction, optimization, and risk control powered by advanced
-                                AI systems.
+                                Comprehensive Rules Governing Strategy, Execution, Risk & Capital Protection
                             </h4>
                         </div>
                     </div>
@@ -51,7 +50,7 @@
                                 data-id="283fe67" data-element_type="widget" data-widget_type="heading.default">
                                 <div class="elementor-widget-container">
                                     <h2 class="elementor-heading-title elementor-size-default">
-                                        Core Portfolio Management Principles
+                                        AI Trading Guidelines
                                     </h2>
                                 </div>
                             </div>
@@ -59,8 +58,7 @@
                                 data-id="9803166" data-element_type="widget" data-widget_type="heading.default">
                                 <div class="elementor-widget-container">
                                     <div class="elementor-heading-title elementor-size-default">
-                                        Discover how our AI manages assets, balances risk, and compounds returns through
-                                        data-driven decision-making.
+                                        Comprehensive Rules Governing Strategy, Execution, Risk & Capital Protection
                                     </div>
                                 </div>
                             </div>
@@ -77,7 +75,7 @@
                                                 aria-controls="e-n-accordion-item-6110">
                                                 <span class="e-n-accordion-item-title-header">
                                                     <div class="e-n-accordion-item-title-text">
-                                                        How does the AI construct a portfolio?
+                                                        How does the AI determine trade entries?
                                                     </div>
                                                 </span>
                                                 <span class="e-n-accordion-item-title-icon">
@@ -96,18 +94,24 @@
                                                     data-widget_type="text-editor.default">
                                                     <div class="elementor-widget-container">
                                                         <p>
-                                                            The AI builds portfolios using quantitative analysis, asset
-                                                            correlation modeling, and market cycle detection.
-                                                            It evaluates multiple asset classes including crypto, forex,
-                                                            indices, and commodities to create a diversified allocation
-                                                            tailored to your capital size, risk tolerance, and
-                                                            investment horizon.
+                                                            The AI identifies trade entries by combining multi-timeframe
+                                                            market structure analysis, real-time price action,
+                                                            order flow signals, and statistical probability models.
                                                         </p>
+
                                                         <p>
-                                                            Portfolios are dynamically structured to reduce exposure to
-                                                            correlated risks while maximizing long-term growth
-                                                            potential.
+                                                            Before entering any position, the system confirms alignment
+                                                            across trend direction, volatility conditions,
+                                                            liquidity zones, and historical price behavior. Trades are
+                                                            only executed when probability thresholds are met,
+                                                            ensuring disciplined and data-backed decision-making.
                                                         </p>
+
+                                                        <p>
+                                                            The AI avoids impulsive entries and filters out low-quality
+                                                            signals during uncertain or choppy market conditions.
+                                                        </p>
+
 
                                                     </div>
                                                 </div>
@@ -128,7 +132,7 @@
                                                 aria-controls="e-n-accordion-item-6111">
                                                 <span class="e-n-accordion-item-title-header">
                                                     <div class="e-n-accordion-item-title-text">
-                                                        How does rebalancing and optimization work?
+                                                        What trading strategies does the AI employ?
                                                     </div>
                                                 </span>
                                                 <span class="e-n-accordion-item-title-icon">
@@ -147,16 +151,23 @@
                                                     data-widget_type="text-editor.default">
                                                     <div class="elementor-widget-container">
                                                         <p>
-                                                            The system continuously monitors asset performance,
-                                                            volatility shifts, and macroeconomic indicators.
-                                                            When portfolio weights drift beyond optimal thresholds, the
-                                                            AI automatically rebalances positions to maintain
-                                                            strategic alignment.
+                                                            The AI utilizes a diversified set of trading strategies
+                                                            designed to perform across different market environments.
+                                                            These include trend-following, mean reversion, momentum
+                                                            trading, scalping, breakout confirmation, and
+                                                            volatility-based strategies.
                                                         </p>
+
                                                         <p>
-                                                            This process ensures profits are protected, underperforming
-                                                            assets are reduced, and capital is efficiently reallocated
-                                                            into stronger opportunities without emotional bias.
+                                                            Each strategy is dynamically selected based on current
+                                                            market conditions, liquidity availability,
+                                                            and asset-specific behavior. No single strategy is relied
+                                                            upon exclusively, reducing systemic risk.
+                                                        </p>
+
+                                                        <p>
+                                                            Strategies are continuously refined using historical
+                                                            performance data and adaptive learning models.
                                                         </p>
                                                     </div>
                                                 </div>
@@ -177,7 +188,7 @@
                                                 aria-controls="e-n-accordion-item-6112">
                                                 <span class="e-n-accordion-item-title-header">
                                                     <div class="e-n-accordion-item-title-text">
-                                                        How is portfolio risk managed?
+                                                        How is trade execution optimized?
                                                     </div>
                                                 </span>
                                                 <span class="e-n-accordion-item-title-icon">
@@ -196,16 +207,21 @@
                                                     data-widget_type="text-editor.default">
                                                     <div class="elementor-widget-container">
                                                         <p>
-                                                            Risk management is embedded at every level of portfolio
-                                                            execution. The AI applies exposure limits, drawdown
-                                                            controls,
-                                                            dynamic stop-loss mechanisms, and position scaling to
-                                                            protect capital.
+                                                            Trade execution is optimized to minimize slippage, latency,
+                                                            and unfavorable pricing.
+                                                            The AI selects optimal order types such as market, limit, or
+                                                            conditional orders based on liquidity depth and volatility.
                                                         </p>
+
                                                         <p>
-                                                            During periods of extreme volatility, the system can shift
-                                                            portfolios into defensive modes, reduce leverage,
-                                                            or increase stable asset allocation to preserve value.
+                                                            Execution timing is adjusted to avoid high-impact news
+                                                            releases and low-liquidity periods,
+                                                            ensuring price efficiency and reduced execution risk.
+                                                        </p>
+
+                                                        <p>
+                                                            All executions follow predefined execution rules to maintain
+                                                            consistency and transparency.
                                                         </p>
 
                                                     </div>
@@ -227,7 +243,7 @@
                                                 aria-controls="e-n-accordion-item-6113">
                                                 <span class="e-n-accordion-item-title-header">
                                                     <div class="e-n-accordion-item-title-text">
-                                                        How does the AI adapt to market conditions?
+                                                        How does the AI manage risk per trade?
                                                     </div>
                                                 </span>
                                                 <span class="e-n-accordion-item-title-icon">
@@ -246,16 +262,24 @@
                                                     data-widget_type="text-editor.default">
                                                     <div class="elementor-widget-container">
                                                         <p>
-                                                            The AI continuously learns from market behavior using
-                                                            machine learning models trained on historical and real-time
-                                                            data.
-                                                            It detects trend transitions, liquidity changes, and regime
-                                                            shifts to adjust portfolio strategies accordingly.
+                                                            Risk management is the foundation of every trade. The AI
+                                                            enforces strict risk limits per position,
+                                                            ensuring no single trade can cause excessive portfolio
+                                                            damage.
                                                         </p>
+
                                                         <p>
-                                                            This adaptive intelligence allows the portfolio to perform
-                                                            across bullish, bearish, and ranging market environments.
+                                                            Position sizing is calculated dynamically using account
+                                                            equity, volatility metrics,
+                                                            and maximum allowable drawdown thresholds.
                                                         </p>
+
+                                                        <p>
+                                                            Automated stop-loss and take-profit levels are placed
+                                                            immediately upon trade execution,
+                                                            eliminating emotional interference.
+                                                        </p>
+
 
                                                     </div>
                                                 </div>
@@ -276,7 +300,7 @@
                                                 aria-controls="e-n-accordion-item-6113">
                                                 <span class="e-n-accordion-item-title-header">
                                                     <div class="e-n-accordion-item-title-text">
-                                                        How is performance tracked and reported? (NEW – Strong Upgrade)
+                                                        How are losses controlled and drawdowns minimized?
                                                     </div>
                                                 </span>
                                                 <span class="e-n-accordion-item-title-icon">
@@ -295,15 +319,23 @@
                                                     data-widget_type="text-editor.default">
                                                     <div class="elementor-widget-container">
                                                         <p>
-                                                            Users gain access to a comprehensive portfolio dashboard
-                                                            showing real-time asset allocation, unrealized and realized
-                                                            profits, drawdowns, and historical performance metrics.
+                                                            The AI actively monitors drawdown levels across individual
+                                                            trades, strategies, and the overall account.
+                                                            If predefined loss thresholds are reached, the system
+                                                            automatically reduces exposure or pauses trading.
                                                         </p>
+
                                                         <p>
-                                                            Detailed analytics and reporting tools provide transparency
-                                                            into AI decisions, portfolio efficiency,
-                                                            and long-term growth trends.
+                                                            During extended losing periods, the AI enters capital
+                                                            preservation mode,
+                                                            prioritizing account safety over profit generation.
                                                         </p>
+
+                                                        <p>
+                                                            This layered protection ensures long-term survivability and
+                                                            sustainable performance.
+                                                        </p>
+
 
 
                                                     </div>
@@ -325,7 +357,7 @@
                                                 aria-controls="e-n-accordion-item-6113">
                                                 <span class="e-n-accordion-item-title-header">
                                                     <div class="e-n-accordion-item-title-text">
-                                                        Is the portfolio customizable? (NEW – Investor-Friendly)
+                                                        How does the AI adapt to changing market conditions?
                                                     </div>
                                                 </span>
                                                 <span class="e-n-accordion-item-title-icon">
@@ -344,15 +376,23 @@
                                                     data-widget_type="text-editor.default">
                                                     <div class="elementor-widget-container">
                                                         <p>
-                                                            Yes. Users can define risk levels, preferred asset classes,
-                                                            capital limits, and investment goals.
-                                                            The AI respects these constraints while optimizing portfolio
-                                                            performance.
+                                                            Markets are dynamic, and the AI continuously adapts by
+                                                            analyzing volatility regimes,
+                                                            trend strength, liquidity shifts, and macroeconomic
+                                                            influences.
                                                         </p>
+
                                                         <p>
-                                                            This ensures every portfolio remains aligned with individual
-                                                            financial objectives and risk appetite.
+                                                            When market behavior changes, the AI adjusts strategy
+                                                            selection, trade frequency,
+                                                            and risk allocation accordingly.
                                                         </p>
+
+                                                        <p>
+                                                            This adaptability allows consistent performance during
+                                                            bullish, bearish, and sideways markets.
+                                                        </p>
+
 
                                                     </div>
                                                 </div>
@@ -362,6 +402,279 @@
                                                     data-widget_type="heading.default">
                                                     <div class="elementor-widget-container">
                                                         <div class="elementor-heading-title elementor-size-default">06
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </details>
+
+                                        <details id="e-n-accordion-item-6113" class="e-n-accordion-item" style="">
+                                            <summary class="e-n-accordion-item-title" data-accordion-index="4"
+                                                tabindex="-1" aria-expanded="false"
+                                                aria-controls="e-n-accordion-item-6113">
+                                                <span class="e-n-accordion-item-title-header">
+                                                    <div class="e-n-accordion-item-title-text">
+                                                        How does the AI handle high-impact news and volatility events?
+                                                    </div>
+                                                </span>
+                                                <span class="e-n-accordion-item-title-icon">
+                                                    <span class="e-opened"><i aria-hidden="true"
+                                                            class="mdi mdi-checkbox-marked-circle"></i></span>
+                                                    <span class="e-closed"><i aria-hidden="true"
+                                                            class="mdi mdi-check-circle-outline"></i></span>
+                                                </span>
+
+                                            </summary>
+                                            <div role="region" aria-labelledby="e-n-accordion-item-6113"
+                                                class="elementor-element elementor-element-55ec418 e-con-full e-flex e-con e-child"
+                                                data-id="55ec418" data-element_type="container">
+                                                <div class="elementor-element elementor-element-2e37f9d elementor-widget elementor-widget-text-editor"
+                                                    data-id="2e37f9d" data-element_type="widget"
+                                                    data-widget_type="text-editor.default">
+                                                    <div class="elementor-widget-container">
+                                                        <p>
+                                                            The AI integrates economic calendars and volatility
+                                                            detection models to identify high-risk periods
+                                                            such as major economic announcements or unexpected market
+                                                            shocks.
+                                                        </p>
+
+                                                        <p>
+                                                            During these periods, trade execution may be reduced,
+                                                            delayed, or entirely suspended
+                                                            to avoid unpredictable price behavior.
+                                                        </p>
+
+                                                        <p>
+                                                            This ensures disciplined exposure management during extreme
+                                                            volatility.
+                                                        </p>
+
+
+
+                                                    </div>
+                                                </div>
+                                                <div class="elementor-element elementor-element-7dcd4e0 elementor-absolute elementor-widget elementor-widget-heading"
+                                                    data-id="7dcd4e0" data-element_type="widget"
+                                                    data-settings="{&quot;_position&quot;:&quot;absolute&quot;}"
+                                                    data-widget_type="heading.default">
+                                                    <div class="elementor-widget-container">
+                                                        <div class="elementor-heading-title elementor-size-default">07
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </details>
+
+                                        <details id="e-n-accordion-item-6113" class="e-n-accordion-item" style="">
+                                            <summary class="e-n-accordion-item-title" data-accordion-index="4"
+                                                tabindex="-1" aria-expanded="false"
+                                                aria-controls="e-n-accordion-item-6113">
+                                                <span class="e-n-accordion-item-title-header">
+                                                    <div class="e-n-accordion-item-title-text">
+                                                        How is capital allocation managed?
+                                                    </div>
+                                                </span>
+                                                <span class="e-n-accordion-item-title-icon">
+                                                    <span class="e-opened"><i aria-hidden="true"
+                                                            class="mdi mdi-checkbox-marked-circle"></i></span>
+                                                    <span class="e-closed"><i aria-hidden="true"
+                                                            class="mdi mdi-check-circle-outline"></i></span>
+                                                </span>
+
+                                            </summary>
+                                            <div role="region" aria-labelledby="e-n-accordion-item-6113"
+                                                class="elementor-element elementor-element-55ec418 e-con-full e-flex e-con e-child"
+                                                data-id="55ec418" data-element_type="container">
+                                                <div class="elementor-element elementor-element-2e37f9d elementor-widget elementor-widget-text-editor"
+                                                    data-id="2e37f9d" data-element_type="widget"
+                                                    data-widget_type="text-editor.default">
+                                                    <div class="elementor-widget-container">
+                                                        <p>
+                                                            Capital is allocated strategically across assets and
+                                                            strategies to avoid concentration risk.
+                                                            The AI ensures balanced exposure and prevents
+                                                            over-leveraging.
+                                                        </p>
+
+                                                        <p>
+                                                            Profits are reinvested systematically based on performance
+                                                            stability,
+                                                            while capital is withdrawn from underperforming strategies.
+                                                        </p>
+
+                                                        <p>
+                                                            This structured allocation supports long-term capital
+                                                            growth.
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div class="elementor-element elementor-element-7dcd4e0 elementor-absolute elementor-widget elementor-widget-heading"
+                                                    data-id="7dcd4e0" data-element_type="widget"
+                                                    data-settings="{&quot;_position&quot;:&quot;absolute&quot;}"
+                                                    data-widget_type="heading.default">
+                                                    <div class="elementor-widget-container">
+                                                        <div class="elementor-heading-title elementor-size-default">08
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </details>
+
+                                        <details id="e-n-accordion-item-6113" class="e-n-accordion-item" style="">
+                                            <summary class="e-n-accordion-item-title" data-accordion-index="4"
+                                                tabindex="-1" aria-expanded="false"
+                                                aria-controls="e-n-accordion-item-6113">
+                                                <span class="e-n-accordion-item-title-header">
+                                                    <div class="e-n-accordion-item-title-text">
+                                                        How is transparency and monitoring handled?
+                                                    </div>
+                                                </span>
+                                                <span class="e-n-accordion-item-title-icon">
+                                                    <span class="e-opened"><i aria-hidden="true"
+                                                            class="mdi mdi-checkbox-marked-circle"></i></span>
+                                                    <span class="e-closed"><i aria-hidden="true"
+                                                            class="mdi mdi-check-circle-outline"></i></span>
+                                                </span>
+
+                                            </summary>
+                                            <div role="region" aria-labelledby="e-n-accordion-item-6113"
+                                                class="elementor-element elementor-element-55ec418 e-con-full e-flex e-con e-child"
+                                                data-id="55ec418" data-element_type="container">
+                                                <div class="elementor-element elementor-element-2e37f9d elementor-widget elementor-widget-text-editor"
+                                                    data-id="2e37f9d" data-element_type="widget"
+                                                    data-widget_type="text-editor.default">
+                                                    <div class="elementor-widget-container">
+                                                        <p>
+                                                            Every trade executed by the AI is logged in real-time and
+                                                            made visible to users through a detailed dashboard.
+                                                        </p>
+
+                                                        <p>
+                                                            Users can review trade rationale, execution timing, risk
+                                                            parameters,
+                                                            and performance outcomes with full transparency.
+                                                        </p>
+
+                                                        <p>
+                                                            This accountability reinforces trust and system integrity.
+                                                        </p>
+
+                                                    </div>
+                                                </div>
+                                                <div class="elementor-element elementor-element-7dcd4e0 elementor-absolute elementor-widget elementor-widget-heading"
+                                                    data-id="7dcd4e0" data-element_type="widget"
+                                                    data-settings="{&quot;_position&quot;:&quot;absolute&quot;}"
+                                                    data-widget_type="heading.default">
+                                                    <div class="elementor-widget-container">
+                                                        <div class="elementor-heading-title elementor-size-default">09
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </details>
+
+                                        <details id="e-n-accordion-item-6113" class="e-n-accordion-item" style="">
+                                            <summary class="e-n-accordion-item-title" data-accordion-index="4"
+                                                tabindex="-1" aria-expanded="false"
+                                                aria-controls="e-n-accordion-item-6113">
+                                                <span class="e-n-accordion-item-title-header">
+                                                    <div class="e-n-accordion-item-title-text">
+                                                        Can users influence or customize trading behavior?
+                                                    </div>
+                                                </span>
+                                                <span class="e-n-accordion-item-title-icon">
+                                                    <span class="e-opened"><i aria-hidden="true"
+                                                            class="mdi mdi-checkbox-marked-circle"></i></span>
+                                                    <span class="e-closed"><i aria-hidden="true"
+                                                            class="mdi mdi-check-circle-outline"></i></span>
+                                                </span>
+
+                                            </summary>
+                                            <div role="region" aria-labelledby="e-n-accordion-item-6113"
+                                                class="elementor-element elementor-element-55ec418 e-con-full e-flex e-con e-child"
+                                                data-id="55ec418" data-element_type="container">
+                                                <div class="elementor-element elementor-element-2e37f9d elementor-widget elementor-widget-text-editor"
+                                                    data-id="2e37f9d" data-element_type="widget"
+                                                    data-widget_type="text-editor.default">
+                                                    <div class="elementor-widget-container">
+                                                        <p>
+                                                            Yes. Users can select predefined risk profiles such as
+                                                            conservative, balanced, or aggressive.
+                                                            These profiles influence trade frequency, position size, and
+                                                            drawdown tolerance.
+                                                        </p>
+
+                                                        <p>
+                                                            The AI respects all user-defined constraints while
+                                                            maintaining optimal performance
+                                                            within the selected parameters.
+                                                        </p>
+
+                                                    </div>
+                                                </div>
+                                                <div class="elementor-element elementor-element-7dcd4e0 elementor-absolute elementor-widget elementor-widget-heading"
+                                                    data-id="7dcd4e0" data-element_type="widget"
+                                                    data-settings="{&quot;_position&quot;:&quot;absolute&quot;}"
+                                                    data-widget_type="heading.default">
+                                                    <div class="elementor-widget-container">
+                                                        <div class="elementor-heading-title elementor-size-default">10
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </details>
+
+                                        <details id="e-n-accordion-item-6113" class="e-n-accordion-item" style="">
+                                            <summary class="e-n-accordion-item-title" data-accordion-index="4"
+                                                tabindex="-1" aria-expanded="false"
+                                                aria-controls="e-n-accordion-item-6113">
+                                                <span class="e-n-accordion-item-title-header">
+                                                    <div class="e-n-accordion-item-title-text">
+                                                        How does the AI ensure long-term sustainability?
+                                                    </div>
+                                                </span>
+                                                <span class="e-n-accordion-item-title-icon">
+                                                    <span class="e-opened"><i aria-hidden="true"
+                                                            class="mdi mdi-checkbox-marked-circle"></i></span>
+                                                    <span class="e-closed"><i aria-hidden="true"
+                                                            class="mdi mdi-check-circle-outline"></i></span>
+                                                </span>
+
+                                            </summary>
+                                            <div role="region" aria-labelledby="e-n-accordion-item-6113"
+                                                class="elementor-element elementor-element-55ec418 e-con-full e-flex e-con e-child"
+                                                data-id="55ec418" data-element_type="container">
+                                                <div class="elementor-element elementor-element-2e37f9d elementor-widget elementor-widget-text-editor"
+                                                    data-id="2e37f9d" data-element_type="widget"
+                                                    data-widget_type="text-editor.default">
+                                                    <div class="elementor-widget-container">
+                                                        <p>
+                                                            The AI prioritizes capital preservation, consistency, and
+                                                            controlled growth over short-term gains.
+                                                        </p>
+
+                                                        <p>
+                                                            By enforcing strict trading discipline, continuous
+                                                            performance evaluation,
+                                                            and adaptive risk management, the system is designed for
+                                                            longevity.
+                                                        </p>
+
+                                                        <p>
+                                                            This approach aligns with professional trading standards
+                                                            used by institutional investors.
+                                                        </p>
+
+
+                                                    </div>
+                                                </div>
+                                                <div class="elementor-element elementor-element-7dcd4e0 elementor-absolute elementor-widget elementor-widget-heading"
+                                                    data-id="7dcd4e0" data-element_type="widget"
+                                                    data-settings="{&quot;_position&quot;:&quot;absolute&quot;}"
+                                                    data-widget_type="heading.default">
+                                                    <div class="elementor-widget-container">
+                                                        <div class="elementor-heading-title elementor-size-default">11
                                                         </div>
                                                     </div>
                                                 </div>
