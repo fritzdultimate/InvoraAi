@@ -13,12 +13,14 @@ use App\Livewire\Landing\AboutUs;
 use App\Livewire\Landing\ContactUs;
 use App\Livewire\Landing\Faq;
 use App\Livewire\Landing\HowItWorks;
+use App\Livewire\Landing\PortfolioManagement;
 use App\Livewire\Landing\PrivacyPolicy;
 use App\Livewire\Landing\RiskAssessment;
 use App\Livewire\Landing\RiskDisclosure;
 use App\Livewire\Landing\Terms;
 use App\Livewire\Landing\TradingBots;
 use App\Livewire\Landing\TradingExecution;
+use App\Livewire\Landing\TradingGuideLines;
 use App\Livewire\Settings\Appearance;
 use App\Livewire\Landing\Index as LandingIndex;
 use App\Livewire\Settings\Password;
@@ -38,6 +40,8 @@ Route::get('/risk-disclosure', RiskDisclosure::class)->name('risk-disclosure');
 Route::get('/trading-bots', TradingBots::class)->name('trading-bots');
 Route::get('/risk-assessment', RiskAssessment::class)->name('risk-assessment');
 Route::get('/trading-execution', TradingExecution::class)->name('trading-execution');
+Route::get('/portfolio-management', PortfolioManagement::class)->name('portfolio-management');
+Route::get('/trading-guidelines', TradingGuideLines::class)->name('trading-guidelines');
 
 // AUTH
 Route::get('/login', Login::class)->name('login');

@@ -67,6 +67,27 @@
 
                                         <li
                                             class="menu-item menu-item-type-custom menu-item-object-custom menu-item-30">
+                                            <a href="{{ route('trading-execution') }}" class="elementor-sub-item">
+                                                Trading Execution
+                                            </a>
+                                        </li>
+
+                                        <li
+                                            class="menu-item menu-item-type-custom menu-item-object-custom menu-item-30">
+                                            <a href="{{ route('trading-guidelines') }}" class="elementor-sub-item">
+                                                Trading Guidelines
+                                            </a>
+                                        </li>
+
+                                        <li
+                                            class="menu-item menu-item-type-custom menu-item-object-custom menu-item-30">
+                                            <a href="{{ route('portfolio-management') }}" class="elementor-sub-item">
+                                                Portfolio Management
+                                            </a>
+                                        </li>
+
+                                        <li
+                                            class="menu-item menu-item-type-custom menu-item-object-custom menu-item-30">
                                             <a href="{{ route('privacy-policy') }}" class="elementor-sub-item">
                                                 Privacy policy
                                             </a>
@@ -120,8 +141,20 @@
                                 </li>
 
                                 <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-35">
+                                    <a href="{{ route('trading-guidelines') }}" class="elementor-item" tabindex="-1">
+                                        Trading Guidelines
+                                    </a>
+                                </li>
+
+                                <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-35">
                                     <a href="{{ route('trading-execution') }}" class="elementor-item" tabindex="-1">
                                         Trading Execution
+                                    </a>
+                                </li>
+
+                                <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-35">
+                                    <a href="{{ route('portfolio-management') }}" class="elementor-item" tabindex="-1">
+                                        Portfolio Management
                                     </a>
                                 </li>
 
