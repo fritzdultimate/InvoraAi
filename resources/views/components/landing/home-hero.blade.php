@@ -1,7 +1,7 @@
 @props([
     'title' => 'Weclome to ' . env('APP_NAME'),
-    'desc' => 'Your Journey to Financial Freedom Starts Here',
-    'subtitle' => 'Your journey to financial freedom starts here with Capwise. Let our expert strategies and personalized guidance help you build lasting wealth and achieve your investment goals with confidence.',
+    'desc' => 'AI-Powered Crypto Arbitrage Investing',
+    'subtitle' => env('APP_NAME') .' uses advanced AI systems to identify real-time cryptocurrency price differences across multiple markets. We buy assets at lower prices and resell at higher rates, helping you earn from market inefficiencies automatically, transparently, and efficiently.',
     'showCta' => true
 ])
 <div 
