@@ -1,13 +1,5 @@
 <div data-elementor-type="wp-page" data-elementor-id="295" class="elementor elementor-295"
     data-elementor-post-type="page">
-    <style>
-        .elementor-element-ffec643 {
-            margin-left: auto;
-            margin-right: auto;
-            justify-content: center;
-            border: 2px solid green;
-        }
-    </style>
     <div class="elementor-element elementor-element-5c24357 e-flex e-con-boxed e-con e-parent" data-id="5c24357"
         data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
         <div class="e-con-inner">
