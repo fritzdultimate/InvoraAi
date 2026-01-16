@@ -110,6 +110,7 @@
 
                 @endphp
 
+                <div>
 
                     @foreach ($plans as $plan)
                         <div 
@@ -236,7 +237,7 @@
                             
                         </div>
                     @endforeach
-
+                </div>
                 </div>
             </div>
         </div>
