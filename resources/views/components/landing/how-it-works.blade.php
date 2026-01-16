@@ -22,7 +22,7 @@
                             data-widget_type="heading.default">
                             <div class="elementor-widget-container">
                                 <h1 class="elementor-heading-title elementor-size-default">
-                                    Start earning in minutes with our fully automated, AI-driven trading system.
+                                    Start earning in minutes with our fully automated, AI-powered trading system.
                                 </h1>
                             </div>
                         </div>
@@ -53,12 +53,12 @@
 
                                 <div class="elementor-icon-box-title">
                                     <span>
-                                        Choose a Trading Bot
+                                        Choose Your Bot
                                     </span>
                                 </div>
 
                                 <p class="elementor-icon-box-description">
-                                    Select an AI-powered trading bot that matches your investment goal and risk preference, from low-risk to advanced strategies.
+                                    Pick an AI-powered trading bot tailored to your investment goals and risk preference, from conservative to advanced strategies.
                                 </p>
 
                             </div>
@@ -84,12 +84,12 @@
 
                                 <div class="elementor-icon-box-title">
                                     <span>
-                                        Fund Your Investment
+                                        Fund & Activate
                                     </span>
                                 </div>
 
                                 <p class="elementor-icon-box-description">
-                                    Deposit securely using supported cryptocurrencies and activate your selected trading bot instantly.
+                                    Deposit securely in supported cryptocurrencies and activate your selected trading bot instantly.
                                 </p>
 
                             </div>
@@ -120,7 +120,7 @@
                                 </div>
 
                                 <p class="elementor-icon-box-description">
-                                    Our intelligent algorithms analyze live market data and execute trades 24/7 without manual intervention.
+                                    Intelligent algorithms monitor live market conditions and execute trades 24/7 with zero manual effort.
                                 </p>
 
                             </div>
@@ -151,7 +151,7 @@
                                 </div>
 
                                 <p class="elementor-icon-box-description">
-                                    Watch your earnings grow daily as profits are calculated, credited, and available for withdrawal or reinvestment.
+                                    Watch profits grow daily, automatically credited and ready for withdrawal or reinvestment.
                                 </p>
 
                             </div>
