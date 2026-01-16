@@ -111,7 +111,7 @@
 
                 @endphp
 
-                <div>
+                <div style="justify-content: center; display: flex">
 
                     @foreach ($plans as $plan)
                         <div 
