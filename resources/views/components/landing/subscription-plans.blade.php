@@ -28,7 +28,7 @@
             </div>
             <div>
                 <div 
-                    class="" 
+                    class="e-con-inner" 
                     data-id="ffec643"
                     data-element_type="container"
                     style="justify-content: center; display: flex"
