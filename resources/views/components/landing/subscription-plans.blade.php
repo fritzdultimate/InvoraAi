@@ -39,7 +39,7 @@
                     class="elementor-element elementor-element-ffec643 e-con-full e-grid e-con e-child" 
                     data-id="ffec643"
                     data-element_type="container"
-                    style="justify-content: center"
+                    style="justify-content: center; display: flex"
                 >
 
                 @php
