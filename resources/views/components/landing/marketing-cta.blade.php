@@ -8,7 +8,7 @@
                 data-id="b1426c0" data-element_type="widget" data-widget_type="heading.default">
                 <div class="elementor-widget-container">
                     <h2 class="elementor-heading-title elementor-size-default">
-                        Trade Smarter with AI-Powered Strategies Built for Consistent Growth
+                        Trade Smarter with AI Bots Designed for Reliable Daily Growth
                     </h2>
                 </div>
             </div>
@@ -16,7 +16,7 @@
                 data-id="72449d3" data-element_type="widget" data-widget_type="heading.default">
                 <div class="elementor-widget-container">
                     <div class="elementor-heading-title elementor-size-default">
-                        Our intelligent trading bots analyze real-time market data, manage risk automatically, and execute trades with precision — so you earn daily without stress.
+                        Our AI trading bots monitor real-time markets, manage risks automatically, and execute trades with precision — helping you earn daily, effortlessly.
                     </div>
                 </div>
             </div>
