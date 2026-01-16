@@ -24,7 +24,7 @@
                         <div class="elementor-counter-title">Arbitrage Executions</div>
                         <div class="elementor-counter-number-wrapper">
                             <span class="elementor-counter-number-prefix"></span>
-                            <span class="elementor-counter-number" data-duration="2000" data-to-value="972"
+                            <span class="elementor-counter-number" data-prefix="e" data-duration="2000" data-to-value="972"
                                 data-from-value="0" data-delimiter=",">0</span>
                             <span class="elementor-counter-number-suffix">K+</span>
                         </div>
