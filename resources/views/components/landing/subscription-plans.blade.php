@@ -1,5 +1,11 @@
 <div data-elementor-type="wp-page" data-elementor-id="295" class="elementor elementor-295"
     data-elementor-post-type="page">
+    <style>
+        .elementor-element-ffec643 {
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
     <div class="elementor-element elementor-element-5c24357 e-flex e-con-boxed e-con e-parent" data-id="5c24357"
         data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
         <div class="e-con-inner">
@@ -20,7 +26,7 @@
                         data-widget_type="heading.default">
                         <div class="elementor-widget-container">
                             <h1 class="elementor-heading-title elementor-size-default">
-                                Subscribe to Intelligent Trading Bots and Earn Daily Interest
+                                Subscribe to AI-Powered Crypto Arbitrage Plans
                             </h1>
                         </div>
                     </div>
@@ -37,68 +43,69 @@
                     $plans = [
                         [
                             'id' => 212,
-                            'name' => 'Smart Bot',
+                            'name' => 'Arbitrage Starter',
                             'price' => 100,
                             'popular' => false,
                             'details' => [
-                                'Minimum Amount' => '$100',
-                                'Maximum Amount' => '$1,000',
-                                'Daily Interest Rate' => '1.2% – 1.5%',
-                                'Trading Strategy' => 'Low-Risk AI Strategy',
-                                'Earnings' => 'Credited Daily',
-                                'Duration' => '30 Days',
+                                'Minimum Capital' => '$100',
+                                'Maximum Capital' => '$1,000',
+                                'Execution Model' => 'Low-Volume Arbitrage',
+                                'Strategy Type' => 'Cross-Exchange Price Gaps',
+                                'Settlement' => 'Earnings Calculated Daily',
+                                'Cycle Duration' => '30 Days',
                             ],
                             'features' => [
-                                'AI Auto Trading',
-                                'Daily Profit Settlement',
-                                'Capital Protection',
-                                '24/7 Monitoring',
-                                'Instant Withdrawal',
+                                'AI Price Discrepancy Detection',
+                                'Automated Buy & Sell Execution',
+                                'Capital Allocation Control',
+                                '24/7 Market Monitoring',
+                                'Manual Withdrawal Access',
                             ],
                         ],
                         [
                             'id' => 432,
-                            'name' => 'Brilliant Bot',
+                            'name' => 'Arbitrage Pro',
                             'price' => 99,
                             'popular' => true,
                             'details' => [
-                                'Minimum Amount' => '$500',
-                                'Maximum Amount' => '$5,000',
-                                'Daily Interest Rate' => '1.8% – 2.2%',
-                                'Trading Strategy' => 'Balanced AI Growth',
-                                'Earnings' => 'Credited Daily',
-                                'Duration' => '30 Days',
+                                'Minimum Capital' => '$500',
+                                'Maximum Capital' => '$5,000',
+                                'Execution Model' => 'Balanced Arbitrage Flow',
+                                'Strategy Type' => 'Multi-Exchange Arbitrage',
+                                'Settlement' => 'Daily Performance Tracking',
+                                'Cycle Duration' => '30 Days',
                             ],
                             'features' => [
-                                'Advanced AI Trading',
-                                'Higher Profit Margin',
-                                'Risk Management System',
-                                'Daily Compounding',
+                                'Advanced Arbitrage Engine',
+                                'Higher Execution Frequency',
+                                'Liquidity-Aware Allocation',
+                                'Daily Performance Metrics',
                                 'Priority Support',
                             ],
                         ],
                         [
                             'id' => 4934,
-                            'name' => 'Genius Bot',
+                            'name' => 'Arbitrage Elite',
                             'price' => 149,
                             'popular' => false,
                             'details' => [
-                                'Minimum Amount' => '$1,000',
-                                'Maximum Amount' => '$15,000',
-                                'Daily Interest Rate' => '2.5% – 3.0%',
-                                'Trading Strategy' => 'Advanced AI Intelligence',
-                                'Earnings' => 'Credited Daily',
-                                'Duration' => '30 Days',
+                                'Minimum Capital' => '$1,000',
+                                'Maximum Capital' => '$15,000',
+                                'Execution Model' => 'High-Volume Arbitrage',
+                                'Strategy Type' => 'Multi-Market Arbitrage',
+                                'Settlement' => 'Daily Performance Tracking',
+                                'Cycle Duration' => '30 Days',
                             ],
                             'features' => [
-                                'Elite AI Algorithm',
-                                'Maximum ROI Optimization',
-                                'Multi-Market Strategy',
-                                'Auto Risk Hedging',
+                                'Institution-Grade Arbitrage Logic',
+                                'Optimized Spread Capture',
+                                'Multi-Exchange Liquidity Routing',
+                                'Automated Risk Controls',
                                 'VIP Support Access',
                             ],
                         ],
                     ];
+
                 @endphp
 
 
@@ -216,7 +223,7 @@
                                                             d="M190.5 66.9l22.2-22.2c9.4-9.4 24.6-9.4 33.9 0L441 239c9.4 9.4 9.4 24.6 0 33.9L246.6 467.3c-9.4 9.4-24.6 9.4-33.9 0l-22.2-22.2c-9.5-9.5-9.3-25 .4-34.3L311.4 296H24c-13.3 0-24-10.7-24-24v-32c0-13.3 10.7-24 24-24h287.4L190.9 101.2c-9.8-9.3-10-24.8-.4-34.3z">
                                                         </path>
                                                     </svg> </span>
-                                                <span class="elementor-button-text">Activate Smart Bot</span>
+                                                <span class="elementor-button-text">Activate Arbitrage Plan</span>
                                             </span>
                                         </a>
                                     </div>
