@@ -23,7 +23,7 @@
                             </div>
 
                             <p class="elementor-icon-box-description">
-                                Our AI-powered trading systems analyze real-time market data to make calculated, low-risk decisions designed to maximize consistent returns.
+                                Our AI-driven systems continuously analyze live market data to execute intelligent, low-risk strategies focused on sustainable and predictable returns.
                             </p>
 
                         </div>
@@ -54,7 +54,7 @@
                             </div>
 
                             <p class="elementor-icon-box-description">
-                                We operate with full transparency, clear investment terms, and verifiable transactions to ensure investor confidence at every stage.
+                                We prioritize openness through clear investment terms, real-time reporting, and fully traceable transactions that build long-term investor confidence.
                             </p>
 
                         </div>
@@ -85,7 +85,7 @@
                             </div>
 
                             <p class="elementor-icon-box-description">
-                                Investor funds are handled with strict risk controls, advanced security measures, and accountable management processes.
+                                All investor funds are protected with advanced security protocols, strict risk management frameworks, and professionally monitored processes.
                             </p>
 
                         </div>
@@ -116,7 +116,7 @@
                             </div>
 
                             <p class="elementor-icon-box-description">
-                                Our platform is focused on delivering steady, reliable growth through optimized AI strategies and disciplined execution.
+                                Our disciplined, AI-optimized approach is designed to deliver steady growth and dependable results across varying market conditions.
                             </p>
 
                         </div>
