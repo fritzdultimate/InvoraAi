@@ -7,10 +7,10 @@
                 data-id="3945071" data-element_type="widget" data-widget_type="counter.default">
                 <div class="elementor-widget-container">
                     <div class="elementor-counter">
-                        <div class="elementor-counter-title">Happy Client</div>
+                        <div class="elementor-counter-title">Active Investors</div>
                         <div class="elementor-counter-number-wrapper">
                             <span class="elementor-counter-number-prefix"></span>
-                            <span class="elementor-counter-number" data-duration="2000" data-to-value="27"
+                            <span class="elementor-counter-number" data-duration="2000" data-to-value="12"
                                 data-from-value="0" data-delimiter=",">0</span>
                             <span class="elementor-counter-number-suffix">K+</span>
                         </div>
@@ -21,10 +21,10 @@
                 data-id="352f770" data-element_type="widget" data-widget_type="counter.default">
                 <div class="elementor-widget-container">
                     <div class="elementor-counter">
-                        <div class="elementor-counter-title">Project Done</div>
+                        <div class="elementor-counter-title">Arbitrage Executions</div>
                         <div class="elementor-counter-number-wrapper">
                             <span class="elementor-counter-number-prefix"></span>
-                            <span class="elementor-counter-number" data-duration="2000" data-to-value="34"
+                            <span class="elementor-counter-number" data-duration="2000" data-to-value="972"
                                 data-from-value="0" data-delimiter=",">0</span>
                             <span class="elementor-counter-number-suffix">K+</span>
                         </div>
@@ -35,12 +35,12 @@
                 data-id="84b7571" data-element_type="widget" data-widget_type="counter.default">
                 <div class="elementor-widget-container">
                     <div class="elementor-counter">
-                        <div class="elementor-counter-title">Assets Managed</div>
+                        <div class="elementor-counter-title">Total Volume Arbitraged</div>
                         <div class="elementor-counter-number-wrapper">
                             <span class="elementor-counter-number-prefix"></span>
-                            <span class="elementor-counter-number" data-duration="2000" data-to-value="12"
+                            <span class="elementor-counter-number" data-duration="2000" data-to-value="637"
                                 data-from-value="0" data-delimiter=",">0</span>
-                            <span class="elementor-counter-number-suffix">B+</span>
+                            <span class="elementor-counter-number-suffix">M+</span>
                         </div>
                     </div>
                 </div>
@@ -49,7 +49,7 @@
                 data-id="19a5875" data-element_type="widget" data-widget_type="counter.default">
                 <div class="elementor-widget-container">
                     <div class="elementor-counter">
-                        <div class="elementor-counter-title">Account Retention</div>
+                        <div class="elementor-counter-title">System Uptime</div>
                         <div class="elementor-counter-number-wrapper">
                             <span class="elementor-counter-number-prefix"></span>
                             <span class="elementor-counter-number" data-duration="2000" data-to-value="99"
