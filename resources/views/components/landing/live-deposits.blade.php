@@ -128,7 +128,7 @@
                         data-widget_type="heading.default">
                         <div class="elementor-widget-container">
                             <h1 class="elementor-heading-title elementor-size-default">
-                                Live feed of recent investments on the platform
+                                Real-time feed of recent deposits funding AI-powered arbitrage trades
                             </h1>
                         </div>
                     </div>
