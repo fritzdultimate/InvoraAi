@@ -37,7 +37,7 @@
                     <div class="elementor-counter">
                         <div class="elementor-counter-title">Total Volume Arbitraged</div>
                         <div class="elementor-counter-number-wrapper">
-                            <span class="elementor-counter-number-prefix"></span>
+                            <span class="elementor-counter-number-prefix">$</span>
                             <span class="elementor-counter-number" data-duration="2000" data-to-value="637"
                                 data-from-value="0" data-delimiter=",">0</span>
                             <span class="elementor-counter-number-suffix">M+</span>
