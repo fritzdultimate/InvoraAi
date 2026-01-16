@@ -5,6 +5,7 @@
             margin-left: auto;
             margin-right: auto;
             justify-content: center;
+            border: 2px solid green;
         }
     </style>
     <div class="elementor-element elementor-element-5c24357 e-flex e-con-boxed e-con e-parent" data-id="5c24357"
