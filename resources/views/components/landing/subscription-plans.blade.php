@@ -120,6 +120,7 @@
                             }'
                             data-element_type="container"
                             data-id="bot-{{ $plan['id'] }}"
+                            style="border: 2px solid blue"
                         >
 
                             {{-- Popular badge --}}
