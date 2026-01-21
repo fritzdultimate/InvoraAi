@@ -44,7 +44,7 @@
                     </div>
                 </div>
                 @if ($showCta)
-                    <div class="elementor-element elementor-element-14e873f e-con-full e-flex elementor-invisible e-con e-child"
+                    <div class="elementor-element elementor-element-14e873f e-con-full e-flex e-con e-child"
                         data-id="14e873f" data-element_type="container"
                         data-settings="{&quot;animation&quot;:&quot;fadeInUp&quot;,&quot;animation_dela
                              y          &quot;:375}">
@@ -74,7 +74,7 @@
                                 <div class="elementor-button-wrapper">
                                     <a class="elementor-button elementor-button-link elementor-size-sm" href="{{ route('login') }}">
                                         <span class="elementor-button-content-wrapper">
-                                            <span class="elementor-button-text">Learn more</span>
+                                            <span class="elementor-button-text">Login</span>
                                         </span>
                                     </a>
                                 </div>

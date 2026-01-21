@@ -22,7 +22,7 @@
                             data-widget_type="heading.default">
                             <div class="elementor-widget-container">
                                 <h1 class="elementor-heading-title elementor-size-default">
-                                    Start earning in minutes with our fully automated, AI-powered trading system.
+                                    Start earning in minutes with our fully automated, AI-powered arbitrage system.
                                 </h1>
                             </div>
                         </div>

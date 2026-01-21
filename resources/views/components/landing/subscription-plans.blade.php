@@ -103,7 +103,7 @@
 
                 @endphp
 
-                <div style="justify-content: center; display: flex" class="elementor-element elementor-element-ffec643 e-con-full e-grid e-con e-child">
+                <div class="elementor-element elementor-element-ffec643 e-con-full e-grid e-con e-child flex! flex-col! md:flex-row! justify-center!">
 
                     @foreach ($plans as $plan)
                         <div 
