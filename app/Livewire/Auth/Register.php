@@ -20,12 +20,14 @@ class  Register extends Component {
     public $remember = false;
     public $fullname = '';
     public $password_confirmation = '';
+    public bool $accept_terms = false;
 
     protected function rules() {
         return [
             'fullname' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'unique:users,email'],
             'password' => ['required', 'min:8', 'confirmed'],
+            'accept_terms' => 'accepted',
         ];
     }
 

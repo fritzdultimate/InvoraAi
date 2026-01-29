@@ -69,12 +69,15 @@
                             </div>
 
 
-                            <div x-data="{ show: false }"
-                                class="elementor-field-type-text elementor-field-group elementor-column elementor-field-group-field_98da870 elementor-col-50 elementor-md-100">
+                            <div 
+                                x-data="{ show: false }"
+                                class="elementor-field-type-text elementor-field-group elementor-column elementor-field-group-name elementor-col-50 elementor-md-100"
+                            >
                                 <label for="password" class="elementor-field-label">
                                     Password
                                 </label>
-                                <div class="relative elementor-column">
+
+                                <div class="relative w-full">
                                     <input size="1"
                                     id="password"
                                         class="elementor-field elementor-size-sm  elementor-field-textual"
@@ -116,12 +119,14 @@
                                 @enderror
                             </div>
 
-                            <div x-data="{ show: false }"
-                                class="elementor-field-type-text elementor-field-group elementor-column elementor-field-group-field_98da870 elementor-col-50 elementor-md-100">
+                            <div 
+                                x-data="{ show: false }"
+                                class="elementor-field-type-text elementor-field-group elementor-column elementor-field-group-field_98da870 elementor-col-50 elementor-md-100"
+                            >
                                 <label for="password_confirmation" class="elementor-field-label">
                                     Confirm Password
                                 </label>
-                                <div class="relative elementor-column">
+                                <div class="relative w-full elementor-column">
                                     <input 
                                         id="password_confirmation"
                                         size="1"
@@ -164,6 +169,38 @@
                             </div>
 
                             <div
+                                class="elementor-field-group elementor-column elementor-col-100"
+                            >
+                                <label class="flex items-center gap-2 text-sm cursor-pointer">
+                                    <input
+                                        type="checkbox"
+                                        wire:model.defer="accept_terms"
+                                        class="mt-1 rounded border-gray-300 focus:ring-primary text-primary"
+                                    >
+
+                                    <span class="text-gray-600">
+                                        I agree to the
+                                        <a href="{{ route('terms') }}" target="_blank"
+                                        class="text-primary hover:underline font-medium">
+                                            Terms of Service
+                                        </a>
+                                        and
+                                        <a href="{{ route('privacy-policy') }}" target="_blank"
+                                        class="text-primary hover:underline font-medium">
+                                            Privacy Policy
+                                        </a>
+                                    </span>
+                                </label>
+
+                                @error('accept_terms')
+                                    <small class="text-red-500 text-xs block mt-1">
+                                        {{ $message }}
+                                    </small>
+                                @enderror
+                            </div>
+
+                            <!-- Submit btn -->
+                            <div
                                 class="elementor-field-group elementor-column elementor-field-type-submit elementor-col-100 e-form__buttons">
                                 <button class="elementor-button elementor-size-sm" type="submit"
                                     wire:loading.attr="disabled" wire:target="register">
@@ -192,6 +229,16 @@
 
                                     </span>
                                 </button>
+                            </div>
+
+                            <div class="text-center">
+                                <p class="text-sm text-gray-600">
+                                    Already have an account?
+                                    <a href="{{ route('login') }}"
+                                        class="text-primary font-medium hover:underline">
+                                        Sign in
+                                    </a>
+                                </p>
                             </div>
 
                         </div>

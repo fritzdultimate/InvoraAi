@@ -62,7 +62,7 @@
                                 <label for="password" class="elementor-field-label">
                                     Password
                                 </label>
-                                <div id="password" class="relative elementor-column">
+                                <div id="password" class="relative w-full">
                                     <input size="1" type="password"
                                         class="elementor-field elementor-size-sm  elementor-field-textual"
                                         placeholder="********" wire:model.defer="password"
@@ -128,6 +128,16 @@
                                     </span>
                                 </button>
                             </div>
+
+                            <div class="text-center">
+                                <p class="text-sm text-gray-600">
+                                    Don't have an account?
+                                    <a href="{{ route('register') }}"
+                                        class="text-primary font-medium hover:underline">
+                                        Sign up
+                                    </a>
+                                </p>
+                            </div>                            
 
                         </div>
                     </form>
