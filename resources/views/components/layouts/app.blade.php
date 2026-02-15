@@ -71,87 +71,117 @@
         @stack('scripts')
 
         <!-- Toast -->
-            <script>
+        <script>
+        (function () {
+            if (!document.querySelector('.halpha-toast-container')) {
+                const c = document.createElement('div');
+                c.className = 'halpha-toast-container';
+                document.body.appendChild(c);
+            }
+            const container = document.querySelector('.halpha-toast-container');
+
+            function createToastElement(message, { variant = 'primary', timeout = 3500 } = {}) {
+                const t = document.createElement('div');
+                t.className = 'halpha-toast' + (variant === 'subtle' ? ' halpha-toast--subtle' : '');
+                t.setAttribute('role', 'status');
+                t.innerHTML = `<div class="halpha-toast__message">${escapeHtml(message)}</div>`;
+
+                // close button
+                const btn = document.createElement('button');
+                btn.className = 'halpha-toast__close';
+                btn.setAttribute('aria-label', 'Dismiss toast');
+                btn.innerHTML = '✕';
+                btn.addEventListener('click', () => removeToast(t));
+                t.appendChild(btn);
+
+                // auto remove after timeout
+                const timer = setTimeout(() => removeToast(t), timeout);
+
+                // store timer so we can clear if user dismisses early
+                t._halpha_timer = timer;
+                return t;
+            }
+
+            function showToast(message, options = {}) {
+                const toastEl = createToastElement(message, options);
+                if (container.firstChild) container.insertBefore(toastEl, container.firstChild);
+                else container.appendChild(toastEl);
+
+                requestAnimationFrame(() => {
+                    toastEl.classList.add('halpha-toast--show');
+                });
+
+                return toastEl;
+            }
+
+            function removeToast(el) {
+                if (!el) return;
+                if (el._halpha_timer) clearTimeout(el._halpha_timer);
+                el.style.transition = 'transform 260ms ease, opacity 260ms ease';
+                el.style.transform = 'translateY(-18px)';
+                el.style.opacity = '0';
+                // remove after transition
+                setTimeout(() => {
+                    if (el && el.remove) el.remove();
+                }, 300);
+            }
+
+            function escapeHtml(str) {
+                if (typeof str !== 'string') return String(str);
+                return str
+                    .replaceAll('&', '&amp;')
+                    .replaceAll('<', '&lt;')
+                    .replaceAll('>', '&gt;')
+                    .replaceAll('"', '&quot;')
+                    .replaceAll("'", '&#39;');
+            }
+
+            if (window.Livewire) {
+                Livewire.on('toast', ({ payload }) => {
+                    let message = '';
+                    let opts = {};
+                    if (typeof payload === 'string') {
+                        message = payload;
+                    } else if (payload && typeof payload === 'object') {
+                        message = payload.message;
+                        if (payload.variant) opts.variant = payload.variant;
+                        if (payload.timeout) opts.timeout = Number(payload.timeout) || 3500;
+                    }
+                    if (!message) return;
+                    showToast(message, opts);
+                });
+            }
+        })();
+        </script>
+
+        <script>
             (function () {
-                if (!document.querySelector('.halpha-toast-container')) {
-                    const c = document.createElement('div');
-                    c.className = 'halpha-toast-container';
-                    document.body.appendChild(c);
-                }
-                const container = document.querySelector('.halpha-toast-container');
 
-                function createToastElement(message, { variant = 'primary', timeout = 3500 } = {}) {
-                    const t = document.createElement('div');
-                    t.className = 'halpha-toast' + (variant === 'subtle' ? ' halpha-toast--subtle' : '');
-                    t.setAttribute('role', 'status');
-                    t.innerHTML = `<div class="halpha-toast__message">${escapeHtml(message)}</div>`;
+                const enableDark = () => {
+                    if (!document.documentElement.classList.contains('dark')) {
+                        document.documentElement.classList.add('dark');
+                    }
+                };
 
-                    // close button
-                    const btn = document.createElement('button');
-                    btn.className = 'halpha-toast__close';
-                    btn.setAttribute('aria-label', 'Dismiss toast');
-                    btn.innerHTML = '✕';
-                    btn.addEventListener('click', () => removeToast(t));
-                    t.appendChild(btn);
+                // Force immediately
+                enableDark();
 
-                    // auto remove after timeout
-                    const timer = setTimeout(() => removeToast(t), timeout);
-
-                    // store timer so we can clear if user dismisses early
-                    t._halpha_timer = timer;
-                    return t;
-                }
-
-                function showToast(message, options = {}) {
-                    const toastEl = createToastElement(message, options);
-                    if (container.firstChild) container.insertBefore(toastEl, container.firstChild);
-                    else container.appendChild(toastEl);
-
-                    requestAnimationFrame(() => {
-                        toastEl.classList.add('halpha-toast--show');
-                    });
-
-                    return toastEl;
-                }
-
-                function removeToast(el) {
-                    if (!el) return;
-                    if (el._halpha_timer) clearTimeout(el._halpha_timer);
-                    el.style.transition = 'transform 260ms ease, opacity 260ms ease';
-                    el.style.transform = 'translateY(-18px)';
-                    el.style.opacity = '0';
-                    // remove after transition
-                    setTimeout(() => {
-                        if (el && el.remove) el.remove();
-                    }, 300);
-                }
-
-                function escapeHtml(str) {
-                    if (typeof str !== 'string') return String(str);
-                    return str
-                        .replaceAll('&', '&amp;')
-                        .replaceAll('<', '&lt;')
-                        .replaceAll('>', '&gt;')
-                        .replaceAll('"', '&quot;')
-                        .replaceAll("'", '&#39;');
-                }
-
-                if (window.Livewire) {
-                    Livewire.on('toast', ({ payload }) => {
-                        let message = '';
-                        let opts = {};
-                        if (typeof payload === 'string') {
-                            message = payload;
-                        } else if (payload && typeof payload === 'object') {
-                            message = payload.message;
-                            if (payload.variant) opts.variant = payload.variant;
-                            if (payload.timeout) opts.timeout = Number(payload.timeout) || 3500;
+                // Observe changes to <html> class attribute
+                const observer = new MutationObserver(function (mutations) {
+                    mutations.forEach(function (mutation) {
+                        if (mutation.attributeName === "class") {
+                            enableDark();
                         }
-                        if (!message) return;
-                        showToast(message, opts);
                     });
-                }
+                });
+
+                observer.observe(document.documentElement, {
+                    attributes: true,
+                    attributeFilter: ['class']
+                });
+
             })();
         </script>
+
     </body>
 </html>
