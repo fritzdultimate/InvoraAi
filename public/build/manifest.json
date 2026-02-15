@@ -17,6 +17,15 @@
       "deposit.css"
     ]
   },
+  "resources/css/investment.css": {
+    "file": "assets/investment-CVKiuTNI.css",
+    "src": "resources/css/investment.css",
+    "isEntry": true,
+    "name": "investment",
+    "names": [
+      "investment.css"
+    ]
+  },
   "resources/js/app.js": {
     "file": "assets/app-DmVYLc9B.js",
     "name": "app",
