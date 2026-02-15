@@ -17,6 +17,26 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('firstname')->nullable();
+            $table->string('lastname')->nullable();
+            $table->decimal('balance', 20, 8)->default(0.00);
+            $table->string('phone_number')->nullable();
+            $table->string('country')->nullable();
+            $table->string('timezone')->nullable();
+            $table->string('affiliate_code')->unique()->nullable();
+            $table->foreignId('referrer_id')->nullable()->constrained('users')->nullOnDelete();
+            $table->enum('kyc_status', [
+                'pending',
+                'unsubmitted',
+                'approved',
+                'rejected'
+            ])->default('unsubmitted');
+            $table->timestamp('kyc_submitted_at')->nullable();
+            $table->boolean('two_factor_enable')->default(false);
+            $table->timestamp('blocked_at')->nullable();
+            $table->timestamp('suspended_at')->nullable();
+            $table->timestamp('lock_roi_at')->nullable();
+
             $table->rememberToken();
             $table->timestamps();
         });

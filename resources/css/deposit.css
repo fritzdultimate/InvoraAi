@@ -1,0 +1,639 @@
+/* Container */
+.deposit-container {
+    max-width: 420px;
+    margin: 3rem auto;
+    padding: 0 1rem;
+    font-family: 'Inter', sans-serif;
+}
+
+/* Card */
+.deposit-card {
+    background: linear-gradient(145deg, #1f2937, #111827);
+    border-radius: 1.25rem;
+    padding: 2rem;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7);
+    color: #f3f4f6;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.deposit-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.85);
+}
+
+/* Header */
+.deposit-header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.deposit-img-wrapper {
+    width: 72px;
+    height: 72px;
+    margin: 0 auto 0.75rem;
+    border-radius: 50%;
+    background: #374151;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.deposit-img {
+    width: 48px;
+}
+
+.deposit-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #f87171; /* red accent */
+    margin-bottom: 0.25rem;
+}
+
+.deposit-subtitle {
+    font-size: 0.875rem;
+    color: #9ca3af;
+}
+
+/* Wallet Address */
+.deposit-address {
+    background-color: #374151;
+    padding: 1rem 1rem;
+    border-radius: 0.75rem;
+    margin-top: 1.25rem;
+    border: 1px solid #4b5563;
+}
+
+.deposit-label {
+    font-size: 0.75rem;
+    margin-bottom: 0.5rem;
+    color: #d1d5db;
+}
+
+.deposit-address-row {
+    display: flex;
+    /* flex-direction: column; */
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.deposit-code {
+    font-size: 0.75rem;
+    word-break: break-all;
+    color: #f3f4f6;
+    background-color: #1f2937;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+}
+
+.deposit-btn {
+    background-color: #3b82f6;
+    color: #fff;
+    border: none;
+    /* padding: 0.35rem 0.75rem; */
+    padding: 1px 4px;
+    border-radius: 0.375rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.deposit-btn:hover {
+    background-color: #2563eb;
+}
+
+/* Amount & Network */
+.deposit-details {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1.25rem;
+    font-size: 0.875rem;
+    gap: 1rem;
+}
+
+.deposit-detail p {
+    color: #9ca3af;
+}
+
+.deposit-detail strong {
+    display: block;
+    margin-top: 0.25rem;
+    font-weight: 700;
+    color: #f3f4f6;
+}
+
+/* Countdown */
+.deposit-countdown {
+    text-align: center;
+    margin-top: 1.5rem;
+}
+
+#deposit-time {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #f87171;
+    margin-top: 0.25rem;
+    letter-spacing: 0.05em;
+    font-variant-numeric: tabular-nums;
+}
+
+.status {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-top: 0.25rem;
+    letter-spacing: 0.05em;
+    font-variant-numeric: tabular-nums;
+}
+
+.pending {
+    color: #f87171 !important;
+}
+
+.completed {
+    color: #49ec40 !important;
+}
+
+.cancelled {
+    color: #fe3636 !important;
+}
+
+/* Actions */
+.deposit-actions {
+    margin-top: 2rem;
+}
+
+.deposit-pay-btn {
+    width: 100%;
+    padding: 0.6rem;
+    background-color: #16a34a;
+    color: #fff;
+    border: none;
+    border-radius: 0.75rem;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 1rem;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.deposit-pay-btn:hover {
+    background-color: #15803d;
+    transform: translateY(-2px);
+}
+
+
+
+/* ===========================
+   DARK MODE MODAL STYLES
+=========================== */
+
+/* Overlay */
+.modal-wrapper {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    /* display: flex; */
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(6px);
+}
+
+/* Container */
+.modal-container {
+    width: 100%;
+    max-width: 500px;
+    padding: 1rem;
+}
+
+/* Card */
+.modal-card {
+    background: #111827; /* Dark slate */
+    color: #f3f4f6;
+    border-radius: 16px;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
+    animation: fadeInUp 0.3s ease;
+    border: 1px solid #1f2937;
+}
+
+/* Header */
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 1.5rem;
+    border-bottom: 1px solid #1f2937;
+}
+
+.modal-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #ffffff;
+}
+
+/* Close Button */
+.modal-close-btn {
+    background: #1f2937;
+    border: none;
+    width: 35px;
+    height: 35px;
+    border-radius: 8px;
+    cursor: pointer;
+    color: #9ca3af;
+    transition: 0.2s ease;
+}
+
+.modal-close-btn:hover {
+    background: #374151;
+    color: #ffffff;
+}
+
+/* Body */
+.modal-body {
+    padding: 1.5rem;
+}
+
+/* Bot Card */
+.bot-card {
+    border: 1px solid #1f2937;
+    border-radius: 14px;
+    padding: 1.5rem;
+    background: #0f172a;
+    transition: 0.3s ease;
+}
+
+.bot-card:hover {
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+}
+
+/* Bot Title */
+.bot-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #ffffff;
+}
+
+/* Details */
+.bot-details p {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.95rem;
+    margin-bottom: 0.6rem;
+    color: #d1d5db;
+}
+
+/* Highlight Price */
+.highlight {
+    font-weight: 600;
+    color: #3b82f6;
+}
+
+/* Subscribe Button */
+.subscribe-btn {
+    width: 100%;
+    margin-top: 1.5rem;
+    padding: 0.9rem;
+    border-radius: 12px;
+    border: none;
+    background: linear-gradient(135deg, #2563eb, #1e40af);
+    color: #ffffff;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.subscribe-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(37, 99, 235, 0.5);
+}
+
+.subscribe-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Loader */
+.btn-loader {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Spinner */
+.spinner {
+    width: 18px;
+    height: 18px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-top: 3px solid #ffffff;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+/* Animations */
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+:root {
+/* toast */
+  --halpha-toast-bg: linear-gradient(180deg, #0ea5e9 0%, #0369a1 100%);
+  --halpha-toast-bg-alt: #0f172a;
+  --halpha-toast-text: #ffffff;
+  --halpha-toast-border: rgba(255,255,255,0.06);
+
+}
+
+.halpha-toast-container {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 999999;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.75rem;
+    width: min(980px, calc(100% - 2rem));
+    pointer-events: none; /* allow clicks through except on toasts themselves */
+    align-items: center;
+}
+.halpha-toast {
+    pointer-events: auto;
+    display: inline-block;
+    min-width: 240px;
+    max-width: 100%;
+    box-sizing: border-box;
+    border-radius: 12px;
+    padding: 0.6rem 1rem;
+    font-size: 0.95rem;
+    line-height: 1.2;
+    color: var(--halpha-toast-text);
+    background: var(--halpha-toast-bg);
+    border: 1px solid var(--halpha-toast-border);
+    box-shadow: 0 10px 30px rgba(2,6,23,0.45);
+    transform: translateY(-140%); /* start off-screen above */
+    opacity: 0;
+    transition: transform 360ms cubic-bezier(.2,.9,.25,1), opacity 360ms ease;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.halpha-toast--show {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.halpha-toast__close {
+    margin-left: auto;
+    background: transparent;
+    border: none;
+    color: rgba(255,255,255,0.85);
+    font-weight: 600;
+    cursor: pointer;
+    padding: 0.2rem 0.4rem;
+    border-radius: 6px;
+}
+.halpha-toast__close:focus { outline: 2px solid rgba(255,255,255,0.12) }
+
+.halpha-toast--subtle {
+    background: var(--halpha-toast-bg-alt);
+    border: 1px solid rgba(255,255,255,0.04);
+}
+
+@media (max-width: 480px) {
+    .halpha-toast-container { padding: 0.5rem; width: calc(100% - 1rem) }
+    .halpha-toast { border-radius: 10px; padding: 0.5rem 0.75rem; font-size: 0.9rem; }
+}
+
+/* ================================
+   MODAL OVERLAY
+================================ */
+
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(6px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+}
+
+/* ================================
+   MODAL CONTAINER
+================================ */
+
+.modal-container {
+    width: 100%;
+    max-width: 480px;
+    background: #0f172a;
+    border: 1px solid #1f2937;
+    border-radius: 18px;
+    padding: 1.8rem;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+    animation: modalFade 0.25s ease-out;
+}
+
+@keyframes modalFade {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ================================
+   BOT CARD
+================================ */
+
+.bot-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.bot-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #f8fafc;
+    margin-bottom: 0.5rem;
+}
+
+.bot-details p {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    color: #94a3b8;
+    margin-bottom: 4px;
+}
+
+.highlight {
+    color: #22d3ee;
+    font-weight: 600;
+}
+
+/* ================================
+   FORM ELEMENTS
+================================ */
+
+.modal-label {
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin-bottom: 6px;
+    color: #9ca3af;
+    display: block;
+}
+
+.modal-select {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 10px;
+    background: #1e293b;
+    border: 1px solid #334155;
+    color: #f3f4f6;
+    font-size: 0.9rem;
+    transition: 0.2s ease;
+}
+
+.modal-select:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+}
+
+/* ================================
+   BUTTONS
+================================ */
+
+.subscribe-btn {
+    width: 100%;
+    padding: 0.9rem;
+    border-radius: 14px;
+    border: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    color: #fff;
+    transition: 0.2s ease;
+}
+
+.subscribe-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 25px rgba(37, 99, 235, 0.4);
+}
+
+.subscribe-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.secondary-btn {
+    padding: 0.9rem 1rem;
+    border-radius: 14px;
+    border: 1px solid #334155;
+    background: #1e293b;
+    color: #f1f5f9;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.secondary-btn:hover {
+    background: #334155;
+}
+
+/* ================================
+   ERROR STATES
+================================ */
+
+.form-error {
+    color: #f87171;
+    font-size: 0.8rem;
+    margin-top: 4px;
+}
+
+/* ================================
+   SUCCESS STATE
+================================ */
+
+.license-success-box {
+    background: #0b1220;
+    border: 1px solid #1f2937;
+    padding: 1.5rem;
+    border-radius: 16px;
+    text-align: center;
+}
+
+.success-icon {
+    width: 54px;
+    height: 54px;
+    background: #16a34a;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin: 0 auto 1rem;
+    box-shadow: 0 8px 20px rgba(22, 163, 74, 0.4);
+}
+
+.success-title {
+    font-weight: 600;
+    color: #f8fafc;
+    margin-bottom: 6px;
+}
+
+.success-text {
+    font-size: 0.85rem;
+    color: #94a3b8;
+}
+
+/* ================================
+   LOADER
+================================ */
+
+.btn-loader {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top: 2px solid white;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}

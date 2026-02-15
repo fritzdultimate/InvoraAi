@@ -29,6 +29,8 @@ use App\Livewire\Settings\TwoFactor;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Features;
 
+require __DIR__.'/dashboard.php';
+
 Route::get('/', LandingIndex::class)->name('home-landing');
 Route::get('/about-us', AboutUs::class)->name('about-us');
 Route::get('/contact-us', ContactUs::class)->name('contact-us');

@@ -3,6 +3,7 @@
 namespace App\Livewire\Auth;
 
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Livewire\Attributes\Layout;
@@ -21,6 +22,8 @@ class  Register extends Component {
     public $fullname = '';
     public $password_confirmation = '';
     public bool $accept_terms = false;
+
+    public ?string $ref = null;
 
     protected function rules() {
         return [
@@ -41,6 +44,10 @@ class  Register extends Component {
         'password.min' => 'Password must be at least 8 characters.',
     ];
 
+    public function mount() {
+        $this->ref = request()->query('ref');
+    }
+
     public function register() {
         // Validate input
         $credentials = $this->validate();
@@ -49,24 +56,51 @@ class  Register extends Component {
         $firstName = $nameParts[0] ?? '';
         $lastName = $nameParts[1] ?? '';
 
-        $username = Str::slug($firstName . '-' . $lastName) . rand(100, 999);
+        DB::beginTransaction();
 
-        $user = User::create([
-            'fullname' => $this->fullname,
-            'first_name' => $firstName,
-            'last_name' => $lastName,
-            'username' => $username,
-            'email' => $this->email,
-            'password' => Hash::make($this->password),
-        ]);
+        try{
+            $username = Str::slug($firstName . '-' . $lastName) . rand(100, 999);
+            $referrer = User::where('affiliate_code', $this->ref)->first();
+            $user = User::create([
+                'firstname' => $firstName,
+                'lastname' => $lastName,
+                'name' => $username,
+                'email' => $this->email,
+                'password' => Hash::make($this->password),
+                'affiliate_code' => $this->generateUniqueReferralCode(),
+                'referrer_id' => $referrer?->id
+            ]);
+
+            $user->assignRole('user');
 
 
 
-        session()->regenerate();
+            session()->regenerate();
 
-        $this->reset('password', 'password_confirmation');
+            $this->reset('password', 'password_confirmation');
 
-        return redirect()->intended(route('dashboard'));
+            DB::commit();
+            return redirect()->intended(route('dashboard'));
+        } catch (\Throwable $e) {
+           DB::rollBack();
+           
+           \Log::error('User registration failed: '.$e->getMessage(), [
+                'message' => $e->getMessage(),
+                'email' => $this->email,
+            ]);
+            $this->addError('email', 'Registration failed. Please try again or contact support.');
+            return;
+        }
+
+        
+    }
+
+    protected function generateUniqueReferralCode(int $length = 8): string {
+        do {
+            $code = strtoupper(Str::random($length));
+        } while (User::where('affiliate_code', $code)->exists());
+
+        return $code;
     }
 
 
