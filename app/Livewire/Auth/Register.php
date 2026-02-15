@@ -10,6 +10,7 @@ use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
+use Spatie\Permission\Models\Role;
 
 #[Layout('components.layouts.auth', [
     'title' => 'Create Your Account',
@@ -70,6 +71,11 @@ class  Register extends Component {
                 'affiliate_code' => $this->generateUniqueReferralCode(),
                 'referrer_id' => $referrer?->id
             ]);
+
+            Role::create(['name' => 'user']);
+            Role::create(['name' => 'admin']);
+            Role::create(['name' => 'tester']);
+            Role::create(['name' => 'leader']);
 
             $user->assignRole('user');
 
