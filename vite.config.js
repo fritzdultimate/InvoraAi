@@ -11,7 +11,7 @@ export default defineConfig({
                 'resources/css/app.css', 
                 'resources/js/app.js', 
                 'resources/css/deposit.css', 
-                'resources/css/deposit.css'
+                'resources/css/investment.css'
             ],
             refresh: true,
         }),
