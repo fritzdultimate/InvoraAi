@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Enums\DepositStatus;
+use App\Enums\LedgerAsset;
+use App\Enums\LedgerReference;
 use App\Mail\OtpNotification;
 use App\Models\Deposit;
 use App\Services\DepositService;
 use App\Services\NowPaymentsService;
+use App\Services\Wallet\WalletService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -71,8 +74,15 @@ class NowPaymentsController extends Controller {
                 
                 if ($paidAmount > 0) {
                     $user = $deposit->user()->lockForUpdate()->first();
-                    
-                    $user->increment('balance', $paidAmount);
+
+                    WalletService::credit(
+                        $user,
+                        $paidAmount,
+                        LedgerReference::DEPOSIT,
+                        $deposit->id,
+                        null,
+                        LedgerAsset::DEPOSIT
+                    );
 
                     DepositService::depositBonus($user, $deposit);
                 }
