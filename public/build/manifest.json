@@ -8,6 +8,15 @@
       "app.css"
     ]
   },
+  "resources/css/deposit.css": {
+    "file": "assets/deposit-VVDRGH-v.css",
+    "src": "resources/css/deposit.css",
+    "isEntry": true,
+    "name": "deposit",
+    "names": [
+      "deposit.css"
+    ]
+  },
   "resources/js/app.js": {
     "file": "assets/app-DmVYLc9B.js",
     "name": "app",
