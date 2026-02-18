@@ -19,7 +19,8 @@ class Deposit extends Model {
         'bonus',
         'bonus_expires_at',
         'processed_at',
-        'address'
+        'address',
+        'reference'
     ];
 
     protected $casts = [
