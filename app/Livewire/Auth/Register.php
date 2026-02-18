@@ -72,10 +72,10 @@ class  Register extends Component {
                 'referrer_id' => $referrer?->id
             ]);
 
-            Role::create(['name' => 'user']);
-            Role::create(['name' => 'admin']);
-            Role::create(['name' => 'tester']);
-            Role::create(['name' => 'leader']);
+            // Role::create(['name' => 'user']);
+            // Role::create(['name' => 'admin']);
+            // Role::create(['name' => 'tester']);
+            // Role::create(['name' => 'leader']);
 
             $user->assignRole('user');
 

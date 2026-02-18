@@ -6,7 +6,21 @@ use App\Enums\DepositStatus;
 use Illuminate\Database\Eloquent\Model;
 
 class Deposit extends Model {
-    protected $guarded = [];
+    protected $fillable = [
+        'user_id', 
+        'amount', 
+        'meta', 
+        'currency', 
+        'wallet_id', 
+        'nowpayments_invoice_id',
+        'amount_paid',
+        'note',
+        'status',
+        'bonus',
+        'bonus_expires_at',
+        'processed_at',
+        'address'
+    ];
 
     protected $casts = [
         'meta' => 'array',
