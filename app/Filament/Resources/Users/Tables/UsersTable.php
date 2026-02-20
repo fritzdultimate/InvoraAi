@@ -2,9 +2,17 @@
 
 namespace App\Filament\Resources\Users\Tables;
 
+use App\Enums\LedgerAsset;
+use App\Enums\LedgerReference;
+use App\Services\Wallet\WalletService;
+use Filament\Actions\Action;
+use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
+use Filament\Notifications\Notification;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
@@ -73,7 +81,39 @@ class UsersTable
                 //
             ])
             ->recordActions([
-                EditAction::make(),
+                ActionGroup::make([
+                    Action::make('topup')
+                    ->label('Top Up')
+                    ->icon('heroicon-o-plus-circle')
+                    ->color('success')
+                    ->form([
+                        TextInput::make('amount')
+                            ->numeric()
+                            ->required()
+                            ->minValue(0.0001),
+
+                        Textarea::make('description')
+                            ->required()
+                            ->label('Reason'),
+                    ])
+                    ->requiresConfirmation()
+                    ->action(function ($record, array $data) {
+                        WalletService::credit(
+                            $record,
+                            $data['amount'],
+                            LedgerReference::DEPOSIT,
+                            auth()->id(),
+                            "made by admin | " . $data['description'],
+                            LedgerAsset::DEPOSIT
+                        );
+
+                        Notification::make()
+                            ->title('Balance Updated')
+                            ->success()
+                            ->send();
+                    }),
+                    EditAction::make(),
+                ])
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
