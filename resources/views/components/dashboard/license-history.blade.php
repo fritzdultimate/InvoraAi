@@ -82,7 +82,7 @@
                     <strong>{{ $lcs->bot->name }}</strong>
                     
                     <span class="invora-credit">
-                        +${{ number_format($lcs->credit,2) }}
+                        +${{ number_format($lcs->amount,2) }}
                     </span>
                 </div>
 
