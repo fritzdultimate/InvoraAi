@@ -148,7 +148,7 @@
 
         </div>
 
-        <x-dashboard.deposit-withdrawal-chart />
+        <x-dashboard.deposit-withdrawal-chart :chartData="$chartData" />
     </div>
 
     <x-dashboard.recent-transaction :transactions="$transactions" />

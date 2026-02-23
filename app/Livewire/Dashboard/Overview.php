@@ -5,6 +5,8 @@ namespace App\Livewire\Dashboard;
 use App\Models\BotInvestment;
 use App\Models\BotLicense;
 use App\Models\WalletLedger;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
@@ -23,6 +25,8 @@ class  Overview extends Component {
     public $license_expires_at;
 
     protected $queryString = ['search', 'type'];
+
+    public $chartData = [];
 
     public function mount() {
         $this->deposit_balance = optional(
@@ -43,6 +47,41 @@ class  Overview extends Component {
         $this->license_expires_at = optional(
             auth()->user()->botLicenses()->latest()->first()
         )->expires_at;
+
+        $this->loadChart();
+    }
+
+    public function loadChart() {
+        $days = collect(range(6, 0))->map(function ($i) {
+            return Carbon::now()->subDays($i)->format('Y-m-d');
+        });
+
+        $data = WalletLedger::where('user_id', auth()->id())
+            ->where('created_at', '>=', now()->subDays(7))
+            ->select(
+                DB::raw('DATE(created_at) as date'),
+                DB::raw('SUM(credit) as total_credit'),
+                DB::raw('SUM(debit) as total_debit')
+            )
+            ->groupBy('date')
+            ->get()
+            ->keyBy('date');
+
+        $credits = [];
+        $debits = [];
+
+        foreach ($days as $day) {
+            $credits[] = $data[$day]->total_credit ?? 0;
+            $debits[] = $data[$day]->total_debit ?? 0;
+        }
+
+        $this->chartData = [
+            'labels' => $days,
+            'credits' => $credits,
+            'debits' => $debits,
+        ];
+
+
     }
 
     /**
