@@ -148,6 +148,7 @@
     border-top: 1px solid var(--border-soft);
     transition: all 0.2s ease;
     position: relative;
+    /* clear: both; */
 }
 
 .invora-row:hover {
@@ -156,7 +157,7 @@
 
 /* left accent bar on hover */
 .invora-row:hover::before {
-    content: "";
+    /* content: ""; */
     position: absolute;
     left: 0;
     top: 10%;
@@ -442,4 +443,75 @@
     font-size: 16px;
     font-weight: 600;
     margin-top: 4px;
+}
+
+/* Investment */
+
+/* ===== MOBILE INVEST CARD ===== */
+.invora-invest-card {
+    padding: 14px;
+    border-bottom: 1px solid var(--border-soft);
+    transition: all 0.2s ease;
+}
+
+.invora-invest-card:hover {
+    background: rgba(255,255,255,0.03);
+}
+
+/* TOP ROW */
+.invora-invest-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* BOT SECTION */
+.invora-invest-bot {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.invora-bot-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    background: linear-gradient(135deg,#6366f1,#22d3ee);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 600;
+    color: #fff;
+}
+
+.invora-bot-name {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.invora-bot-sub {
+    font-size: 11px;
+    color: var(--text-secondary);
+}
+
+/* AMOUNT */
+.invora-invest-amount {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-primary) !important;
+}
+
+/* BOTTOM */
+.invora-invest-bottom {
+    margin-top: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.invora-invest-date {
+    font-size: 11px;
+    color: var(--text-secondary);
 }

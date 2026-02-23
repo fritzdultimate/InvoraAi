@@ -15,6 +15,7 @@ class Bot extends Component {
     public $asset = 'main';
     public $showSuccess = false;
     public $createdLicenseId = null;
+    public $perPage = 10;
 
     protected function rules() {
         return [
@@ -83,7 +84,9 @@ class Bot extends Component {
 
     public function render() {
         $bots = \App\Models\Bot::where('is_active', true)->get();
-        $licenses = BotLicense::where('user_id', auth()->id())->latest()->get();
+        $licenses = BotLicense::where('user_id', auth()->id())
+            ->latest()
+            ->paginate($this->perPage);
         return view('livewire.dashboard.bot', [
             'bots' => $bots,
             'licenses' => $licenses

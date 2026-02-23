@@ -48,7 +48,7 @@ class Investment extends Component
         $investments = BotInvestment::where([
             'user_id' => auth()->id()
         ])->latest()
-            ->get();
+            ->paginate();
 
         return view('livewire.dashboard.investment', [
             'licenses' => $licenses,
