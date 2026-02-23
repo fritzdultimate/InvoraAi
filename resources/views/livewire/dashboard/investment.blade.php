@@ -31,7 +31,7 @@
                     </div>
 
                     <div class="license-stats">
-                        <div class="stat"><span class="stat-label">Purchase Price</span><span class="stat-value">${{ number_format($license->meta['price'] ?? 0, 2) }}</span></div>
+                        <div class="stat"><span class="stat-label">Purchase Price</span><span class="stat-value">${{ number_format($license->bot->price ?? 0, 2) }}</span></div>
                         <div class="stat"><span class="stat-label">Expires On</span><span class="stat-value">{{ $license->expires_at->format('M d, Y') }}</span></div>
                     </div>
 
