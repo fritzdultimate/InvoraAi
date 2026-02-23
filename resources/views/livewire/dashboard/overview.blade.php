@@ -85,7 +85,7 @@
                         Expires: {{ $license_expires_at?->format('M d, Y') }}
                     </div>
 
-                    <a href="{{ route('bot') }}" class="invora-license-btn">
+                    <a href="{{ route('bot') }}" class="invora-license-btn" style="margin-top:10px;">
                         Manage Bot
                     </a>
                 @else
