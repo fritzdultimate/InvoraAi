@@ -39,7 +39,12 @@
         <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
         @livewireStyles()
 
-        @vite(['resources/css/deposit.css', 'resources/css/app.css', 'resources/css/investment.css'])
+        @vite([
+            'resources/css/deposit.css', 
+            'resources/css/app.css', 
+            'resources/css/investment.css',
+            'resources/css/invora-ui.css'
+        ])
     </head>
 
     <body class="dark:bg-neutral-800 bg-neutral-100 dark:text-white">

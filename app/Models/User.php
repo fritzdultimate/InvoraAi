@@ -26,7 +26,12 @@ class User extends Authenticatable
         'password',
         'firstname',
         'lastname',
-        'affiliate_code'
+        'affiliate_code',
+        'main_balance',
+        'deposit_balance',
+        'referral_balance',
+        'profit_balance',
+        'locked_balance'
     ];
 
     /**
@@ -64,5 +69,26 @@ class User extends Authenticatable
             ->take(2)
             ->map(fn ($word) => Str::substr($word, 0, 1))
             ->implode('');
+    }
+
+    public function syncBalances() {
+    $this->main_balance = 
+        $this->deposit_balance +
+        $this->referral_balance +
+        $this->profit_balance;
+
+    $this->save();
+}
+
+    public function botLicenses() {
+        return $this->hasMany(BotLicense::class);
+    }
+
+    public function hasActiveLicense() {
+        return $this->botLicenses()->whereFuture('expires_at')->exists();
+    }
+
+    public function ledgers() {
+        return $this->hasMany(WalletLedger::class);
     }
 }

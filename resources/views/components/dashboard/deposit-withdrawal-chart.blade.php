@@ -3,6 +3,6 @@
         <h6 class="text-lg font-semibold mb-0">Deposit & Withdrawal</h6>
     </div>
     <div class="card-body p-6">
-        <div id="doubleLineChart"></div>
+        <div id="doubleLineCharts"></div>
     </div>
 </div>
