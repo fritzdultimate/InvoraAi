@@ -92,7 +92,7 @@
                     <h6>Activate Bot</h6>
                     <p>Start automated trading and grow your portfolio.</p>
 
-                    <a href="{{ route('bot') }}" class="invora-license-btn">
+                    <a href="{{ route('bot') }}" class="invora-license-btn" style="margin-top:10px;">
                         Get License
                     </a>
                 @endif
