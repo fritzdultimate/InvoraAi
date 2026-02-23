@@ -75,22 +75,22 @@
         <div class="invora-grid col-span-12 2xl:col-span-6">
 
             <!-- LICENSE SIDE -->
-            <div class="invora-license">
+            <div class="invora-license hidden">
 
                 @if($has_active_license)
                     <h6>Bot Active ✅</h6>
-                    <p>Your trading bot is running and generating results.</p>
+                    <p>Your system is actively generating returns.</p>
 
                     <div class="invora-mini-value" style="margin-top:10px;">
-                        Expires: {{ $license_expires_at?->format('M d, Y') }}
+                        Expires: {{ $license_expires_at?->diffForHumans() }}
                     </div>
 
                     <a href="{{ route('bot') }}" class="invora-license-btn" style="margin-top:10px;">
-                        Manage Bot
+                        View Bot Activity
                     </a>
                 @else
                     <h6>Activate Bot</h6>
-                    <p>Start automated trading and grow your portfolio.</p>
+                    <p>Put your capital to work automatically.</p>
 
                     <a href="{{ route('bot') }}" class="invora-license-btn" style="margin-top:10px;">
                         Get License
@@ -147,6 +147,8 @@
             </div>
 
         </div>
+
+        
 
         <x-dashboard.deposit-withdrawal-chart :chartData="$chartData" />
     </div>
