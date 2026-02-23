@@ -37,7 +37,7 @@
                 @forelse($licenses as $lcs)
                     <tr class="invora-row">
                         <td>
-                            <div style="font-weight:500;">#{{ $lcs->bot->name }}</div>
+                            <div style="font-weight:500;">{{ $lcs->bot->name }}</div>
                             <div style="font-size:12px; color:var(--text-secondary);">
                                 <!-- {{ $lcs->ref }} -->
                             </div>
@@ -52,7 +52,7 @@
 
                         <td>
                             <span class="invora-credit">
-                                ${{ number_format($lcs->amount,2) }}
+                                ${{ number_format($lcs->bot->price,2) }}
                             </span>
                         </td>
 
@@ -82,7 +82,7 @@
                     <strong>{{ $lcs->bot->name }}</strong>
                     
                     <span class="invora-credit">
-                        +${{ number_format($lcs->amount,2) }}
+                        ${{ number_format($lcs->bot->price,2) }}
                     </span>
                 </div>
 
