@@ -26,6 +26,15 @@
       "investment.css"
     ]
   },
+  "resources/css/invora-ui.css": {
+    "file": "assets/invora-ui-CIeRppCJ.css",
+    "src": "resources/css/invora-ui.css",
+    "isEntry": true,
+    "name": "invora-ui",
+    "names": [
+      "invora-ui.css"
+    ]
+  },
   "resources/js/app.js": {
     "file": "assets/app-DmVYLc9B.js",
     "name": "app",
