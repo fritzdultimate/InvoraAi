@@ -50,6 +50,7 @@ class BotProfitService
                             continue;
                         }
 
+
                         $intervalsPerDay = 24 / $bot->payout_interval_hours;
 
                         $intervalPercent = bcdiv(
@@ -58,9 +59,30 @@ class BotProfitService
                             8
                         );
 
+                        $trend = cache()->get('market_trend', 'neutral');
+                        $range = match ($trend) {
+                            'bull' => [90, 130],
+                            'bear' => [50, 90],
+                            default => [70, 110],
+                        };
+                        $marketFactor = random_int($range[0], $range[1]) / 100;
+
+                        $noise = random_int(-5, 5) / 100;
+
+                        $adjustedPercent = bcmul(
+                            $intervalPercent,
+                            (string) ($marketFactor + $noise),
+                            8
+                        );
+
+                        $adjustedPercent = min(
+                            $adjustedPercent,
+                            $intervalPercent * 1.3
+                        );
+
                         $profit = bcmul(
                             (string) $investment->amount,
-                            bcdiv($intervalPercent, '100', 8),
+                            bcdiv($adjustedPercent, '100', 8),
                             8
                         );
 
@@ -70,9 +92,9 @@ class BotProfitService
                             'profit_amount' => $profit,
                             'cycle_at' => now(),
                             'percent' => $intervalPercent,
-                            // 'meta' => json_encode([
-                            //     'interval_percent' => $intervalPercent
-                            // ])
+                            'meta' => json_encode([
+                                'market_factor' => $marketFactor,
+                            ])
                         ]);
 
                         $investment->total_profit = bcadd(
