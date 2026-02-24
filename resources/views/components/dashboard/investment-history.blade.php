@@ -122,7 +122,11 @@
 
     <div class="invora-mobile">
         @foreach($investments as $txn)
-            <div class="invora-invest-card">
+            <a 
+                href="{{ route('investments.item', ['id' => $txn->id]) }}" 
+                class="invora-invest-card" 
+                style="width: 100%"
+            >
 
                 <!-- TOP ROW -->
                 <div class="invora-invest-top">
@@ -162,7 +166,7 @@
 
                 </div>
 
-            </div>
+            </a>
         @endforeach
     </div>
 
