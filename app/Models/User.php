@@ -72,13 +72,13 @@ class User extends Authenticatable
     }
 
     public function syncBalances() {
-    $this->main_balance = 
-        $this->deposit_balance +
-        $this->referral_balance +
-        $this->profit_balance;
+        $this->main_balance = 
+            $this->deposit_balance +
+            $this->referral_balance +
+            $this->profit_balance;
 
-    $this->save();
-}
+        $this->save();
+    }
 
     public function botLicenses() {
         return $this->hasMany(BotLicense::class);

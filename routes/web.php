@@ -30,6 +30,7 @@ use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Features;
 
 require __DIR__.'/dashboard.php';
+require __DIR__.'/cronjob.php'; 
 
 Route::get('/', LandingIndex::class)->name('home-landing');
 Route::get('/about-us', AboutUs::class)->name('about-us');

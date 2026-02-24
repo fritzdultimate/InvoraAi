@@ -3,8 +3,8 @@
         .section-title { font-size: 28px; font-weight: 700; color: #f9fafb; }
         .section-subtitle { font-size: 14px; color: #9ca3af; }
         .license-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
-        .license-card { background: linear-gradient(145deg,#0f172a,#0b1220); border-radius:16px; padding:24px; transition:all 0.3s ease; box-shadow:0 10px 25px rgba(0,0,0,0.3); }
-        .license-card:hover { transform:translateY(-6px); box-shadow:0 20px 40px rgba(0,0,0,0.5); }
+        /* .license-card { background: linear-gradient(145deg,#0f172a,#0b1220); border-radius:16px; padding:24px; transition:all 0.3s ease; box-shadow:0 10px 25px rgba(0,0,0,0.3); }
+        .license-card:hover { transform:translateY(-6px); box-shadow:0 20px 40px rgba(0,0,0,0.5); } */
         .license-card-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; }
         .license-title { font-size:18px; font-weight:600; color:#f9fafb; }
         .license-id { font-size:12px; color:#6b7280; }
@@ -34,6 +34,45 @@
         .error { font-size:12px; color:#ef4444; margin-bottom:12px; }
         .btn-modal { width:100%; padding:10px; border-radius:12px; background:linear-gradient(135deg,#2563eb,#1d4ed8); border:none; color:#fff; font-weight:600; cursor:pointer; transition:0.3s; }
         .btn-modal:hover { transform:translateY(-2px); box-shadow:0 10px 25px rgba(37,99,235,0.4); }
+
         @media(max-width:640px) { .license-grid { grid-template-columns:1fr; } .license-card { padding:16px; border-radius:12px; } }
 
         @media(max-width:640px) { .dashboard-wrapper { padding:1px; } }
+
+
+        .license-card {
+            position: relative;
+            padding: 20px;
+            border-radius: 18px;
+
+            background: linear-gradient(
+                    145deg,
+                    rgba(39,49,66,0.95),
+                    rgba(15,23,42,0.95)
+            );
+
+            border: 1px solid rgba(255,255,255,0.06);
+
+            box-shadow:
+                    0 10px 30px rgba(0,0,0,0.5),
+                    inset 0 1px 0 rgba(255,255,255,0.04);
+
+            transition: all 0.25s ease;
+            overflow: hidden;
+        }
+
+        .license-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .license-card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(
+                circle at top right,
+                rgba(99,102,241,0.2),
+                transparent 60%
+            );
+            opacity: 0.6;
+        }

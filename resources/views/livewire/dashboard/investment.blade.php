@@ -2,7 +2,7 @@
 
     <div class="section-header">
         <h2 class="section-title">License Portfolio</h2>
-        <p class="section-subtitle">Manage your active trading engine licenses</p>
+        <p class="section-subtitle" style="color:var(--text-secondary);">Manage your active trading engine licenses</p>
     </div>
 
     @if($licenses->isEmpty())
@@ -27,7 +27,10 @@
                             <h5 class="license-title">{{ $license->bot->name }}</h5>
                             <span class="license-id">License #{{ $license->id }}</span>
                         </div>
-                        <div class="license-status {{ $expired ? 'expired' : 'active' }}">{{ $expired ? 'Expired' : 'Active' }}</div>
+
+                        <div class="license-status {{ $expired ? 'expired' : 'active' }}">
+                            {{ $expired ? 'Expired' : 'Running' }}
+                        </div>
                     </div>
 
                     <div class="license-stats">
