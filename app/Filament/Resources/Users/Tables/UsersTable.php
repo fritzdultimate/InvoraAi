@@ -99,7 +99,7 @@ class UsersTable
                                 'main' => 'Main Balance',
                                 'deposit' => 'Deposit Balance',
                                 'referral_bonus' => 'Referral Bonus Balance',
-                                'locked_balance' => 'Profit Balance',
+                                'locked_balance' => 'Locked Balance',
                                 'profit' => 'Profit Balance',
                             ])
                             ->required()
