@@ -10,6 +10,7 @@ use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
@@ -92,6 +93,18 @@ class UsersTable
                             ->required()
                             ->minValue(0.0001),
 
+                        Select::make('asset')
+                            ->label('Select Wallet')
+                            ->options([
+                                'main' => 'Main Balance',
+                                'deposit' => 'Deposit Balance',
+                                'referral_bonus' => 'Referral Bonus Balance',
+                                'locked_balance' => 'Profit Balance',
+                                'profit' => 'Profit Balance',
+                            ])
+                            ->required()
+                            ->default('deposit'),
+
                         Textarea::make('description')
                             ->required()
                             ->label('Reason'),
@@ -104,7 +117,7 @@ class UsersTable
                             LedgerReference::DEPOSIT,
                             auth()->id(),
                             "made by admin | " . $data['description'],
-                            LedgerAsset::DEPOSIT
+                            LedgerAsset::from($data['asset'])
                         );
 
                         Notification::make()
