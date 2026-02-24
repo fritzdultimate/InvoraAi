@@ -65,3 +65,74 @@ select:focus[data-flux-control] {
 /* \[:where(&)\]:size-4 {
     @apply size-4;
 } */
+
+.invora-toast {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #0f172a;
+    border: 1px solid rgba(255,255,255,0.08);
+    padding: 14px 16px;
+    border-radius: 14px;
+    min-width: 260px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    z-index: 9999;
+
+    animation: toastIn 0.4s ease, toastOut 0.4s ease 4s forwards;
+}
+
+.invora-toast.success {
+    border-left: 4px solid #22c55e;
+}
+
+.toast-icon {
+    width: 34px;
+    height: 34px;
+    background: rgba(34,197,94,0.15);
+    color: #22c55e;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    font-weight: bold;
+}
+
+.toast-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: #e5e7eb;
+}
+
+.toast-message {
+    font-size: 12px;
+    color: #9ca3af;
+}
+
+.invora-toast.error {
+    border-left: 4px solid #ef4444;
+}
+
+.invora-toast.info {
+    border-left: 4px solid #3b82f6;
+}
+
+@keyframes toastIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes toastOut {
+    to {
+        opacity: 0;
+        transform: translateY(-10px) scale(0.95);
+    }
+}

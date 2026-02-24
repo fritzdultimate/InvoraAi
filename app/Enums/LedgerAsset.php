@@ -8,4 +8,5 @@ enum LedgerAsset: string
     case DEPOSIT = 'deposit';
     case PROFIT = 'profit';
     case REFERRALBONUS = 'referral_bonus';
+    case LOCKEDBALANCE = 'locked_balance';
 }

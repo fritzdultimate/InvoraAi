@@ -35,25 +35,6 @@
     position: relative;
 }
 
-/* subtle glow edge */
-.invora-card::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    padding: 1px;
-    background: linear-gradient(
-        120deg,
-        transparent,
-        rgba(99,102,241,0.15),
-        transparent
-    );
-    -webkit-mask: 
-        linear-gradient(#000 0 0) content-box, 
-        linear-gradient(#000 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-}
 
 /* ===== HEADER (FIXED CLEAN LAYOUT) ===== */
 .invora-header {

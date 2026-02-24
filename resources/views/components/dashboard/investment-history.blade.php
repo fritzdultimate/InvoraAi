@@ -41,7 +41,7 @@
 
             <tbody>
                 @forelse($investments as $txn)
-                    <tr class="invora-row">
+                    <tr class="invora-row" wire:click="viewInvestment({{ $txn->id }})" style="cursor:pointer;">
                         <td>
                             <div style="display:flex; align-items:center; gap:10px;">
                                 

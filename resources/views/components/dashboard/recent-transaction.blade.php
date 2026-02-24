@@ -39,7 +39,7 @@
                         <td>
                             <div style="font-weight:500;">#{{ $txn->reference ?? $txn->id }}</div>
                             <div style="font-size:12px; color:var(--text-secondary);">
-                                {{ $txn->reference_type->value }}
+                                {{ $txn->asset->value }}
                             </div>
                         </td>
 

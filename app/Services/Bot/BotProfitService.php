@@ -29,6 +29,24 @@ class BotProfitService
                         
                         if ($investment->isMatured()) {
                             $investment->update(['status' => 'completed']);
+
+                            WalletService::debit(
+                                $user,
+                                $investment->amount,
+                                LedgerReference::BOT_INVESTMENT_COMPLETED,
+                                $investment->id,
+                                'investment is complete',
+                                LedgerAsset::LOCKEDBALANCE
+                            );
+
+                            WalletService::credit(
+                                $user,
+                                $investment->amount,
+                                LedgerReference::BOT_INVESTMENT_COMPLETED,
+                                $investment->id,
+                                'investment is complete',
+                                LedgerAsset::MAIN
+                            );
                             continue;
                         }
 
@@ -67,8 +85,8 @@ class BotProfitService
                         $investment->save();
 
 
-                        $user->profit_balance = bcadd($user->profit_balance, $profit, 8);
-                        $user->save();
+                        // $user->profit_balance = bcadd($user->profit_balance, $profit, 8);
+                        // $user->save();
 
                         // 🧾 LEDGER ENTRY
                         WalletService::credit(

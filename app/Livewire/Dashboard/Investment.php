@@ -17,6 +17,8 @@ class Investment extends Component
     public $showModal = false;
     public $selectedLicense;
     public $asset = 'main';
+    public $search;
+    public $type;
 
     public function mount()
     {
@@ -75,9 +77,16 @@ class Investment extends Component
             $asset = $this->asset === 'deposit' ? LedgerAsset::DEPOSIT : LedgerAsset::MAIN;
 
 
-            WalletService::debit(auth()->user(), $this->amount, LedgerReference::BOT_INVESTMENT, $this->selectedLicense->id, null, $asset);    
+            WalletService::debit(
+                auth()->user(), 
+                $this->amount, 
+                LedgerReference::BOT_INVESTMENT, 
+                $this->selectedLicense->id, 
+                null, 
+                $asset
+            );        
 
-            BotInvestment::create([
+            $investment = BotInvestment::create([
                 'user_id' => auth()->id(),
                 'bot_id' => $this->selectedLicense->bot->id,
                 'bot_license_id' => $this->selectedLicense->id,
@@ -93,6 +102,15 @@ class Investment extends Component
                 ]
             ]);
 
+            WalletService::credit(
+                auth()->user(), 
+                $this->amount, 
+                LedgerReference::BOT_INVESTMENT, 
+                $investment->id,
+                'locked investment', 
+                LedgerAsset::LOCKEDBALANCE
+            );
+
             $this->showModal = false;
             $this->dispatch('toast', payload: [
                 'message' => 'Investment deployed successfully!'
@@ -102,5 +120,9 @@ class Investment extends Component
         }
 
         
+    }
+
+    public function viewInvestment($id) {
+        return redirect()->route('investments.item', ['id' => $id]);
     }
 }

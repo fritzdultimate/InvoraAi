@@ -1,9 +1,9 @@
 <!-- jQuery library js -->
   <script src="{{ asset('assets/js/lib/jquery-3.7.1.min.js') }}"></script>
   <!-- Apex Chart js -->
-  <script src="{{ asset('assets/js/lib/apexcharts.min.js') }}"></script>
+  <!-- <script src="{{ asset('assets/js/lib/apexcharts.min.js') }}"></script> -->
   <!-- Data Table js -->
-  <script src="{{ asset('assets/js/lib/simple-datatables.min.js') }}"></script>
+  <!-- <script src="{{ asset('assets/js/lib/simple-datatables.min.js') }}"></script> -->
   <!-- Iconify Font js -->
   <script src="{{ asset('assets/js/lib/iconify-icon.min.js') }}"></script>
   <!-- jQuery UI js -->
@@ -27,4 +27,4 @@
   <script src="{{ asset('assets/js/app.js') }}"></script>
 
 <!-- <script src="assets/js/homeOneChart.js"></script> -->
-<script src="{{ asset('assets/js/lineChartPageChart.js') }}"></script>
+<!-- <script src="{{ asset('assets/js/lineChartPageChart.js') }}"></script> -->

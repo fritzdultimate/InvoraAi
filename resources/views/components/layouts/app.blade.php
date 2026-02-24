@@ -14,7 +14,7 @@
         <!-- Apex Chart css -->
         <link rel="stylesheet" href="{{ asset('assets/css/lib/apexcharts.css') }}">
         <!-- Data Table css -->
-        <link rel="stylesheet" href="{{ asset('assets/css/lib/dataTables.min.css') }}">
+        <!-- <link rel="stylesheet" href="{{ asset('assets/css/lib/dataTables.min.css') }}"> -->
         <!-- Text Editor css -->
         <link rel="stylesheet" href="{{ asset('assets/css/lib/editor-katex.min.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/lib/editor.atom-one-dark.min.css') }}">
@@ -43,7 +43,8 @@
             'resources/css/deposit.css', 
             'resources/css/app.css', 
             'resources/css/investment.css',
-            'resources/css/invora-ui.css'
+            'resources/css/invora-ui.css',
+            'resources/css/investment-item.css'
         ])
     </head>
 
@@ -66,6 +67,17 @@
                         <li class="text-neutral-600 font-medium dark:text-white">Overview</li>
                     </ul>
                 </div>
+                @if (session()->has('success'))
+                    <div class="invora-toast success" id="invoraToast">
+                        <div class="toast-icon">✓</div>
+                        <div class="toast-content">
+                            <div class="toast-title">Success</div>
+                            <div class="toast-message">
+                                {{ session('success') }}
+                            </div>
+                        </div>
+                    </div>
+                @endif
                 {{ $slot }}
             </div>
             
@@ -186,6 +198,13 @@
                 });
 
             })();
+        </script>
+
+        <script>
+            setTimeout(() => {
+                const toast = document.getElementById('invoraToast');
+                if (toast) toast.remove();
+            }, 5000);
         </script>
 
     </body>
