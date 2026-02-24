@@ -80,6 +80,21 @@ class User extends Authenticatable
         $this->save();
     }
 
+    public function getTotalBalanceAttribute(): string {
+        return bcadd(
+            bcadd(
+                (string) $this->main_balance,
+                (string) $this->profit_balance,
+                8
+            ),
+            bcadd(
+                (string) $this->referral_balance,
+                (string) $this->deposit_balance,
+            ),
+            8
+        );
+    }
+
     public function botLicenses() {
         return $this->hasMany(BotLicense::class);
     }

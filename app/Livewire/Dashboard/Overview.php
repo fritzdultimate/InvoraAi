@@ -4,6 +4,7 @@ namespace App\Livewire\Dashboard;
 
 use App\Models\BotInvestment;
 use App\Models\BotLicense;
+use App\Models\BotProfitCycle;
 use App\Models\WalletLedger;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -21,6 +22,7 @@ class  Overview extends Component {
     public $bot_status = '-';
     public $main_balance = 0;
     public $referral_balance = 0;
+    public $profit_balance = 0;
     public $has_active_license = 0;
     public $license_expires_at;
 
@@ -41,7 +43,7 @@ class  Overview extends Component {
             ? 'active'
             : 'Not Active';
 
-        $this->main_balance = auth()->user()->balance;
+        $this->main_balance = auth()->user()->main_balance;
         $this->referral_balance = 0;
         $this->has_active_license = auth()->user()->hasActiveLicense();
         $this->license_expires_at = optional(
@@ -49,6 +51,10 @@ class  Overview extends Component {
         )->expires_at;
 
         $this->loadChart();
+
+        $this->profit_balance = BotProfitCycle::where('user_id', auth()->id())
+            ->where('status', 'credited')
+            ->sum('profit_amount');
     }
 
     public function loadChart() {

@@ -103,11 +103,24 @@
             <div>
 
                 <!-- MAIN BALANCE -->
+
                 <div class="invora-balance-card">
-                    <div class="invora-balance-title">Total Balance</div>
-                    <div class="invora-balance-amount">
-                        ${{ number_format($main_balance, 2) }}
+
+                    <div class="invora-balance-top">
+                        <div>
+                            <div class="invora-balance-title">Total Balance</div>
+
+                            <div class="invora-balance-amount">
+                                ${{ number_format(auth()->user()->total_balance, 2) }}
+                            </div>
+
+                            <!-- PROFIT -->
+                            <div class="invora-balance-profit">
+                                +${{ number_format($profit_balance, 2) }}
+                            </div>
+                        </div>
                     </div>
+
                 </div>
 
                 <!-- MINI STATS -->

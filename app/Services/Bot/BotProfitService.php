@@ -48,6 +48,7 @@ class BotProfitService
 
                         BotProfitCycle::create([
                             'bot_investment_id' => $investment->id,
+                            'user_id' => $user->id,
                             'profit_amount' => $profit,
                             'cycle_at' => now(),
                             'percent' => $intervalPercent,

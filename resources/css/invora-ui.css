@@ -515,3 +515,16 @@
     font-size: 11px;
     color: var(--text-secondary);
 }
+
+.invora-balance-profit {
+    margin-top: 4px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #22c55e;
+}
+
+/* subtle glow */
+.invora-balance-profit::before {
+    content: "▲ ";
+    font-size: 10px;
+}

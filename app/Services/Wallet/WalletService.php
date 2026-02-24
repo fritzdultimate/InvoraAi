@@ -30,7 +30,8 @@ class WalletService {
 
             $newBalance = $currentBalance + $amount;
 
-            return WalletLedger::create([
+
+            $ledger =  WalletLedger::create([
                 'user_id' => $user->id,
                 'credit' => $amount,
                 'debit' => 0,
@@ -40,6 +41,18 @@ class WalletService {
                 'description' => $description,
                 'asset' => $asset->value
             ]);
+
+            match ($asset) {
+                LedgerAsset::DEPOSIT => $user->deposit_balance = $ledger->balance_after,
+                LedgerAsset::MAIN => $user->main_balance = $ledger->balance_after,
+                LedgerAsset::PROFIT => $user->profit_balance = $ledger->balance_after,
+                LedgerAsset::REFERRALBONUS => $user->referral_balance = $ledger->balance_after,
+                default => null
+            };
+
+            $user->save();
+
+            return $ledger;
         });
     }
 
@@ -68,7 +81,7 @@ class WalletService {
 
             $newBalance = $currentBalance - $amount;
 
-            return WalletLedger::create([
+            $ledger =  WalletLedger::create([
                 'user_id' => $user->id,
                 'credit' => 0,
                 'debit' => $amount,
@@ -78,6 +91,18 @@ class WalletService {
                 'description' => $description,
                 'asset' => $asset->value
             ]);
+
+            match ($asset) {
+                LedgerAsset::DEPOSIT => $user->deposit_balance = $ledger->balance_after,
+                LedgerAsset::MAIN => $user->main_balance = $ledger->balance_after,
+                LedgerAsset::PROFIT => $user->profit_balance = $ledger->balance_after,
+                LedgerAsset::REFERRALBONUS => $user->referral_balance = $ledger->balance_after,
+                default => null
+            };
+
+            $user->save();
+
+            return $ledger;
         });
     }
 
