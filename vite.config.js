@@ -12,7 +12,8 @@ export default defineConfig({
                 'resources/js/app.js', 
                 'resources/css/deposit.css', 
                 'resources/css/investment.css',
-                'resources/css/invora-ui.css'
+                'resources/css/invora-ui.css',
+                'resources/css/investment-item.css'
             ],
             refresh: true,
         }),

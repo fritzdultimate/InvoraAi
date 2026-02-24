@@ -1,6 +1,6 @@
 {
   "resources/css/app.css": {
-    "file": "assets/app-D6njGssn.css",
+    "file": "assets/app-BdJuOE7X.css",
     "src": "resources/css/app.css",
     "isEntry": true,
     "name": "app",
@@ -17,8 +17,17 @@
       "deposit.css"
     ]
   },
+  "resources/css/investment-item.css": {
+    "file": "assets/investment-item-Des5vGfD.css",
+    "src": "resources/css/investment-item.css",
+    "isEntry": true,
+    "name": "investment-item",
+    "names": [
+      "investment-item.css"
+    ]
+  },
   "resources/css/investment.css": {
-    "file": "assets/investment-B3SbYhk-.css",
+    "file": "assets/investment-BfODhBz1.css",
     "src": "resources/css/investment.css",
     "isEntry": true,
     "name": "investment",
@@ -27,7 +36,7 @@
     ]
   },
   "resources/css/invora-ui.css": {
-    "file": "assets/invora-ui-D6GjkpZO.css",
+    "file": "assets/invora-ui-Dg8U0inm.css",
     "src": "resources/css/invora-ui.css",
     "isEntry": true,
     "name": "invora-ui",
