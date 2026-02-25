@@ -38,7 +38,7 @@
                     ${{ number_format($investment->amount + $investment->total_profit, 2) }}
                 </h1>
 
-                <div class="invora-hero-profit">
+                <div class="invora-balance-profit">
                     +${{ number_format($investment->total_profit, 2) }}
                 </div>
             </div>
