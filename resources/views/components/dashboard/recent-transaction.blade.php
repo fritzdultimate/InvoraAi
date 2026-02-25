@@ -100,9 +100,9 @@
                 </div>
 
                 <div class="invora-card-row">
-                    <!-- <span style="color:var(--text-secondary);">
-                        {{ $txn->reference_type->value }}
-                    </span> -->
+                    <span style="color:var(--text-secondary);">
+                        {{ $txn->asset->value }}
+                    </span>
 
                     <span class="invora-badge 
                         {{ $txn->credit > 0 ? 'invora-badge-green' : 'invora-badge-red' }}">
