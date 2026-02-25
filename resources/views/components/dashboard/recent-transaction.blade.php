@@ -101,7 +101,7 @@
 
                 <div class="invora-card-row">
                     <span style="color:var(--text-secondary);">
-                        {{ $txn->asset->value }}
+                        {{ $txn->asset->label() }}
                     </span>
 
                     <span class="invora-badge 
