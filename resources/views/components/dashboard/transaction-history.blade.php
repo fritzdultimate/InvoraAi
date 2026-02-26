@@ -109,7 +109,7 @@
 
         @empty
             <div class="empty-state">
-                <p>No Data yet</p>
+                <h4>No Data yet</h4>
             </div>
         @endforelse
     </div>
