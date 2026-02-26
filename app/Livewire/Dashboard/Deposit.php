@@ -55,6 +55,7 @@ class  Deposit extends Component {
 
     public function makeDeposit() {
         $deposit = DB::transaction(function () {
+            $this->amount = str_replace(',', '', $this->amount);
             $this->validate();
             $this->network ??= strtolower($this->selectedWallet['currency']);
 

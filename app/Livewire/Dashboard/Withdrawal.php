@@ -18,6 +18,7 @@ class Withdrawal extends Component {
     public $networks = [];
     public $perPage = 10;
 
+
     protected $rules = [
         'amount' => 'required|numeric|min:50',
         'selectedWallet' => 'required',
@@ -46,6 +47,7 @@ class Withdrawal extends Component {
 
 
     public function makeWithdrawal() {
+        $this->amount = str_replace(',', '', $this->amount);
         $this->validate();
 
         if ($this->amount > auth()->user()->balance) {
