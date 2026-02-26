@@ -134,6 +134,26 @@
                     </div>
 
                     <div class="invora-mini-card">
+                        <div class="invora-mini-title">Withdrable</div>
+                        <div class="invora-mini-value">
+                            ${{ number_format($main_balance, 2) }}
+                        </div>
+                    </div>
+
+                    <div class="invora-mini-card">
+                        <div class="invora-mini-title">Capital in Trade</div>
+                        <div class="invora-mini-value invora-accent">
+                            ${{ number_format($locked_balance, 2) }}
+                        </div>
+
+                        @if($locked_balance > 0)
+                            <div class="invora-mini-sub invora-credit">
+                                Currently generating profit
+                            </div>
+                        @endif
+                    </div>
+
+                    <div class="invora-mini-card">
                         <div class="invora-mini-title">Referral Balance</div>
                         <div class="invora-mini-value invora-credit">
                             ${{ number_format($referral_balance, 2) }}

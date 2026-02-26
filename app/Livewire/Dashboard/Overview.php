@@ -23,6 +23,7 @@ class  Overview extends Component {
     public $main_balance = 0;
     public $referral_balance = 0;
     public $profit_balance = 0;
+    public $locked_balance = 0;
     public $has_active_license = 0;
     public $license_expires_at;
 
@@ -44,6 +45,7 @@ class  Overview extends Component {
             : 'Not Active';
 
         $this->main_balance = auth()->user()->main_balance;
+        $this->locked_balance = auth()->user()->locked_balance;
         $this->referral_balance = 0;
         $this->has_active_license = auth()->user()->hasActiveLicense();
         $this->license_expires_at = optional(
