@@ -43,7 +43,7 @@
 
 			<li>
 				<a href="{{ route('withdrawal') }}">
-					<iconify-icon icon="mdi:bank-minus" class="menu-icon"></iconify-icon>
+					<iconify-icon icon="ph:coins-bold" class="menu-icon"></iconify-icon>
 					<span>Withdrawal</span>
 				</a>
 			</li>
