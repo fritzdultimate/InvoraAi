@@ -78,7 +78,7 @@
 
     <!-- MOBILE VIEW (NOW SEXY 🔥) -->
     <div class="invora-mobile">
-        @foreach($deposits as $txn)
+        @forelse($deposits as $txn)
             <div class="invora-card-item">
 
                 <div style="display:flex; justify-content:space-between;">
@@ -106,11 +106,12 @@
                 </div>
 
             </div>
-        @endforeach
 
-        @if (empty($deposits))
-            <p>No Data yet</p>
-        @endif
+        @empty
+            <div class="empty-state">
+                <p>No Data yet</p>
+            </div>
+        @endforelse
     </div>
 
     <!-- PAGINATION -->
