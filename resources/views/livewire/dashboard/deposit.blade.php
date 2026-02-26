@@ -3,23 +3,25 @@
     <div class="invora-deposit-page">
 
         <!-- HERO BALANCE -->
-        <div class="invora-balance-hero">
 
-            <div class="invora-balance-left">
-                <div class="invora-balance-title">Deposit Wallet</div>
+        <div class="invora-balance-card">
 
-                <div class="invora-balance-amount">
-                    ${{ number_format(auth()->user()->deposit_balance, 2) }}
-                </div>
+            <div class="invora-balance-top">
+                <div>
+                    <div class="invora-balance-title">Deposit Balance</div>
 
-                <div class="invora-balance-meta">
-                    Funds ready for investment
-                </div>
-            </div>
+                    <div class="invora-balance-amount">
+                        ${{ number_format(auth()->user()->deposit_balance + auth()->user()->deposit_bonus_balance, 2) }}
+                    </div>
 
-            <div class="invora-balance-right">
-                <div class="invora-badge invora-badge-blue">
-                    Crypto Deposit
+                    <!-- PROFIT -->
+                    <div class="invora-balance-profit">
+                        +${{ number_format(auth()->user()->deposit_bonus_balance, 2) }} bonus
+                    </div>
+
+                    <div class="invora-balance-meta">
+                        Funds ready for investment
+                    </div>
                 </div>
             </div>
 
