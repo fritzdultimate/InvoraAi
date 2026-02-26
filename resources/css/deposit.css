@@ -637,3 +637,259 @@
         transform: rotate(360deg);
     }
 }
+
+
+/* New deposit styles */
+.invora-deposit-page {
+    max-width: 900px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.invora-balance-hero {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(135deg,#0f172a,#020617);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 20px;
+}
+
+.invora-balance-meta {
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.invora-form-pro {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.invora-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.invora-field label {
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.invora-select-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px;
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    background: linear-gradient(145deg,#0b1220,#020617);
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.invora-select-box:hover {
+    border-color: #3b82f6;
+}
+
+.invora-select-content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.invora-placeholder {
+    color: #6b7280;
+}
+
+.invora-select-wrapper select {
+    width: 100%;
+    padding: 14px;
+    border-radius: 14px;
+    background: #020617;
+    border: 1px solid var(--border);
+    color: #fff;
+    appearance: none;
+}
+
+.invora-input-pro {
+    display: flex;
+    align-items: center;
+    padding: 16px;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    background: linear-gradient(145deg,#020617,#0b1220);
+    transition: 0.2s ease;
+}
+
+.invora-input-pro:focus-within {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 2px rgba(59,130,246,0.2);
+}
+
+.invora-input-pro input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: white;
+    font-size: 18px;
+}
+
+.invora-input-pro .prefix {
+    margin-right: 8px;
+    color: #6b7280;
+}
+
+.invora-textarea-pro textarea {
+    width: 100%;
+    padding: 14px;
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    background: #020617;
+    color: white;
+    resize: none;
+    min-height: 80px;
+}
+
+.invora-textarea-pro textarea:focus {
+    border-color: #3b82f6;
+}
+
+.invora-btn-pro {
+    margin-top: 10px;
+    padding: 16px;
+    border-radius: 14px;
+    border: none;
+    font-weight: 600;
+    font-size: 14px;
+    background: linear-gradient(135deg,#3b82f6,#2563eb);
+    color: white;
+    cursor: pointer;
+    transition: 0.25s ease;
+}
+
+.invora-btn-pro:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(59,130,246,0.4);
+}
+
+.invora-hint {
+    font-size: 11px;
+    color: #6b7280;
+}
+
+/* ERROR */
+.invora-error {
+    font-size: 11px;
+    color: #ef4444;
+}
+
+@media (max-width: 768px) {
+
+    .invora-deposit-page {
+        padding: 12px;
+    }
+
+    .invora-balance-hero {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .invora-balance-amount {
+        font-size: 26px;
+    }
+
+}
+
+.invora-form-group label {
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.invora-wallet-select {
+    background: #0b1220;
+    border: 1px solid var(--border);
+    padding: 12px;
+    border-radius: 12px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    cursor: pointer;
+}
+
+.invora-input {
+    background: #0b1220;
+    border: 1px solid var(--border);
+    padding: 12px;
+    border-radius: 12px;
+    color: #fff;
+}
+
+.invora-input-wrap {
+    display: flex;
+    align-items: center;
+    background: #0b1220;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px;
+}
+
+.invora-input-wrap input {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #fff;
+    flex: 1;
+}
+
+/* BUTTON */
+.invora-btn-primary {
+    background: linear-gradient(135deg,#3b82f6,#2563eb);
+    border: none;
+    padding: 14px;
+    border-radius: 12px;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* HISTORY */
+.invora-history {
+    display: flex;
+    flex-direction: column;
+}
+
+.invora-history-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 14px 0;
+    border-top: 1px solid var(--border);
+}
+
+.invora-ref {
+    font-weight: 500;
+}
+
+.invora-meta {
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.invora-amount {
+    font-weight: 600;
+}
+
+.invora-status {
+    font-size: 11px;
+    margin-top: 4px;
+}
+.invora-status-waiting { color: #f59e0b; }
+.invora-status-completed { color: #22c55e; }
+.invora-status-failed { color: #ef4444; }
+

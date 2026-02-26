@@ -3,6 +3,7 @@
 namespace App\Livewire\Dashboard;
 
 use App\Enums\DepositStatus;
+use App\Services\DepositService;
 use App\Services\NowPaymentsService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
@@ -78,6 +79,8 @@ class  Deposit extends Component {
             $deposit->meta = $invoice;
             $deposit->address = $invoice['pay_address'];
             $deposit->save();
+
+            DepositService::depositBonus($deposit);
 
             $this->deposit = $deposit;
             $this->invoice = $invoice;

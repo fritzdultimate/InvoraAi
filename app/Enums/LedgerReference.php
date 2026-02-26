@@ -5,6 +5,7 @@ namespace App\Enums;
 enum LedgerReference: string
 {
     case DEPOSIT = 'deposit';
+    case DEPOSITBONUS = 'deposit_bonus';
     case WITHDRAWAL = 'withdrawal';
     // case LOCKEDBALANCE = 'locked_balance';
     case INVESTMENT_PROFIT = 'investment_profit';

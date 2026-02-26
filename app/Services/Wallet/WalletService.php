@@ -48,6 +48,7 @@ class WalletService {
                 LedgerAsset::PROFIT => $user->profit_balance = $ledger->balance_after,
                 LedgerAsset::REFERRALBONUS => $user->referral_balance = $ledger->balance_after,
                 LedgerAsset::LOCKEDBALANCE => $user->locked_balance = $ledger->balance_after,
+                LedgerAsset::DEPOSITBONUSBALANCE => $user->deposit_bonus_balance = $ledger->balance_after,
                 default => null
             };
 
@@ -99,6 +100,7 @@ class WalletService {
                 LedgerAsset::PROFIT => $user->profit_balance = $ledger->balance_after,
                 LedgerAsset::REFERRALBONUS => $user->referral_balance = $ledger->balance_after,
                 LedgerAsset::LOCKEDBALANCE => $user->locked_balance = $ledger->balance_after,
+                LedgerAsset::DEPOSITBONUSBALANCE => $user->deposit_bonus_balance = $ledger->balance_after,
                 default => null
             };
 

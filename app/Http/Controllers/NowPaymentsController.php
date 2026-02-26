@@ -84,12 +84,9 @@ class NowPaymentsController extends Controller {
                         LedgerAsset::DEPOSIT
                     );
 
-                    DepositService::depositBonus($user, $deposit);
+                    DepositService::depositBonus($deposit);
                 }
 
-                // 🔥 CREDIT USER HERE (only once)
-                // Wallet::credit(...)
-                // Dispatch job if heavy logic
             }
         });
 

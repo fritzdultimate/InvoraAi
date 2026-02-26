@@ -106,4 +106,8 @@ class User extends Authenticatable
     public function ledgers() {
         return $this->hasMany(WalletLedger::class);
     }
+
+    public function deposits() {
+        return $this->hasMany(Deposit::class);
+    }
 }
