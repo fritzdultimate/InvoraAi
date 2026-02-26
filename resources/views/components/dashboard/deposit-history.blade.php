@@ -37,7 +37,7 @@
                 @forelse($deposits as $txn)
                     <tr class="invora-row">
                         <td>
-                            <div style="font-weight:500;">#{{ $txn->reference ?? $txn->id }}</div>
+                            <div style="font-weight:500;" class="invora-balance-meta">#{{ $txn->reference ?? $txn->id }}</div>
                             <div style="font-size:12px; color:var(--text-secondary);">
                                 Deposit
                             </div>

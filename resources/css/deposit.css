@@ -145,8 +145,8 @@
     font-variant-numeric: tabular-nums;
 }
 
-.pending {
-    color: #f87171 !important;
+.pending, .waiting {
+    color: #facc36 !important;
 }
 
 .completed {
