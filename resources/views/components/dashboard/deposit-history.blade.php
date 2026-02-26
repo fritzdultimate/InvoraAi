@@ -1,0 +1,127 @@
+
+<div class="invora-card">
+
+    <!-- HEADER -->
+
+    <div class="invora-header" style="width: 100%;">
+
+        <div class="invora-header-left">
+            <h6 class="invora-title">Recent Deposits</h6>
+        </div>
+
+        <div class="invora-header-right">
+            <input :disable="false" type="text" wire:model.live="search" placeholder="Search..." class="invora-input">
+
+            <select wire:model.live="type" class="invora-input" style="flex: 1;">
+                <option value="">All</option>
+                <option value="credit">Inflow</option>
+                <option value="debit">Outflow</option>
+            </select>
+        </div>
+
+    </div>
+
+    <!-- DESKTOP TABLE -->
+    <div class="invora-table-wrapper">
+        <table class="invora-table">
+            <thead>
+                <tr>
+                    <th>Txn</th>
+                    <th>Type</th>
+                    <th>Amount</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @forelse($deposits as $txn)
+                    <tr class="invora-row">
+                        <td>
+                            <div style="font-weight:500;">#{{ $txn->reference ?? $txn->id }}</div>
+                            <div style="font-size:12px; color:var(--text-secondary);">
+                                Deposit
+                            </div>
+                        </td>
+
+                        <td>
+                            <span class="invora-badge 
+                                {{ $txn->status }}">
+                                {{ $txn->status }}
+                            </span>
+                        </td>
+
+                        <td>
+                            @if($txn->credit > 0)
+                                <span class="invora-credit">
+                                    +${{ number_format($txn->credit,2) }}
+                                </span>
+                            @else
+                                <span class="invora-debit">
+                                    -${{ number_format($txn->debit,2) }}
+                                </span>
+                            @endif
+                        </td>
+
+                        <td>
+                            <div>{{ $txn->created_at->format('M d') }}</div>
+                            <div style="font-size:12px; color:var(--text-secondary);">
+                                {{ $txn->created_at->format('h:i A') }}
+                            </div>
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="4" style="padding:20px; text-align:center;">
+                            No Deposits
+                        </td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
+
+    <!-- MOBILE VIEW (NOW SEXY 🔥) -->
+    <div class="invora-mobile">
+        @foreach($deposits as $txn)
+            <div class="invora-card-item">
+
+                <div style="display:flex; justify-content:space-between;">
+                    <strong>#{{ $txn->reference ?? $txn->id }}</strong>
+
+                    @if($txn->credit > 0)
+                        <span class="invora-credit">
+                            +${{ number_format($txn->credit,2) }}
+                        </span>
+                    @else
+                        <span class="invora-debit">
+                            -${{ number_format($txn->debit,2) }}
+                        </span>
+                    @endif
+                </div>
+
+                <div class="invora-card-row">
+                    <span style="color:var(--text-secondary);">
+                        Deposit
+                    </span>
+
+                    <span class="invora-badge 
+                        {{ $txn->status }}">
+                        {{ $txn->status }}
+                    </span>
+                </div>
+
+                <div class="invora-card-row" style="color:var(--text-secondary);">
+                    <span>{{ $txn->created_at->format('M d, Y') }}</span>
+                    <span>{{ $txn->created_at->format('h:i A') }}</span>
+                </div>
+
+            </div>
+        @endforeach
+    </div>
+
+    <!-- PAGINATION -->
+    <div style="padding:16px; border-top:1px solid var(--border);">
+        {{ $deposits->links() }}
+    </div>
+
+</div>

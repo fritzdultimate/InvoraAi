@@ -9,9 +9,11 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 #[Layout('components.layouts.app')]
 class  Deposit extends Component {
+    use WithPagination;
     public $nowPaymentWallets;
     public $amount;
     public $narration;
@@ -22,6 +24,7 @@ class  Deposit extends Component {
     public $showDepositModal = false;
     public $deposit;
     public $deletingId;
+    public $perPage = 0;
 
     protected $rules = [
         'amount' => 'required|numeric|min:50',
@@ -137,8 +140,8 @@ class  Deposit extends Component {
     public function render(): \Illuminate\View\View {
         $deposits = \App\Models\Deposit::where('user_id', auth()->id())
             ->latest()
-            ->limit(10)
-            ->get();
+            ->latest()
+            ->paginate($this->perPage);
             
         return view('livewire.dashboard.deposit', [
             'deposits' => $deposits
