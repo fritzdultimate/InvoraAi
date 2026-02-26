@@ -33,10 +33,10 @@
 
             <div class="invora-card-header">
                 <h3>Fund Account</h3>
-                <span style="font-size: 13px;" class="text-gray-600">Secure crypto funding</span>
+                <span style="font-size: 13px; color: var(--secondary)" class="text-gray-600 text-secondary">Secure crypto funding</span>
             </div>
 
-            <form wire:submit.prevent="makeDeposit" class="invora-form-pro">
+            <form wire:submit.prevent="makeDeposit" class="invora-form-pro mt-4">
 
                 <!-- WALLET -->
                 <div class="invora-field">
@@ -89,7 +89,13 @@
 
                     <div class="invora-input-pro">
                         <span class="prefix">$</span>
-                        <input wire:model.live="amount" type="number" placeholder="0.00">
+                        <input 
+                            wire:model.live="amount" 
+                            type="number" 
+                            placeholder="0.00"
+                            pattern="[0-9]*"
+                            inputmode="decimal"
+                        >
                     </div>
 
                     <div class="invora-hint">
