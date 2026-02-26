@@ -1,25 +1,20 @@
 <div class="invora-container" x-data="{deletingId: @entangle('deletingId'), selectedWallet: @entangle('networks')}">
     <div class="invora-deposit-page">
 
-        <!-- HERO BALANCE -->
+        
 
         <div class="invora-balance-card">
 
             <div class="invora-balance-top">
                 <div>
-                    <div class="invora-balance-title">Deposit Balance</div>
+                    <div class="invora-balance-title">Withdrawable Balance</div>
 
                     <div class="invora-balance-amount">
-                        ${{ number_format(auth()->user()->deposit_balance + auth()->user()->deposit_bonus_balance, 2) }}
-                    </div>
-
-                    <!-- PROFIT -->
-                    <div class="invora-balance-profit">
-                        +${{ number_format(auth()->user()->deposit_bonus_balance, 2) }} bonus
+                        ${{ number_format(auth()->user()->main_balance, 2) }}
                     </div>
 
                     <div class="invora-balance-meta">
-                        Funds ready for investment
+                        Funds ready for withdrawal
                     </div>
                 </div>
             </div>

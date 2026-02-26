@@ -1,6 +1,6 @@
 {
   "resources/css/app.css": {
-    "file": "assets/app-BdJuOE7X.css",
+    "file": "assets/app-BIiDPQzN.css",
     "src": "resources/css/app.css",
     "isEntry": true,
     "name": "app",
@@ -9,7 +9,7 @@
     ]
   },
   "resources/css/deposit.css": {
-    "file": "assets/deposit-D-Y1BlDc.css",
+    "file": "assets/deposit-CD4N4Xlo.css",
     "src": "resources/css/deposit.css",
     "isEntry": true,
     "name": "deposit",
