@@ -86,17 +86,11 @@
             <div class="invora-card-item">
 
                 <div style="display:flex; justify-content:space-between;">
-                    <strong>#{{ $txn->reference ?? $txn->id }}</strong>
+                    <strong class="invora-balance-meta">#{{ $txn->reference ?? $txn->id }}</strong>
 
-                    @if($txn->credit > 0)
-                        <span class="invora-credit">
-                            +${{ number_format($txn->credit,2) }}
-                        </span>
-                    @else
-                        <span class="invora-debit">
-                            -${{ number_format($txn->debit,2) }}
-                        </span>
-                    @endif
+                    <span class="invora-credit">
+                        +${{ number_format($txn->amount,2) }}
+                    </span>
                 </div>
 
                 <div class="invora-card-row">
