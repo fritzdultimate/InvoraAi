@@ -33,7 +33,7 @@
 
             <div class="invora-card-header">
                 <h3>Fund Account</h3>
-                <span>Secure crypto funding</span>
+                <span style="font-size: 13px;" class="text-gray-600">Secure crypto funding</span>
             </div>
 
             <form wire:submit.prevent="makeDeposit" class="invora-form-pro">
