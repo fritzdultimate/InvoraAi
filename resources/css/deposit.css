@@ -741,10 +741,11 @@
     outline: none;
 }
 
-input[type="number"]:focus {
+input[type="number"]:focus, input[type="text"]:focus, textarea:focus {
     outline: none !important;
     box-shadow: none !important;
 }
+
 input[type=number]::-webkit-inner-spin-button, 
 input[type=number]::-webkit-outer-spin-button {
     -webkit-appearance: none;
@@ -761,13 +762,14 @@ input[type=number] {
 
 .invora-textarea-pro textarea {
     width: 100%;
-    padding: 14px;
+    padding: 5px 14px;
     border-radius: 14px;
     border: 1px solid var(--border);
     background: #020617;
     color: white;
     resize: none;
-    min-height: 80px;
+    /* min-height: 80px; */
+    outline: none;
 }
 
 .invora-textarea-pro textarea:focus {
@@ -906,4 +908,43 @@ input[type=number] {
 .invora-status-waiting { color: #f59e0b; }
 .invora-status-completed { color: #22c55e; }
 .invora-status-failed { color: #ef4444; }
+
+.invora-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.invora-deposit-page {
+    width: 100%;
+    max-width: 820px;
+
+}
+
+@media (min-width: 1400px) {
+    .invora-deposit-page {
+        max-width: 580px;
+        backdrop-filter: blur(10px);
+
+        background: linear-gradient(
+            145deg,
+            rgba(39,49,66,0.95),
+            rgba(20,25,40,0.95)
+        );
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        box-shadow:
+            0 10px 30px rgba(0,0,0,0.5),
+            inset 0 1px 0 rgba(255,255,255,0.03);
+        overflow: hidden;
+        position: relative;
+
+        padding: 48px;
+    }
+
+    .invora-balance-card,
+    .invora-deposit-card {
+        backdrop-filter: blur(10px);
+    }
+}
 
