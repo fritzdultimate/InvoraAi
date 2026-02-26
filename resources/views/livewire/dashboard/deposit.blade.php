@@ -188,7 +188,7 @@
 
     </div>
 
-    <x-dashboard.deposit-history :deposits="$deposits" />
+    <x-dashboard.transaction-history :deposits="$deposits" />
 
     <!-- Modal Select Currecny Start --> 
     <div 

@@ -16,6 +16,7 @@ class Withdrawal extends Component {
     public $amount;
     public $address;
     public $networks = [];
+    public $perPage = 10;
 
     protected $rules = [
         'amount' => 'required|numeric|min:50',
@@ -85,8 +86,8 @@ class Withdrawal extends Component {
     public function render() {
         $withdrawals = \App\Models\Withdrawal::where('user_id', auth()->id())
             ->latest()
-            ->limit(10)
-            ->get();
+            ->latest()
+            ->paginate($this->perPage);
         return view('livewire.dashboard.withdrawal', [
             'withdrawals' => $withdrawals
         ]);

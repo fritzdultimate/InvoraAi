@@ -6,7 +6,7 @@
     <div class="invora-header" style="width: 100%;">
 
         <div class="invora-header-left">
-            <h6 class="invora-title">Recent Deposits</h6>
+            <h6 class="invora-title">Recent {{ $type === 'withdrawal' ? 'Withdrawals' : 'Deposits' }}</h6>
         </div>
 
         <div class="invora-header-right">
@@ -27,7 +27,7 @@
             <thead>
                 <tr>
                     <th>Txn</th>
-                    <th>Type</th>
+                    <th>Status</th>
                     <th>Amount</th>
                     <th>Date</th>
                 </tr>
@@ -38,28 +38,24 @@
                     <tr class="invora-row">
                         <td>
                             <div style="font-weight:500;" class="invora-balance-meta">#{{ $txn->reference ?? $txn->id }}</div>
-                            <div style="font-size:12px; color:var(--text-secondary);">
-                                Deposit
+                            <div style="font-size:12px; color:var(--text-primary);">
+                                {{ $type === 'withdrawal' ? 'Withdrawal' : 'Deposit' }}
                             </div>
                         </td>
 
                         <td>
-                            <span class="invora-badge 
-                                {{ $txn->status }}">
+                            <span 
+                                class="invora-badges {{ $txn->status }}"
+                                style=""
+                            >
                                 {{ $txn->status }}
                             </span>
                         </td>
 
                         <td>
-                            @if($txn->credit > 0)
-                                <span class="invora-credit">
-                                    +${{ number_format($txn->credit,2) }}
-                                </span>
-                            @else
-                                <span class="invora-debit">
-                                    -${{ number_format($txn->debit,2) }}
-                                </span>
-                            @endif
+                            <span class="{{ $type === 'withdrawal' ? 'invora-debit' : 'invora-credit' }}">
+                                ${{ number_format($txn->amount,2) }}
+                            </span>
                         </td>
 
                         <td>
@@ -88,14 +84,14 @@
                 <div style="display:flex; justify-content:space-between;">
                     <strong class="invora-balance-meta">#{{ $txn->reference ?? $txn->id }}</strong>
 
-                    <span class="invora-credit">
+                    <span class="{{ $type === 'withdrawal' ? 'invora-debit' : 'invora-credit' }}">
                         +${{ number_format($txn->amount,2) }}
                     </span>
                 </div>
 
                 <div class="invora-card-row">
-                    <span style="color:var(--text-secondary);">
-                        Deposit
+                    <span style="color:var(--text-primary);">
+                        {{ $type === 'withdrawal' ? 'Withdrawal' : 'Deposit' }}
                     </span>
 
                     <span class="invora-badge 

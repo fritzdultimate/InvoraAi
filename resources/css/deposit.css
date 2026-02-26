@@ -660,7 +660,7 @@
 
 .invora-balance-meta {
     font-size: 12px;
-    color: var(--text-secondary);
+    color: var(--text-secondary) !important;
 }
 
 .invora-form-pro {
