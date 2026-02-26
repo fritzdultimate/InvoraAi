@@ -802,7 +802,7 @@ input[type=number] {
 /* ERROR */
 .invora-error {
     font-size: 11px;
-    color: #ef4444;
+    color: #ef4444 !important;
 }
 
 @media (max-width: 768px) {

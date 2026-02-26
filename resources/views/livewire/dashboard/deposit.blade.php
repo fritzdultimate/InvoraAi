@@ -117,11 +117,17 @@
                     </div>
                 </div>
 
+                <div class="flex justify-center">
+                    @error('general')
+                        <span class="invora-error">{{ $message }}</span>
+                    @enderror
+                </div>
+
                 <!-- BUTTON -->
                 <button class="invora-btn-pro">
 
                     <span wire:loading.remove wire:target="makeDeposit">
-                        Generate Wallet →
+                        Generate Invoice →
                     </span>
 
                     <span wire:loading wire:target="makeDeposit">
