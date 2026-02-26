@@ -24,6 +24,7 @@ class  Overview extends Component {
     public $referral_balance = 0;
     public $profit_balance = 0;
     public $locked_balance = 0;
+    public $deposit_bonus = 0;
     public $has_active_license = 0;
     public $license_expires_at;
 

@@ -129,7 +129,11 @@
                     <div class="invora-mini-card">
                         <div class="invora-mini-title">Deposit Balance</div>
                         <div class="invora-mini-value">
-                            ${{ number_format($deposit_balance, 2) }}
+                            ${{ number_format($deposit_balance + $deposit_bonus, 2) }}
+                        </div>
+
+                        <div class="invora-balance-profit">
+                            +${{ number_format($deposit_bonus, 2) }} bonus
                         </div>
                     </div>
 
