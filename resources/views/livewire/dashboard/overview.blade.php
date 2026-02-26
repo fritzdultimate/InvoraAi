@@ -142,7 +142,7 @@
 
                     <div class="invora-mini-card">
                         <div class="invora-mini-title">Capital in Trade</div>
-                        <div class="invora-mini-value invora-accent">
+                        <div class="invora-mini-value invora-accent-glow">
                             ${{ number_format($locked_balance, 2) }}
                         </div>
 

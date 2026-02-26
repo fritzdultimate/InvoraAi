@@ -445,6 +445,19 @@
     margin-top: 4px;
 }
 
+.invora-accent {
+    color: #38bdf8;
+}
+
+.invora-accent-strong {
+    color: #60a5fa;
+}
+
+.invora-accent-glow {
+    color: #38bdf8;
+    text-shadow: 0 0 12px rgba(56,189,248,0.4);
+}
+
 /* TOP ROW */
 .invora-invest-top {
     display: flex;
