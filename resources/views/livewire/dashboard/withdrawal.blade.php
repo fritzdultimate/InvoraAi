@@ -26,8 +26,8 @@
         <div class="invora-carda invora-deposit-card">
 
             <div class="invora-card-header">
-                <h3>Fund Account</h3>
-                <span style="font-size: 13px; color: var(--secondary)" class="text-gray-600 text-secondary">Secure crypto funding</span>
+                <h3>Secure Withdrawal</h3>
+                <!-- <span style="font-size: 13px; color: var(--secondary)" class="text-gray-600 text-secondary">Secure crypto funding</span> -->
             </div>
 
             <form wire:submit.prevent="makeWithdrawal" class="invora-form-pro mt-4">
