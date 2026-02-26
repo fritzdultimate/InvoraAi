@@ -132,9 +132,11 @@
                             ${{ number_format($deposit_balance + $deposit_bonus, 2) }}
                         </div>
 
-                        <div class="invora-balance-profit">
-                            +${{ number_format($deposit_bonus, 2) }} bonus
-                        </div>
+                        @if ($deposit_bonus > 0)
+                            <div class="invora-balance-profit">
+                                +${{ number_format($deposit_bonus, 2) }} bonus
+                            </div>
+                        @endif
                     </div>
 
                     <div class="invora-mini-card">

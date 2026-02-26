@@ -5,6 +5,7 @@ namespace App\Livewire\Dashboard;
 use App\Models\BotInvestment;
 use App\Models\BotLicense;
 use App\Models\BotProfitCycle;
+use App\Models\Deposit;
 use App\Models\WalletLedger;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -58,6 +59,9 @@ class  Overview extends Component {
         $this->profit_balance = BotProfitCycle::where('user_id', auth()->id())
             ->where('status', 'credited')
             ->sum('profit_amount');
+
+        $this->deposit_bonus = Deposit::where('user_id', auth()->id())
+            ->sum('bonus');
     }
 
     public function loadChart() {
