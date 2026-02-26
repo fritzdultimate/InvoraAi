@@ -34,7 +34,7 @@
             </thead>
 
             <tbody>
-                @forelse($deposits as $txn)
+                @forelse($transactions as $txn)
                     <tr class="invora-row">
                         <td>
                             <div style="font-weight:500;" class="invora-balance-meta">#{{ $txn->reference ?? $txn->id }}</div>
@@ -68,7 +68,7 @@
                 @empty
                     <tr>
                         <td colspan="4" style="padding:20px; text-align:center;">
-                            No Deposits
+                            No Data yet
                         </td>
                     </tr>
                 @endforelse
@@ -78,7 +78,7 @@
 
     <!-- MOBILE VIEW (NOW SEXY 🔥) -->
     <div class="invora-mobile">
-        @forelse($deposits as $txn)
+        @forelse($transactions as $txn)
             <div class="invora-card-item">
 
                 <div style="display:flex; justify-content:space-between;">
@@ -116,7 +116,7 @@
 
     <!-- PAGINATION -->
     <div style="padding:16px; border-top:1px solid var(--border);">
-        {{ $deposits->links() }}
+        {{ $transactions->links() }}
     </div>
 
 </div>

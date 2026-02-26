@@ -188,7 +188,7 @@
 
     </div>
 
-    <x-dashboard.transaction-history :type="'deposit'" :deposits="$deposits" />
+    <x-dashboard.transaction-history :type="'deposit'" :transactions="$deposits" />
 
     <!-- Modal Select Currecny Start --> 
     <div 
@@ -247,51 +247,51 @@
 
 @push('scripts')
     <script>
-document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', () => {
 
-    const input = document.getElementById('amountInput');
-    if (!input) return;
+            const input = document.getElementById('amountInput');
+            if (!input) return;
 
-    input.addEventListener('input', function () {
+            input.addEventListener('input', function () {
 
-        let cursor = this.selectionStart; // save cursor position
-        let originalLength = this.value.length;
+                let cursor = this.selectionStart; // save cursor position
+                let originalLength = this.value.length;
 
-        console.log(this.value.replace(/,/g, ''));
-        const v = this.value.replace(/,/g, '');
-        // CLEAN INPUT
-        let raw = v.replace(/[^0-9.]/g, '');
+                console.log(this.value.replace(/,/g, ''));
+                const v = this.value.replace(/,/g, '');
+                // CLEAN INPUT
+                let raw = v.replace(/[^0-9.]/g, '');
 
-        // Prevent multiple dots
-        let parts = raw.split('.');
-        if (parts.length > 2) {
-            raw = parts[0] + '.' + parts.slice(1).join('');
-        }
+                // Prevent multiple dots
+                let parts = raw.split('.');
+                if (parts.length > 2) {
+                    raw = parts[0] + '.' + parts.slice(1).join('');
+                }
 
-        let [int, dec] = raw.split('.');
+                let [int, dec] = raw.split('.');
 
-        // FORMAT INTEGER
-        if (int) {
-            int = int.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-        }
+                // FORMAT INTEGER
+                if (int) {
+                    int = int.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                }
 
-        // LIMIT DECIMALS
-        if (dec !== undefined) {
-            dec = dec.substring(0, 2);
-            this.value = int + '.' + dec;
-        } else {
-            this.value = int;
-        }
+                // LIMIT DECIMALS
+                if (dec !== undefined) {
+                    dec = dec.substring(0, 2);
+                    this.value = int + '.' + dec;
+                } else {
+                    this.value = int;
+                }
 
-        // 🔥 FIX CURSOR POSITION
-        let newLength = this.value.length;
-        cursor = cursor + (newLength - originalLength);
-        this.setSelectionRange(cursor, cursor);
+                // 🔥 FIX CURSOR POSITION
+                let newLength = this.value.length;
+                cursor = cursor + (newLength - originalLength);
+                this.setSelectionRange(cursor, cursor);
 
-        // SEND CLEAN VALUE TO LIVEWIRE
-        // @this.set('amount', raw);
-    });
+                // SEND CLEAN VALUE TO LIVEWIRE
+                // @this.set('amount', raw);
+            });
 
-});
-</script>    
+        });
+    </script>    
 @endpush
