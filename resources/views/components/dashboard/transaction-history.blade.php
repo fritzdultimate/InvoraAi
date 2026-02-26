@@ -107,6 +107,10 @@
 
             </div>
         @endforeach
+
+        @if (empty($deposits))
+            <p>No Data yet</p>
+        @endif
     </div>
 
     <!-- PAGINATION -->
