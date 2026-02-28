@@ -44,7 +44,7 @@
                 <div class="invora-form-grid">
                     <div class="invora-input">
                         <label>Full Name</label>
-                        <input type="text" wire:model.defer="name">
+                        <input type="text" wire:model.defer="fullname">
                     </div>
 
                     <div class="invora-input">
@@ -71,20 +71,42 @@
                     <div class="invora-input">
                         <label>Current Password</label>
                         <input type="password" placeholder="Current Password" wire:model.defer="current_password">
+
+                        @error('current_password')
+                            <span class="form-error">{{ $message }}</span>
+                        @enderror
                     </div>
                     <div class="invora-input">
                         <label>New Password</label>
                         <input type="password" placeholder="New Password" wire:model.defer="password">
+
+                        @error('password')
+                            <span class="form-error">{{ $message }}</span>
+                        @enderror
                     </div>
                     <div class="invora-input">
                         <label>Confirm Password</label>
                         <input type="password" placeholder="Confirm Password" wire:model.defer="password_confirmation">
+
+                        @error('password_confirmation')
+                            <span>{{ $message }}</span>
+                        @enderror
                     </div>
                     
                     
                 </div>
 
-                <button class="invora-btn-primary">Update Password</button>
+                <button 
+                    class="invora-btn-primary"
+                    wire:click="updatePassword"
+                    wire:loading.attr="disabled"
+                >
+                    <span wire:loading wire:target="updatePassword">
+                        <span class="spinner"></span>
+                        Please wait...
+                    </span>
+                    <span wire:loading.remove wire:target="updatePassword">Update Password</span>
+                </button>
             </div>
 
         </div>

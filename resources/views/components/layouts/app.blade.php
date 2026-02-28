@@ -79,6 +79,24 @@
                         </div>
                     </div>
                 @endif
+
+                <div 
+                    x-data="{ show: false, message: '' }"
+                    x-on:success.window="
+                        show = true;
+                        message = $event.detail.message;
+                        setTimeout(() => show = false, 3000);
+                    "
+                    x-show="show"
+                    x-cloak
+                    class="invora-toast success"
+                >
+                    <div class="toast-icon">✓</div>
+                    <div class="toast-content">
+                        <div class="toast-title">Success</div>
+                        <div x-text="message" class="toast-message"></div>
+                    </div>
+                </div>
                 {{ $slot }}
             </div>
             
