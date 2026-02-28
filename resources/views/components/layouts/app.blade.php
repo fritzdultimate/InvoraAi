@@ -44,7 +44,8 @@
             'resources/css/app.css', 
             'resources/css/investment.css',
             'resources/css/invora-ui.css',
-            'resources/css/investment-item.css'
+            'resources/css/investment-item.css',
+            'resources/css/profile.css'
         ])
     </head>
 
@@ -57,7 +58,7 @@
                     <h6 class="font-semibold mb-0 dark:text-white">Dashboard</h6>
                     <ul class="flex items-center gap-[6px]">
                         <li class="font-medium">
-                            <a href="index.html"
+                            <a href="{{ route('dashboard') }}"
                                 class="flex items-center gap-2 text-neutral-600 hover:text-primary-600 dark:text-white dark:hover:text-primary-600">
                                 <iconify-icon icon="solar:home-smile-angle-outline" class="icon text-lg"></iconify-icon>
                                 Dashboard

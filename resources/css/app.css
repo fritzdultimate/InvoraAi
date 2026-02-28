@@ -66,6 +66,12 @@ select:focus[data-flux-control] {
     @apply size-4;
 } */
 
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
 .invora-toast {
     position: fixed;
     top: 20px;

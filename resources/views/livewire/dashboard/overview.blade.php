@@ -104,7 +104,7 @@
 
                 <!-- MAIN BALANCE -->
 
-                <div class="invora-balance-card">
+                <div class="invora-balance-card"> 
 
                     <div class="invora-balance-top">
                         <div>

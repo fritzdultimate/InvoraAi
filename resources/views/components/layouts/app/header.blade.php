@@ -96,16 +96,16 @@
                         <ul class="flex flex-col">
                             <li>
                                 <a class="text-black px-0 py-2 hover:text-primary-600 flex items-center gap-4"
-                                    href="view-profile.html">
+                                    href="{{ route('profile') }}">
                                     <iconify-icon icon="solar:user-linear" class="icon text-xl"></iconify-icon> My
                                     Profile</a>
                             </li>
-                            <li>
+                            <!-- <li>
                                 <a class="text-black px-0 py-2 hover:text-primary-600 flex items-center gap-4"
-                                    href="company.html">
+                                    href="#">
                                     <iconify-icon icon="icon-park-outline:setting-two"
                                         class="icon text-xl"></iconify-icon> Setting</a>
-                            </li>
+                            </li> -->
                             <li>
                                 <a class="text-black px-0 py-2 hover:text-danger-600 flex items-center gap-4"
                                     href="javascript:void(0)">

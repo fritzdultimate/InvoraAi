@@ -1,6 +1,6 @@
 {
   "resources/css/app.css": {
-    "file": "assets/app-BIiDPQzN.css",
+    "file": "assets/app-TmFYfaQy.css",
     "src": "resources/css/app.css",
     "isEntry": true,
     "name": "app",
@@ -42,6 +42,15 @@
     "name": "invora-ui",
     "names": [
       "invora-ui.css"
+    ]
+  },
+  "resources/css/profile.css": {
+    "file": "assets/profile-BPIczSVx.css",
+    "src": "resources/css/profile.css",
+    "isEntry": true,
+    "name": "profile",
+    "names": [
+      "profile.css"
     ]
   },
   "resources/js/app.js": {
