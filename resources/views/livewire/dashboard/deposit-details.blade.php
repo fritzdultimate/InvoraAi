@@ -49,6 +49,11 @@
         <!-- GRID -->
         <div class="invora-payment-grid">
 
+            <!-- QR -->
+            <div class="invora-qr-box">
+                <img src="/qr.png">
+            </div>
+            
             <!-- LEFT -->
             <div>
 
@@ -86,11 +91,6 @@
 
                 </div>
 
-            </div>
-
-            <!-- QR -->
-            <div class="invora-qr-box">
-                <img src="/qr.png">
             </div>
 
         </div>
