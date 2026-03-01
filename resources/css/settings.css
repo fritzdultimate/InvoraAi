@@ -265,7 +265,7 @@
 
 .device-logout {
     padding: 4px 12px;
-    border-radius: 10px;
+    border-radius: 50rem;
     font-size: 10px;
 
     background: linear-gradient(135deg, #ef4444, #dc2626);
