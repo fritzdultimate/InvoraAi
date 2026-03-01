@@ -19,19 +19,19 @@
         @endif
 
         @if($tab === 'security')
-            @include('settings.security')
+            @include('components.dashboard.settings.security')
         @endif
 
         @if($tab === 'kyc')
-            @include('settings.kyc')
+            @include('components.dashboard.settings.kyc')
         @endif
 
         @if($tab === 'notifications')
-            @include('settings.notifications')
+            @include('components.dashboard.settings.notifications')
         @endif
 
         @if($tab === 'sessions')
-            @include('settings.sessions')
+            @include('components.dashboard.settings.sessions')
         @endif
 
     </div>
