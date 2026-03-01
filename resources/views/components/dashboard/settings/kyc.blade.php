@@ -13,25 +13,32 @@
 
         <!-- FRONT -->
         <div class="invora-upload-box full">
-            <label>ID Front</label>
+            <div class="upload-content">
+                <i class="ri-upload-cloud-2-line"></i>
+                <div>ID Front</div>
+                <small>Upload clear image</small>
+            </div>
             <input type="file" wire:model="id_front">
         </div>
 
         <!-- BACK -->
         <div class="invora-upload-box full">
-            <label>ID Back</label>
+            <div class="upload-content">
+                <i class="ri-upload-cloud-2-line"></i>
+                <div>ID Back</div>
+                <small>Upload clear image</small>
+            </div>
             <input type="file" wire:model="id_back">
         </div>
 
-        <!-- SELFIE -->
-        <div class="invora-upload-box full">
-            <label>Selfie Verification</label>
-            <input type="file" wire:model="selfie">
-        </div>
 
         <!-- ADDRESS -->
-        <div class="invora-upload-box full ">
-            <label>Proof of Address (Utility Bill / Bank Statement)</label>
+        <div class="invora-upload-box full">
+            <div class="upload-content">
+                <i class="ri-upload-cloud-2-line"></i>
+                <div>Proof of Address (Utility Bill / Bank Statement)</div>
+                <small>Upload clear image</small>
+            </div>
             <input type="file" wire:model="address_proof">
         </div>
 

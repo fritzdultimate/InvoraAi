@@ -9,7 +9,6 @@
 }
 
 
-
 @media (max-width: 768px) {
     .invora-settings-wrapper {
         grid-template-columns: 1fr;
@@ -33,9 +32,27 @@
 }
 
 .invora-upload-box {
-    padding: 14px;
-    border-radius: 10px;
-    border: 1px dashed var(--border-soft);
+    position: relative;
+    padding: 20px;
+    border-radius: 14px;
+
+    border: 1px dashed rgba(255,255,255,0.08);
+
+    background: rgba(255,255,255,0.02);
+
+    transition: all 0.25s ease;
+}
+
+.invora-upload-box:hover {
+    border-color: #3b82f6;
+    background: rgba(59,130,246,0.05);
+}
+
+.invora-upload-box input {
+    opacity: 0;
+    position: absolute;
+    inset: 0;
+    cursor: pointer;
 }
 
 .invora-upload-box.full {
@@ -132,6 +149,13 @@
 }
 
 .invora-settings-sidebar button {
+    padding: 12px;
+    border-radius: 10px;
+    text-align: left;
+    background: rgba(255,255,255,0.03);
+}
+
+.invora-settings-sidebar button {
     padding: 12px 14px;
     border-radius: 10px;
 
@@ -156,4 +180,186 @@
 /* HOVER */
 .invora-settings-sidebar button:hover {
     background: rgba(255,255,255,0.04);
+}
+
+.invora-switch {
+    position: relative;
+    width: 42px;
+    height: 22px;
+}
+
+.invora-switch input {
+    display: none;
+}
+
+.invora-slider {
+    position: absolute;
+    inset: 0;
+    border-radius: 50px;
+
+    background: rgba(255,255,255,0.1);
+    transition: 0.3s;
+}
+
+.invora-slider::before {
+    content: "";
+    position: absolute;
+    width: 18px;
+    height: 18px;
+
+    border-radius: 50%;
+    background: #fff;
+
+    top: 2px;
+    left: 2px;
+
+    transition: 0.3s;
+}
+
+.invora-switch input:checked + .invora-slider {
+    background: #3b82f6;
+}
+
+.invora-switch input:checked + .invora-slider::before {
+    transform: translateX(20px);
+}
+
+.invora-session-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 16px;
+    border-radius: 14px;
+
+    background: linear-gradient(
+        145deg,
+        rgba(255,255,255,0.03),
+        rgba(255,255,255,0.01)
+    );
+
+    border: 1px solid rgba(255,255,255,0.05);
+
+    transition: 0.2s ease;
+}
+
+.invora-session-item:hover {
+    transform: translateY(-2px);
+}
+
+/* DEVICE ICON */
+.invora-session-item .icon {
+    font-size: 20px;
+    color: #3b82f6;
+}
+
+/* CURRENT DEVICE BADGE */
+.current {
+    padding: 4px 10px;
+    border-radius: 50rem;
+
+    background: rgba(34,197,94,0.1);
+    color: #22c55e;
+}
+
+.invora-card {
+    transition: all 0.25s ease;
+}
+
+.invora-card:hover {
+    transform: translateY(-4px) scale(1.01);
+}
+
+.invora-security-header h3 {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.invora-security-header p {
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+.invora-security-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+@media (max-width: 768px) {
+    .invora-security-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.invora-security-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 16px;
+    border-radius: 14px;
+
+    background: linear-gradient(
+        145deg,
+        rgba(255,255,255,0.03),
+        rgba(255,255,255,0.01)
+    );
+
+    border: 1px solid rgba(255,255,255,0.05);
+
+    transition: 0.2s ease;
+}
+
+.invora-security-card:hover {
+    transform: translateY(-2px);
+}
+
+.invora-security-card .left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.invora-security-card i {
+    font-size: 20px;
+    color: #3b82f6;
+}
+
+.invora-security-card .title {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.invora-security-card .sub {
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.invora-danger-zone {
+    padding: 18px;
+    border-radius: 14px;
+
+    background: rgba(239,68,68,0.05);
+    border: 1px solid rgba(239,68,68,0.2);
+}
+
+.danger-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    color: #ef4444;
+    font-weight: 600;
+}
+
+.invora-btn-danger {
+    margin-top: 12px;
+    padding: 12px;
+    border-radius: 10px;
+
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    color: #fff;
+
+    width: 100%;
 }
