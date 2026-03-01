@@ -96,14 +96,14 @@
             <div class="invora-detail-item full">
                 <label>Reference</label>
                 <div class="copy-row">
-                    {{ substr($withdrawal->address, 0, 15) }}...
+                    {{ substr($withdrawal->reference, 0, 15) }}...
                     <button>Copy</button>
                 </div>
             </div>
 
             <div class="invora-detail-item">
                 <label>Date</label>
-                <div>Feb 28, 2026</div>
+                <div>{{ $withdrawal->created_at->format('M d, Y') }}</div>
             </div>
 
         </div>
