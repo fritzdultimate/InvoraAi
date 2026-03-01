@@ -13,14 +13,17 @@ class DepositPage extends Component {
     public $network;
     public $invoice;
     public $showModal = true;
-    public $expiresAt;
+    public $remainingSeconds;
 
     public function mount($deposit) {
         $this->deposit = Deposit::findOrFail($deposit);
         $this->invoice = $this->deposit->meta ?? null;
         $this->network = $this->deposit->currency ?? 'BTC';
 
-        $this->expiresAt = $this->deposit->created_at->addMinutes(30);
+        $expiresAt = $this->deposit->created_at->addMinutes(20);
+
+        $this->remainingSeconds = floor(now()->diffInSeconds($expiresAt, false));
+        // dd($this->remainingSeconds);
     }
 
     public function checkDepositStatus() {

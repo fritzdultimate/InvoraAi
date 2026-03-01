@@ -20,7 +20,6 @@ Route::middleware(['auth'])->prefix('dashboard')->group(function () {
 
     Route::get('/deposit', Deposit::class)->name('deposit');
 
-    Route::get('/deposit/details', DepositDetails::class)->name('deposit.details');
     Route::get('/deposit/{deposit}', DepositPage::class)->name('deposit.page');
 
     Route::get('/withdrawal', Withdrawal::class)->name('withdrawal');

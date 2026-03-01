@@ -1,101 +1,104 @@
-<div class="deposit-container">
-    <div class="deposit-card">
+<div class="invora-container" wire:poll.10s>
 
-        <!-- Header -->
-        <div class="deposit-header">
-            <div class="deposit-img-wrapper">
-                @if($deposit->status === \App\Enums\DepositStatus::FINISHED)
-                    <img src="{{ asset('assets/images/gif/success-img3.gif') }}" class="deposit-img">
-                @else
-                    <img src="{{ asset('assets/images/currency/' . strtolower($network) . '.png') }}" class="deposit-img">
-                @endif
+    <div class="invora-payment-card" 
+         x-data="{
+            time: {{ $remainingSeconds }},
+            copied: false,
+            expired: false
+         }"
+         x-init="
+            let interval = setInterval(() => {
+                if(time > 0){
+                    time--;
+                } else {
+                    expired = true;
+                    clearInterval(interval);
+                }
+            }, 1000)
+         ">
+
+        <!-- HEADER -->
+        <div class="invora-payment-header">
+            <div>
+                <h3>Complete Your Deposit</h3>
+                <p x-show="!expired" x-cloak>Send the exact amount below</p>
+                <p x-show="expired" class="text-red-400" x-cloak>Payment expired</p>
             </div>
-            <h4 class="deposit-title">
-                @if($deposit->status === \App\Enums\DepositStatus::FINISHED)
-                    Payment Completed!
-                @else
-                    Awaiting Payment
-                @endif
-            </h4>
-            @if($deposit->status !== \App\Enums\DepositStatus::FINISHED)
-                <p class="deposit-subtitle">Send the exact amount to the address below</p>
-            @endif
+
+            <div class="invora-status"
+                 :class="expired ? 'failed' : 'pending'">
+                <span class="capitalize" x-text="expired ? 'Expired' : '{{ $deposit->status }}'"></span>
+            </div>
         </div>
 
-        <!-- Wallet Address -->
+        <!-- COUNTDOWN -->
+        <div class="invora-countdown" 
+             :class="time < 60 ? 'danger' : ''"
+             x-show="!expired">
 
-        <div class="deposit-address">
-            @if($deposit->status === \App\Enums\DepositStatus::FINISHED)
-                <p class="deposit-label">Thank You!</p>
-                <p class="text-green-400 text-sm mt-1" style="color: #16a34a">
-                    Your deposit has been confirmed.
-                </p>
-            @else
-                <p class="deposit-label">Wallet Address</p>
-                <div class="deposit-address-row">
-                    <code class="deposit-code">{{ $invoice['pay_address'] ?? '---' }}</code>
-                    <button onclick="navigator.clipboard.writeText('{{ $invoice['pay_address'] ?? '---' }}')" class="deposit-btn">
-                        <i class="ri-clipboard-fill"></i>
-                    </button>
+            ⏳ 
+            <span x-text="Math.floor(time/60) + ':' + ('0'+time%60).slice(-2)"></span>
+        </div>
+
+        <!-- AMOUNT (BIG EMPHASIS 🔥) -->
+        <div class="invora-amount-box">
+            <div class="label">Amount to Send</div>
+            <div class="amount">${{ number_format($deposit->amount, 2) }}</div>
+        </div>
+
+        <!-- GRID -->
+        <div class="invora-payment-grid">
+
+            <!-- QR -->
+            <div class="invora-qr-box">
+                <img src="/qr.png">
+            </div>
+            
+            <!-- LEFT -->
+            <div>
+
+                <div class="invora-field">
+                    <label>Currency</label>
+                    <div class="value uppercase">{{ $deposit->currency }}</div>
                 </div>
-            @endif
-        </div>
 
+                <!-- ADDRESS FOCUS ZONE 🔥 -->
+                <div class="invora-address-box"
+                     @click="
+                        navigator.clipboard.writeText('{{ $deposit->address }}');
+                        copied = true;
+                        setTimeout(() => copied = false, 2000);
+                     ">
 
-        <!-- Amount & Network -->
-        <div class="deposit-details">
-            <div class="deposit-detail">
-                <p>Amount</p>
-                <strong>{{ $invoice['pay_amount'] ?? 0 }} {{ strtoupper($network) }}</strong>
+                    <div class="label">Wallet Address</div>
+
+                    <div class="address-text">
+                        {{ $deposit->address }}
+                    </div>
+
+                    <div class="copy-feedback" x-show="copied" x-cloak>
+                        Copied ✅
+                    </div>
+
+                </div>
+
+                <!-- ACTION BUTTONS -->
+                <div class="invora-actions">
+
+                    <button class="invora-btn-primary">
+                        I’ve Sent Payment
+                    </button>
+
+                </div>
+
             </div>
-            <div class="deposit-detail">
-                <p>Network</p>
-                <strong>{{ strtoupper($network) }}</strong>
-            </div>
+
         </div>
 
-        <!-- Countdown -->
-        <div class="deposit-countdown">
-            <p>Expires in</p>
-            <p id="deposit-time">{{ $expiresAt }}</p>
-        </div>
-
-        <!-- Actions -->
-        <div class="deposit-actions">
-            <button wire:click="checkDepositStatus" class="deposit-pay-btn">I’ve Paid</button>
+        <!-- FOOTER -->
+        <div class="invora-payment-footer">
+            ⚠️ Send only BTC. Wrong network = loss of funds.
         </div>
 
     </div>
 </div>
-
-
-
-
-@push('scripts')
-    <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const depositTimeEl = document.getElementById('deposit-time');
-    const expiresAt = new Date("{{ $expiresAt }}").getTime();
-
-    function updateCountdown() {
-        const now = new Date().getTime();
-        const distance = expiresAt - now;
-
-        if (distance <= 0) {
-            depositTimeEl.textContent = "Expired";
-            return;
-        }
-
-        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-        depositTimeEl.textContent = `${String(minutes).padStart(2,'0')}:${String(seconds).padStart(2,'0')}`;
-    }
-
-    updateCountdown();
-    setInterval(updateCountdown, 1000);
-});
-</script>
-
-
-@endpush

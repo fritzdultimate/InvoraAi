@@ -28,6 +28,7 @@ class Deposit extends Model {
     protected $casts = [
         'meta' => 'array',
         'status' => DepositStatus::class,
+        'created_at' => 'datetime'
     ];
 
     public function markFinished(): self {
