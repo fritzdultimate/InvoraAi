@@ -53,13 +53,14 @@ class Settings extends Component {
     }
 
     private function parseDevice($agent) {
+        if (str_contains($agent, 'Android')) return 'Android';
+        if (str_contains($agent, 'iPhone')) return 'iPhone';
+        if (str_contains($agent, 'iPad')) return 'iPad';
+        
         if (str_contains($agent, 'Windows')) return 'Windows PC';
         if (str_contains($agent, 'Mac')) return 'Mac';
         if (str_contains($agent, 'Linux')) return 'Linux';
 
-        if (str_contains($agent, 'Android')) return 'Android';
-        if (str_contains($agent, 'iPhone')) return 'iPhone';
-        if (str_contains($agent, 'iPad')) return 'iPad';
 
         return 'Unknown Device';
     }
