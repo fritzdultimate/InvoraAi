@@ -101,7 +101,6 @@ class Settings extends Component {
     }
 
     public function logoutSession($id) {
-        return;
         DB::table('sessions')->where('id', $id)->delete();
 
         $this->loadSessions();
