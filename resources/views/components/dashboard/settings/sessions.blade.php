@@ -24,8 +24,12 @@
 
                 <div>
                     @if(!$session['current'])
-                        <button class="device-logout text-sm" wire:click="logoutSession('{{ $session['id'] }}')">
-                            Logout
+                        <button 
+                        class="device-logout text-sm" 
+                        wire:click="logoutSession('{{ $session['id'] }}')"
+                    >
+                            <span wire:loading.remove wire:target="logoutSession">Logout</span>
+                            <span wire:loading wire:target="logoutSession" class="spinner"></span>
                         </button>
                     @else
                         <span class="current">This Device</span>
