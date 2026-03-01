@@ -1,76 +1,121 @@
-<div class="deposit-container">
-    <div class="deposit-card">
+<div class="invora-container">
 
-        <!-- Header -->
-        <div class="deposit-header">
-            <div class="deposit-img-wrapper">
-                @if($withdrawal->status === \App\Enums\WithdrawalStatus::COMPLETED)
-                    <img src="{{ asset('assets/images/gif/success-img3.gif') }}" class="deposit-img">
-                @else
-                    <img src="{{ asset('assets/images/currency/' . strtolower($withdrawal->currency->code) . '.png') }}" class="deposit-img">
-                @endif
+    @php
+        $status = $withdrawal->status;
+
+        $map = [
+            'pending' => [
+                'class' => 'pending',
+                'icon' => 'ri-time-line',
+                'title' => 'Pending Withdrawal',
+                'sub' => 'Your request is awaiting approval'
+            ],
+            'review' => [
+                'class' => 'review',
+                'icon' => 'ri-search-eye-line',
+                'title' => 'Under Review',
+                'sub' => 'We are verifying your withdrawal'
+            ],
+            'processing' => [
+                'class' => 'processing',
+                'icon' => 'ri-loader-4-line',
+                'title' => 'Processing',
+                'sub' => 'Your transaction is being processed'
+            ],
+            'completed' => [
+                'class' => 'success',
+                'icon' => 'ri-check-line',
+                'title' => 'Withdrawal Successful',
+                'sub' => 'Your funds have been sent successfully'
+            ],
+            'failed' => [
+                'class' => 'failed',
+                'icon' => 'ri-close-line',
+                'title' => 'Transaction Failed',
+                'sub' => 'Something went wrong. Try again'
+            ],
+            'cancelled' => [
+                'class' => 'cancelled',
+                'icon' => 'ri-close-circle-line',
+                'title' => 'Cancelled',
+                'sub' => 'This withdrawal was cancelled'
+            ],
+        ];
+
+        $ui = $map[$status->value] ?? $map['pending'];
+    @endphp
+
+    <div class="invora-payment-card invora-withdrawal-card">
+
+        <!--  STATUS HERO -->
+        <div class="invora-withdrawal-hero {{ $ui['class'] }}">
+            <div class="icon {{ $withdrawal->status }}">
+                <i class="{{ $ui['icon'] }}"></i>
             </div>
-            <h4 class="deposit-title">
-                Payment Details
-            </h4>
-            @if($withdrawal->status !== \App\Enums\WithdrawalStatus::COMPLETED)
-                <p class="deposit-subtitle">See below the progress of your withdrawal.</p>
-            @endif
+
+            <div>
+                <div class="title">{{ $ui['title'] }}</div>
+                <div class="sub">{{ $ui['sub'] }}</div>
+            </div>
         </div>
 
-        <!-- Wallet Address -->
+        <!--  AMOUNT -->
+        <div class="invora-amount-box">
+            <div class="label">Amount Sent</div>
+            <div class="amount">${{ number_format($withdrawal->amount, 2) }}</div>
+        </div>
 
-        <div class="deposit-address">
-            @if($withdrawal->status === \App\Enums\WithdrawalStatus::COMPLETED)
-                <p class="deposit-label">Thank You!</p>
-                <p class="text-green-400 text-sm mt-1" style="color: #16a34a">
-                    Your withdrawal has been confirmed.
-                </p>
-            @else
-                <p class="deposit-label">Wallet Address</p>
-                <div class="deposit-address-row">
-                    <code class="deposit-code">{{ $withdrawal->address ?? '---' }}</code>
-                    <button onclick="navigator.clipboard.writeText('{{ $withdrawal->address ?? '---' }}')" class="deposit-btn">
-                        <i class="ri-clipboard-fill"></i>
+        <!-- DETAILS -->
+        <div class="invora-details-grid">
+
+            <div class="invora-detail-item">
+                <label>Network</label>
+                <div>
+                    <span class="capitalize">{{ $withdrawal->currency->name }}</span>
+                     @if($withdrawal->network) 
+                        <span class="uppercase">({{ $withdrawal->name }})</span> 
+                    @endif
+                </div>
+            </div>
+
+            <div class="invora-detail-item">
+                <label>Status</label>
+                <div class="{{ $withdrawal->status }}">{{ $withdrawal->status }}</div>
+            </div>
+
+            <div class="invora-detail-item full">
+                <label>Wallet Address</label>
+                <div class="copy-row">
+                    {{ substr($withdrawal->address, 0, 15) }}...{{ substr($withdrawal->address, -15) }}
+                    <button onclick="navigator.clipboard.writeText('{{ $withdrawal->address }}')">
+                        Copy
                     </button>
                 </div>
-            @endif
-        </div>
-
-
-        <!-- Amount & Network -->
-        <div class="deposit-details">
-            <div class="deposit-detail">
-                <p>Amount</p>
-                <strong>{{ number_format($withdrawal->amount, 2) ?? 0 }} {{ strtoupper('usd') }}</strong>
             </div>
-            <div class="deposit-detail">
-                <p>Currency{{ $network && '/Network' }}</p>
-                <strong>
-                    {{ ucfirst($withdrawal->currency->name) }}{{$network && '/' . ucfirst($network) }}
-                </strong>
+
+            <div class="invora-detail-item full">
+                <label>Reference</label>
+                <div class="copy-row">
+                    {{ substr($withdrawal->address, 0, 15) }}...
+                    <button>Copy</button>
+                </div>
             </div>
+
+            <div class="invora-detail-item">
+                <label>Date</label>
+                <div>Feb 28, 2026</div>
+            </div>
+
         </div>
 
-        <!-- Countdown -->
-        <div class="deposit-countdown">
-            <p class="status {{ $withdrawal->status->value }}">{{ ucfirst($withdrawal->status->value) }}</p>
-        </div>
+        <!-- ACTIONS -->
+        <div class="invora-actions">
 
-        <!-- Actions -->
-        <div class="deposit-actions">
-            <button wire:click="checkWithdrawalStatus" class="deposit-pay-btn">I’ve Received</button>
+            <a href="{{ route('dashboard') }}" class="invora-btn-secondary">
+                Back to Dashboard
+            </a>
+
         </div>
 
     </div>
 </div>
-
-
-
-
-@push('scripts')
-    <script>
-</script>
-
-
-@endpush
