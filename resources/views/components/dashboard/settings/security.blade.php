@@ -1,6 +1,6 @@
 <div class="invora-security-wrapper">
 
-    <!-- 🔐 HEADER -->
+    <!--  HEADER -->
     <div class="invora-security-header">
         <div>
             <h3>Security Center</h3>
@@ -8,7 +8,7 @@
         </div>
     </div>
 
-    <!-- 🔒 SECURITY CARDS -->
+    <!--  SECURITY CARDS -->
     <div class="invora-security-grid mt-4">
 
         <!-- 2FA -->
@@ -51,7 +51,7 @@
 
     </div>
 
-    <!-- ⚠️ DANGER ZONE -->
+    <!--  DANGER ZONE -->
     <div class="invora-danger-zone mt-4">
 
         <div class="danger-header">

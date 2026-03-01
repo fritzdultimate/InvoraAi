@@ -11,7 +11,7 @@
             <div class="invora-session-item">
 
                 <div class="flex items-center gap-3">
-                    <i class="ri-computer-line icon"></i>
+                    <i class="{{ $session['is_mobile'] ? 'ri-smartphone-line' : 'ri-computer-line' }} icon"></i>
 
                     <div>
                         <div class="title">
@@ -19,7 +19,6 @@
                              {{ $session['device'] }}
                         </div>
                         <div class="sub">{{ $session['ip'] }} • {{ $session['last_active'] }}</div>
-                        <!-- <div class="sub">192.168.1.1 • 2 mins ago</div> -->
                     </div>
                 </div>
 

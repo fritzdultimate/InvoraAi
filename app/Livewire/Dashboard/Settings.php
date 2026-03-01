@@ -2,6 +2,8 @@
 
 namespace App\Livewire\Dashboard;
 
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Livewire\Component;
 
 class Settings extends Component {
@@ -10,23 +12,17 @@ class Settings extends Component {
     public $id_back;
     public $selfie;
     public $address_proof;
-    public $tab = 'profile';
+    public $tab = 'security';
     public $sessions = [];
     public $email_notifications = true;
     public $deposit_alerts = true;
     public $withdrawal_alerts = true;
     public $security_alerts = true;
+    public $confirm_password;
 
     public function mount() {
-        $this->sessions = collect(session()->all())->map(function ($session, $key) {
-            return [
-                'id' => $key,
-                'device' => request()->userAgent(),
-                'ip' => request()->ip(),
-                'last_active' => now()->diffForHumans(),
-                'current' => true
-            ];
-        })->toArray();
+        $this->loadSessions();
+
 
         $user = auth()->user();
 
@@ -34,6 +30,44 @@ class Settings extends Component {
         $this->deposit_alerts = $user->deposit_alerts;
         $this->withdrawal_alerts = $user->withdrawal_alerts;
         $this->security_alerts = $user->security_alerts;
+    }
+
+    public function loadSessions() {
+        $this->sessions = DB::table('sessions')
+            ->where('user_id', auth()->id())
+            ->orderBy('last_activity', 'desc')
+            ->get()
+            ->map(function ($session) {
+
+                $agent = $session->user_agent;
+
+                return [
+                    'id' => $session->id,
+                    'ip' => $session->ip_address,
+                    'device' => $this->parseDevice($agent),
+                    'is_mobile' => $this->isMobile($agent),
+                    'last_active' => \Carbon\Carbon::createFromTimestamp($session->last_activity)->diffForHumans(),
+                    'current' => $session->id === session()->getId(),
+                ];
+            });
+    }
+
+    private function parseDevice($agent) {
+        if (str_contains($agent, 'Windows')) return 'Windows PC';
+        if (str_contains($agent, 'Mac')) return 'Mac';
+        if (str_contains($agent, 'Linux')) return 'Linux';
+
+        if (str_contains($agent, 'Android')) return 'Android';
+        if (str_contains($agent, 'iPhone')) return 'iPhone';
+        if (str_contains($agent, 'iPad')) return 'iPad';
+
+        return 'Unknown Device';
+    }
+
+    private function isMobile($agent) {
+        return str_contains($agent, 'Android') ||
+            str_contains($agent, 'iPhone') ||
+            str_contains($agent, 'iPad');
     }
 
     public function saveNotifications() {
@@ -48,9 +82,29 @@ class Settings extends Component {
     }
 
     public function logoutOthers() {
-        auth()->logoutOtherDevices($this->password);
+
+        // if (!Hash::check($this->confirm_password, auth()->user()->password)) {
+        //     $this->addError('confirm_password', 'Password incorrect');
+        //     return;
+        // }
+
+
+        DB::table('sessions')
+            ->where('user_id', auth()->id())
+            ->where('id', '!=', session()->getId())
+            ->delete();
+
+        $this->loadSessions();
 
         $this->dispatch('success', message: 'Logged out other devices');
+    }
+
+    public function logoutSession($id) {
+        DB::table('sessions')->where('id', $id)->delete();
+
+        $this->loadSessions();
+
+        $this->dispatch('success', message: 'Device logged out');
     }
     public function render()
     {

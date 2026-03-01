@@ -84,8 +84,8 @@
                     <div
                         class="py-3 px-4 rounded-lg bg-primary-50 dark:bg-primary-600/25 mb-4 flex items-center justify-between gap-2">
                         <div>
-                            <h6 class="text-lg text-neutral-900 font-semibold mb-0">Chukwuemeka Richard</h6>
-                            <span class="text-neutral-500">Admin</span>
+                            <h6 class="text-lg text-neutral-900 font-semibold mb-0 capitalize">{{ auth()->user()->firstname }} {{ auth()->user()->lastname }}</h6>
+                            <!-- <span class="text-neutral-500">Admin</span> -->
                         </div>
                         <button type="button" class="hover:text-danger-600">
                             <iconify-icon icon="radix-icons:cross-1" class="icon text-xl"></iconify-icon>
@@ -100,12 +100,12 @@
                                     <iconify-icon icon="solar:user-linear" class="icon text-xl"></iconify-icon> My
                                     Profile</a>
                             </li>
-                            <!-- <li>
+                            <li>
                                 <a class="text-black px-0 py-2 hover:text-primary-600 flex items-center gap-4"
-                                    href="#">
+                                    href="{{ route('settings') }}">
                                     <iconify-icon icon="icon-park-outline:setting-two"
                                         class="icon text-xl"></iconify-icon> Setting</a>
-                            </li> -->
+                            </li>
                             <li>
                                 <a class="text-black px-0 py-2 hover:text-danger-600 flex items-center gap-4"
                                     href="javascript:void(0)">
