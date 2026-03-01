@@ -115,6 +115,7 @@
 }
 
 .current {
+    text-align: center;
     font-size: 10px;
     color: #22c55e;
 }
