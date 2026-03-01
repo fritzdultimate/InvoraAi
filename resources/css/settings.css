@@ -263,6 +263,14 @@
     color: #22c55e;
 }
 
+.device-logout {
+    padding: 4px 12px;
+    border-radius: 10px;
+
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    color: #fff;
+}
+
 .invora-card {
     transition: all 0.25s ease;
 }

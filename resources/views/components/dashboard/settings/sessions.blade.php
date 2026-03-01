@@ -24,7 +24,7 @@
 
                 <div>
                     @if(!$session['current'])
-                        <button class="invora-btn-danger text-sm" wire:click="logoutSession('{{ $session['id'] }}')">
+                        <button class="device-logout text-sm" wire:click="logoutSession('{{ $session['id'] }}')">
                             Logout
                         </button>
                     @else
