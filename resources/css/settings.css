@@ -8,6 +8,8 @@
     min-width: 0;
 }
 
+
+
 @media (max-width: 768px) {
     .invora-settings-wrapper {
         grid-template-columns: 1fr;
