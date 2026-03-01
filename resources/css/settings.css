@@ -1,0 +1,29 @@
+.invora-settings-wrapper {
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    gap: 20px;
+}
+
+.invora-settings-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.invora-settings-sidebar button {
+    padding: 12px;
+    border-radius: 10px;
+    text-align: left;
+    background: rgba(255,255,255,0.03);
+}
+
+.invora-settings-sidebar button.active {
+    background: rgba(59,130,246,0.2);
+    color: #3b82f6;
+}
+
+@media (max-width: 768px) {
+    .invora-settings-wrapper {
+        grid-template-columns: 1fr;
+    }
+}

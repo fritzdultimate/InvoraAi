@@ -14,7 +14,8 @@ export default defineConfig({
                 'resources/css/investment.css',
                 'resources/css/invora-ui.css',
                 'resources/css/investment-item.css',
-                'resources/css/profile.css'
+                'resources/css/profile.css',
+                'resources/css/settings.css'
             ],
             refresh: true,
         }),

@@ -1,6 +1,6 @@
 {
   "resources/css/app.css": {
-    "file": "assets/app-DSUVkSRI.css",
+    "file": "assets/app-CNIOvEGI.css",
     "src": "resources/css/app.css",
     "isEntry": true,
     "name": "app",
@@ -51,6 +51,15 @@
     "name": "profile",
     "names": [
       "profile.css"
+    ]
+  },
+  "resources/css/settings.css": {
+    "file": "assets/settings-ClUfs0T3.css",
+    "src": "resources/css/settings.css",
+    "isEntry": true,
+    "name": "settings",
+    "names": [
+      "settings.css"
     ]
   },
   "resources/js/app.js": {
