@@ -73,7 +73,7 @@
                 <div>
                     <span class="capitalize">{{ $withdrawal->currency->name }}</span>
                      @if($withdrawal->network) 
-                        <span class="uppercase">({{ $withdrawal->name }})</span> 
+                        <span class="uppercase">({{ $withdrawal->network->name }})</span> 
                     @endif
                 </div>
             </div>
