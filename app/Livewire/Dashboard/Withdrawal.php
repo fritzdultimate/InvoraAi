@@ -50,17 +50,17 @@ class Withdrawal extends Component {
         $this->amount = str_replace(',', '', $this->amount);
         $this->validate();
 
-        if ($this->amount > auth()->user()->balance) {
+        if ($this->amount > auth()->user()->main_balance) {
             $this->addError('amount', 'Insufficient balance to cover withdrawal.');
             return;
         }
 
-        try {
-            WithdrawalRules::canCreate(auth()->user(), $this->amount);
-        } catch (\DomainException $e) {
-            $this->addError('amount', $e->getMessage());
-            return;
-        }
+        // try {
+        //     WithdrawalRules::canCreate(auth()->user(), $this->amount);
+        // } catch (\DomainException $e) {
+        //     $this->addError('amount', $e->getMessage());
+        //     return;
+        // }
 
         $withdrawal = DB::transaction(function () {
             $q = \App\Models\Withdrawal::create([
