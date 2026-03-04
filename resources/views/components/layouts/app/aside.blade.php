@@ -1,3 +1,22 @@
+<style>
+	.sidebar {
+		/* position: fixed; */
+		/* top: 0; */
+		/* left: 0; */
+		height: 100vh;
+		width: 260px;
+
+		display: flex;
+		flex-direction: column;
+
+		overflow: hidden;
+	}
+
+	.sidebar-menu-area {
+		flex: 1;
+		overflow-y: auto;
+	}
+</style>
 <aside class="sidebar">
 	<button type="button" class="sidebar-close-btn !mt-4">
 		<iconify-icon icon="radix-icons:cross-2"></iconify-icon>
@@ -12,20 +31,6 @@
 	</div>
 	<div class="sidebar-menu-area">
 		<ul class="sidebar-menu" id="sidebar-menu">
-			<!-- <li class="dropdown">
-				<a href="javascript:void(0)">
-					<iconify-icon icon="solar:home-smile-angle-outline" class="menu-icon"></iconify-icon>
-					<span>Dashboard</span>
-				</a>
-				<ul class="sidebar-submenu">
-					<li>
-						<a href="{{ route('dashboard') }}">
-							<i class="ri-circle-fill circle-icon text-success-600 w-auto"></i> 
-							Overview
-						</a>
-					</li>
-				</ul>
-			</li> -->
 			<li>
 				<a href="{{ route('dashboard') }}">
 					<iconify-icon icon="solar:widget-5-bold" class="menu-icon"></iconify-icon>
