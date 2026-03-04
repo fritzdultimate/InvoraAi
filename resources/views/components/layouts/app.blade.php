@@ -49,6 +49,7 @@
             'resources/css/settings.css',
             'resources/css/referral-overview.css',
             'resources/css/referral-bonus.css',
+            'resources/css/referral-direct.css',
         ])
     </head>
 

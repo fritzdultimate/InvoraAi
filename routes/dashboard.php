@@ -8,6 +8,7 @@ use App\Livewire\Dashboard\Investment;
 use App\Livewire\Dashboard\InvestmentItem;
 use App\Livewire\Dashboard\Overview;
 use App\Livewire\Dashboard\Profile;
+use App\Livewire\Dashboard\Referral\DirectReferrals;
 use App\Livewire\Dashboard\Settings;
 use App\Livewire\Dashboard\Withdrawal;
 use App\Livewire\Dashboard\WithdrawalDetails;
@@ -40,6 +41,7 @@ Route::middleware(['auth'])->prefix('dashboard')->group(function () {
     
     Route::get('/dashboard/referrals', \App\Livewire\Dashboard\Referral\Overview::class)->name('dashboard.referrals');
     Route::get('/dashboard/bonuses', \App\Livewire\Dashboard\Referral\Bonuses::class)->name('dashboard.bonuses');
+    Route::get('/dashboard/referrals/direct', DirectReferrals::class)->name('dashboard.referrals.direct');
 
 
 });

@@ -79,6 +79,13 @@
 				</a>
 			</li>
 
+			<li>
+				<a href="{{ route('dashboard.referrals.direct') }}">
+					<iconify-icon icon="mdi:badge-account-outline" class="menu-icon"></iconify-icon>
+					<span>Direct Referrals</span>
+				</a>
+			</li>
+
 			<li class="sidebar-menu-group-title">Account</li>
 			<li>
 				<a href="{{ route('profile') }}">

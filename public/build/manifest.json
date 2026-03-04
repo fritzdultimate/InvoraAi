@@ -62,6 +62,15 @@
       "referral-bonus.css"
     ]
   },
+  "resources/css/referral-direct.css": {
+    "file": "assets/referral-direct-sb5YA7tc.css",
+    "src": "resources/css/referral-direct.css",
+    "isEntry": true,
+    "name": "referral-direct",
+    "names": [
+      "referral-direct.css"
+    ]
+  },
   "resources/css/referral-overview.css": {
     "file": "assets/referral-overview-0VXsFkYw.css",
     "src": "resources/css/referral-overview.css",
