@@ -72,6 +72,13 @@
 				</a>
 			</li>
 
+			<li>
+				<a href="{{ route('dashboard.bonuses') }}">
+					<iconify-icon icon="mdi:badge-account-outline" class="menu-icon"></iconify-icon>
+					<span>Bonus</span>
+				</a>
+			</li>
+
 			<li class="sidebar-menu-group-title">Account</li>
 			<li>
 				<a href="{{ route('profile') }}">

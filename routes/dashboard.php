@@ -39,6 +39,7 @@ Route::middleware(['auth'])->prefix('dashboard')->group(function () {
 
     
     Route::get('/dashboard/referrals', \App\Livewire\Dashboard\Referral\Overview::class)->name('dashboard.referrals');
+    Route::get('/dashboard/bonuses', \App\Livewire\Dashboard\Referral\Bonuses::class)->name('dashboard.bonuses');
 
 
 });

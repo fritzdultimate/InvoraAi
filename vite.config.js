@@ -16,7 +16,8 @@ export default defineConfig({
                 'resources/css/investment-item.css',
                 'resources/css/profile.css',
                 'resources/css/settings.css',
-                'resources/css/referral-overview.css'
+                'resources/css/referral-overview.css',
+                'resources/css/referral-bonus.css',
             ],
             refresh: true,
         }),
