@@ -985,7 +985,8 @@ input[type=number] {
     .invora-action-btn.deposit{
         /* background:linear-gradient(135deg,#22c55e,#4ade80); */
         /* background: rgb(0, 109, 36); */
-        background:linear-gradient(135deg,#059669,#10b981);
+        /* background:linear-gradient(135deg,#059669,#10b981); */
+        background: #00724e;
         color:#fff;
     }
 
@@ -997,7 +998,8 @@ input[type=number] {
 
     /* WITHDRAW BUTTON */
     .invora-action-btn.withdraw{
-        background:linear-gradient(135deg,#3b82f6,#2563eb);
+        /* background:linear-gradient(135deg,#3b82f6,#2563eb); */
+        background: #0ac24e;
         color:#fff;
     }
 

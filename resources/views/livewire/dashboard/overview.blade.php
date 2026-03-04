@@ -60,7 +60,7 @@
                         </a>
 
                         <a href="{{ route('withdrawal') }}" class="invora-action-btn withdraw">
-                            <iconify-icon icon="ph:coins-bold"></iconify-icon>
+                            <iconify-icon icon="mdi:minus"></iconify-icon>
                             <span>Withdraw</span>
                         </a>
 
