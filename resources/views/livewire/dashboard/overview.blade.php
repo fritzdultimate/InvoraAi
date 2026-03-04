@@ -4,7 +4,7 @@
         <div class="invora-grid col-span-12 2xl:col-span-6">
 
             <!-- LICENSE SIDE -->
-            <div class="invora-license hidden">
+            <div class="invora-license">
 
                 @if($has_active_license)
                     <h6>Bot Active ✅</h6>
@@ -59,7 +59,7 @@
                             <span>Fund Account</span>
                         </a>
 
-                        <a href="{{ route('withdrawal') }}" class="invora-action-btn withdraw">
+                        <a href="{{ route('withdrawal') }}" class="invora-action-btn invora-license-btn withdrawd">
                             <iconify-icon icon="ph:coins-bold"></iconify-icon>
                             <span>Withdraw</span>
                         </a>
