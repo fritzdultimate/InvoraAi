@@ -28,6 +28,7 @@ use App\Livewire\Settings\Profile;
 use App\Livewire\Settings\TwoFactor;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Features;
+use App\Http\Controllers\AuthController;
 
 require __DIR__.'/dashboard.php';
 require __DIR__.'/cronjob.php'; 
@@ -78,3 +79,6 @@ Route::middleware(['auth'])->group(function () {
         )
         ->name('two-factor.show');
 });
+
+
+Route::post('logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');

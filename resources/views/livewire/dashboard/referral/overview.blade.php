@@ -25,14 +25,14 @@
         <div class="invora-stat-card">
             <div class="stat-label">Direct Referrals</div>
             <div class="stat-value">
-                {{ $referral->total_direct_referrals ?? 0 }}
+                {{ $totalDirectReferral ?? 0 }}
             </div>
         </div>
 
         <div class="invora-stat-card">
             <div class="stat-label">Total Downlines</div>
             <div class="stat-value">
-                {{ $referral->total_downlines ?? 0 }}
+                {{ $totalDownlines ?? 0 }}
             </div>
         </div>
 

@@ -2,11 +2,13 @@
 
 namespace App\Livewire\Dashboard\Referral;
 
+use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\ReferralBonus;
 use Illuminate\Support\Facades\DB;
 
+#[Layout('components.layouts.app', params: ['title' => 'Referral Bonus'])]
 class Bonuses extends Component
 {
     use WithPagination;

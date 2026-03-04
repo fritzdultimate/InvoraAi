@@ -116,7 +116,7 @@
 			</li>
 
 			<li>
-				<a href="#">
+				<a href="{{ route('support.index') }}">
 					<iconify-icon icon="mdi:ticket-confirmation-outline" class="menu-icon"></iconify-icon>
 					<span>Tickets</span>
 				</a>

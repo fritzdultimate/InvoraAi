@@ -10,6 +10,9 @@ use App\Livewire\Dashboard\Overview;
 use App\Livewire\Dashboard\Profile;
 use App\Livewire\Dashboard\Referral\DirectReferrals;
 use App\Livewire\Dashboard\Settings;
+use App\Livewire\Dashboard\Support\CreateTicket;
+use App\Livewire\Dashboard\Support\Tickets;
+use App\Livewire\Dashboard\Support\ViewTicket;
 use App\Livewire\Dashboard\Withdrawal;
 use App\Livewire\Dashboard\WithdrawalDetails;
 use App\Livewire\Dashboard\WithdrawalPage;
@@ -44,6 +47,13 @@ Route::middleware(['auth'])->prefix('dashboard')->group(function () {
     Route::get('/dashboard/referrals/direct', DirectReferrals::class)->name('dashboard.referrals.direct');
     Route::get('/dashboard/referrals/network', \App\Livewire\Dashboard\Referral\MyNetwork::class)->name('dashboard.referrals.network');
     Route::get('/dashboard/referrals/tree', \App\Livewire\Dashboard\Referral\TreeView::class)->name('dashboard.referrals.tree');
+
+
+    Route::prefix('support')->group(function () {
+        Route::get('/', Tickets::class)->name('support.index');
+        Route::get('/create', CreateTicket::class)->name('support.create');
+        Route::get('/{ticket}', ViewTicket::class)->name('support.view');
+    });
 
 
 });

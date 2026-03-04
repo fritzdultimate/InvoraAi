@@ -50,6 +50,7 @@
             'resources/css/referral-overview.css',
             'resources/css/referral-bonus.css',
             'resources/css/referral-direct.css',
+            'resources/css/tickets.css',
         ])
     </head>
 
@@ -58,8 +59,12 @@
         <main class="dashboard-main">
             @include('components.layouts.app.header')
             <div class="dashboard-main-body">
+
                 <div class="flex flex-wrap items-center justify-between gap-2 mb-6">
-                    <h6 class="font-semibold mb-0 dark:text-white">Dashboard</h6>
+                    <h6 class="font-semibold mb-0 dark:text-white">
+                        {{ $title ?? 'Dashboard' }}
+                    </h6>
+
                     <ul class="flex items-center gap-[6px]">
                         <li class="font-medium">
                             <a href="{{ route('dashboard') }}"
@@ -68,10 +73,9 @@
                                 Dashboard
                             </a>
                         </li>
-                        <li class="text-neutral-600 dark:text-white">-</li>
-                        <li class="text-neutral-600 font-medium dark:text-white">Overview</li>
                     </ul>
                 </div>
+
                 @if (session()->has('success'))
                     <div class="invora-toast success" id="invoraToast">
                         <div class="toast-icon">✓</div>

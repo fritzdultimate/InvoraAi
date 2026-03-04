@@ -2,14 +2,17 @@
 
 namespace App\Livewire\Dashboard\Referral;
 
+use Livewire\Attributes\Layout;
 use Livewire\Component;
 use App\Models\Referral;
 use App\Models\ReferralBonus;
 use Illuminate\Support\Facades\DB;
 
+#[Layout('components.layouts.app', params: ['title' => 'Referral Overview'])]
 class Overview extends Component
 {
-    public $referral;
+    public $totalDirectReferral;
+    public $totalDownlines;
     public $pendingAmount = 0;
     public $claimableAmount = 0;
 
@@ -20,7 +23,9 @@ class Overview extends Component
 
     public function loadData()
     {
-        $this->referral = Referral::where('user_id', auth()->id())->first();
+        $this->totalDirectReferral = Referral::where('referred_by_id', auth()->id())->count();
+        $this->totalDownlines = count(getDownlineUserIds(auth()->id(), 7));
+
 
         $this->pendingAmount = ReferralBonus::where('user_id', auth()->id())
             ->where('status', 'pending')
@@ -65,6 +70,6 @@ class Overview extends Component
 
     public function render()
     {
-        return view('livewire.dashboard.referral.overview');
+        return view('livewire.dashboard.referral.overview'); 
     }
 }

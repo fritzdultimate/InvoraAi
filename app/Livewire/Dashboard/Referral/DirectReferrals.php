@@ -2,11 +2,13 @@
 
 namespace App\Livewire\Dashboard\Referral;
 
+use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\Referral;
 use App\Models\ReferralBonus;
 
+#[Layout('components.layouts.app', params: ['title' => 'My Direct Referrals'])]
 class DirectReferrals extends Component
 {
     use WithPagination;

@@ -2,9 +2,11 @@
 
 namespace App\Livewire\Dashboard\Referral;
 
+use Livewire\Attributes\Layout;
 use Livewire\Component;
 use App\Models\Referral;
 
+#[Layout('components.layouts.app', params: ['title' => 'Referral Tree'])]
 class TreeView extends Component
 {
     public $level1 = [];

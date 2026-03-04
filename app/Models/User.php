@@ -27,6 +27,7 @@ class User extends Authenticatable
         'firstname',
         'lastname',
         'affiliate_code',
+        'referrer_id',
         'main_balance',
         'deposit_balance',
         'referral_balance',
