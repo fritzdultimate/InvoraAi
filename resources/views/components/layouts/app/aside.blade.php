@@ -86,6 +86,20 @@
 				</a>
 			</li>
 
+			<li>
+				<a href="{{ route('dashboard.referrals.network') }}">
+					<iconify-icon icon="mdi:badge-account-outline" class="menu-icon"></iconify-icon>
+					<span>My Network</span>
+				</a>
+			</li>
+
+			<li>
+				<a href="{{ route('dashboard.referrals.tree') }}">
+					<iconify-icon icon="mdi:badge-account-outline" class="menu-icon"></iconify-icon>
+					<span>Tree</span>
+				</a>
+			</li>
+
 			<li class="sidebar-menu-group-title">Account</li>
 			<li>
 				<a href="{{ route('profile') }}">

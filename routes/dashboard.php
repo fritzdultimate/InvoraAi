@@ -42,6 +42,8 @@ Route::middleware(['auth'])->prefix('dashboard')->group(function () {
     Route::get('/dashboard/referrals', \App\Livewire\Dashboard\Referral\Overview::class)->name('dashboard.referrals');
     Route::get('/dashboard/bonuses', \App\Livewire\Dashboard\Referral\Bonuses::class)->name('dashboard.bonuses');
     Route::get('/dashboard/referrals/direct', DirectReferrals::class)->name('dashboard.referrals.direct');
+    Route::get('/dashboard/referrals/network', \App\Livewire\Dashboard\Referral\MyNetwork::class)->name('dashboard.referrals.network');
+    Route::get('/dashboard/referrals/tree', \App\Livewire\Dashboard\Referral\TreeView::class)->name('dashboard.referrals.tree');
 
 
 });
