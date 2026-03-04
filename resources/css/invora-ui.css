@@ -317,13 +317,7 @@
     transform: scale(1.05);
 }
 
-/* ===== MAIN BALANCE (BIG BOY) ===== */
-/* .invora-balance-card {
-    padding: 20px;
-    border-radius: var(--radius);
-    background: linear-gradient(145deg, rgba(39,49,66,0.9), rgba(20,25,40,0.9));
-    border: 1px solid var(--border);
-} */
+/* ===== MAIN BALANCE ===== */
 
 .invora-balance-card {
     position: relative;
@@ -343,7 +337,7 @@
         inset 0 1px 0 rgba(255,255,255,0.03);
 }
 
-.invora-balance-card::before {
+/* .invora-balance-card::before {
     content: "";
     position: absolute;
     inset: 0;
@@ -353,7 +347,7 @@
         transparent 60%
     );
     opacity: 0.5;
-}
+} */
 
 .invora-balance-title {
     font-size: 13px;
