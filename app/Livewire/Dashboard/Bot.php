@@ -49,6 +49,26 @@ class Bot extends Component {
                 $assetEnum
             );
 
+            $activeLicense = BotLicense::where('user_id', auth()->id())
+                ->where('expires_at', '>', now())
+                ->first();
+
+            if ($activeLicense) {
+
+                $currentBot = $activeLicense->bot;
+
+                // if user tries to buy same or lower bot
+                if ($this->selectedBot->price <= $currentBot->price) {
+                    $this->dispatch('error', message: 'You already have an active bot. Upgrade to a higher plan.');
+                    return;
+                }
+
+                if ($this->selectedBot->price > $currentBot->price) {
+                    // I am going to give user an option to upgrade their bot
+                    return;
+                }
+            }
+
             $license = BotLicense::create([
                 'user_id' => auth()->id(),
                 'bot_id' => $this->selectedBot->id,
