@@ -56,7 +56,7 @@
                         <a href="{{ route('deposit') }}" class="invora-action-btn deposit">
                             <!-- <iconify-icon icon="solar:card-send-bold"></iconify-icon> -->
                             <iconify-icon icon="mdi:plus"></iconify-icon>
-                            <span>Deposit</span>
+                            <span>Fund Account</span>
                         </a>
 
                         <a href="{{ route('withdrawal') }}" class="invora-action-btn withdraw">
