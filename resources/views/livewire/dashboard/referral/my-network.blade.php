@@ -6,14 +6,14 @@
                 My Network
             </div>
             <div class="invora-profile-meta">
-                Explore your 10-level referral structure
+                Explore your 7-level referral structure
             </div>
         </div>
     </div>
 
     <!-- 🔥 LEVEL SELECTOR -->
     <div class="invora-level-tabs">
-        @for($i=1;$i<=10;$i++)
+        @for($i=1;$i<=7;$i++)
             <button
                 wire:click="$set('depth', {{ $i }})"
                 class="level-tab {{ $depth == $i ? 'active' : '' }}"

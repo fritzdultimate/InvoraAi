@@ -9,7 +9,7 @@
             </div>
 
             <div class="invora-profile-meta">
-                Grow your network • Earn from 10 levels • Scale infinitely
+                Grow your network • Earn from 7 levels • Scale infinitely
             </div>
         </div>
 

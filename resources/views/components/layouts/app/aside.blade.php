@@ -67,35 +67,35 @@
 			<li class="sidebar-menu-group-title">Referral Center</li>
 			<li>
 				<a href="{{ route('dashboard.referrals') }}">
-					<iconify-icon icon="mdi:badge-account-outline" class="menu-icon"></iconify-icon>
+					<iconify-icon icon="mdi:view-dashboard-outline" class="menu-icon"></iconify-icon>
 					<span>Overview</span>
 				</a>
 			</li>
 
 			<li>
 				<a href="{{ route('dashboard.bonuses') }}">
-					<iconify-icon icon="mdi:badge-account-outline" class="menu-icon"></iconify-icon>
+					<iconify-icon icon="mdi:cash-multiple" class="menu-icon"></iconify-icon>
 					<span>Bonus</span>
 				</a>
 			</li>
 
 			<li>
 				<a href="{{ route('dashboard.referrals.direct') }}">
-					<iconify-icon icon="mdi:badge-account-outline" class="menu-icon"></iconify-icon>
+					<iconify-icon icon="mdi:account-multiple-outline" class="menu-icon"></iconify-icon>
 					<span>Direct Referrals</span>
 				</a>
 			</li>
 
 			<li>
 				<a href="{{ route('dashboard.referrals.network') }}">
-					<iconify-icon icon="mdi:badge-account-outline" class="menu-icon"></iconify-icon>
+					<iconify-icon icon="mdi:sitemap-outline" class="menu-icon"></iconify-icon>
 					<span>My Network</span>
 				</a>
 			</li>
 
 			<li>
 				<a href="{{ route('dashboard.referrals.tree') }}">
-					<iconify-icon icon="mdi:badge-account-outline" class="menu-icon"></iconify-icon>
+					<iconify-icon icon="mdi:source-branch" class="menu-icon"></iconify-icon>
 					<span>Tree</span>
 				</a>
 			</li>
