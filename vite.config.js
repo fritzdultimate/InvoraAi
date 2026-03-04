@@ -15,7 +15,8 @@ export default defineConfig({
                 'resources/css/invora-ui.css',
                 'resources/css/investment-item.css',
                 'resources/css/profile.css',
-                'resources/css/settings.css'
+                'resources/css/settings.css',
+                'resources/css/referral-overview.css'
             ],
             refresh: true,
         }),

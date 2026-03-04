@@ -3,6 +3,7 @@
 namespace App\Livewire\Auth;
 
 use App\Models\User;
+use App\Services\ReferralCreationService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -71,6 +72,20 @@ class  Register extends Component {
                 'affiliate_code' => $this->generateUniqueReferralCode(),
                 'referrer_id' => $referrer?->id
             ]);
+
+            if($referrer) {
+                ReferralCreationService::createFor($user, $referrer);
+                // RankEvaluatorService::evaluate($referrer);
+
+                // Mail::to($referrer->email)->queue(
+                //     new ReferredUserNotice(
+                //         $referrer,
+                //         referredUser: $user,
+                //         level: 1
+                //     )
+                // );
+                // send email
+            }
 
             // Role::create(['name' => 'user']);
             // Role::create(['name' => 'admin']);

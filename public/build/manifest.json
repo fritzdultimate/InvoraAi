@@ -53,6 +53,15 @@
       "profile.css"
     ]
   },
+  "resources/css/referral-overview.css": {
+    "file": "assets/referral-overview-Blf5__mY.css",
+    "src": "resources/css/referral-overview.css",
+    "isEntry": true,
+    "name": "referral-overview",
+    "names": [
+      "referral-overview.css"
+    ]
+  },
   "resources/css/settings.css": {
     "file": "assets/settings-BL9ewNCa.css",
     "src": "resources/css/settings.css",

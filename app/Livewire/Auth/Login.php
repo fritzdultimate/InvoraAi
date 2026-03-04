@@ -42,7 +42,7 @@ class  Login extends Component {
     /**
      * Mount the component.
      */
-    public function render(): \Illuminate\View\View {
+    public function render() {
         return view('livewire.auth.login');
     }
 }

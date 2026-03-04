@@ -37,4 +37,8 @@ Route::middleware(['auth'])->prefix('dashboard')->group(function () {
     Route::get('/settings',  Settings::class)->name('settings');
 
 
+    
+    Route::get('/dashboard/referrals', \App\Livewire\Dashboard\Referral\Overview::class)->name('dashboard.referrals');
+
+
 });

@@ -64,6 +64,14 @@
 				</a>
 			</li>
 
+			<li class="sidebar-menu-group-title">Referral Center</li>
+			<li>
+				<a href="{{ route('dashboard.referrals') }}">
+					<iconify-icon icon="mdi:badge-account-outline" class="menu-icon"></iconify-icon>
+					<span>Overview</span>
+				</a>
+			</li>
+
 			<li class="sidebar-menu-group-title">Account</li>
 			<li>
 				<a href="{{ route('profile') }}">
