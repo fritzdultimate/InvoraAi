@@ -89,6 +89,15 @@
       "settings.css"
     ]
   },
+  "resources/css/tickets.css": {
+    "file": "assets/tickets-CeAUOwak.css",
+    "src": "resources/css/tickets.css",
+    "isEntry": true,
+    "name": "tickets",
+    "names": [
+      "tickets.css"
+    ]
+  },
   "resources/js/app.js": {
     "file": "assets/app-DmVYLc9B.js",
     "name": "app",
