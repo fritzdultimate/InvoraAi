@@ -15,6 +15,7 @@
                     </div>
 
                     <a href="{{ route('bot') }}" class="invora-license-btn" style="margin-top:10px;">
+                        <iconify-icon icon="mdi:chart-line"></iconify-icon>
                         View Bot Activity
                     </a>
                 @else
@@ -22,6 +23,7 @@
                     <p>Put your capital to work automatically.</p>
 
                     <a href="{{ route('bot') }}" class="invora-license-btn" style="margin-top:10px;">
+                        <iconify-icon icon="mdi:robot-outline"></iconify-icon>
                         Get License
                     </a>
                 @endif
@@ -56,7 +58,7 @@
                         <a href="{{ route('deposit') }}" class="invora-action-btn deposit">
                             <!-- <iconify-icon icon="solar:card-send-bold"></iconify-icon> -->
                             <iconify-icon icon="mdi:plus"></iconify-icon>
-                            <span>Fund Account</span>
+                            <span>Deposit</span>
                         </a>
 
                         <a href="{{ route('withdrawal') }}" class="invora-action-btn withdraw">
