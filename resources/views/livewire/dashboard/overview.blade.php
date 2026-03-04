@@ -59,7 +59,7 @@
                             <span>Fund Account</span>
                         </a>
 
-                        <a href="{{ route('withdrawal') }}" class="invora-action-btn invora-license-btn withdrawd">
+                        <a href="{{ route('withdrawal') }}" class="invora-action-btn withdraw">
                             <iconify-icon icon="ph:coins-bold"></iconify-icon>
                             <span>Withdraw</span>
                         </a>
