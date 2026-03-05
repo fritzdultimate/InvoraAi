@@ -119,7 +119,7 @@
                 >
                     <div class="toast-icon">✓</div>
                     <div class="toast-content">
-                        <div class="toast-title">Success</div>
+                        <div class="toast-title">Error</div>
                         <div x-text="message" class="toast-message"></div>
                     </div>
                 </div>
