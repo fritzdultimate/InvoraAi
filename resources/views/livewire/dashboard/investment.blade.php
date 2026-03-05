@@ -61,7 +61,7 @@
                                 </span>
                             </button>
                         @else
-                            <button class="btn-renew">Renew</button>
+                            <button class="btn-disabled" disabled>Expired</button>
                         @endif
                     </div>
                 </div>
