@@ -1,7 +1,7 @@
-<div class="dashboard-main-body" x-data="{subscribeModalOn: false}">
+<div class="" x-data="{subscribeModalOn: false}">
 
 
-    <div class="gap-6 grid grid-cols-1 2xl:grid-cols-12">
+    <div class="gap-6 grid grid-cols-1 2xl:grid-cols-12" style="margin-bottom: 30px;">
         <div class="col-span-12 2xl:col-span-8">
             <div class="gap-6 grid grid-cols-1 sm:grid-cols-12">
 
@@ -36,19 +36,39 @@
                                     </div>
 
                                     <!-- Action Button -->
-                                    <button 
-                                    wire:click="selectBot({{ $bot['id'] }})"
-                                    wire:loading.attr="disabled"
-                                    data-modal-target="subscribe-modal" 
-                                    data-modal-toggle="subscribe-modal"
-                                    x-on:click="subscribeModalOn = true"
-                                    class="btn rounded-full btn-primary-600 w-full mt-3 py-2 bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-semibold hover:from-indigo-600 hover:to-blue-500 transition-all duration-300 flex justify-center items-center gap-2">
-                                    
-                                    <span wire:loading.remove>Get License</span>
-                                    <span wire:loading class="flex items-center gap-2">
-                                        <span class="spinner border-t-2 border-white w-4 h-4 rounded-full animate-spin"></span> Please wait...
-                                    </span>
-                                    </button>
+                                    @if ($activeLicense && $activeLicense->bot->price < $bot->price)
+                                        <button 
+                                            wire:click="prepareUpgrade({{ $bot['id'] }})"
+                                            wire:loading.attr="disabled"
+                                            data-modal-target="subscribe-modal" 
+                                            data-modal-toggle="subscribe-modal"
+                                            x-on:click="subscribeModalOn = true"
+                                            class="btn rounded-full btn-primary-600 w-full mt-3 py-2 bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-semibold hover:from-indigo-600 hover:to-blue-500 transition-all duration-300 flex justify-center items-center gap-2">
+                                            
+                                            <span wire:loading.remove>Upgrade</span>
+                                            <span wire:loading class="flex items-center gap-2">
+                                                <span class="spinner border-t-2 border-white w-4 h-4 rounded-full animate-spin"></span> Please wait...
+                                            </span>
+                                        </button>
+                                    @else
+                                        @if($activeLicense && $activeLicense->bot->price >= $bot->price)
+                                            <button class="btn-disabled" disabled>Get License</button>
+                                        @else
+                                            <button 
+                                                wire:click="selectBot({{ $bot['id'] }})"
+                                                wire:loading.attr="disabled"
+                                                data-modal-target="subscribe-modal" 
+                                                data-modal-toggle="subscribe-modal"
+                                                x-on:click="subscribeModalOn = true"
+                                                class="btn rounded-full btn-primary-600 w-full mt-3 py-2 bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-semibold hover:from-indigo-600 hover:to-blue-500 transition-all duration-300 flex justify-center items-center gap-2">
+                                                
+                                                <span wire:loading.remove>Get License</span>
+                                                <span wire:loading class="flex items-center gap-2">
+                                                    <span class="spinner border-t-2 border-white w-4 h-4 rounded-full animate-spin"></span> Please wait...
+                                                </span>
+                                            </button>
+                                        @endif
+                                    @endif
                                 </div>
                                 </div>
                             @endforeach

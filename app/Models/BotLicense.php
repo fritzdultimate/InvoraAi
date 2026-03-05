@@ -33,4 +33,8 @@ class BotLicense extends Model {
             && now()->lessThan($this->expires_at);
     }
 
+    public function upgrades() {
+        return $this->hasMany(BotLicenseUpgrade::class);
+    }
+
 }

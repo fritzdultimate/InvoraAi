@@ -22,6 +22,31 @@
 .btn-invest { width:100%; padding:10px; border-radius:12px; background:linear-gradient(135deg,#2563eb,#1d4ed8); border:none; color:#fff; font-weight:600; cursor:pointer; transition:0.3s; }
 .btn-invest:hover { transform:translateY(-2px); box-shadow:0 10px 25px rgba(37,99,235,0.4); }
 .btn-renew { width:100%; padding:10px; border-radius:12px; background:linear-gradient(135deg,#1f55c9,#143aa4); border:none; color:#fff; cursor:pointer; }
+
+.btn-disabled{
+    width:100%;
+    padding:10px;
+
+    border-radius:9999px; /* rounded-full */
+
+    background:linear-gradient(135deg,#94a3b8,#64748b);
+    border:none;
+
+    color:#e5e7eb;
+    font-weight:500;
+
+    cursor:not-allowed;
+    opacity:0.75;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:6px;
+
+    transition:none;
+
+    margin-top: 20px;
+}
 .empty-state { text-align:center; color:#9ca3af; padding:40px; }
 .empty-state h4 { font-size:20px; margin:8px 0; color:#f9fafb; }
 

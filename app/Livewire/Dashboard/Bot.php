@@ -5,6 +5,7 @@ namespace App\Livewire\Dashboard;
 use App\Enums\LedgerAsset;
 use App\Enums\LedgerReference;
 use App\Models\BotLicense;
+use App\Models\BotLicenseUpgrade;
 use App\Services\Wallet\WalletService;
 use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Layout;
@@ -17,6 +18,8 @@ class Bot extends Component {
     public $showSuccess = false;
     public $createdLicenseId = null;
     public $perPage = 10;
+    public $activeLicense;
+    public $upgrading = false;
 
     protected function rules() {
         return [
@@ -25,7 +28,10 @@ class Bot extends Component {
     }
 
     public function mount() {
-    
+        $this->activeLicense = BotLicense::where('user_id', auth()->id())
+            ->where('expires_at', '>', now())
+            ->lockForUpdate()
+            ->first();
     }
 
     public function subscribeToBot() {
@@ -34,7 +40,7 @@ class Bot extends Component {
             $this->addError('general', 'Invalid bot selected.');
             return;
         }
-        sleep(2);
+        sleep(10);
 
         try{
             $assetEnum = $this->asset === 'deposit'
@@ -63,7 +69,29 @@ class Bot extends Component {
                     }
 
                     if ($this->selectedBot->price > $currentBot->price) {
-                        // I am going to give user an option to upgrade their bot
+                        WalletService::debit(
+                            auth()->user(), 
+                            $this->selectedBot->price, 
+                            LedgerReference::LICENSE_UPGRADE, 
+                            $this->selectedBot->id, 
+                            null, 
+                            $assetEnum
+                        );
+
+                        BotLicenseUpgrade::create([
+                            'bot_license_id' => $activeLicense->id,
+                            'user_id' => auth()->id(),
+                            'from_bot_id' => $activeLicense->bot_id,
+                            'to_bot_id' => $this->selectedBot->id,
+                            'price_paid' => $this->selectedBot->price,
+                            'status' => 'upgraded'
+                        ]);
+
+                        $activeLicense->update([
+                            'bot_id' => $this->selectedBot->id,
+                        ]);
+
+                        $this->dispatch('success', message: 'Your trading bot has been upgraded to ' . $this->selectedBot->name);
                         return;
                     }
                 }
@@ -77,16 +105,18 @@ class Bot extends Component {
                     $assetEnum
                 );
 
-                $license = BotLicense::create([
-                    'user_id' => auth()->id(),
-                    'bot_id' => $this->selectedBot->id,
-                    'starts_at' => now(),
-                    'expires_at' => now()->addDays($this->selectedBot->license_duration_days),
-                    'meta' => [
-                        'price' => $this->selectedBot->price,
-                        'asset_used' => $this->asset,
+                $license = BotLicense::updateOrCreate(
+                    ['user_id' => auth()->id()],
+                    [
+                        'bot_id' => $this->selectedBot->id,
+                        'starts_at' => now(),
+                        'expires_at' => now()->addDays($this->selectedBot->license_duration_days),
+                        'meta' => [
+                            'price' => $this->selectedBot->price,
+                            'asset_used' => $this->asset,
+                        ]
                     ]
-                ]);
+                );
 
                 $this->createdLicenseId = $license->id;
                 $this->showSuccess = true;
@@ -106,6 +136,14 @@ class Bot extends Component {
         $this->selectedBot = \App\Models\Bot::where('id', $id)
             ->where('is_active', true)
             ->first();
+    }
+
+    public function prepareUpgrade($id) {
+        $this->selectedBot = \App\Models\Bot::where('id', $id)
+            ->where('is_active', true)
+            ->first();
+
+        $this->upgrading = true;
     }
 
     public function resetBot() {
