@@ -41,16 +41,8 @@ class Bot extends Component {
                 ? LedgerAsset::DEPOSIT
                 : LedgerAsset::MAIN;
 
-            WalletService::debit(
-                auth()->user(), 
-                $this->selectedBot->price, 
-                LedgerReference::LICENSE_PURCHASE, 
-                $this->selectedBot->id, 
-                null, 
-                $assetEnum
-            );
 
-            DB::transaction(function() {
+            DB::transaction(function() use($assetEnum) {
 
             
 
@@ -75,6 +67,15 @@ class Bot extends Component {
                         return;
                     }
                 }
+
+                WalletService::debit(
+                    auth()->user(), 
+                    $this->selectedBot->price, 
+                    LedgerReference::LICENSE_PURCHASE, 
+                    $this->selectedBot->id, 
+                    null, 
+                    $assetEnum
+                );
 
                 $license = BotLicense::create([
                     'user_id' => auth()->id(),
