@@ -21,7 +21,7 @@
 .progress-fill { height:100%; background:linear-gradient(90deg,#3b82f6,#22c55e); border-radius:6px; transition: width 1s ease-in-out; }
 .btn-invest { width:100%; padding:10px; border-radius:12px; background:linear-gradient(135deg,#2563eb,#1d4ed8); border:none; color:#fff; font-weight:600; cursor:pointer; transition:0.3s; }
 .btn-invest:hover { transform:translateY(-2px); box-shadow:0 10px 25px rgba(37,99,235,0.4); }
-.btn-disabled { width:100%; padding:10px; border-radius:12px; background:#1e293b; border:1px solid #334155; color:#64748b; cursor:not-allowed; }
+.btn-renew { width:100%; padding:10px; border-radius:12px; background:linear-gradient(135deg,#1f55c9,#143aa4); border:none; color:#fff; cursor:pointer; }
 .empty-state { text-align:center; color:#9ca3af; padding:40px; }
 .empty-state h4 { font-size:20px; margin:8px 0; color:#f9fafb; }
 

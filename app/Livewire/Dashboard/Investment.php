@@ -20,8 +20,7 @@ class Investment extends Component
     public $search;
     public $type;
 
-    public function mount()
-    {
+    public function mount() {
         $this->licenses = BotLicense::with('bot')
             ->where('user_id', auth()->id())
             ->latest()

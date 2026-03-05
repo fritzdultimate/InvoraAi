@@ -4,38 +4,6 @@
     <div class="gap-6 grid grid-cols-1 2xl:grid-cols-12">
         <div class="col-span-12 2xl:col-span-8">
             <div class="gap-6 grid grid-cols-1 sm:grid-cols-12">
-                <div class="col-span-12 hidden md:block">
-                    <div
-                        class="nft-promo-card card border-0 rounded-xl overflow-hidden relative z-1 py-6 3xl:px-[76px] 2xl:px-[56px] xl:px-[40px] lg:px-[28px] px-4">
-                        <img src="{{ asset('assets/images/nft/nft-gradient-bg.png') }}"
-                            class="absolute start-0 top-0 w-full h-full z-[1]" alt="">
-                        <div
-                            class="nft-promo-card__inner flex 3xl:gap-[80px] 2xl:gap-[48px] xl:gap-[32px] lg:gap-6 gap-4 items-center relative z-[1]">
-                            <div class="nft-promo-card__thumb w-full">
-                                <img src="{{ asset('assets/images/nft/nf-card-img.png') }}" alt=""
-                                    class="w-full h-full object-fit-cover">
-                            </div>
-                            <div class="flex-grow-1">
-                                <h4 class="mb-4 text-white">
-                                    InvoraAI Trading Engine
-                                </h4>
-                                <p class="text-white text-base">
-                                    Your automated AI-powered trading infrastructure.
-                                    Earn every 6 hours with performance-monitored algorithmic bots.
-                                </p>
-                                <div class="flex items-center flex-wrap mt-6 gap-4">
-                                    <a href="javascript:void(0)"
-                                        class="btn rounded-full border br-white text-white px-[32px] py-[11px] hover:bg-white hover:text-neutral-900">Explore
-                                        Bots</a>
-                                    <a href="javascript:void(0)"
-                                        class="btn rounded-full btn-primary-600 px-[28px] py-[11px]">
-                                        Start Investing
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
                 <div class="col-span-12">
                     <div class="mb-4 mt-8 flex flex-wrap justify-between gap-4">
@@ -43,7 +11,7 @@
                     </div>
 
                     <div id="default-tab-content">
-                        <div class="p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="all" role="tabpanel"
+                        <div style="margin-bottom: 25px;" class="rounded-lg bg-gray-50 dark:bg-gray-800" id="all" role="tabpanel"
                             aria-labelledby="all-tab">
 
                             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
