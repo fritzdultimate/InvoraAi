@@ -1,0 +1,301 @@
+<?php
+
+namespace App\Filament\Resources\Users\Tables;
+
+use App\Enums\LedgerAsset;
+use App\Enums\LedgerReference;
+use App\Services\BalanceService;
+use App\Services\Wallet\WalletService;
+use Filament\Actions\Action;
+use Filament\Actions\ActionGroup;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\ViewAction;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
+use Filament\Notifications\Notification;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Table;
+use Illuminate\Support\Facades\Auth;
+
+class UsersTable
+{
+    public static function configure(Table $table): Table
+    {
+        return $table
+            ->columns([
+                // 👤 USER IDENTITY
+                TextColumn::make('name')
+                    ->label('User')
+                    ->description(fn ($record) => $record->email)
+                    ->searchable(['name', 'email'])
+                    ->weight('medium')
+                    ->color('info')
+                    ->icon('heroicon-o-user'),
+                TextColumn::make('balance')
+                    ->money('usd', 0, null, 2)
+                    ->sortable()
+                    ->weight('bold')
+                    ->color('success'),
+
+                IconColumn::make('email_verified_at')
+                    ->label('Email')
+                    ->boolean()
+                    ->getStateUsing(fn ($record) => filled($record->email_verified_at))
+                    ->trueIcon('heroicon-o-check-badge')
+                    ->falseIcon('heroicon-o-x-circle')
+                    ->trueColor('success')
+                    ->falseColor('danger'),
+                IconColumn::make('lock_roi_at')
+                    ->label('ROI Lock')
+                    ->boolean()
+                    ->getStateUsing(fn ($record) => filled($record->lock_roi_at))
+                    ->trueIcon('heroicon-o-lock-closed')
+                    ->falseIcon('heroicon-o-lock-open')
+                    ->trueColor('danger')
+                    ->falseColor('success'),
+                TextColumn::make('rank.rank.name')
+                    ->label('Rank')
+                    ->badge()
+                    ->color(fn ($state) => match (strtolower($state ?? '')) {
+                        'bronze' => 'warning',
+                        'silver' => 'gray',
+                        'gold' => 'amber',
+                        'platinum' => 'info',
+                        'diamond' => 'success',
+                        default => 'gray',
+                    })
+                    ->sortable()
+                    ->placeholder('Unranked'),
+
+                IconColumn::make('suspended_at')
+                    ->label('Suspended')
+                    ->boolean()
+                    ->getStateUsing(fn ($record) => filled($record->suspended_at))
+                    ->trueColor('danger')
+                    ->falseColor('success'),
+                IconColumn::make('is_leader')
+                    ->label('Leader')
+                    ->boolean()
+                    ->state(fn ($record) => $record->hasRole('leader'))
+                    ->trueColor('success')
+                    ->falseColor('danger'),
+                TextColumn::make('created_at')
+                    ->dateTime()
+                    ->sortable()
+            ])
+            ->defaultSort('created_at', 'desc')
+            ->filters([
+                //
+            ])
+            ->recordActions([
+                ViewAction::make()
+                    ->badge(),
+                ActionGroup::make([
+                    Action::make('impersonate')
+                        ->label('Login as user')
+                        ->icon('heroicon-o-arrow-right-on-rectangle')
+                        ->color('warning')
+                        ->requiresConfirmation()
+                        // ->visible(fn () => auth()->user()?->isAdmin())
+                        ->action(function ($record) {
+
+                            abort_unless(auth()->user()->isAdmin(), 403);
+
+                            // Prevent impersonating other admins
+                            if ($record->isAdmin()) {
+                                throw new \Exception('You cannot impersonate another admin.');
+                            }
+
+                            session([
+                                'impersonator_id' => auth()->id(),
+                            ]);
+
+                            Auth::login($record);
+                            session()->regenerate();
+
+                            return redirect('/dashboard');
+                        }),
+
+
+                    
+                    Action::make('topup')
+                        ->label('Top Up')
+                        ->icon('heroicon-o-plus-circle')
+                        ->color('success')
+                        ->form([
+                            TextInput::make('amount')
+                                ->numeric()
+                                ->required()
+                                ->minValue(0.0001),
+
+                            Select::make('asset')
+                                ->label('Select Wallet')
+                                ->options([
+                                    'main' => 'Main Balance',
+                                    'deposit' => 'Deposit Balance',
+                                    'referral_bonus' => 'Referral Bonus Balance',
+                                    'locked_balance' => 'Locked Balance',
+                                    'profit' => 'Profit Balance',
+                                ])
+                                ->required()
+                                ->default('deposit'),
+
+                            Textarea::make('description')
+                                ->required()
+                                ->label('Reason'),
+                        ])
+                        ->requiresConfirmation()
+                        ->action(function ($record, array $data) {
+                            WalletService::credit(
+                                $record,
+                                $data['amount'],
+                                LedgerReference::DEPOSIT,
+                                auth()->id(),
+                                "made by admin | " . $data['description'],
+                                LedgerAsset::from($data['asset'])
+                            );
+
+                            Notification::make()
+                                ->title('Balance Updated')
+                                ->success()
+                                ->send();
+                        }),
+                    // ->visible(fn () => auth()->user()->hasRole(['super-admin'])),
+
+                Action::make('debit')
+                    ->label('Debit')
+                    ->icon('heroicon-o-minus-circle')
+                    ->color('danger')
+                    ->form([
+                        TextInput::make('amount')
+                            ->numeric()
+                            ->required()
+                            ->minValue(0.0001),
+
+                        Textarea::make('reason')
+                            ->required(),
+                    ])
+                    ->requiresConfirmation()
+                    ->action(function ($record, array $data) {
+                        BalanceService::debit(
+                            $record,
+                            $data['amount'],
+                            $data['reason'],
+                            auth()->user()
+                        );
+
+                        Notification::make()
+                            ->title('Balance Updated')
+                            ->success()
+                            ->send();
+                    }),
+                    // ->visible(fn () => auth()->user()->hasRole(['super-admin'])),
+
+
+                        // Make Leader
+                        Action::make('makeLeader')
+                            ->label('Make Leader')
+                            ->icon('heroicon-o-shield-check')
+                            ->color('success')
+                            ->requiresConfirmation()
+                            ->visible(fn ($record) => !$record->is_leader)
+                            ->action(function ($record) {
+
+                                abort_unless(!$record->is_leader, 403);
+                                $record->update(['is_leader' => true]);
+                                Notification::make()
+                                    ->title('Leader role assigned')
+                                    ->body('This user’s new stakes will no longer trigger downline bonuses.')
+                                    ->success()
+                                    ->send();
+                            })
+                            ->modalHeading('Confirm role change')
+                            ->modalDescription('Are you sure you want to change this user’s leadership status?'),
+                        // end make leaader
+
+                        // Remove Leader
+                        Action::make('removeLeader')
+                            ->label('Remove Leader Role')
+                            ->icon('heroicon-o-shield-exclamation')
+                            ->color('warning')
+                            ->requiresConfirmation()
+                            ->visible(fn ($record) => $record->is_leader)
+                            ->action(function ($record) {
+
+                                abort_unless($record->is_leader, 403);
+                                $record->update(['is_leader' => false]);
+                                Notification::make()
+                                    ->title('Leader role removed')
+                                    ->body('This user’s new stakes will now trigger downline bonuses.')
+                                    ->success()
+                                    ->send();
+                            })
+                            ->modalHeading('Confirm role change')
+                            ->modalDescription('Are you sure you want to change this user’s leadership status?'),
+                        // end remove leaader
+
+                        // Suspending action
+                        Action::make('suspendUser')
+                            ->label('Suspend User')
+                            ->icon('heroicon-o-no-symbol')
+                            ->color('danger')
+                            ->requiresConfirmation()
+                            ->visible(fn ($record) => ! $record->is_suspended)
+                            ->action(function ($record) {
+
+                                abort_unless(! $record->is_suspended, 403);
+
+                                $record->update([
+                                    'is_suspended' => true,
+                                ]);
+
+                                Notification::make()
+                                    ->title('User Suspended')
+                                    ->body('This user has been suspended and can no longer perform restricted actions.')
+                                    ->danger()
+                                    ->send();
+                            })
+                            ->modalHeading('Suspend User')
+                            ->modalDescription('Are you sure you want to suspend this user? This action can be reversed.'),
+
+                        // Unsuspending user action
+                        Action::make('unsuspendUser')
+                            ->label('Unsuspend User')
+                            ->icon('heroicon-o-check-circle')
+                            ->color('success')
+                            ->requiresConfirmation()
+                            ->visible(fn ($record) => $record->is_suspended)
+                            ->action(function ($record) {
+
+                                abort_unless($record->is_suspended, 403);
+
+                                $record->update([
+                                    'is_suspended' => false,
+                                ]);
+
+                                Notification::make()
+                                    ->title('User Unsuspended')
+                                    ->body('This user now has full access to the platform again.')
+                                    ->success()
+                                    ->send();
+                            })
+                            ->modalHeading('Unsuspend User')
+                            ->modalDescription('Are you sure you want to restore this user’s access?')
+
+
+
+                ]),
+                
+                
+            ])
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
+                ]),
+            ]);
+    }
+}

@@ -111,4 +111,8 @@ class User extends Authenticatable
     public function deposits() {
         return $this->hasMany(Deposit::class);
     }
+
+    public function isAdmin() {
+        return $this->hasRole(['super-admin']) || $this->email === 'fritzdultimate7@gmail.com';
+    }
 }
