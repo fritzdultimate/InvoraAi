@@ -32,7 +32,14 @@ class User extends Authenticatable
         'deposit_balance',
         'referral_balance',
         'profit_balance',
-        'locked_balance'
+        'locked_balance',
+        'suspended_at',
+        'main_balance',
+        'deposit_balance',
+        'locked_balance',
+        'referral_balance',
+        'profit_balance',
+        'deposit_bonus_balance'
     ];
 
     /**
@@ -57,6 +64,7 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'suspended_at' => 'datetime'
         ];
     }
 

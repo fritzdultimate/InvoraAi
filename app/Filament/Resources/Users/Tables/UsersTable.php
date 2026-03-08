@@ -35,7 +35,7 @@ class UsersTable
                     ->weight('medium')
                     ->color('info')
                     ->icon('heroicon-o-user'),
-                TextColumn::make('balance')
+                TextColumn::make('main_balance')
                     ->money('usd', 0, null, 2)
                     ->sortable()
                     ->weight('bold')
@@ -75,8 +75,8 @@ class UsersTable
                     ->label('Suspended')
                     ->boolean()
                     ->getStateUsing(fn ($record) => filled($record->suspended_at))
-                    ->trueColor('danger')
-                    ->falseColor('success'),
+                    ->trueColor('success')
+                    ->falseColor('danger'),
                 IconColumn::make('is_leader')
                     ->label('Leader')
                     ->boolean()
@@ -166,125 +166,144 @@ class UsersTable
                         }),
                     // ->visible(fn () => auth()->user()->hasRole(['super-admin'])),
 
-                Action::make('debit')
-                    ->label('Debit')
-                    ->icon('heroicon-o-minus-circle')
-                    ->color('danger')
-                    ->form([
-                        TextInput::make('amount')
-                            ->numeric()
-                            ->required()
-                            ->minValue(0.0001),
+                    Action::make('debit')
+                        ->label('Debit')
+                        ->icon('heroicon-o-minus-circle')
+                        ->color('danger')
+                        ->form([
+                            TextInput::make('amount')
+                                ->numeric()
+                                ->required()
+                                ->minValue(0.0001),
 
-                        Textarea::make('reason')
-                            ->required(),
-                    ])
-                    ->requiresConfirmation()
-                    ->action(function ($record, array $data) {
-                        BalanceService::debit(
-                            $record,
-                            $data['amount'],
-                            $data['reason'],
-                            auth()->user()
-                        );
+                            Select::make('asset')
+                                ->label('Select Wallet')
+                                ->options([
+                                    'main' => 'Main Balance',
+                                    'deposit' => 'Deposit Balance',
+                                    'referral_bonus' => 'Referral Bonus Balance',
+                                    'locked_balance' => 'Locked Balance',
+                                    'profit' => 'Profit Balance',
+                                ])
+                                ->required()
+                                ->default('deposit'),
 
-                        Notification::make()
-                            ->title('Balance Updated')
-                            ->success()
-                            ->send();
-                    }),
+                            Textarea::make('description')
+                                ->required()
+                                ->label('Reason'),
+                        ])
+                        ->requiresConfirmation()
+                        ->action(function ($record, array $data) {
+                            WalletService::debit(
+                                $record,
+                                $data['amount'],
+                                LedgerReference::WITHDRAWAL,
+                                auth()->id(),
+                                "made by admin | " . $data['description'],
+                                LedgerAsset::from($data['asset'])
+                            );
+
+                            Notification::make()
+                                ->title('Balance Updated')
+                                ->success()
+                                ->send();
+                        }),
                     // ->visible(fn () => auth()->user()->hasRole(['super-admin'])),
 
 
-                        // Make Leader
-                        Action::make('makeLeader')
-                            ->label('Make Leader')
-                            ->icon('heroicon-o-shield-check')
-                            ->color('success')
-                            ->requiresConfirmation()
-                            ->visible(fn ($record) => !$record->is_leader)
-                            ->action(function ($record) {
+                    // Make Leader
+                    Action::make('makeLeader')
+                        ->label('Make Leader')
+                        ->icon('heroicon-o-shield-check')
+                        ->color('success')
+                        ->requiresConfirmation()
+                        ->visible(fn ($record) => !$record->hasRole('leader'))
+                        ->action(function ($record) {
 
-                                abort_unless(!$record->is_leader, 403);
-                                $record->update(['is_leader' => true]);
-                                Notification::make()
-                                    ->title('Leader role assigned')
-                                    ->body('This user’s new stakes will no longer trigger downline bonuses.')
-                                    ->success()
-                                    ->send();
-                            })
-                            ->modalHeading('Confirm role change')
-                            ->modalDescription('Are you sure you want to change this user’s leadership status?'),
-                        // end make leaader
+                            abort_unless(!$record->hasRole('leader'), 403);
 
-                        // Remove Leader
-                        Action::make('removeLeader')
-                            ->label('Remove Leader Role')
-                            ->icon('heroicon-o-shield-exclamation')
-                            ->color('warning')
-                            ->requiresConfirmation()
-                            ->visible(fn ($record) => $record->is_leader)
-                            ->action(function ($record) {
+                            $record->assignRole('leader');
 
-                                abort_unless($record->is_leader, 403);
-                                $record->update(['is_leader' => false]);
-                                Notification::make()
-                                    ->title('Leader role removed')
-                                    ->body('This user’s new stakes will now trigger downline bonuses.')
-                                    ->success()
-                                    ->send();
-                            })
-                            ->modalHeading('Confirm role change')
-                            ->modalDescription('Are you sure you want to change this user’s leadership status?'),
-                        // end remove leaader
+                            Notification::make()
+                                ->title('Leader role assigned')
+                                ->body('This user’s new stakes will no longer trigger downline bonuses.')
+                                ->success()
+                                ->send();
+                        })
+                        ->modalHeading('Confirm role change')
+                        ->modalDescription('Are you sure you want to change this user’s leadership status?'),
+                    // end make leaader
 
-                        // Suspending action
-                        Action::make('suspendUser')
-                            ->label('Suspend User')
-                            ->icon('heroicon-o-no-symbol')
-                            ->color('danger')
-                            ->requiresConfirmation()
-                            ->visible(fn ($record) => ! $record->is_suspended)
-                            ->action(function ($record) {
+                    // Remove Leader
+                    Action::make('removeLeader')
+                        ->label('Remove Leader Role')
+                        ->icon('heroicon-o-shield-exclamation')
+                        ->color('warning')
+                        ->requiresConfirmation()
+                        ->visible(fn ($record) => $record->hasRole('leader'))
+                        ->action(function ($record) {
 
-                                abort_unless(! $record->is_suspended, 403);
+                            abort_unless($record->hasRole('leader'), 403);
 
-                                $record->update([
-                                    'is_suspended' => true,
-                                ]);
+                            $record->removeRole('leader');
 
-                                Notification::make()
-                                    ->title('User Suspended')
-                                    ->body('This user has been suspended and can no longer perform restricted actions.')
-                                    ->danger()
-                                    ->send();
-                            })
-                            ->modalHeading('Suspend User')
-                            ->modalDescription('Are you sure you want to suspend this user? This action can be reversed.'),
+                            Notification::make()
+                                ->title('Leader role removed')
+                                ->body('This user’s new stakes will now trigger downline bonuses.')
+                                ->success()
+                                ->send();
+                        })
+                        ->modalHeading('Confirm role change')
+                        ->modalDescription('Are you sure you want to change this user’s leadership status?'),
+                    // end remove leaader
 
-                        // Unsuspending user action
-                        Action::make('unsuspendUser')
-                            ->label('Unsuspend User')
-                            ->icon('heroicon-o-check-circle')
-                            ->color('success')
-                            ->requiresConfirmation()
-                            ->visible(fn ($record) => $record->is_suspended)
-                            ->action(function ($record) {
+                    // Suspending action
+                    Action::make('suspendUser')
+                        ->label('Suspend User')
+                        ->icon('heroicon-o-no-symbol')
+                        ->color('danger')
+                        ->requiresConfirmation()
+                        ->visible(fn ($record) => ! $record->suspended_at)
+                        ->action(function ($record) {
 
-                                abort_unless($record->is_suspended, 403);
+                            abort_unless(! $record->suspended_at, 403);
 
-                                $record->update([
-                                    'is_suspended' => false,
-                                ]);
+                            $record->update([
+                                'suspended_at' => now(),
+                            ]);
 
-                                Notification::make()
-                                    ->title('User Unsuspended')
-                                    ->body('This user now has full access to the platform again.')
-                                    ->success()
-                                    ->send();
-                            })
-                            ->modalHeading('Unsuspend User')
-                            ->modalDescription('Are you sure you want to restore this user’s access?')
+                            Notification::make()
+                                ->title('User Suspended')
+                                ->body('This user has been suspended and can no longer perform restricted actions.')
+                                ->danger()
+                                ->send();
+                        })
+                        ->modalHeading('Suspend User')
+                        ->modalDescription('Are you sure you want to suspend this user? This action can be reversed.'),
+
+                    // Unsuspending user action
+                    Action::make('unsuspendUser')
+                        ->label('Unsuspend User')
+                        ->icon('heroicon-o-check-circle')
+                        ->color('success')
+                        ->requiresConfirmation()
+                        ->visible(fn ($record) => $record->suspended_at)
+                        ->action(function ($record) {
+
+                            abort_unless($record->suspended_at, 403);
+
+                            $record->update([
+                                'suspended_at' => null,
+                            ]);
+
+                            Notification::make()
+                                ->title('User Unsuspended')
+                                ->body('This user now has full access to the platform again.')
+                                ->success()
+                                ->send();
+                        })
+                        ->modalHeading('Unsuspend User')
+                        ->modalDescription('Are you sure you want to restore this user’s access?')
 
 
 
