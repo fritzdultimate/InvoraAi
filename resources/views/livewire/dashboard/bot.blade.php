@@ -20,7 +20,11 @@
                                 
                                 <!-- Bot Image -->
                                 <div class="relative">
-                                    <img src="{{ asset('assets/images/bot/bot-' . ($loop->index + 1) . '.jpg') }}" alt="Bot Image" class="w-full h-48 object-cover">
+                                    <img 
+                                        src="{{ asset('assets/images/bot/' . $bot->slug . '.png') }}" 
+                                        alt="Bot Image" 
+                                        class="w-full h- object-cover"
+                                    >
                                     <div class="absolute top-3 left-3 bg-blue-600 text-white text-xs px-2 py-1 rounded-full font-semibold">
                                     Min ${{ number_format($bot->min_amount,2) }} • Max ${{ number_format($bot->max_amount,2) }}
                                     </div>
