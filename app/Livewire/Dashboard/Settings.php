@@ -119,6 +119,7 @@ class Settings extends Component {
     }
 
     public function submit() {
+        sleep(5);
         $this->validate([
             'address' => 'required|string|max:255|min:6',
             'country' => 'required|string',
