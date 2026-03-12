@@ -86,7 +86,7 @@
                                                     $botCount = $bots->count();
                                                     $baseShare = $botCount > 0 ? (20 / $botCount) : 0;
 
-                                                    $p = $bot->profitCycles()->sum('profit_amount');
+                                                    // $p = $bot->profitCycles()->sum('profit_amount');
 
                                                    $profitShare = $totalPlatformProfits > 0
                                                         ? ($bot->total_profit / $totalPlatformProfits) * 80
@@ -97,7 +97,14 @@
                                             </div>
 
                                             <div class="profit-note">
-                                                AI optimized strategy using automated trade execution b{{ $p }}
+                                                Profit Allocation:
+                                                <span class="profit-green">
+                                                    {{ $pct }}%
+                                                </span>
+                                            </div>
+
+                                            <div class="profit-note">
+                                                AI optimized strategy using automated trade execution
                                             </div>
 
                                         </div>

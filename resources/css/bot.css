@@ -116,7 +116,7 @@
 }
 
 .profit-green {
-    color: #22c55e;
+    color: #22c55e !important;
     font-weight: 600;
 }
 
@@ -137,6 +137,7 @@
 .profit-note {
     font-size: 11px;
     color: #64748b;
+    margin-top:4px;
 }
 
 .bot-btn-primary {
