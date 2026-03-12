@@ -44,7 +44,7 @@
             </div>
 
             <label class="invora-switch">
-                <input type="checkbox" wire:model="login_alerts">
+                <input type="checkbox" wire:model.live="notifyLoginAttempts">
                 <span class="invora-slider"></span>
             </label>
         </div>

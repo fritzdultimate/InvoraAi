@@ -45,7 +45,8 @@ class User extends Authenticatable
         'dob',
         'kyc_status',
         'kyc_submitted_at',
-        'two_factor_enable'
+        'two_factor_enable',
+        'notify_login_attempts'
     ];
 
     /**

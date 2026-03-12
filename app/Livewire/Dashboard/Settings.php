@@ -27,10 +27,47 @@ class Settings extends Component {
     public $dob;
 
     public $twofactor;
+    public $notifyLoginAttempts;
+
+    public $notifyDepositAlerts;
+    public $notifyWithdrawalAlerts;
+    public $notifySecurityAlerts;
+    public $notifyEmailNotification;
+
 
     public function updatedTwoFactor($value) {
         auth()->user()->update([
             'two_factor_enable' => $value
+        ]);
+    }
+
+    public function updatedNotifyLoginAttempts($value) {
+        auth()->user()->update([
+            'notify_login_attempts' => $value
+        ]);
+    }
+
+    public function updatedNotifyDepositAlerts($value) {
+        auth()->user()->update([
+            'notify_depsoit_alerts' => $value
+        ]);
+    }
+
+    public function updatedNotifyWithdrawalAlerts($value) {
+        auth()->user()->update([
+            'notify_withdrawal_alerts' => $value
+        ]);
+    }
+
+    public function updatedNotifySecurityAlerts($value) {
+        auth()->user()->update([
+            'notify_security_alerts' => $value
+        ]);
+    }
+
+    public function updatedNotifyEmailNotification($value) {
+        auth()->user()->update([
+            'notify_email_notifications' => $value
         ]);
     }
 
@@ -47,6 +84,12 @@ class Settings extends Component {
         $this->security_alerts = $user->security_alerts;
 
         $this->twofactor = $user->two_factor_enable;
+        $this->notifyLoginAttempts = $user->notify_login_attempts;
+
+        $this->notifyDepositAlerts = $user->notify_depsoit_alerts;
+        $this->notifyWithdrawalAlerts = $user->notify_withdrawal_alerts;
+        $this->notifySecurityAlerts = $user->notify_security_alerts;
+        $this->notifyEmailNotification = $user->notify_email_notifications;
 
 
         $this->country = $user->country;
