@@ -1,14 +1,15 @@
 <div class="" x-data="{subscribeModalOn: false}">
 
+    <div class="section-header">
+        <h2 class="section-title">AI Bots</h2>
+        <p class="section-subtitle" style="color:var(--text-secondary);">Available Trading Bots</p>
+    </div>
 
     <div class="gap-6 grid grid-cols-1 2xl:grid-cols-12" style="margin-bottom: 30px;">
         <div class="col-span-12 2xl:col-span-8">
             <div class="gap-6 grid grid-cols-1 sm:grid-cols-12">
 
                 <div class="col-span-12">
-                    <div class="mb-4 mt-8 flex flex-wrap justify-between gap-4">
-                        <h6 class="mb-0">Available Trading Bots</h6>
-                    </div>
 
                     <div id="default-tab-content">
                         <div style="margin-bottom: 25px;" class="rounded-lg bg-gray-50 dark:bg-gray-800" id="all"
