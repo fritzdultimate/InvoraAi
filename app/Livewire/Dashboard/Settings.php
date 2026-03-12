@@ -24,7 +24,8 @@ class Settings extends Component {
     public $confirm_password;
     public $country;
     public $document_type;
-    public $date_of_birth;
+    public $dob;
+
 
     public function mount() {
         $this->loadSessions();
@@ -36,6 +37,9 @@ class Settings extends Component {
         $this->deposit_alerts = $user->deposit_alerts;
         $this->withdrawal_alerts = $user->withdrawal_alerts;
         $this->security_alerts = $user->security_alerts;
+
+        $this->country = $user->country;
+        $this->dob = $user->dob?->format('Y-m-d');
     }
 
     public function loadSessions() {
@@ -131,7 +135,7 @@ class Settings extends Component {
             'user_id' => auth()->id(),
             'address' => $this->address,
             'country' => $this->country,
-            // 'date_of_birth' => $this->date_of_birth,
+            'date_of_birth' => $this->dob,
             'document_type' => $this->document_type,
             'document_front' => $this->id_front->store('kyc', 'local'),
             'document_back' => $this->id_back?->store('kyc', 'local'),
@@ -145,12 +149,11 @@ class Settings extends Component {
             ]);
             auth()->user()->refresh();
 
-            $this->dispatch('Your details are under review. We\'ll notify you as soon as verification is complete.');
+            $this->dispatch('success', message: 'Your details are under review. We\'ll notify you as soon as verification is complete.');
 
             $this->reset([
                 'address',
                 'country',
-                'date_of_birth',
                 'id_front',
                 'document_type',
                 'id_back'

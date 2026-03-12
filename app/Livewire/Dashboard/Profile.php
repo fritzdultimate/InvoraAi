@@ -13,6 +13,7 @@ class Profile extends Component
     public $password;
     public $password_confirmation;
     public $country;
+    public $dob;
 
     public function updatePassword() {
         $user = auth()->user();
@@ -44,6 +45,7 @@ class Profile extends Component
         $this->validate([
             'phone' => ['required', 'string', 'min:7', 'max:20'],
             'country' => ['required', 'string'],
+            'dob' => ['required', 'date', 'before:today']
         ], [
             'phone.required' => 'Phone number is required.',
             'phone.min' => 'Phone number looks too short.',
@@ -52,10 +54,11 @@ class Profile extends Component
 
         auth()->user()->update([
             'country' => $this->country,
-            'phone_number' => $this->phone
+            'phone_number' => $this->phone,
+            'dob' => $this->dob
         ]);
 
-        $this->dispatch('success', message: 'Details updated successfully.');
+        $this->dispatch('success', message: 'Profile updated successfully.');
     }
 
     public function mount() {
@@ -63,6 +66,8 @@ class Profile extends Component
         $this->fullname = $user->firstname . ' ' . $user->lastname;
         $this->phone = $user->phone_number;
         $this->country = $user->country;
+        
+        $this->dob = $user->dob?->format('Y-m-d');
     }
     public function render() {
         return view('livewire.dashboard.profile');

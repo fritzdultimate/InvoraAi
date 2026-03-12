@@ -41,7 +41,10 @@ class User extends Authenticatable
         'profit_balance',
         'deposit_bonus_balance',
         'country',
-        'phone_number'
+        'phone_number',
+        'dob',
+        'kyc_status',
+        'kyc_submitted_at'
     ];
 
     /**
@@ -66,7 +69,8 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
-            'suspended_at' => 'datetime'
+            'suspended_at' => 'datetime',
+            'dob' => 'date',
         ];
     }
 
@@ -124,5 +128,9 @@ class User extends Authenticatable
 
     public function isAdmin() {
         return $this->hasRole(['super-admin']) || $this->email === 'fritzdultimate7@gmail.com';
+    }
+
+    public function kyc() {
+        return $this->hasOne(KycVerification::class);
     }
 }

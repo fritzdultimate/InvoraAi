@@ -57,9 +57,14 @@
                         <input type="text" wire:model.defer="phone">
                     </div>
 
-                    <div class="invora-input full">
+                    <div class="invora-input">
                         <label>Country</label>
                         <input type="text" wire:model.defer="country">
+                    </div>
+
+                    <div class="invora-input">
+                        <label>Date of Birth</label>
+                        <input type="date" wire:model.defer="dob">
                     </div>
                 </div>
 
@@ -147,23 +152,6 @@
             </div>
 
             <!-- KYC -->
-            <div class="invora-card mt-4">
-                <div class="invora-card-header">
-                    <i class="ri-verified-badge-fill"></i> Verification
-                </div>
-
-                <div class="invora-kyc-box">
-                    <div class="invora-kyc-status">
-                        {{ ucfirst(auth()->user()->kyc_status ?? 'Not Submitted') }}
-                    </div>
-
-                    <input type="file" wire:model="kyc_document">
-
-                    <button class="invora-btn-primary">
-                        Submit KYC
-                    </button>
-                </div>
-            </div>
 
         </div>
 
