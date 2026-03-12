@@ -44,7 +44,8 @@ class User extends Authenticatable
         'phone_number',
         'dob',
         'kyc_status',
-        'kyc_submitted_at'
+        'kyc_submitted_at',
+        'two_factor_enable'
     ];
 
     /**
@@ -71,6 +72,13 @@ class User extends Authenticatable
             'password' => 'hashed',
             'suspended_at' => 'datetime',
             'dob' => 'date',
+            'two_factor_enable' => 'boolean',
+            'notify_login_attempts' => 'boolean',
+            'notify_email_notifications' => 'boolean',
+            'notify_deposit_alerts' => 'boolean',
+            'notify_withdrawal_alerts' => 'boolean',
+            'notify_security_alerts' => 'boolean'
+
         ];
     }
 

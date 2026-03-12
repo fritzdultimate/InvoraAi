@@ -48,6 +48,7 @@ class Settings extends Component {
 
         $this->twofactor = $user->two_factor_enable;
 
+
         $this->country = $user->country;
         $this->dob = $user->dob?->format('Y-m-d');
     }
