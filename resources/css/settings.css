@@ -373,3 +373,48 @@
 
     width: 100%;
 }
+
+.invora-alert{
+    border-radius:14px;
+    padding:16px;
+    font-size:13px;
+    border:1px solid var(--border-soft);
+    margin-top: 20px;
+}
+
+.invora-alert-danger{
+    background:rgba(239,68,68,0.06);
+    border-color:rgba(239,68,68,0.35);
+}
+
+.invora-alert-header{
+    display:flex;
+    gap:10px;
+    margin-bottom:10px;
+}
+
+.invora-alert-icon{
+    font-size:16px;
+    color:#ef4444;
+}
+
+.invora-alert-title{
+    font-weight:600;
+    color:#f87171;
+}
+
+.invora-alert-subtitle{
+    font-size:12px;
+    color:var(--text-secondary);
+    margin-top:2px;
+}
+
+.invora-alert-list{
+    padding-left:18px;
+    margin:0;
+}
+
+.invora-alert-list li{
+    margin-bottom:4px;
+    color:#fca5a5;
+}

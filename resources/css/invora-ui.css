@@ -95,6 +95,32 @@
     background: rgba(255,255,255,0.04);
 }
 
+.invora-field{
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+}
+
+.invora-label{
+    font-size:12px;
+    color:var(--text-secondary);
+}
+
+.invora-select-wrap{
+    position:relative;
+}
+
+.invora-select-wrap::after{
+    content:"▾";
+    position:absolute;
+    right:12px;
+    top:50%;
+    transform:translateY(-50%);
+    color:var(--text-secondary);
+    font-size:12px;
+    pointer-events:none;
+}
+
 /* ===== TABLE ===== */
 .invora-table-wrapper {
     width: 100%;

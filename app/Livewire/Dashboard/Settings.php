@@ -2,16 +2,19 @@
 
 namespace App\Livewire\Dashboard;
 
+use App\Models\KycVerification;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class Settings extends Component {
+    use WithFileUploads;
 
     public $id_front;
     public $id_back;
     public $selfie;
-    public $address_proof;
+    public $address;
     public $tab = 'security';
     public $sessions = [];
     public $email_notifications = true;
@@ -19,6 +22,9 @@ class Settings extends Component {
     public $withdrawal_alerts = true;
     public $security_alerts = true;
     public $confirm_password;
+    public $country;
+    public $document_type;
+    public $date_of_birth;
 
     public function mount() {
         $this->loadSessions();
@@ -107,8 +113,54 @@ class Settings extends Component {
 
         $this->dispatch('success', message: 'Device logged out');
     }
-    public function render()
-    {
+
+    public function submit() {
+        $this->validate([
+            'address' => 'required|string|max:255|min:6',
+            'country' => 'required|string',
+            // 'date_of_birth' => 'required|date',
+            'document_type' => 'required',
+            'id_front' => 'required|image|max:4096',
+            'id_back' => 'required|image|max:4096',
+        ]);
+        $this->resetErrorBag();
+
+        abort_if(auth()->user()->kyc && auth()->user()->kyc->status != 'rejected', 403);
+
+        $kyc = KycVerification::create([
+            'user_id' => auth()->id(),
+            'address' => $this->address,
+            'country' => $this->country,
+            // 'date_of_birth' => $this->date_of_birth,
+            'document_type' => $this->document_type,
+            'id_front' => $this->document_front->store('kyc', 'local'),
+            'id_back' => $this->document_back?->store('kyc', 'local'),
+            'status' => 'pending',
+        ]);
+
+        if($kyc) {
+            auth()->user()->update([
+                'kyc_status' => 'pending',
+                'kyc_submitted_at' => now()
+            ]);
+            auth()->user()->refresh();
+
+            $this->dispatch('Your details are under review. We\'ll notify you as soon as verification is complete.');
+
+            $this->reset([
+                'address',
+                'country',
+                'date_of_birth',
+                'id_front',
+                'document_type',
+                'id_back'
+            ]);
+
+            // Mail::to(auth()->user()->email)->send(new KycSubmittedMail(auth()->user()));
+        }
+    }
+
+    public function render() {
         return view('livewire.dashboard.settings');
     }
 }
