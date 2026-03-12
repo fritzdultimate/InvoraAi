@@ -6,6 +6,7 @@ use App\Enums\LedgerAsset;
 use App\Enums\LedgerReference;
 use App\Models\BotLicense;
 use App\Models\BotLicenseUpgrade;
+use App\Models\BotProfitCycle;
 use App\Services\Bot\BotInvestmentService;
 use App\Services\Wallet\WalletService;
 use Illuminate\Support\Facades\DB;
@@ -21,6 +22,7 @@ class Bot extends Component {
     public $perPage = 10;
     public $activeLicense;
     public $upgrading = false;
+    public $totalPlatformProfits;
 
     protected function rules() {
         return [
@@ -29,6 +31,7 @@ class Bot extends Component {
     }
 
     public function mount() {
+        $this->totalPlatformProfits = BotProfitCycle::sum('profit_amount');
         $this->activeLicense = BotLicense::where('user_id', auth()->id())
             ->where('expires_at', '>', now())
             ->lockForUpdate()
@@ -127,7 +130,7 @@ class Bot extends Component {
     }
 
     public function render() {
-        $bots = \App\Models\Bot::where('is_active', true)->get();
+        $bots = \App\Models\Bot::withSum('profitCycles as total_profit', 'profit_amount')->where('is_active', true)->get();
         $licenses = BotLicense::where('user_id', auth()->id())
             ->latest()
             ->paginate($this->perPage);

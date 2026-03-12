@@ -35,4 +35,15 @@ class Bot extends Model {
     public function investments() {
         return $this->hasMany(BotInvestment::class);
     }
+
+    public function profitCycles() {
+        return $this->hasManyThrough(
+            BotProfitCycle::class,
+            BotInvestment::class,
+            'bot_id',
+            'bot_investment_id',
+            'id',
+            'id'
+        );
+    }
 }

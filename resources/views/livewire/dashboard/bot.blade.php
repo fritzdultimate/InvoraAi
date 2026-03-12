@@ -82,7 +82,16 @@
                                             </div>
 
                                             <div class="profit-bar">
-                                                <div class="profit-fill"></div>
+                                                @php
+                                                    $botCount = $bots->count();
+                                                    $baseShare = $botCount > 0 ? (20 / $botCount) : 0;
+
+                                                   $profitShare = $totalPlatformProfits > 0
+                                                        ? ($bot->total_profit / $totalPlatformProfits) * 80
+                                                        : 0;
+                                                    $pct = round($baseShare + $profitShare, 2);
+                                                @endphp
+                                                <div class="profit-fill" style="width: {{ $pct }}%"></div>
                                             </div>
 
                                             <div class="profit-note">
