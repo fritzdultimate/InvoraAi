@@ -61,7 +61,7 @@
             @include('components.layouts.app.header')
             <div class="dashboard-main-body">
 
-                <div class="flex flex-wrap items-center justify-between gap-2 mb-6">
+                <div class="hidden flex-wrap items-center justify-between gap-2 mb-6">
                     <h6 class="font-semibold mb-0 dark:text-white">
                         {{ $title ?? 'Dashboard' }}
                     </h6>
