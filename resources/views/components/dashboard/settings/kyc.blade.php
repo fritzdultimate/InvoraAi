@@ -88,8 +88,9 @@
         </div>
     @endif
 
-    <button class="invora-btn-primary" wire:click="submit">
-        Submit Verification
+    <button class="invora-btn-primary" wire:click="submit" wire:loading.attr="disabled">
+        <span wire:target="submit" wire:loading.remove>Submit Verification</span>
+        <span class="spinner" wire:target="submit" wire:loading></span>
     </button>
 
 </div>
