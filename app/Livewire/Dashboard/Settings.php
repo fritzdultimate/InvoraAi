@@ -26,6 +26,14 @@ class Settings extends Component {
     public $document_type;
     public $dob;
 
+    public $twofactor;
+
+    public function updatedTwoFactor($value) {
+        auth()->user()->update([
+            'two_factor_enable' => $value
+        ]);
+    }
+
 
     public function mount() {
         $this->loadSessions();
@@ -37,6 +45,8 @@ class Settings extends Component {
         $this->deposit_alerts = $user->deposit_alerts;
         $this->withdrawal_alerts = $user->withdrawal_alerts;
         $this->security_alerts = $user->security_alerts;
+
+        $this->twofactor = $user->two_factor_enable;
 
         $this->country = $user->country;
         $this->dob = $user->dob?->format('Y-m-d');

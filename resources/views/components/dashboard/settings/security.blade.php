@@ -25,7 +25,7 @@
             </div>
 
             <label class="invora-switch">
-                <input type="checkbox" wire:model="twofa">
+                <input type="checkbox" wire:model="twofactor">
                 <span class="invora-slider"></span>
             </label>
         </div>
