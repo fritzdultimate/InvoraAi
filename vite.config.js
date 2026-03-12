@@ -20,6 +20,7 @@ export default defineConfig({
                 'resources/css/referral-bonus.css',
                 'resources/css/referral-direct.css',
                 'resources/css/tickets.css',
+                'resources/css/bot.css',
             ],
             refresh: true,
         }),
