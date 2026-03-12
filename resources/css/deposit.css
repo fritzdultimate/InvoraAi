@@ -862,6 +862,8 @@ input[type=number] {
     outline: none;
     color: #fff;
     flex: 1;
+
+    font-size: 16px;
 }
 
 /* BUTTON */

@@ -18,7 +18,7 @@
     ]
   },
   "resources/css/deposit.css": {
-    "file": "assets/deposit-t660rtbE.css",
+    "file": "assets/deposit-C3eEw3tb.css",
     "src": "resources/css/deposit.css",
     "isEntry": true,
     "name": "deposit",
@@ -36,7 +36,7 @@
     ]
   },
   "resources/css/investment.css": {
-    "file": "assets/investment-CdX2oETK.css",
+    "file": "assets/investment-DcArUca2.css",
     "src": "resources/css/investment.css",
     "isEntry": true,
     "name": "investment",
@@ -45,7 +45,7 @@
     ]
   },
   "resources/css/invora-ui.css": {
-    "file": "assets/invora-ui-39os0rS_.css",
+    "file": "assets/invora-ui-CcMYB2Rf.css",
     "src": "resources/css/invora-ui.css",
     "isEntry": true,
     "name": "invora-ui",
@@ -54,7 +54,7 @@
     ]
   },
   "resources/css/profile.css": {
-    "file": "assets/profile-BPIczSVx.css",
+    "file": "assets/profile-Bd3PSxsu.css",
     "src": "resources/css/profile.css",
     "isEntry": true,
     "name": "profile",
@@ -81,7 +81,7 @@
     ]
   },
   "resources/css/referral-overview.css": {
-    "file": "assets/referral-overview-0VXsFkYw.css",
+    "file": "assets/referral-overview-DRkYT5Nk.css",
     "src": "resources/css/referral-overview.css",
     "isEntry": true,
     "name": "referral-overview",
