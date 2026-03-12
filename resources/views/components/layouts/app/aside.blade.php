@@ -115,12 +115,12 @@
 				</a>
 			</li>
 
-			<li>
+			<!-- <li>
 				<a href="#">
 					<iconify-icon icon="mdi:shield-account-outline" class="menu-icon"></iconify-icon>
 					<span>KYC</span>
 				</a>
-			</li>
+			</li> -->
 		</ul>
 	</div>
 </aside>
