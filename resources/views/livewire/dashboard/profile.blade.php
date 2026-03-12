@@ -44,7 +44,7 @@
                 <div class="invora-form-grid">
                     <div class="invora-input">
                         <label>Full Name</label>
-                        <input type="text" wire:model.defer="fullname">
+                        <input type="text" wire:model.defer="fullname" disabled>
                     </div>
 
                     <div class="invora-input">
@@ -56,9 +56,17 @@
                         <label>Phone</label>
                         <input type="text" wire:model.defer="phone">
                     </div>
+
+                    <div class="invora-input full">
+                        <label>Country</label>
+                        <input type="text" wire:model.defer="country">
+                    </div>
                 </div>
 
-                <button class="invora-btn-primary">Save Changes</button>
+                <button class="invora-btn-primary" wire:click="updateChanges">
+                    <span wire:target="updateChanges" wire:loading.remove>Save Changes</span>
+                    <span class="spinner0" wire:loading wire:target="updateChanges"></span>
+                </button>
             </div>
 
             <!-- SECURITY -->

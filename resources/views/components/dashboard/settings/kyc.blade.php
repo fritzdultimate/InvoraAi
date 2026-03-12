@@ -16,8 +16,9 @@
 
             <div class="invora-select-wrap">
                 <select wire:model="document_type" class="invora-input">
-                    <option value="" disabled selected>Select Document Type</option>
-                    <option value="voters_card">Voters Card</option>
+                    <option value="" selected>Select Document Type</option>
+                    <option value="passport">Passport</option>
+                    <option value="national_id">National ID</option>
                     <option value="drivers_license">Drivers License</option>
                 </select>
             </div>
@@ -25,21 +26,37 @@
 
         <!-- FRONT -->
         <div class="invora-upload-box full">
-            <div class="upload-content">
-                <i class="ri-upload-cloud-2-line"></i>
-                <div>ID Front</div>
-                <small>Upload clear image</small>
-            </div>
+            @if ($id_front)
+                <img src="{{ $id_front->temporaryUrl() }}"
+                    class="halpha-w-full halpha-h-40 halpha-object-cover halpha-rounded">
+                <p class="halpha-text-xs halpha-text-gray-400 halpha-mt-2">
+                    Click to replace image
+                </p>
+            @else
+                <div class="upload-content">
+                    <i class="ri-upload-cloud-2-line"></i>
+                    <div>ID Front</div>
+                    <small>Upload clear image</small>
+                </div>
+            @endif
             <input type="file" wire:model="id_front">
         </div>
 
         <!-- BACK -->
         <div class="invora-upload-box full">
-            <div class="upload-content">
-                <i class="ri-upload-cloud-2-line"></i>
-                <div>ID Back</div>
-                <small>Upload clear image</small>
-            </div>
+            @if ($id_back)
+                <img src="{{ $id_back->temporaryUrl() }}"
+                    class="halpha-w-full halpha-h-40 halpha-object-cover halpha-rounded">
+                <p class="halpha-text-xs halpha-text-gray-400 halpha-mt-2">
+                    Click to replace image
+                </p>
+            @else
+                <div class="upload-content">
+                    <i class="ri-upload-cloud-2-line"></i>
+                    <div>ID Back</div>
+                    <small>Upload clear image</small>
+                </div>
+            @endif
             <input type="file" wire:model="id_back">
         </div>
 

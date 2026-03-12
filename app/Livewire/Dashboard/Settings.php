@@ -133,8 +133,8 @@ class Settings extends Component {
             'country' => $this->country,
             // 'date_of_birth' => $this->date_of_birth,
             'document_type' => $this->document_type,
-            'id_front' => $this->document_front->store('kyc', 'local'),
-            'id_back' => $this->document_back?->store('kyc', 'local'),
+            'document_front' => $this->id_front->store('kyc', 'local'),
+            'document_back' => $this->id_back?->store('kyc', 'local'),
             'status' => 'pending',
         ]);
 

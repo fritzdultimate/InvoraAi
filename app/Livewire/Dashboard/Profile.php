@@ -12,6 +12,7 @@ class Profile extends Component
     public $current_password;
     public $password;
     public $password_confirmation;
+    public $country;
 
     public function updatePassword() {
         $user = auth()->user();
@@ -39,10 +40,27 @@ class Profile extends Component
         $this->dispatch('success', message: 'Password updated successfully.');
     }
 
+    public function updateChanges() {
+        $this->validate([
+            'phone' => ['required', 'string', 'min:7', 'max:20'],
+            'country' => ['required', 'string'],
+        ], [
+            'phone.required' => 'Phone number is required.',
+            'phone.min' => 'Phone number looks too short.',
+            'country.required' => 'Please select your country.',
+        ]);
+
+        auth()->user()->update([
+            'country' => $this->country,
+            'phone_number' => $this->phone
+        ]);
+    }
+
     public function mount() {
         $user = auth()->user();
         $this->fullname = $user->firstname . ' ' . $user->lastname;
         $this->phone = $user->phone_number;
+        $this->country = $user->country;
     }
     public function render() {
         return view('livewire.dashboard.profile');
