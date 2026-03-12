@@ -130,7 +130,7 @@ class Bot extends Component {
     }
 
     public function render() {
-        $bots = \App\Models\Bot::withSum('profitCycles as total_profit', 'profit_amount')->where('is_active', true)->get();
+        $bots = \App\Models\Bot::where('is_active', true)->get();
         $licenses = BotLicense::where('user_id', auth()->id())
             ->latest()
             ->paginate($this->perPage);
