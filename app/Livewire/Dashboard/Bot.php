@@ -6,6 +6,7 @@ use App\Enums\LedgerAsset;
 use App\Enums\LedgerReference;
 use App\Models\BotLicense;
 use App\Models\BotLicenseUpgrade;
+use App\Services\Bot\BotInvestmentService;
 use App\Services\Wallet\WalletService;
 use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Layout;
@@ -40,7 +41,7 @@ class Bot extends Component {
             $this->addError('general', 'Invalid bot selected.');
             return;
         }
-        sleep(10);
+        // sleep(10);
 
         try{
             $assetEnum = $this->asset === 'deposit'
@@ -50,49 +51,24 @@ class Bot extends Component {
 
             DB::transaction(function() use($assetEnum) {
 
-            
-
                 $activeLicense = BotLicense::where('user_id', auth()->id())
                     ->where('expires_at', '>', now())
                     ->lockForUpdate()
                     ->first();
 
+
                 if ($activeLicense) {
 
                     $currentBot = $activeLicense->bot;
-
-                    // if user tries to buy same or lower bot
                     if ($this->selectedBot->price <= $currentBot->price) {
                         $this->dispatch('error', message: 'You already have an active bot. Upgrade to a higher plan.');
                         return;
                     }
-
-                    if ($this->selectedBot->price > $currentBot->price) {
-                        WalletService::debit(
-                            auth()->user(), 
-                            $this->selectedBot->price, 
-                            LedgerReference::LICENSE_UPGRADE, 
-                            $this->selectedBot->id, 
-                            null, 
-                            $assetEnum
-                        );
-
-                        BotLicenseUpgrade::create([
-                            'bot_license_id' => $activeLicense->id,
-                            'user_id' => auth()->id(),
-                            'from_bot_id' => $activeLicense->bot_id,
-                            'to_bot_id' => $this->selectedBot->id,
-                            'price_paid' => $this->selectedBot->price,
-                            'status' => 'upgraded'
-                        ]);
-
-                        $activeLicense->update([
-                            'bot_id' => $this->selectedBot->id,
-                        ]);
-
-                        $this->dispatch('success', message: 'Your trading bot has been upgraded to ' . $this->selectedBot->name);
-                        return;
-                    }
+                    
+                    BotInvestmentService::upgrade($this->activeLicense, $this->selectedBot, $this->asset);
+                    
+                    $this->dispatch('success', message: 'Bot upgraded successfully!');
+                    return;
                 }
 
                 WalletService::debit(
@@ -123,7 +99,8 @@ class Bot extends Component {
             });
             
         } catch(\Exception $e) {
-            $this->addError('general', $e->getMessage());
+            $this->dispatch('error', message: $e->getMessage());
+            // $this->addError('general', $e->getMessage());
         }
 
         
