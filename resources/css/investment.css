@@ -90,4 +90,103 @@
     transform: translateY(-4px);
 }
 
+.btn-upgrade-link {
+    margin-top:10px;
+    width:100%;
+    text-align:center;
+    font-size:13px;
+    color:#60a5fa !important;
+    background:none;
+    border:none;
+    cursor:pointer;
+    font-weight:500;
+    padding:6px 0;
+    transition:all .2s ease;
+}
+
+.btn-upgrade-link:hover {
+    color:#93c5fd;
+    text-decoration:underline;
+}
+
+
+/*  */
+.license-upgrade-preview {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:#1e293b;
+    padding:12px;
+    border-radius:12px;
+    margin-bottom:16px;
+}
+
+.upgrade-item span {
+    display:block;
+    font-size:11px;
+    color:#94a3b8;
+}
+
+.upgrade-item strong {
+    font-size:14px;
+    color:#f9fafb;
+}
+
+.upgrade-arrow {
+    color:#60a5fa;
+    font-weight:600;
+}
+
+.modal-info-block{
+    background:#1e293b;
+    border:1px solid #334155;
+    border-radius:14px;
+    padding:16px;
+    margin-bottom:16px;
+}
+
+.modal-info-title{
+    font-size:14px;
+    font-weight:600;
+    color:#f9fafb;
+    margin-bottom:6px;
+}
+
+.modal-info-desc{
+    font-size:13px;
+    color:#9ca3af;
+    margin-bottom:12px;
+}
+
+.bot-name{
+    color:#38bdf8;
+    font-weight:600;
+}
+
+.modal-limits{
+    display:flex;
+    justify-content:space-between;
+    gap:12px;
+}
+
+.limit-item{
+    flex:1;
+    background:#0f172a;
+    border-radius:10px;
+    padding:10px;
+    text-align:center;
+}
+
+.limit-label{
+    display:block;
+    font-size:11px;
+    color:#64748b;
+    margin-bottom:3px;
+}
+
+.limit-value{
+    font-size:14px;
+    font-weight:600;
+    color:#f9fafb;
+}
         

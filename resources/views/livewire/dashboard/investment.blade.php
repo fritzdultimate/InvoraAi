@@ -19,6 +19,8 @@
                     $totalDays = $license->starts_at->diffInDays($license->expires_at);
                     $usedDays = $license->starts_at->diffInDays(now());
                     $progress = $totalDays > 0 ? min(100, ($usedDays / $totalDays) * 100) : 0;
+
+                    $canUpgrade = \App\Models\Bot::where('price', '>', $license->bot->price)->exists();
                 @endphp
 
                 <div class="license-card">
@@ -63,6 +65,18 @@
                         @else
                             <button class="btn-disabled" disabled>Expired</button>
                         @endif
+
+                        @if($canUpgrade)
+                            <button
+                                wire:click="openUpgradeModal({{ $license->id }})"
+                                class="btn-upgrade-link"
+                                wire:loading.attr="disabled"
+                                wire:target="openUpgradeModal"
+                            >
+                                <span wire:target="openUpgradeModal" wire:loading.remove class="btn-upgrade-link">Upgrade  Bot →</span>
+                                <span wire:target="openUpgradeModal" wire:loading class="spinner"></span>
+                            </button>
+                        @endif
                     </div>
                 </div>
             @endforeach
@@ -74,35 +88,117 @@
         <div class="modal-overlay" wire:click.self="$set('showModal', false)">
             <div class="modal">
 
-                {{-- Header --}}
-                <div class="modal-header flex justify-between items-center">
-                    <span>Deploy Capital</span>
-                    <button class="modal-close" wire:click="$set('showModal', false)">×</button>
+                <div class="{{ $upgradeMode ? '' : 'modal-info-block' }}">
+                    {{-- Header --}}
+                    <div class="modal-header flex justify-between items-center modal-info-title">
+                        <span>
+                            {{ $upgradeMode ? 'Upgrade License' : 'Deploy Capital' }}
+                        </span>
+                        <button class="modal-close" wire:click="$set('showModal', false)">×</button>
+                    </div>
+
+                    {{-- Info --}}
+                    @if($upgradeMode)
+
+                        <div class="license-upgrade-preview">
+
+                            <div class="upgrade-item">
+                                <span>Current Bot</span>
+                                <strong>{{ $selectedLicense->bot->name }}</strong>
+                            </div>
+
+                            <div class="upgrade-arrow">→</div>
+
+                            <div class="upgrade-item">
+                                <span>Upgrade To</span>
+                                <strong>
+                                    @php
+                                        $selectedUpgradeBot = collect($availableUpgradeBots ?? [])
+                                            ->firstWhere('id', $upgradedBotId);
+                                    @endphp
+                                    {{ $selectedUpgradeBot->name ?? '--' }}
+                                </strong>
+                            </div>
+
+                        </div>
+
+                    @else
+
+                        <p class="modal-info-desc">
+                            Enter the amount you want to allocate to the
+                            <span class="bot-name">{{ $selectedLicense->bot->name }}</span> license.
+                        </p>
+
+                        <div class="modal-limits">
+                            <div class="limit-item">
+                                <span class="limit-label">Minimum</span>
+                                <span class="limit-value">${{ number_format($selectedLicense->bot->min_amount) }}</span>
+                            </div>
+
+                            <div class="limit-item">
+                                <span class="limit-label">Maximum</span>
+                                <span class="limit-value">${{ number_format($selectedLicense->bot->max_amount) }}</span>
+                            </div>
+                        </div>
+
+                    @endif
                 </div>
 
-                {{-- Info --}}
-                <p class="modal-info">
-                    Enter the amount to invest for <strong>{{ $selectedLicense->bot->name }}</strong> license.<br>
-                    Min: ${{ $selectedLicense->bot->min_amount }} | Max: ${{ $selectedLicense->bot->max_amount }}
-                </p>
+                @if($upgradeMode)
+                    {{-- Bot Selector --}}
+                    <div class="asset-selector">
+                        <label>Select Bot</label>
+                        <select class="input" wire:model.live="upgradedBotId">
+                            <option>Select Bot</option>
+                            @foreach ($availableUpgradeBots as $bot)
+                                <option value="{{ $bot->id }}">{{ $bot->name }} - ${{ number_format($bot->price) }}</option>    
+                            @endforeach
+                        </select>
 
-                {{-- Asset Selector --}}
-                <div class="asset-selector">
-                    <label>Select Asset</label>
-                    <select class="input" wire:model.live="asset">
-                        <option value="main">Main Balance</option>
-                        <option value="deposit">Deposit Balance</option>
-                    </select>
-                </div>
+                        @error('upgradedBotId') <div class="error">{{ $message }}</div> @enderror
+                    </div>
 
-                {{-- Amount Input --}}
-                <input type="number" class="input" wire:model.defer="amount" placeholder="Enter amount">
-                @error('amount') <div class="error">{{ $message }}</div> @enderror
+                    {{-- Asset Selector --}}
+                    <div class="asset-selector">
+                        <label>Select Asset</label>
+                        <select class="input" wire:model.live="asset">
+                            <option value="main">Main Balance - (${{ number_format(auth()->user()->main_balance) }})</option>
+                            <option value="deposit">Deposit Balance - (${{ number_format(auth()->user()->deposit_balance) }})</option>
+                        </select>
+                    </div>
+                @else
+                    {{-- Asset Selector --}}
+                    <div class="asset-selector">
+                        <label>Select Asset</label>
+                        <select class="input" wire:model.live="asset">
+                            <option value="main">Main Balance - (${{ number_format(auth()->user()->main_balance) }})</option>
+                            <option value="deposit">Deposit Balance - (${{ number_format(auth()->user()->deposit_balance) }})</option>
+                        </select>
+                    </div>
+
+                    {{-- Amount Input --}}
+                    <input type="number" class="input" wire:model.defer="amount" placeholder="Enter amount">
+                    @error('amount') <div class="error">{{ $message }}</div> @enderror
+                @endif
 
                 {{-- Button --}}
-                <button wire:click="createInvestment" wire:loading.attr="disabled" class="btn-modal">
-                    <span wire:loading.remove wire:target="createInvestment">Deploy</span>
-                    <span wire:loading wire:target="createInvestment">Processing...</span>
+                <button 
+                    wire:click="{{ $upgradeMode ? 'upgradeLicense' : 'createInvestment' }}" 
+                    wire:loading.attr="disabled" 
+                    class="btn-modal"
+                >
+                    <span 
+                        wire:loading.remove 
+                        wire:target="{{ $upgradeMode ? 'upgradeLicense' : 'createInvestment' }}"
+                    >
+                        {{ $upgradeMode ? 'Confirm Upgrade' : 'Deploy' }}
+                    </span>
+                    <span 
+                        wire:loading 
+                        wire:target="{{ $upgradeMode ? 'upgradeLicense' : 'createInvestment' }}"
+                    >
+                        Processing...
+                    </span>
                 </button>
 
             </div>

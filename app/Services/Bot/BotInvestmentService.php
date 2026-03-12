@@ -2,10 +2,12 @@
 
 namespace App\Services\Bot;
 
+use App\Enums\LedgerAsset;
 use App\Enums\LedgerReference;
 use App\Models\Bot;
 use App\Models\BotInvestment;
 use App\Enums\BotInvestmentStatus;
+use App\Models\BotLicenseUpgrade;
 use App\Models\BotTermination;
 use App\Services\Wallet\WalletService;
 use Illuminate\Support\Facades\DB;
@@ -47,45 +49,114 @@ class BotInvestmentService {
 
     public function terminate(BotInvestment $investment) {
 
-    if ($investment->status !== BotInvestmentStatus::ACTIVE) {
-        throw new \Exception('Investment not active.');
+        if ($investment->status !== BotInvestmentStatus::ACTIVE) {
+            throw new \Exception('Investment not active.');
+        }
+
+        return DB::transaction(function () use ($investment) {
+
+            $bot = $investment->bot;
+
+            $penaltyPercent = $bot->early_withdrawal_penalty_percent;
+
+            $penalty = $investment->amount * ($penaltyPercent / 100);
+
+            $finalReturn = $investment->amount - $penalty;
+
+            $investment->user->increment('balance', $finalReturn);
+
+            WalletService::debit(
+                $investment->user,
+                $finalReturn,
+                LedgerReference::BOT_TERMINATION,
+                $investment->id,
+                'Bot termination'
+            );
+
+            $investment->update([
+                'status' => BotInvestmentStatus::TERMINATED,
+                'is_early_terminated' => true,
+            ]);
+
+            BotTermination::create([
+                'bot_investment_id' => $investment->id,
+                'penalty_percent' => $penaltyPercent,
+                'penalty_amount' => $penalty,
+                'amount_returned' => $finalReturn,
+                'terminated_at' => now()
+            ]);
+
+            return $finalReturn;
+        });
     }
 
-    return DB::transaction(function () use ($investment) {
+    public static function upgrade($license, $bot, $asset) {
+        DB::transaction(function () use ($license, $bot, $asset) {
 
-        $bot = $investment->bot;
+            $asset = $asset === 'deposit' ? LedgerAsset::DEPOSIT : LedgerAsset::MAIN;
+            WalletService::debit(
+                $license->user,
+                $bot->price,
+                LedgerReference::LICENSE_UPGRADE,
+                $license->id,
+                'license upgrade',
+                $asset
 
-        $penaltyPercent = $bot->early_withdrawal_penalty_percent;
+            );
 
-        $penalty = $investment->amount * ($penaltyPercent / 100);
+            // before the upgrade, stop all investments on former license
+            $investments = BotInvestment::where('user_id', $license->user->id)
+                ->where('bot_license_id', $license->id)
+                ->where('matures_at', '>', now())
+                ->where('status', 'active')
+                ->get();
 
-        $finalReturn = $investment->amount - $penalty;
+            foreach($investments as $inv) {
+                // mark completed
+                $inv->update([
+                    'matures_at' => now(),
+                    'status' => 'completed'
+                ]);
 
-        $investment->user->increment('balance', $finalReturn);
+                // debit investment capital from locked balance
+                WalletService::debit(
+                    $license->user,
+                    $inv->capital,
+                    LedgerReference::BOT_INVESTMENT_COMPLETED,
+                    $inv->id,
+                    'license upgrade - investment completed',
+                    LedgerAsset::LOCKEDBALANCE
 
-        WalletService::debit(
-            $investment->user,
-            $finalReturn,
-            LedgerReference::BOT_TERMINATION,
-            $investment->id,
-            'Bot termination'
-        );
+                );
 
-        $investment->update([
-            'status' => BotInvestmentStatus::TERMINATED,
-            'is_early_terminated' => true,
-        ]);
+                // credit investment capital to main balance
+                WalletService::credit(
+                    $license->user,
+                    $inv->capital,
+                    LedgerReference::BOT_INVESTMENT_COMPLETED,
+                    $inv->id,
+                    'license upgrade - investment completed',
+                    LedgerAsset::MAIN
 
-        BotTermination::create([
-            'bot_investment_id' => $investment->id,
-            'penalty_percent' => $penaltyPercent,
-            'penalty_amount' => $penalty,
-            'amount_returned' => $finalReturn,
-            'terminated_at' => now()
-        ]);
+                );
+            }
 
-        return $finalReturn;
-    });
-}
+            BotLicenseUpgrade::create([
+                'bot_license_id' => $license->id,
+                'user_id' => $license->user->id,
+                'from_bot_id' => $license->bot->id,
+                'to_bot_id' => $bot->id,
+                'price_paid' => $bot->price,
+                'status' => 'upgraded'
+            ]);
+
+            $license->update([
+                'bot_id' => $bot->id,
+                'starts_at' => now(),
+                'expires_at' => now()->addDays($bot->license_duration_days),
+                'status' => 'active'
+            ]);
+        });
+    }
 
 }

@@ -64,7 +64,6 @@ class Bot extends Component {
                     // if user tries to buy same or lower bot
                     if ($this->selectedBot->price <= $currentBot->price) {
                         $this->dispatch('error', message: 'You already have an active bot. Upgrade to a higher plan.');
-                        // $this->dispatch('success', message: 'You already have an active bot. Upgrade to a higher plan.');
                         return;
                     }
 

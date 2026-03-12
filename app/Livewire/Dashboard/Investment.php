@@ -4,9 +4,13 @@ namespace App\Livewire\Dashboard;
 
 use App\Enums\LedgerAsset;
 use App\Enums\LedgerReference;
+use App\Models\Bot;
 use App\Models\BotInvestment;
 use App\Models\BotLicense;
+use App\Models\BotLicenseUpgrade;
+use App\Services\Bot\BotInvestmentService;
 use App\Services\Wallet\WalletService;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
 class Investment extends Component
@@ -19,6 +23,10 @@ class Investment extends Component
     public $asset = 'main';
     public $search;
     public $type;
+
+    public $upgradeMode = false;
+    public $availableUpgradeBots;
+    public $upgradedBotId;
 
     public function mount() {
         $this->licenses = BotLicense::with('bot')
@@ -33,8 +41,10 @@ class Investment extends Component
         ];
     }
 
-    public function openModal($licenseId)
-    {
+    public function openModal($licenseId) {
+        $this->upgradeMode = false;
+        $this->upgradedBotId = null;
+
         $this->selectedLicense = BotLicense::with('bot')->findOrFail($licenseId);
         $this->amount = null;
         $this->showModal = true;
@@ -71,7 +81,6 @@ class Investment extends Component
 
         try {
 
-        // dd($this->asset);
 
             $asset = $this->asset === 'deposit' ? LedgerAsset::DEPOSIT : LedgerAsset::MAIN;
 
@@ -123,5 +132,53 @@ class Investment extends Component
 
     public function viewInvestment($id) {
         return redirect()->route('investments.item', ['id' => $id]);
+    }
+
+    public function openUpgradeModal($licenseId) {
+        $this->selectedLicense = BotLicense::with('bot')->findOrFail($licenseId);
+
+        $this->upgradeMode = true;
+        $this->availableUpgradeBots = Bot::where('price', '>', $this->selectedLicense->bot->price)->get();
+        $this->showModal = true;
+    }
+
+    public function upgradeLicense() {
+        $this->validate([
+            'upgradedBotId' => [
+                'required',
+                'exists:bots,id',
+                function ($attribute, $value, $fail) {
+                    $selectedBot = Bot::find($value);
+
+                    if (!$selectedBot) {
+                        return;
+                    }
+
+                    if ($selectedBot->price <= $this->selectedLicense->bot->price) {
+                        $fail('You can only upgrade to a higher-tier bot.');
+                    }
+                }
+            ],
+        ], [
+            'upgradedBotId.required' => 'Please select a bot to upgrade.',
+            'upgradedBotId.exists' => 'The selected bot is invalid.'
+        ]);
+
+        try{
+            $selectedUpgradeBot = Bot::where('id', $this->upgradedBotId)->first();
+            if(!$this->selectedLicense || !$selectedUpgradeBot) return;
+
+            BotInvestmentService::upgrade($this->selectedLicense, $selectedUpgradeBot, $this->asset);
+
+            $this->showModal = false;
+            $this->upgradeMode = false;
+
+            // $this->dispatch('toast', payload: [
+            //     'message' => 'Bot upgraded successfully!'
+            // ]);
+            $this->dispatch('success', message: 'Bot upgraded successfully!');
+        } catch(\Throwable $e) {
+            $this->dispatch('error', message: $e->getMessage() ?: 'Upgrade failed. Please try again.');
+        }
     }
 }
