@@ -65,7 +65,7 @@
 
                 <button class="invora-btn-primary" wire:click="updateChanges">
                     <span wire:target="updateChanges" wire:loading.remove>Save Changes</span>
-                    <span class="spinner0" wire:loading wire:target="updateChanges"></span>
+                    <span class="spinner" wire:loading wire:target="updateChanges"></span>
                 </button>
             </div>
 

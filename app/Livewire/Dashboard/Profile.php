@@ -54,6 +54,8 @@ class Profile extends Component
             'country' => $this->country,
             'phone_number' => $this->phone
         ]);
+
+        $this->dispatch('success', message: 'Details updated successfully.');
     }
 
     public function mount() {

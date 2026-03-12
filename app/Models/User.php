@@ -39,7 +39,9 @@ class User extends Authenticatable
         'locked_balance',
         'referral_balance',
         'profit_balance',
-        'deposit_bonus_balance'
+        'deposit_bonus_balance',
+        'country',
+        'phone_number'
     ];
 
     /**
