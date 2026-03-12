@@ -97,7 +97,7 @@
                                             </div>
 
                                             <div class="profit-note">
-                                                AI optimized strategy using automated trade execution b{{ $p }} c{{ $$bot->total_profit }}
+                                                AI optimized strategy using automated trade execution b{{ $p }} c {{ $bot->total_profit }}
                                             </div>
 
                                         </div>
