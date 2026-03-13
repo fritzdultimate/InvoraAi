@@ -1,6 +1,6 @@
 {
   "resources/css/app.css": {
-    "file": "assets/app-DL_DLca6.css",
+    "file": "assets/app-CnOkRgJg.css",
     "src": "resources/css/app.css",
     "isEntry": true,
     "name": "app",
@@ -9,7 +9,7 @@
     ]
   },
   "resources/css/bot.css": {
-    "file": "assets/bot-LlpZeBEF.css",
+    "file": "assets/bot-D8ceo3ej.css",
     "src": "resources/css/bot.css",
     "isEntry": true,
     "name": "bot",
