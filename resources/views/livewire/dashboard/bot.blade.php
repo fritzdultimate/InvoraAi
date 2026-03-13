@@ -5,175 +5,168 @@
         <p class="section-subtitle" style="color:var(--text-secondary);">Available Trading Bots</p>
     </div>
 
-    <div class="gap-6 grid grid-cols-1 2xl:grid-cols-12" style="margin-bottom: 30px;">
-        <div class="col-span-12 2xl:col-span-8">
-            <div class="gap-6 grid grid-cols-1 sm:grid-cols-12">
 
-                <div class="col-span-12">
+    <div class="col-span-12">
 
-                    <div id="default-tab-content">
-                        <div style="margin-bottom: 25px;" class="rounded-lg bg-gray-50 dark:bg-gray-800" id="all"
-                            role="tabpanel" aria-labelledby="all-tab">
+        <div id="default-tab-content">
+            <div style="margin-bottom: 25px;" class="rounded-lg bg-gray-50 dark:bg-gray-800" id="all"
+                role="tabpanel" aria-labelledby="all-tab">
 
-                            <div class="invora-bot-grid">
+                <div class="invora-bot-grid">
 
-                                @foreach($bots as $bot)
+                    @foreach($bots as $bot)
 
-                                    <div class="invora-bot-card">
+                        <div class="invora-bot-card">
 
-                                        <div class="bot-glow"></div>
+                            <div class="bot-glow"></div>
 
-                                        {{-- HEADER --}}
-                                        <div class="bot-top">
+                            {{-- HEADER --}}
+                            <div class="bot-top">
 
-                                            <div class="bot-avatar">
-                                                <img src="{{ asset('assets/images/bot/' . $bot->slug . '.png') }}">
-                                            </div>
+                                <div class="bot-avatar">
+                                    <img src="{{ asset('assets/images/bot/' . $bot->slug . '.png') }}">
+                                </div>
 
-                                            <div class="bot-title">
-                                                <h3>{{ $bot->name }}</h3>
-                                                <span>AI Quant Engine</span>
-                                            </div>
+                                <div class="bot-title">
+                                    <h3>{{ $bot->name }}</h3>
+                                    <span>AI Quant Engine</span>
+                                </div>
 
-                                            <div class="bot-roi">
-                                                {{ rtrim(rtrim($bot->daily_return_percent, '0'), '.') }}%
-                                                <small>Daily ROI</small>
-                                            </div>
+                                <div class="bot-roi">
+                                    {{ rtrim(rtrim($bot->daily_return_percent, '0'), '.') }}%
+                                    <small>Daily ROI</small>
+                                </div>
 
-                                        </div>
+                            </div>
 
-                                        {{-- Mini Chart --}}
-                                        <div class="bot-chart">
-                                            <div id="botChart{{ $bot->id }}"></div>
-                                        </div>
+                            {{-- Mini Chart --}}
+                            <div class="bot-chart">
+                                <div id="botChart{{ $bot->id }}"></div>
+                            </div>
 
 
-                                        {{-- ANALYTICS --}}
-                                        <div class="bot-analytics">
+                            {{-- ANALYTICS --}}
+                            <div class="bot-analytics">
 
-                                            <div class="bot-metric">
-                                                <span>License</span>
-                                                <strong>${{ number_format($bot->price, 2) }}</strong>
-                                            </div>
+                                <div class="bot-metric">
+                                    <span>License</span>
+                                    <strong>${{ number_format($bot->price, 2) }}</strong>
+                                </div>
 
-                                            <div class="bot-metric">
-                                                <span>Duration</span>
-                                                <strong>{{ $bot->license_duration_days }}d</strong>
-                                            </div>
+                                <div class="bot-metric">
+                                    <span>Duration</span>
+                                    <strong>{{ $bot->license_duration_days }}d</strong>
+                                </div>
 
-                                            <div class="bot-metric">
-                                                <span>Capital Range</span>
-                                                <strong>
-                                                    ${{ number_format($bot->min_amount) }} —
-                                                    ${{ number_format($bot->max_amount) }}
-                                                </strong>
-                                            </div>
+                                <div class="bot-metric">
+                                    <span>Capital Range</span>
+                                    <strong>
+                                        ${{ number_format($bot->min_amount) }} —
+                                        ${{ number_format($bot->max_amount) }}
+                                    </strong>
+                                </div>
 
-                                        </div>
-
-
-                                        {{-- PROFIT PREVIEW --}}
-                                        <div class="bot-profit">
-
-                                            <div class="profit-row">
-                                                <span>Projected Profit</span>
-                                                <span class="profit-green">
-                                                    {{ rtrim(rtrim($bot->daily_return_percent, '0'), '.') }}% / day
-                                                </span>
-                                            </div>
-
-                                            <div class="profit-bar">
-                                                @php
-                                                    $botCount = $bots->count();
-                                                    $baseShare = $botCount > 0 ? (20 / $botCount) : 0;
-
-                                                    // $p = $bot->profitCycles()->sum('profit_amount');
-
-                                                   $profitShare = $totalPlatformProfits > 0
-                                                        ? ($bot->total_profit / $totalPlatformProfits) * 80
-                                                        : 0;
-                                                    $pct = round($baseShare + $profitShare, 2);
-                                                @endphp
-                                                <div class="profit-fill" style="width: {{ $pct }}%"></div>
-                                            </div>
-
-                                            <div class="profit-note">
-                                                Profit Allocation:
-                                                <span class="profit-green">
-                                                    {{ $pct }}%
-                                                </span>
-                                            </div>
-
-                                            <div class="profit-note">
-                                                AI optimized strategy using automated trade execution
-                                            </div>
-
-                                        </div>
+                            </div>
 
 
-                                        {{-- CTA --}}
-                                        <div class="bot-action">
+                            {{-- PROFIT PREVIEW --}}
+                            <div class="bot-profit">
 
-                                            @if ($activeLicense && $activeLicense->bot->price < $bot->price)
+                                <div class="profit-row">
+                                    <span>Projected Profit</span>
+                                    <span class="profit-green">
+                                        {{ rtrim(rtrim($bot->daily_return_percent, '0'), '.') }}% / day
+                                    </span>
+                                </div>
 
-                                                <button wire:click="prepareUpgrade({{ $bot['id'] }})"
-                                                    wire:loading.attr="disabled" x-on:click="subscribeModalOn = true"
-                                                    class="bot-btn-upgradef btn rounded-full btn-primary-600 w-full mt-3 py-2 bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-semibold hover:from-indigo-600 hover:to-blue-500 transition-all duration-300 flex justify-center items-center gap-2">
+                                <div class="profit-bar">
+                                    @php
+                                        $botCount = $bots->count();
+                                        $baseShare = $botCount > 0 ? (20 / $botCount) : 0;
 
-                                                    <span wire:loading.remove>Upgrade Bot</span>
+                                        // $p = $bot->profitCycles()->sum('profit_amount');
 
-                                                    <span wire:loading class="btn-loader">
-                                                        <span class="spinner"></span>
-                                                        Processing...
-                                                    </span>
+                                        $profitShare = $totalPlatformProfits > 0
+                                            ? ($bot->total_profit / $totalPlatformProfits) * 80
+                                            : 0;
+                                        $pct = round($baseShare + $profitShare, 2);
+                                    @endphp
+                                    <div class="profit-fill" style="width: {{ $pct }}%"></div>
+                                </div>
 
-                                                </button>
+                                <div class="profit-note">
+                                    Profit Allocation:
+                                    <span class="profit-green">
+                                        {{ $pct }}%
+                                    </span>
+                                </div>
 
-                                            @else
+                                <div class="profit-note">
+                                    AI optimized strategy using automated trade execution
+                                </div>
 
-                                                @if($activeLicense && $activeLicense->bot->price >= $bot->price)
+                            </div>
 
-                                                    <button class="bot-btn-disabled" disabled>
-                                                        Active License
-                                                    </button>
 
-                                                @else
+                            {{-- CTA --}}
+                            <div class="bot-action">
 
-                                                    <button wire:click="selectBot({{ $bot['id'] }})" wire:loading.attr="disabled"
-                                                        x-on:click="subscribeModalOn = true" class="bot-btn-primary">
+                                @if ($activeLicense && $activeLicense->bot->price < $bot->price)
 
-                                                        <span wire:loading.remove>Get License</span>
+                                    <button wire:click="prepareUpgrade({{ $bot['id'] }})"
+                                        wire:loading.attr="disabled" x-on:click="subscribeModalOn = true"
+                                        class="bot-btn-upgradef btn rounded-full btn-primary-600 w-full mt-3 py-2 bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-semibold hover:from-indigo-600 hover:to-blue-500 transition-all duration-300 flex justify-center items-center gap-2">
 
-                                                        <span wire:loading class="btn-loader">
-                                                            <span class="spinner"></span>
-                                                            Processing...
-                                                        </span>
+                                        <span wire:loading.remove>Upgrade Bot</span>
 
-                                                    </button>
+                                        <span wire:loading class="btn-loader">
+                                            <span class="spinner"></span>
+                                            Processing...
+                                        </span>
 
-                                                @endif
+                                    </button>
 
-                                            @endif
+                                @else
 
-                                        </div>
+                                    @if($activeLicense && $activeLicense->bot->price >= $bot->price)
 
-                                    </div>
+                                        <button class="bot-btn-disabled" disabled>
+                                            Active License
+                                        </button>
 
-                                @endforeach
+                                    @else
+
+                                        <button wire:click="selectBot({{ $bot['id'] }})" wire:loading.attr="disabled"
+                                            x-on:click="subscribeModalOn = true" class="bot-btn-primary">
+
+                                            <span wire:loading.remove>Get License</span>
+
+                                            <span wire:loading class="btn-loader">
+                                                <span class="spinner"></span>
+                                                Processing...
+                                            </span>
+
+                                        </button>
+
+                                    @endif
+
+                                @endif
 
                             </div>
 
                         </div>
-                    </div>
+
+                    @endforeach
+
                 </div>
-
-
-
 
             </div>
         </div>
-
     </div>
+
+
+
+
 
     <x-dashboard.license-history :licenses="$licenses" />
 

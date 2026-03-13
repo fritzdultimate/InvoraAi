@@ -1,7 +1,21 @@
 .invora-bot-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    grid-template-columns: 1fr;
+    width: 100%;
     gap: 28px;
+}
+
+@media (min-width: 640px) {
+    .invora-bot-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* desktop */
+@media (min-width: 1024px) {
+    .invora-bot-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
 }
 
 .invora-bot-card {
