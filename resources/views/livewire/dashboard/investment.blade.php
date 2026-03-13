@@ -20,7 +20,11 @@
                     $usedDays = $license->starts_at->diffInDays(now());
                     $progress = $totalDays > 0 ? min(100, ($usedDays / $totalDays) * 100) : 0;
 
-                    $canUpgrade = \App\Models\Bot::where('price', '>', $license->bot->price)->exists();
+                    $canUpgrade = \App\Models\Bot::where('price', '>', $license->bot->price)
+                                        ->whereDoesntHave('licenses', function($q) use($license) {
+                                            $q->where('user_id', $license->user_id);
+                                        })
+                                        ->exists();
                 @endphp
 
                 <div class="license-card">

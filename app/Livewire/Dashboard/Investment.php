@@ -138,7 +138,12 @@ class Investment extends Component
         $this->selectedLicense = BotLicense::with('bot')->findOrFail($licenseId);
 
         $this->upgradeMode = true;
-        $this->availableUpgradeBots = Bot::where('price', '>', $this->selectedLicense->bot->price)->get();
+        $this->availableUpgradeBots = Bot::where('price', '>', $this->selectedLicense->bot->price)
+            ->whereDoesntHave('licenses', function ($q) {
+                $q->where('user_id', $this->selectedLicense->user_id);
+            })
+            ->orderBy('price')
+            ->get();
         $this->showModal = true;
     }
 
