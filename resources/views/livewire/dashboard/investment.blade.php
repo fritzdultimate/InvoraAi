@@ -324,7 +324,7 @@
             @media(max-width:480px){
                 .modal { padding: 20px; max-width: 100%; }
                 .modal-header { font-size: 18px; }
-                .input, .asset-selector select, .btn-modal { padding: 10px; font-size: 14px; }
+                .input, .asset-selector select, .btn-modal { padding: 10px; font-size: 16px; }
             }
         </style>
     @endif
