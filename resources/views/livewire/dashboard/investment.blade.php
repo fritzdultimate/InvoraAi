@@ -285,7 +285,7 @@
                 background: #1e293b;
                 color: #f9fafb;
                 margin-bottom: 12px;
-                font-size: 14px;
+                font-size: 16px;
             }
             .error {
                 font-size: 12px;
