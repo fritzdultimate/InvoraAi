@@ -12,6 +12,7 @@
             <p>You have not activated any trading engines yet.</p>
         </div>
     @else
+
         <div class="license-grid">
             @foreach($licenses as $license)
                 @php
@@ -28,28 +29,52 @@
                 @endphp
 
                 <div class="license-card">
-                    <div class="license-card-top">
+
+                    <div class="license-header">
                         <div>
                             <h5 class="license-title">{{ $license->bot->name }}</h5>
                             <span class="license-id">License #{{ $license->id }}</span>
                         </div>
 
-                        <div class="license-status {{ $expired ? 'expired' : 'active' }}">
-                            {{ $expired ? 'Expired' : 'Running' }}
+                        <span class="license-status {{ $expired ? 'expired' : 'active' }}">
+                            {{ $expired ? 'Expired' : 'Active' }}
+                        </span>
+                    </div>
+
+                    <div class="license-metrics">
+
+                        <div class="metric">
+                            <span class="metric-label">Purchase Price</span>
+                            <span class="metric-value">${{ number_format($license->bot->price,2) }}</span>
                         </div>
+
+                        <div class="metric">
+                            <span class="metric-label">Expires</span>
+                            <span class="metric-value">{{ $license->expires_at->format('M d, Y') }}</span>
+                        </div>
+
+                        <div class="metric">
+                            <span class="metric-label">Duration</span>
+                            <span class="metric-value">{{ $totalDays }} Days</span>
+                        </div>
+
                     </div>
 
-                    <div class="license-stats">
-                        <div class="stat"><span class="stat-label">Purchase Price</span><span class="stat-value">${{ number_format($license->bot->price ?? 0, 2) }}</span></div>
-                        <div class="stat"><span class="stat-label">Expires On</span><span class="stat-value">{{ $license->expires_at->format('M d, Y') }}</span></div>
-                    </div>
+                    <div class="license-progress">
 
-                    <div class="license-progress-wrapper">
-                        <div class="progress-label">License Usage</div>
-                        <div class="progress-bar"><div class="progress-fill" style="width: {{ $progress }}%"></div></div>
+                        <div class="progress-meta">
+                            <span>License Usage</span>
+                            <span>{{ round($progress) }}%</span>
+                        </div>
+
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: {{ $progress }}%"></div>
+                        </div>
+
                     </div>
 
                     <div class="license-actions">
+
                         @if(!$expired)
                             <button
                                 wire:click="openModal({{ $license->id }})"
@@ -61,28 +86,30 @@
                                     Deploy Capital
                                 </span>
 
-                                <span wire:loading wire:target="openModal" class="btn-loader">
-                                    <span class="spinner"></span>
-                                    Processing...
-                                </span>
+                                <span wire:loading wire:target="openModal" class="spinner"></span>
+
                             </button>
                         @else
-                            <button class="btn-disabled" disabled>Expired</button>
+                            <button class="btn-disabled">Expired</button>
                         @endif
 
                         @if($canUpgrade)
                             <button
                                 wire:click="openUpgradeModal({{ $license->id }})"
                                 class="btn-upgrade-link"
-                                wire:loading.attr="disabled"
-                                wire:target="openUpgradeModal"
                             >
-                                <span wire:target="openUpgradeModal" wire:loading.remove class="btn-upgrade-link">Upgrade  Bot →</span>
-                                <span wire:target="openUpgradeModal" wire:loading class="spinner"></span>
+                                <span wire:loading.remove wire:target="openUpgradeModal">
+                                    Upgrade License →
+                                </span>
+
+                                <span wire:loading wire:target="openUpgradeModal" class="spinner"></span>
                             </button>
                         @endif
+
                     </div>
+
                 </div>
+
             @endforeach
         </div>
     @endif
