@@ -208,7 +208,17 @@
                     </div>
 
                     {{-- Amount Input --}}
-                    <input type="number" class="input" wire:model.defer="amount" placeholder="Enter amount">
+                    <input 
+                        type="number" 
+                        class="input" 
+                        wire:model.defer="amount" 
+                        placeholder="Enter amount"
+                        min="0"
+                        step="0.01"
+                        onkeydown="return ['e','E','+','-'].includes(event.key) ? false : true"
+                        inputmode="numeric"
+                        pattern="[0-9]*"
+                    >
                     @error('amount') <div class="error">{{ $message }}</div> @enderror
                 @endif
 
