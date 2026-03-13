@@ -111,7 +111,14 @@
                             {{-- CTA --}}
                             <div class="bot-action">
 
-                                @if ($activeLicense && $activeLicense->bot->price < $bot->price)
+                                @php
+                                    $license = \App\Models\BotLicense::where('user_id', auth()->id())
+                                        ->where('bot_id', $bot->id)
+                                        ->first();
+                                    $canActivate = !$license || $license->expires_at->isPast();
+                                @endphp
+
+                                @if (false)
 
                                     <button wire:click="prepareUpgrade({{ $bot['id'] }})"
                                         wire:loading.attr="disabled" x-on:click="subscribeModalOn = true"
@@ -128,7 +135,7 @@
 
                                 @else
 
-                                    @if($activeLicense && $activeLicense->bot->price >= $bot->price)
+                                    @if(!$canActivate)
 
                                         <button class="bot-btn-disabled" disabled>
                                             Active License
@@ -136,8 +143,12 @@
 
                                     @else
 
-                                        <button wire:click="selectBot({{ $bot['id'] }})" wire:loading.attr="disabled"
-                                            x-on:click="subscribeModalOn = true" class="bot-btn-primary">
+                                        <button 
+                                            wire:click="selectBot({{ $bot['id'] }})" 
+                                            wire:loading.attr="disabled"
+                                            x-on:click="subscribeModalOn = true" 
+                                            class="bot-btn-primaryx btn rounded-full btn-primary-600 w-full mt-3 py-2 bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-semibold hover:from-indigo-600 hover:to-blue-500 transition-all duration-300 flex justify-center items-center gap-2"
+                                        >
 
                                             <span wire:loading.remove>Get License</span>
 

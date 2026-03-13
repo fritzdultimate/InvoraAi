@@ -54,23 +54,13 @@ class Bot extends Component {
 
             DB::transaction(function() use($assetEnum) {
 
-                $activeLicense = BotLicense::where('user_id', auth()->id())
+                $botExists = BotLicense::where('user_id', auth()->id())
                     ->where('expires_at', '>', now())
+                    ->where('bot_id', $this->selectedBot->id)
                     ->lockForUpdate()
                     ->first();
 
-
-                if ($activeLicense) {
-
-                    $currentBot = $activeLicense->bot;
-                    if ($this->selectedBot->price <= $currentBot->price) {
-                        $this->dispatch('error', message: 'You already have an active bot. Upgrade to a higher plan.');
-                        return;
-                    }
-                    
-                    BotInvestmentService::upgrade($this->activeLicense, $this->selectedBot, $this->asset);
-                    
-                    $this->dispatch('success', message: 'Bot upgraded successfully!');
+                if($botExists) {
                     return;
                 }
 
@@ -84,9 +74,11 @@ class Bot extends Component {
                 );
 
                 $license = BotLicense::updateOrCreate(
-                    ['user_id' => auth()->id()],
                     [
+                        'user_id' => auth()->id(),
                         'bot_id' => $this->selectedBot->id,
+                    ],
+                    [
                         'starts_at' => now(),
                         'expires_at' => now()->addDays($this->selectedBot->license_duration_days),
                         'meta' => [
