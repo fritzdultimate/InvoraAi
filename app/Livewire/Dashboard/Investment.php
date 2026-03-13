@@ -37,7 +37,7 @@ class Investment extends Component
 
     public function rules() {
         return [
-            'amount' => 'required'
+            'amount' => ['required','numeric']
         ];
     }
 
