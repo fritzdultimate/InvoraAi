@@ -34,7 +34,6 @@ class Settings extends Component {
     public $notifySecurityAlerts;
     public $notifyEmailNotification;
 
-
     public function updatedTwoFactor($value) {
         auth()->user()->update([
             'two_factor_enable' => $value
@@ -49,7 +48,7 @@ class Settings extends Component {
 
     public function updatedNotifyDepositAlerts($value) {
         auth()->user()->update([
-            'notify_depsoit_alerts' => $value
+            'notify_deposit_alerts' => $value
         ]);
     }
 
@@ -86,7 +85,7 @@ class Settings extends Component {
         $this->twofactor = $user->two_factor_enable;
         $this->notifyLoginAttempts = $user->notify_login_attempts;
 
-        $this->notifyDepositAlerts = $user->notify_depsoit_alerts;
+        $this->notifyDepositAlerts = $user->notify_deposit_alerts;
         $this->notifyWithdrawalAlerts = $user->notify_withdrawal_alerts;
         $this->notifySecurityAlerts = $user->notify_security_alerts;
         $this->notifyEmailNotification = $user->notify_email_notifications;

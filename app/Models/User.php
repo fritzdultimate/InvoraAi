@@ -46,7 +46,11 @@ class User extends Authenticatable
         'kyc_status',
         'kyc_submitted_at',
         'two_factor_enable',
-        'notify_login_attempts'
+        'notify_login_attempts',
+        'notify_email_notifications',
+        'notify_deposit_alerts',
+        'notify_withdrawal_alerts',
+        'notify_security_alerts'
     ];
 
     /**

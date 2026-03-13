@@ -13,7 +13,7 @@
             </div>
 
             <label class="invora-switch">
-                <input type="checkbox" wire:model="notifyEmailNotification">
+                <input type="checkbox" wire:model.live="notifyEmailNotification">
                 <span class="invora-slider"></span>
             </label>
         </div>
@@ -25,7 +25,7 @@
             </div>
             
             <label class="invora-switch">
-                <input type="checkbox" wire:model="notifyDepositAlerts">
+                <input type="checkbox" wire:model.live="notifyDepositAlerts">
                 <span class="invora-slider"></span>
             </label>
         </div>
@@ -36,7 +36,7 @@
                 <div class="sub">Notify on withdrawals</div>
             </div>
             <label class="invora-switch">
-                <input type="checkbox" wire:model="notifyWithdrawalAlerts">
+                <input type="checkbox" wire:model.live="notifyWithdrawalAlerts">
                 <span class="invora-slider"></span>
             </label>
         </div>
@@ -48,7 +48,7 @@
             </div>
             
             <label class="invora-switch">
-                <input type="checkbox" wire:model="notifySecurityAlerts">
+                <input type="checkbox" wire:model.live="notifySecurityAlerts">
                 <span class="invora-slider"></span>
             </label>
         </div>
