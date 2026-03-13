@@ -98,7 +98,7 @@
                                 wire:click="openUpgradeModal({{ $license->id }})"
                                 class="btn-upgrade-link"
                             >
-                                <span wire:loading.remove wire:target="openUpgradeModal">
+                                <span class="btn-upgrade-link" wire:loading.remove wire:target="openUpgradeModal">
                                     Upgrade License →
                                 </span>
 
@@ -125,7 +125,7 @@
                         <span>
                             {{ $upgradeMode ? 'Upgrade License' : 'Deploy Capital' }}
                         </span>
-                        <button class="modal-close" wire:click="$set('showModal', false)">×</button>
+                        <button class="modal-close" wire:click="$set('showModal', false)" aria-label="Close modal">✕</button>
                     </div>
 
                     {{-- Info --}}
