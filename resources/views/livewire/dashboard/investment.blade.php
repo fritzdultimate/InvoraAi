@@ -217,7 +217,7 @@
                         step="0.01"
                         onkeydown="return ['e','E','+','-'].includes(event.key) ? false : true"
                         inputmode="numeric"
-                        pattern="[0-9]*"
+                        
                     >
                     @error('amount') <div class="error">{{ $message }}</div> @enderror
                 @endif
