@@ -305,7 +305,7 @@ class UsersTable
                         ->modalHeading('Unsuspend User')
                         ->modalDescription('Are you sure you want to restore this user’s access?'),
 
-                    ActionGroup::make([
+                    // ActionGroup::make([
                         Action::make('makeAdmin')
                             ->label('Make Admin')
                             ->icon('heroicon-o-shield-check')
@@ -354,7 +354,7 @@ class UsersTable
                             ->modalHeading('Revoke Admin Access')
                             ->modalDescription('This will remove all admin privileges from this user.')
                             // ->visible(fn ($record) => auth()->user()->hasRole('admin'))
-                    ])
+                    // ])
 
 
 
