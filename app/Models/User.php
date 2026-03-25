@@ -140,7 +140,7 @@ class User extends Authenticatable
     }
 
     public function isAdmin() {
-        return $this->hasRole(['super-admin']) || $this->email === 'fritzdultimate7@gmail.com';
+        return $this->hasRole(['admin']) || $this->email === 'fritzdultimate7@gmail.com';
     }
 
     public function kyc() {
