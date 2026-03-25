@@ -303,7 +303,58 @@ class UsersTable
                                 ->send();
                         })
                         ->modalHeading('Unsuspend User')
-                        ->modalDescription('Are you sure you want to restore this user’s access?')
+                        ->modalDescription('Are you sure you want to restore this user’s access?'),
+
+                    ActionGroup::make([
+                        Action::make('makeAdmin')
+                            ->label('Make Admin')
+                            ->icon('heroicon-o-shield-check')
+                            ->color('success')
+                            ->requiresConfirmation()
+                            ->visible(fn ($record) => !$record->hasRole('admin'))
+                            ->action(function ($record) {
+
+                                abort_unless(!$record->hasRole('admin'), 403);
+
+                                // remove lower roles if needed
+                                $record->removeRole('user');
+
+                                $record->assignRole('admin');
+
+                                Notification::make()
+                                    ->title('Admin role assigned')
+                                    ->body('This user now has full administrative privileges.')
+                                    ->success()
+                                    ->send();
+                            })
+                            ->modalHeading('Promote to Admin')
+                            ->modalDescription('This will grant full system control. Proceed with caution.'),
+                            // ->visible(fn ($record) => auth()->user()->hasRole('admin')),
+
+                        Action::make('makeUser')
+                            ->label('Downgrade to User')
+                            ->icon('heroicon-o-user')
+                            ->color('danger')
+                            ->requiresConfirmation()
+                            ->visible(fn ($record) => $record->hasRole('admin'))
+                            ->action(function ($record) {
+
+                                abort_unless($record->hasRole('admin'), 403);
+
+                                $record->removeRole('admin');
+
+                                $record->assignRole('user');
+
+                                Notification::make()
+                                    ->title('User downgraded')
+                                    ->body('Administrative access has been revoked.')
+                                    ->warning()
+                                    ->send();
+                            })
+                            ->modalHeading('Revoke Admin Access')
+                            ->modalDescription('This will remove all admin privileges from this user.')
+                            // ->visible(fn ($record) => auth()->user()->hasRole('admin'))
+                    ])
 
 
 
