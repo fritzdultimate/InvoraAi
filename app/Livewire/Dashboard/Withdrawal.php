@@ -3,6 +3,7 @@
 namespace App\Livewire\Dashboard;
 
 use App\Domain\Withdrawal\WithdrawalRules;
+use App\Models\CustomSetting;
 use App\Models\WithdrawalCurrency;
 use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Layout;
@@ -17,6 +18,15 @@ class Withdrawal extends Component {
     public $address;
     public $networks = [];
     public $perPage = 10;
+
+    public function getFeeProperty() {
+        $fee = CustomSetting::get('withdrawal_fee');
+        return ($this->amount ?? 0) * ($fee * 0.01);
+    }
+
+    public function getNetAmountProperty() {
+        return ($this->amount ?? 0) - $this->fee;
+    }
 
 
     protected $rules = [

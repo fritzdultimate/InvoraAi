@@ -21,8 +21,24 @@
 
         </div>
 
+        <div class="invora-withdrawal-notice">
+            <h4>Withdrawal Notice</h4>
 
-        <!-- DEPOSIT FORM -->
+            <ul>
+                <li>Minimum withdrawal: <strong>$20</strong></li>
+                <li>Maximum per transaction: <strong>$1,000,000</strong></li>
+                <li>Withdrawals are processed within <strong>24 hours</strong></li>
+                <li>Only <strong>one withdrawal request per day</strong> is allowed</li>
+                <li>A <strong>2% processing fee</strong> applies to all withdrawals</li>
+                <li>Please <strong>double-check your wallet address</strong> before submitting</li>
+            </ul>
+
+            <div class="invora-warning">
+                ⚠️ Transactions sent to incorrect addresses cannot be recovered.
+            </div>
+        </div>
+
+        <!-- Withdrawal FORM -->
         <div class="invora-carda invora-deposit-card">
 
             <div class="invora-card-header">
@@ -84,7 +100,7 @@
                     <div class="invora-input-pro">
                         <span class="prefix">$</span>
                         <input 
-                            wire:model.defer="amount" 
+                            wire:model.live="amount" 
                             type="text" 
                             placeholder="0.00"
                             inputmode="decimal"
@@ -124,6 +140,31 @@
                         <span class="invora-error">{{ $message }}</span>
                     @enderror
                 </div>
+
+                @if($amount > 0)
+                    <div class="invora-summary-box">
+                        <div class="invora-summary-row">
+                            <span>Amount</span>
+                            <span>${{ number_format((float)$amount ?: 0, 2) }}</span>
+                        </div>
+
+                        <div class="invora-summary-row fee">
+                            <span>Fee (2%)</span>
+                            <span>
+                                -${{ number_format(((float)$amount ?: 0) * 0.02, 2) }}
+                            </span>
+                        </div>
+
+                        <div class="invora-summary-divider"></div>
+
+                        <div class="invora-summary-row total">
+                            <span>You will receive</span>
+                            <span>
+                                ${{ number_format(((float)$amount ?: 0) * 0.98, 2) }}
+                            </span>
+                        </div>
+                    </div>
+                @endif
 
                 <!-- BUTTON -->
                 <button class="invora-btn-pro">
