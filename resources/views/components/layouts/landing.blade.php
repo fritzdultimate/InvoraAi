@@ -10,15 +10,15 @@
 		<link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/img/favicon.png') }}">
 
         <!-- CSS here -->
-        <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
-        <link rel="stylesheet" href="{{ asset('assets/css/animate.min.css') }}">
-        <link rel="stylesheet" href="{{ asset('assets/css/fontawesome-all.min.css') }}">
-        <link rel="stylesheet" href="{{ asset('assets/css/mCustomScrollbar.min.css') }}">
-        <link rel="stylesheet" href="{{ asset('assets/css/odometer.css') }}">
-        <link rel="stylesheet" href="{{ asset('assets/css/slick.css') }}">
-        <link rel="stylesheet" href="{{ asset('assets/css/default.css') }}">
-        <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
-        <link rel="stylesheet" href="{{ asset('assets/css/responsive.css') }}">
+        <link rel="stylesheet" href="{{ asset('new_assets/css/bootstrap.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('new_assets/css/animate.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('new_assets/css/fontawesome-all.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('new_assets/css/mCustomScrollbar.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('new_assets/css/odometer.css') }}">
+        <link rel="stylesheet" href="{{ asset('new_assets/css/slick.css') }}">
+        <link rel="stylesheet" href="{{ asset('new_assets/css/default.css') }}">
+        <link rel="stylesheet" href="{{ asset('new_assets/css/style.css') }}">
+        <link rel="stylesheet" href="{{ asset('new_assets/css/responsive.css') }}">
 
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
 

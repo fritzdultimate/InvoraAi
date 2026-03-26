@@ -10,7 +10,7 @@
                     <div class="col-xl-3 col-lg-4 col-md-6">
                         <div class="footer-widget wow fadeInUp" data-wow-delay=".2s">
                             <a href="{{ route('home-landing') }}" class="f-logo">
-                                <img style="width: 60px; height: auto;" src="{{ asset('assets/img/logo/invora1.png') }}" alt="">
+                                <img style="width: 60px; height: auto;" src="{{ asset('new_assets/img/logo/invora1.png') }}" alt="">
                             </a>
                             <div class="footer-content">
                                 <p>
