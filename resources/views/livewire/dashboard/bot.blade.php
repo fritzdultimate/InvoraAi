@@ -59,10 +59,9 @@
                                 </div>
 
                                 <div class="bot-metric">
-                                    <span>Capital Range</span>
+                                    <span>Minimum Amount</span>
                                     <strong>
-                                        ${{ number_format($bot->min_amount) }} —
-                                        ${{ number_format($bot->max_amount) }}
+                                        ${{ number_format($bot->min_amount) }}
                                     </strong>
                                 </div>
 
