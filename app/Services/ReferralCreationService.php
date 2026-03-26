@@ -6,8 +6,7 @@ use App\Models\Referral;
 use App\Models\User;
 
 class ReferralCreationService {
-    public static function createFor(User $user, ?User $referrer): Referral
-    {
+    public static function createFor(User $user, ?User $referrer): Referral {
         $data = [
             'user_id' => $user->id,
             'referred_by_id' => $referrer?->id,
