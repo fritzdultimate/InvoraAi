@@ -1,24 +1,22 @@
 <!-- banner-area -->
 <section class="banner-area banner-bg">
     <div class="banner-shape-wrap">
-        <img src="assets/img/banner/banner_shape01.png" alt="" class="img-one">
-        <img src="assets/img/banner/banner_shape02.png" alt="" class="img-two">
-        <img src="assets/img/banner/banner_shape03.png" alt="" class="img-three">
+        <img src="{{ asset('new_assets/img/banner/banner_shape01.png') }}" alt="" class="img-one">
+        <img src="{{ asset('new_assets/img/banner/banner_shape02.png') }}" alt="" class="img-two">
+        <img src="{{ asset('new_assets/img/banner/banner_shape03.png') }}" alt="" class="img-three">
     </div>
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-10">
                 <div class="banner-content text-center">
-                    <img src="assets/img/icon/fire.png" alt="">
+                    <img src="{{ asset('new_assets/img/icon/fire.png') }}" alt="">
                     <h2 class="title">
                         A Global <span style="color: #009A76;">AI-Driven</span>, Market-Neutral Trading <span
                             style="color: #009A76;">Ecosystem</span>
                     </h2>
 
-                    <p class="mt-3 text-light" style="max-width: 700px; margin: auto;">
-                        InvoraAI leverages advanced artificial intelligence to analyze markets,
-                        manage risk, and generate consistent returns — regardless of market direction.
-                        Built for the future of smart trading.
+                    <p class="mt-3 mb-3 text-light" style="max-width: 700px; margin: auto;">
+                        InvoraAI is a market-neutral, Advanced AI-powered trading ecosystem designed to generate consistent yield from crypto derivatives — without relying on price prediction.
                     </p>
                 </div>
 
@@ -41,10 +39,13 @@
         <div class="row justify-content-center">
             <div class="col-xl-10">
                 <div class="banner-countdown-wrap text-center">
-                    <h2 class="title">Smarter Investing Starts Here</h2>
+                    <h2 class="title">Smarter Trading Starts Here</h2>
                     <p class="text-light" style="max-width: 600px; margin: auto;">
-                        Join a new generation of traders using AI to stay ahead of the market.
-                        No hype. No guesswork. Just intelligent, data-driven performance.
+                        Join a new generation of smart traders using AI to identify structural inefficiencies.
+                    </p>
+
+                    <p class="text-light" style="max-width: 600px; margin: auto;">
+                        No speculation. No guesswork. Just structured, data-driven yield powered by funding flows.
                     </p>
                     <div class="coming-time hidden!" style="display: none;" data-countdown="2026/8/29"></div>
 
