@@ -29,7 +29,7 @@
 
                                 <div class="bot-title">
                                     <h3>{{ $bot->name }}</h3>
-                                    <span>AI Quant Engine</span>
+                                    <span>(Delta-Neutral Engine)</span>
                                 </div>
 
                                 <div class="bot-roi">
@@ -101,7 +101,7 @@
                                 </div>
 
                                 <div class="profit-note">
-                                    AI optimized strategy using automated trade execution
+                                    Systematic market-neutral strategy monetizing perpetual funding rates
                                 </div>
 
                             </div>
