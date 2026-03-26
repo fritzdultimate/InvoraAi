@@ -233,6 +233,82 @@
     </div>
     <!-- Modal Select Currecny End -->
 
+    <div 
+        x-data="confirmModal()" 
+        x-show="open"
+        x-cloak
+        class="modal-overlay"
+    >
+        <div class="modal-container">
+
+            <!-- HEADER -->
+            <div class="modal-header">
+                <h3 x-text="title"></h3>
+                <button @click="close()" class="modal-close-btn">✕</button>
+            </div>
+
+            <!-- BODY -->
+            <div class="modal-body">
+
+                <p class="text-sm text-gray-400 mb-4" x-text="message"></p>
+
+                <!-- SUMMARY -->
+                <div class="invora-summary-box mb-4" x-show="showSummary">
+                    <div class="invora-summary-row">
+                        <span>Amount</span>
+                        <span x-text="amount"></span>
+                    </div>
+
+                    <div class="invora-summary-row fee">
+                        <span>Fee</span>
+                        <span x-text="fee"></span>
+                    </div>
+
+                    <div class="invora-summary-divider"></div>
+
+                    <div class="invora-summary-row total">
+                        <span>You will receive</span>
+                        <span x-text="total"></span>
+                    </div>
+                </div>
+
+                <!-- OTP -->
+                <div x-show="requireOtp" class="mb-4">
+                    <label class="modal-label">Enter OTP</label>
+                    <input 
+                        type="text" 
+                        x-model="otp"
+                        class="modal-select"
+                        placeholder="Enter 6-digit OTP"
+                    >
+                </div>
+
+                <!-- WARNING -->
+                <div class="invora-warning mb-4" x-show="warning">
+                    <span x-text="warning"></span>
+                </div>
+
+                <!-- ACTIONS -->
+                <div class="gap-2" style="display: flex; align-items:center;">
+                    <button class="secondary-btn" @click="close()">Cancel</button>
+
+                    <button 
+                        class="subscribe-btn"
+                        @click="confirm()"
+                        :disabled="loading"
+                        style="margin-top: 0px !important"
+                    >
+                        <span x-show="!loading">Confirm</span>
+                        <span x-show="loading" class="btn-loader">
+                            <span class="spinner"></span> Processing...
+                        </span>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
 
 </div>
 
@@ -284,5 +360,63 @@
             });
 
         });
-    </script>    
+    </script>
+    
+    <script>
+        function confirmModal() {
+            return {
+                open: false,
+                loading: false,
+
+                title: '',
+                message: '',
+                warning: '',
+
+                amount: '',
+                fee: '',
+                total: '',
+
+                requireOtp: true,
+                otp: '',
+
+                showSummary: false,
+
+                callback: null,
+
+                show(config) {
+                    this.title = config.title || 'Confirm Action';
+                    this.message = config.message || '';
+                    this.warning = config.warning || '';
+
+                    this.amount = config.amount || '';
+                    this.fee = config.fee || '';
+                    this.total = config.total || '';
+
+                    this.requireOtp = config.requireOtp || false;
+                    this.showSummary = config.showSummary || false;
+
+                    this.callback = config.onConfirm || null;
+
+                    this.open = true;
+                },
+
+                close() {
+                    this.open = false;
+                    this.loading = false;
+                    this.otp = '';
+                },
+
+                async confirm() {
+                    this.loading = true;
+
+                    if (this.callback) {
+                        await this.callback(this.otp);
+                    }
+
+                    this.loading = false;
+                    this.close();
+                }
+            }
+        }
+    </script>
 @endpush
