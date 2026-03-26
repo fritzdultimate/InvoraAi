@@ -9,7 +9,7 @@
                 <div class="row">
                     <div class="col-xl-3 col-lg-4 col-md-6">
                         <div class="footer-widget wow fadeInUp" data-wow-delay=".2s">
-                            <a href="index.html" class="f-logo"><img src="assets/img/logo/logo.png" alt=""></a>
+                            <a href="{{ route('home-landing') }}" class="f-logo"><img src="{{ asset('assets/img/logo/invora1.png') }}" alt=""></a>
                             <div class="footer-content">
                                 <p>A new way to make the payments easy, reliable and 100% secure. claritatem itamconse
                                     quat. Exerci tationulla</p>
@@ -68,7 +68,7 @@
                 <div class="row align-items-center">
                     <div class="col-lg-6">
                         <div class="copyright-text">
-                            <p>Copyright &copy; 2023. All Rights Reserved Bigtech</p>
+                            <p>Copyright &copy; {{ date('Y') }}. All Rights Reserved Bigtech</p>
                         </div>
                     </div>
                     <div class="col-lg-6 d-none d-sm-block">
