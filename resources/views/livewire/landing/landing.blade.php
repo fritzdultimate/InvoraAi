@@ -13,6 +13,8 @@
 
     @include('components.landing.top-partners')
 
+    @include('components.landing.faq')
+
     @include('components.landing.contact-us')
 
 </main>

@@ -20,6 +20,8 @@
         <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/responsive.css') }}">
 
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+
         <style type="text/css" id="jarallax-clip-0">#jarallax-container-0 {
             clip: rect(0 362.3999938964844px 1293.7000732421875px 0);
             clip: rect(0, 362.3999938964844px, 1293.7000732421875px, 0);
