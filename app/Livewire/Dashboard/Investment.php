@@ -75,7 +75,7 @@ class Investment extends Component
                 'required',
                 'numeric',
                 'min:' . $this->selectedLicense->bot->min_amount,
-                'max:' . $this->selectedLicense->bot->max_amount,
+                // 'max:' . $this->selectedLicense->bot->max_amount,
             ],
         ]);
 
