@@ -83,4 +83,11 @@ Route::middleware(['auth'])->group(function () {
 
 Route::post('logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
 
-Route::view('/email', 'emails.otp');
+Route::view('/email', 'emails.deposit.received', [
+    'amount' => 500,
+    'trx' => 'dhdjdjh6389dhd',
+    'url' => 'rm,f78e',
+    'method' => 'crypto',
+    'date' => now(),
+    'bonus' => 50
+]);

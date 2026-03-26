@@ -11,6 +11,8 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Notifications\Notification;
+use Filament\Support\Exceptions\Halt;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
@@ -90,7 +92,19 @@ class DepositsTable
                             $record->status !== DepositStatus::FINISHED && $record->status !== DepositStatus::CANCELLED && $record->status !== DepositStatus::FAILED && $record->status !== DepositStatus::EXPIRED
                         )
                         ->action(function (Deposit $record) {
-                            DepositService::markAsFinished($record);
+                            try {
+                                DepositService::markAsFinished($record);
+
+                                Notification::make()
+                                    ->title('Deposit approved successfully')
+                                    ->success()
+                                    ->send();
+                            } catch (Halt $e) {
+                                Notification::make()
+                                    ->title($e->getMessage())
+                                    ->danger()
+                                    ->send();
+                            }
                         }),
                     DeleteAction::make(),
                 ])
