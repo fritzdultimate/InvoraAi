@@ -12,10 +12,14 @@
                     <div class="about-content wow fadeInRight" data-wow-delay=".2s">
                         <div class="section-title mb-30">
                             <span class="sub-title">Who we are</span>
-                            <h2 class="title">A Smart <span>AI-Driven</span> Investment Platform</h2>
+                            <h2 class="title">A Smart <span>AI-Driven</span> Trading Ecosystem</h2>
                         </div>
                         <p>
-                            InvoraAI is a modern trading platform powered by advanced artificial intelligence. We help traders make smarter decisions by analyzing market trends, managing risk, and executing strategies that perform in both rising and falling markets.
+                            InvoraAI is a precision-engineered Artificial trading infrastructure built to extract value from perpetual futures markets.
+                        </p>
+
+                        <p>
+                            Rather than predicting price movements, the platform captures funding fees paid by leveraged traders by maintaining balanced long and short positions with zero net market exposure.
                         </p>
                         <a href="{{ route('login') }}" class="btn">Start Investing</a>
                     </div>
