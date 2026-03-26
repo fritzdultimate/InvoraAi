@@ -75,8 +75,8 @@
                                 @foreach($details as $label => $value)
                                     <tr>
                                         <td style="color:#64748b;font-size:12px;padding:6px 0;">{{ $label }}</td>
-                                        <td align="right" style="color:{{ $label=='Status'?'#22c55e':'#e2e8f0' }};font-size:13px;font-weight:{{ $label=='Status'?'600':'400' }};">
-                                            {{ $value }}
+                                        <td align="right" style="color:{{ $label=='Status'?'#22c55e':'#e2e8f0' }};font-size:10px;font-weight:{{ $label=='Status'?'600':'400' }};">
+                                            {{ $label=='Status' ? strtoupper($value) : $value }}
                                         </td>
                                     </tr>
                                 @endforeach
