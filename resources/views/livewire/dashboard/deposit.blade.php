@@ -27,6 +27,24 @@
 
         </div>
 
+        <div class="invora-withdrawal-notice">
+            <h4>Deposit Notice</h4>
+
+            <ul>
+                <li>Minimum deposit: <strong>$50</strong></li>
+                <li>Ensure you send only the selected <strong>currency & network</strong></li>
+                <li>Deposits are credited after <strong>network confirmation</strong></li>
+                <li>Sending from unsupported networks may result in <strong>loss of funds</strong></li>
+                <li>Send the <strong>exact amount</strong> to avoid delays</li>
+                <li>Do not send multiple transactions to the same address unless instructed</li>
+                <li>Only send <strong>{{ $selectedWallet['label'] ?? 'the selected asset' }}</strong> to this address</li>
+            </ul>
+
+            <div class="invora-warning">
+                ⚠️ Incorrect network or token transfers cannot be recovered.
+            </div>
+        </div>
+
 
         <!-- DEPOSIT FORM -->
         <div class="invora-carda invora-deposit-card">
