@@ -11,8 +11,11 @@
                         <div class="footer-widget wow fadeInUp" data-wow-delay=".2s">
                             <a href="{{ route('home-landing') }}" class="f-logo"><img src="{{ asset('assets/img/logo/invora1.png') }}" alt=""></a>
                             <div class="footer-content">
-                                <p>A new way to make the payments easy, reliable and 100% secure. claritatem itamconse
-                                    quat. Exerci tationulla</p>
+                                <p>
+                                    InvoraAI is an advanced AI-driven investment platform designed to deliver
+                                    intelligent, data-driven strategies with a focus on risk management and
+                                    long-term performance.
+                                </p>
                                 <ul class="footer-social">
                                     <li><a href="#"><i class="fab fa-youtube"></i></a></li>
                                     <li><a href="#"><i class="fab fa-twitter"></i></a></li>
