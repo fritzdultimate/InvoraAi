@@ -27,7 +27,7 @@
                     </div>
                     <div class="col-xl-3 col-lg-5 col-sm-6">
                         <div class="footer-widget  wow fadeInUp" data-wow-delay=".4s">
-                            <h4 class="fw-title">Useful Links</h4>
+                            <h4 class="fw-title">Platform</h4>
                             <div class="footer-link">
                                 <ul>
                                     <li><a href="#">Contact us</a></li>
