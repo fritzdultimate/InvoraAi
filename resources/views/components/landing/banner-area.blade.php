@@ -18,7 +18,7 @@
                     <p class="mt-3 text-light" style="max-width: 700px; margin: auto;">
                         InvoraAI leverages advanced artificial intelligence to analyze markets,
                         manage risk, and generate consistent returns — regardless of market direction.
-                        Built for the future of smart investing.
+                        Built for the future of smart trading.
                     </p>
                 </div>
 
@@ -43,7 +43,7 @@
                 <div class="banner-countdown-wrap text-center">
                     <h2 class="title">Smarter Investing Starts Here</h2>
                     <p class="text-light" style="max-width: 600px; margin: auto;">
-                        Join a new generation of investors using AI to stay ahead of the market.
+                        Join a new generation of traders using AI to stay ahead of the market.
                         No hype. No guesswork. Just intelligent, data-driven performance.
                     </p>
                     <div class="coming-time hidden!" style="display: none;" data-countdown="2026/8/29"></div>

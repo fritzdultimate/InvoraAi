@@ -15,7 +15,7 @@
                             <h2 class="title">A Smart <span>AI-Driven</span> Investment Platform</h2>
                         </div>
                         <p>
-                            InvoraAI is a modern investment platform powered by advanced artificial intelligence. We help investors make smarter decisions by analyzing market trends, managing risk, and executing strategies that perform in both rising and falling markets.
+                            InvoraAI is a modern trading platform powered by advanced artificial intelligence. We help traders make smarter decisions by analyzing market trends, managing risk, and executing strategies that perform in both rising and falling markets.
                         </p>
                         <a href="{{ route('login') }}" class="btn">Start Investing</a>
                     </div>

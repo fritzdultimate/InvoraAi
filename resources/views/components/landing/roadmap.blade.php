@@ -87,7 +87,7 @@
                                 <div class="roadmap-content">
                                     <span class="dot"></span>
                                     <h4 class="title">Next Evolution</h4>
-                                    <span>Introduction of new digital investment products</span>
+                                    <span>Introduction of new digital trading products</span>
                                     <span>Enhanced AI personalization</span>
                                 </div>
                             </div>
@@ -98,6 +98,46 @@
             </div>
         </div>
     </section>
+
+    <!-- dashboard-preview-area -->
+    <section class="dashboard-preview-area pt-60">
+        <div class="container">
+            <div class="row justify-content-center align-items-center">
+                
+                <!-- Image / Screenshot -->
+                <div class="col-lg-7 order-2 order-lg-0">
+                    <div class="dashboard-img text-center wow fadeInUp" data-wow-delay=".2s">
+                        <img src="{{ asset('new_assets/img/images/mobile-illus.png') }}" alt="Invora Dashboard on Mobile" class="img-fluid">
+                    </div>
+                </div>
+
+                <!-- Content -->
+                <div class="col-lg-5 col-md-7">
+                    <div class="dashboard-content mt-50 wow fadeInRight" data-wow-delay=".2s">
+                        <div class="section-title mb-35">
+                            <span class="sub-title">Invora.ai</span>
+                            <h2 class="title">Experience the <span>Invora Dashboard</span></h2>
+                        </div>
+
+                        <p style="color:#94a3b8; line-height:1.6;">
+                            Take full control of your trading ecosystem with Invora.ai. Monitor deposits and withdrawals, track your portfolio, and receive instant notifications — all through a sleek, intuitive interface that works seamlessly across devices.
+                        </p>
+
+                        <ul class="dashboard-features mt-25" style="list-style:disc;padding-left:20px;color:#94a3b8;">
+                            <li>Real-time account overview</li>
+                            <li>Deposit and withdrawal tracking</li>
+                            <li>Secure and instant notifications</li>
+                            <li>Advanced portfolio insights</li>
+                        </ul>
+
+                        <a href="{{ route('dashboard') }}" class="btn mt-30">Explore Dashboard</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <!-- dashboard-preview-area-end -->
 
 </div>
 <!-- roadMap-area-end -->

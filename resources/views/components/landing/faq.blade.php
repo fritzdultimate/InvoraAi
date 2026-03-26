@@ -81,7 +81,7 @@
                     </h2>
                     <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
                         <div class="accordion-body">
-                            InvoraAI is an AI-driven investment platform that uses advanced algorithms to analyze
+                            InvoraAI is an AI-driven trading platform that uses advanced algorithms to analyze
                             financial markets,
                             manage risk, and execute trading strategies automatically.
                         </div>
@@ -108,14 +108,14 @@
                     <h2 class="accordion-header">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                             data-bs-target="#faq3">
-                            Is my investment safe?
+                            Is my trades safe?
                         </button>
                     </h2>
                     <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
                         <div class="accordion-body">
                             InvoraAI uses strict risk management systems, including capital allocation controls and
                             automated safeguards,
-                            to help protect user funds. However, like all investments, returns are not guaranteed.
+                            to help protect user funds. However, like all trades, returns are not guaranteed.
                         </div>
                     </div>
                 </div>
@@ -129,9 +129,9 @@
                     </h2>
                     <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
                         <div class="accordion-body">
-                            No. The platform is designed for both beginners and experienced investors. The AI handles
+                            No. The platform is designed for both beginners and experienced traders. The AI handles
                             complex trading decisions
-                            while you monitor your investment performance.
+                            while you monitor your trading performance.
                         </div>
                     </div>
                 </div>
@@ -140,13 +140,12 @@
                     <h2 class="accordion-header">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                             data-bs-target="#faq5">
-                            How can I start investing?
+                            How can I start trading with AI?
                         </button>
                     </h2>
                     <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
                         <div class="accordion-body">
-                            Simply create an account, choose a suitable investment plan, and fund your account to begin.
-                            The system will handle the rest.
+                            Simply create an account, choose a trading bot that fits your strategy, purchase a license, and let our AI start trading for you. Sit back and watch the system work intelligently on your behalf.
                         </div>
                     </div>
                 </div>
