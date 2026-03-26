@@ -5,7 +5,7 @@
             <div class="row align-items-center justify-content-center">
                 <div class="col-lg-6 col-md-10 order-0 order-lg-2">
                     <div class="chart-wrap wow fadeInRight" data-wow-delay=".2s">
-                        <img src="assets/img/images/chart.png" alt="">
+                        <img src="{{ asset('new_assets/img/images/chart.png') }}" alt="">
                         <ul>
                             <li>AI Trading Engine: 40%</li>
                             <li>Risk Management Systems: 20%</li>
