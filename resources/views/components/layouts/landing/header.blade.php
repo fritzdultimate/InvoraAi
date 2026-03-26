@@ -14,14 +14,7 @@
                                 </a>
                             </div>
                             <div class="navbar-wrap main-menu d-none d-lg-flex">
-                                <ul class="navigation">
-                                    <li class="active menu-item-has-children"><a href="#header"
-                                            class="section-link">Home</a>
-                                        <ul class="sub-menu">
-                                            <li class="active"><a href="{{ route('home-landing') }}">Home One</a></li>
-                                            <li><a href="index-2.html">Home Two</a></li>
-                                        </ul>
-                                    </li>
+                                    <li><a href="{{ route('home-landing') }}" class="section-link">Home</a></li>
                                     <li><a href="#about" class="section-link">About us</a></li>
                                     <li><a href="#sales" class="section-link">Sales</a></li>
                                     <li><a href="#roadmap" class="section-link">Roadmap</a></li>
@@ -49,7 +42,7 @@
                             <div class="close-btn"><i class="fas fa-times"></i></div>
                             <div class="nav-logo">
                                 <a href="{{ route('home-landing') }}">
-                                    <img src="assets/img/logo/invora1.png" alt="{{ env('APP_NAME') }}" title="{{ env('APP_NAME') }}">
+                                    <img style="width: 60px; height: auto" src="assets/img/logo/invora1.png" alt="{{ env('APP_NAME') }}" title="{{ env('APP_NAME') }}">
                                 </a>
                             </div>
                             <div class="menu-outer">
