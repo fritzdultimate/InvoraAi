@@ -30,10 +30,9 @@
                             <h4 class="fw-title">Platform</h4>
                             <div class="footer-link">
                                 <ul>
-                                    <li><a href="#">Contact us</a></li>
                                     <li><a href="#">How it Works</a></li>
-                                    <li><a href="#">Create</a></li>
-                                    <li><a href="#">Explore</a></li>
+                                    <li><a href="#">AI Strategy</a></li>
+                                    <li><a href="#">Contact Us</a></li>
                                     <li><a href="#">Terms & Services</a></li>
                                 </ul>
                             </div>
@@ -41,23 +40,26 @@
                     </div>
                     <div class="col-xl-2 col-lg-3 col-sm-6">
                         <div class="footer-widget wow fadeInUp" data-wow-delay=".6s">
-                            <h4 class="fw-title">Community</h4>
+                            <h4 class="fw-title">Support</h4>
                             <div class="footer-link">
                                 <ul>
                                     <li><a href="#">Help Center</a></li>
-                                    <li><a href="#">Partners</a></li>
-                                    <li><a href="#">Suggestions</a></li>
-                                    <li><a href="#">Blog</a></li>
-                                    <li><a href="#">Newsletters</a></li>
+                                    <li><a href="#">FAQs</a></li>
+                                    <li><a href="#">Privacy Policy</a></li>
+                                    <li><a href="#">Terms & Conditions</a></li>
+                                    <li><a href="#">Security</a></li>
                                 </ul>
                             </div>
                         </div>
                     </div>
                     <div class="col-xl-4 col-lg-4 col-md-6">
                         <div class="footer-widget wow fadeInUp" data-wow-delay=".8s">
-                            <h4 class="fw-title">Subscribe Newsletter</h4>
+                            <h4 class="fw-title">Stay Updated</h4>
                             <div class="footer-newsletter">
-                                <p>Exerci tation ullamcorper suscipit lobortis nisl aliquip ex ea commodo</p>
+                                <p>
+                                    Get the latest updates on AI strategies, platform improvements,
+                                    and investment insights directly to your inbox.
+                                </p>
                                 <form action="#">
                                     <input type="email" placeholder="Info@gmail.com" required>
                                     <button type="submit"><i class="fas fa-paper-plane"></i></button>
@@ -71,7 +73,7 @@
                 <div class="row align-items-center">
                     <div class="col-lg-6">
                         <div class="copyright-text">
-                            <p>Copyright &copy; {{ date('Y') }}. All Rights Reserved Bigtech</p>
+                            <p>Copyright &copy; {{ date('Y') }} {{ env('APP_NAME') }}. All Rights Reserved</p>
                         </div>
                     </div>
                     <div class="col-lg-6 d-none d-sm-block">
@@ -79,7 +81,6 @@
                             <ul>
                                 <li><a href="#">Terms and conditions</a></li>
                                 <li><a href="#">Privacy policy</a></li>
-                                <li><a href="#">Login / Signup</a></li>
                             </ul>
                         </div>
                     </div>
