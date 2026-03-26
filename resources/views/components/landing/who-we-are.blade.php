@@ -21,7 +21,7 @@
                         <p>
                             Rather than predicting price movements, the platform captures funding fees paid by leveraged traders by maintaining balanced long and short positions with zero net market exposure.
                         </p>
-                        <a href="{{ route('login') }}" class="btn">Start Investing</a>
+                        <a href="{{ route('login') }}" class="btn">Get Started</a>
                     </div>
                 </div>
             </div>
