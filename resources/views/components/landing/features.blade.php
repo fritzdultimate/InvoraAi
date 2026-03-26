@@ -13,7 +13,7 @@
             <div class="col-lg-3">
                 <div class="choose-item">
                     <div class="choose-icon">
-                        <img src="assets/img/icon/choose_icon01.svg" alt="">
+                        <img src="{{ asset('new_assets/img/icon/choose_icon01.svg') }}" alt="">
                     </div>
                     <div class="choose-content">
                         <h2 class="title"><a href="#">AI-Powered Decisions</a></h2>
@@ -24,7 +24,7 @@
             <div class="col-lg-3">
                 <div class="choose-item">
                     <div class="choose-icon">
-                        <img src="assets/img/icon/choose_icon02.svg" alt="">
+                        <img src="{{ asset('new_assets/img/icon/choose_icon02.svg') }}" alt="">
                     </div>
                     <div class="choose-content">
                         <h2 class="title"><a href="#">Consistent Performance</a></h2>
@@ -35,7 +35,7 @@
             <div class="col-lg-3">
                 <div class="choose-item">
                     <div class="choose-icon">
-                        <img src="assets/img/icon/choose_icon03.svg" alt="">
+                        <img src="{{ asset('new_assets/img/icon/choose_icon03.svg') }}" alt="">
                     </div>
                     <div class="choose-content">
                         <h2 class="title"><a href="#">Advanced Risk Control</a></h2>
@@ -46,7 +46,7 @@
             <div class="col-lg-3">
                 <div class="choose-item">
                     <div class="choose-icon">
-                        <img src="assets/img/icon/choose_icon04.svg" alt="">
+                        <img src="{{ asset('new_assets/img/icon/choose_icon04.svg') }}" alt="">
                     </div>
                     <div class="choose-content">
                         <h2 class="title"><a href="#">Secure & Transparent</a></h2>
@@ -57,7 +57,7 @@
             <div class="col-lg-3">
                 <div class="choose-item">
                     <div class="choose-icon">
-                        <img src="assets/img/icon/choose_icon02.svg" alt="">
+                        <img src="{{ asset('new_assets/img/icon/choose_icon02.svg') }}" alt="">
                     </div>
                     <div class="choose-content">
                         <h2 class="title"><a href="#">Automated Investing</a></h2>
@@ -68,7 +68,7 @@
             <div class="col-lg-3">
                 <div class="choose-item">
                     <div class="choose-icon">
-                        <img src="assets/img/icon/choose_icon03.svg" alt="">
+                        <img src="{{ asset('new_assets/img/icon/choose_icon03.svg') }}" alt="">
                     </div>
                     <div class="choose-content">
                         <h2 class="title"><a href="#">Data-Driven Strategy</a></h2>
@@ -79,7 +79,7 @@
             <div class="col-lg-3">
                 <div class="choose-item">
                     <div class="choose-icon">
-                        <img src="assets/img/icon/choose_icon04.svg" alt="">
+                        <img src="{{ asset('new_assets/img/icon/choose_icon04.svg') }}" alt="">
                     </div>
                     <div class="choose-content">
                         <h2 class="title"><a href="#">Full Control</a></h2>

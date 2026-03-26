@@ -4,8 +4,8 @@
             <div class="row align-items-center">
                 <div class="col-lg-6">
                     <div class="about-img wow fadeInLeft" data-wow-delay=".2s">
-                        <img src="assets/img/images/about_img01.png" alt="">
-                        <img src="assets/img/images/about_img02.png" alt="" class="img-two">
+                        <img src="{{ asset('new_assets/img/images/about_img01.png') }}" alt="">
+                        <img src="{{ asset('new_assets/img/images/about_img02.png') }}" alt="" class="img-two">
                     </div>
                 </div>
                 <div class="col-lg-6">
