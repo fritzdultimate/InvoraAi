@@ -75,7 +75,7 @@
 
                     <div>
                         <div class="bonus-user">
-                            {{ $bonus->fromUser?->name ?? 'Unknown User' }}
+                            {{ \Illuminate\Support\Str::limit(mask(ucfirst($bonus->fromUser?->name)), 8, '') ?? 'Unknown User' }}
                         </div>
 
                         <div class="bonus-meta">
@@ -100,7 +100,8 @@
                             wire:click="claim({{ $bonus->id }})"
                             class="status-badge claimable"
                         >
-                            Claim Now
+                            <span wire:loading wire:target="claim" class="spinner"></span>
+                            <span wire:loading.remove wire:target="claim" style="color: #3b82f6">Claim</span>
                         </button>
 
                     @else

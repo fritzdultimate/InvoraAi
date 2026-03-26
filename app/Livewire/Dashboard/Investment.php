@@ -9,6 +9,7 @@ use App\Models\BotInvestment;
 use App\Models\BotLicense;
 use App\Models\BotLicenseUpgrade;
 use App\Services\Bot\BotInvestmentService;
+use App\Services\ReferralBonusService;
 use App\Services\Wallet\WalletService;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
@@ -118,6 +119,8 @@ class Investment extends Component
                 'locked investment', 
                 LedgerAsset::LOCKEDBALANCE
             );
+
+            ReferralBonusService::distribute(auth()->user(), $investment);
 
             $this->showModal = false;
             $this->dispatch('toast', payload: [

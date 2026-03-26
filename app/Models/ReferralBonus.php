@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 class ReferralBonus extends Model {
     protected $fillable = [
         'user_id',
+        'referred_by_id',
         'from_user_id',
         'level',
         'amount',

@@ -2,6 +2,9 @@
 
 namespace App\Livewire\Dashboard\Referral;
 
+use App\Enums\LedgerAsset;
+use App\Enums\LedgerReference;
+use App\Services\Wallet\WalletService;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -18,8 +21,7 @@ class Bonuses extends Component
 
     protected $paginationTheme = 'tailwind';
 
-    public function claim($id)
-    {
+    public function claim($id) {
         DB::transaction(function () use ($id) {
 
             $bonus = ReferralBonus::where('id', $id)
@@ -36,14 +38,20 @@ class Bonuses extends Component
                 'claimed_at' => now(),
             ]);
 
-            auth()->user()->increment('deposit_balance', $bonus->amount);
+            WalletService::credit(
+                auth()->user(),
+                $bonus->amount,
+                LedgerReference::ReferralBonus,
+                $bonus->id,
+                'credited referral bonus',
+                LedgerAsset::REFERRALBONUS
+            );
         });
 
         $this->dispatch('success', message: 'Bonus claimed.');
     }
 
-    public function render()
-    {
+    public function render() {
         $query = ReferralBonus::where('user_id', auth()->id())
             ->with('fromUser')
             ->latest();

@@ -48,7 +48,7 @@ class  Overview extends Component {
 
         $this->main_balance = auth()->user()->main_balance;
         $this->locked_balance = auth()->user()->locked_balance;
-        $this->referral_balance = 0;
+        $this->referral_balance = auth()->user()->referral_balance;
         $this->has_active_license = auth()->user()->hasActiveLicense();
         $this->license_expires_at = optional(
             auth()->user()->botLicenses()->latest()->first()

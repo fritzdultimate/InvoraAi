@@ -40,3 +40,14 @@ function getDownlineUserIds(int $userId, int $maxDepth = 10): array
 
     return array_values(array_unique($all));
 }
+
+function mask($target) {
+    if (!$target) return '—';
+
+    $length = strlen($target);
+
+    if ($length <= 2) {
+        return substr($target, 0, 1) . '*';
+    }
+    return substr($target, 0, 2) . str_repeat('*', max(0, $length - 4)) . substr($target, -2);
+}

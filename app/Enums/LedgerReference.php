@@ -15,4 +15,5 @@ enum LedgerReference: string
     case BOT_TERMINATION_FEE = 'bot_termination_fee';
     case LICENSE_PURCHASE = 'license_purchase';
     case LICENSE_UPGRADE = 'license_upgrade';
+    case ReferralBonus = 'referral_bonus';
 }
