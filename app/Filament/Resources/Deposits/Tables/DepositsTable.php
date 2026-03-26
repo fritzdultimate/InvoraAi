@@ -60,7 +60,7 @@ class DepositsTable
                         default => 'gray',
                     })
                     ->searchable(),
-                TextColumn::make('amount_paid')
+                TextColumn::make('actually_paid')
                     ->money('usd')
                     ->sortable(),
             ])

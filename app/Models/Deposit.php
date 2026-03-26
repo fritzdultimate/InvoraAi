@@ -13,7 +13,7 @@ class Deposit extends Model {
         'currency', 
         'wallet_id', 
         'nowpayments_invoice_id',
-        'amount_paid',
+        'actually_paid',
         'note',
         'status',
         'bonus',
