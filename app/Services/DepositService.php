@@ -35,6 +35,11 @@ class DepositService {
             LedgerAsset::DEPOSITBONUSBALANCE
         );
 
+        NotificationService::createForUser(auth()->user(), [
+            'title' => 'Deposit Bonus Received 🎉',
+            'message' => 'You have received your deposit bonus! Check your balance to see the updated amount.',
+        ]);
+
         return $deposit->bonus;
     }
 
