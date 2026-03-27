@@ -1,11 +1,11 @@
 <!-- choose-area -->
-<section class="choose-area pb-130">
+<section class="choose-area" style="padding-bottom: 40px;">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-xl-6">
                 <div class="section-title text-center mb-50">
                     <span class="sub-title">why Choose us</span>
-                    <h2 class="title">Why Choose Our <span>AI Investment Platform</span></h2>
+                    <h2 class="title">Why Choose Our <span>AI Trading Ecosystem</span></h2>
                 </div>
             </div>
         </div>
