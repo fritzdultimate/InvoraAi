@@ -19,7 +19,7 @@
                                     <li><a href="{{ route('about-us') }}" class="section-link">About us</a></li>
                                     <li><a href="#sales" class="section-link">Sales</a></li>
                                     <li><a href="#roadmap" class="section-link">Roadmap</a></li>
-                                    <li><a href="#contact" class="section-link">Contact us</a></li>
+                                    <li><a href="{{ route('contact-us') }}" class="section-link">Contact us</a></li>
                                 </ul>
                             </div>
                             <div class="header-action d-none d-md-block">
