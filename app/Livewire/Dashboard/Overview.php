@@ -34,9 +34,7 @@ class  Overview extends Component {
     public $chartData = [];
 
     public function mount() {
-        $this->deposit_balance = optional(
-            auth()->user()->ledgers()->where('asset', 'deposit')->latest()->first()
-        )->balance_after ?? 0;
+        $this->deposit_balance = auth()->user()->deposit_balance;
 
         $this->total_executed_trades = BotInvestment::where('user_id', auth()->id())->count();
 
