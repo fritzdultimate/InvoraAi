@@ -112,7 +112,7 @@ class User extends Authenticatable
         return bcadd(
             bcadd(
                 (string) $this->main_balance,
-                (string) $this->profit_balance,
+                (string) $this->profit_balance, 
                 8
             ),
             bcadd(

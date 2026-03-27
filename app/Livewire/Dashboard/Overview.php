@@ -56,9 +56,7 @@ class  Overview extends Component {
 
         $this->loadChart();
 
-        $this->profit_balance = BotProfitCycle::where('user_id', auth()->id())
-            ->where('status', 'credited')
-            ->sum('profit_amount');
+        $this->profit_balance = auth()->user()->profit_balance;
 
         $this->deposit_bonus = auth()->user()->deposit_bonus_balance;
     }
