@@ -60,8 +60,7 @@ class  Overview extends Component {
             ->where('status', 'credited')
             ->sum('profit_amount');
 
-        $this->deposit_bonus = Deposit::where('user_id', auth()->id())
-            ->sum('bonus');
+        $this->deposit_bonus = auth()->user()->deposit_bonus_balance;
     }
 
     public function loadChart() {
