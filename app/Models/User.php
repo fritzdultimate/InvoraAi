@@ -99,14 +99,14 @@ class User extends Authenticatable
             ->implode('');
     }
 
-    public function syncBalances() {
-        $this->main_balance = 
-            $this->deposit_balance +
-            $this->referral_balance +
-            $this->profit_balance;
+    // public function syncBalances() {
+    //     $this->main_balance = 
+    //         $this->deposit_balance +
+    //         $this->referral_balance +
+    //         $this->profit_balance;
 
-        $this->save();
-    }
+    //     $this->save();
+    // }
 
     public function getTotalBalanceAttribute(): string {
         return bcadd(
@@ -118,6 +118,7 @@ class User extends Authenticatable
             bcadd(
                 (string) $this->referral_balance,
                 (string) $this->deposit_balance,
+                8
             ),
             8
         );
