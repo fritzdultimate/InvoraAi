@@ -109,19 +109,14 @@ class User extends Authenticatable
     // }
 
     public function getTotalBalanceAttribute(): string {
-        return bcadd(
-            bcadd(
-                (string) $this->main_balance,
-                (string) $this->profit_balance, 
-                8
-            ),
-            bcadd(
-                (string) $this->referral_balance,
-                (string) $this->deposit_balance,
-                8
-            ),
-            8
-        );
+
+        $sum = bcadd((string) $this->main_balance, (string) $this->profit_balance, 8);
+
+        $sum = bcadd($sum, (string) $this->referral_balance, 8);
+        $sum = bcadd($sum, (string) $this->deposit_balance, 8);
+        $sum = bcadd($sum, (string) $this->deposit_bonus_balance, 8);
+
+        return $sum;
     }
 
     public function botLicenses() {
