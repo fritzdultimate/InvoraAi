@@ -28,6 +28,28 @@
             -webkit-clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
             clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
         }</style>
+
+        <style>
+            /* image wrap */
+
+            .invora-image-wrap {
+                padding: 12px;
+                border-radius: 16px;
+
+                background: rgba(255,255,255,0.03);
+                backdrop-filter: blur(8px);
+
+                border: 1px solid rgba(255,255,255,0.08);
+
+                box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+            }
+
+            .invora-image-wrap img {
+                width: 100%;
+                border-radius: 10px;
+                display: block;
+            }   
+        </style>
     </head>
 
     <body class="home-01">
