@@ -16,6 +16,7 @@ use App\Livewire\Dashboard\Support\ViewTicket;
 use App\Livewire\Dashboard\Withdrawal;
 use App\Livewire\Dashboard\WithdrawalDetails;
 use App\Livewire\Dashboard\WithdrawalPage;
+use App\Models\Notification;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth'])->prefix('dashboard')->group(function () {
@@ -56,4 +57,16 @@ Route::middleware(['auth'])->prefix('dashboard')->group(function () {
     });
 
 
+});
+
+Route::post('/notifications/read/{id}', function ($id) {
+    $notification = Notification::findOrFail($id);
+
+    auth()->user()->notifications()->syncWithoutDetaching([
+        $notification->id => [
+            'read_at' => now()
+        ]
+    ]);
+
+    return response()->json($notification);
 });

@@ -7,6 +7,7 @@ use App\Models\BotLicense;
 use App\Models\BotProfitCycle;
 use App\Models\Deposit;
 use App\Models\WalletLedger;
+use App\Services\NotificationService;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Layout;
@@ -34,6 +35,10 @@ class  Overview extends Component {
     public $chartData = [];
 
     public function mount() {
+        // NotificationService::createForUser(auth()->user(), [
+        //     'title' => 'Welcome Onboard Fritz',
+        //     'message' => 'This is some message to recon unto, do not fk with me bruh'
+        // ]);
         $this->deposit_balance = auth()->user()->deposit_balance;
 
         $this->total_executed_trades = BotInvestment::where('user_id', auth()->id())->count();

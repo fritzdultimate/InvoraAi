@@ -142,4 +142,10 @@ class User extends Authenticatable
     public function kyc() {
         return $this->hasOne(KycVerification::class);
     }
+
+    public function notifications() {
+        return $this->belongsToMany(Notification::class)
+            ->withPivot('read_at', 'dismissed_at')
+            ->withTimestamps();
+    }
 }

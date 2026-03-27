@@ -29,50 +29,9 @@
                 </button>
 
 
-                <!-- Notification Start  -->
-                <button data-dropdown-toggle="dropdownNotification"
-                    class="has-indicator w-10 h-10 bg-neutral-200 dark:bg-neutral-700 rounded-full flex justify-center items-center"
-                    type="button">
-                    <iconify-icon icon="iconoir:bell" class="text-neutral-900 dark:text-white text-xl"></iconify-icon>
-                </button>
-                <div id="dropdownNotification"
-                    class="z-10 hidden bg-white dark:bg-neutral-700 rounded-2xl overflow-hidden shadow-lg max-w-[394px] w-full">
-                    <div
-                        class="py-3 px-4 rounded-lg bg-primary-50 dark:bg-primary-600/25 m-4 flex items-center justify-between gap-2">
-                        <h6 class="text-lg text-neutral-900 font-semibold mb-0">Notification</h6>
-                        <span
-                            class="w-10 h-10 bg-white dark:bg-neutral-600 text-primary-600 dark:text-white font-bold flex justify-center items-center rounded-full">05</span>
-                    </div>
-                    <div class="scroll-sm !border-t-0">
-                        <div class="max-h-[400px] overflow-y-auto">
-                            <a href="javascript:void(0)"
-                                class="flex px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-600 justify-between gap-1">
-                                <div class="flex items-center gap-3">
-                                    <div
-                                        class="flex-shrink-0 relative w-11 h-11 bg-success-200 dark:bg-success-600/25 text-success-600 flex justify-center items-center rounded-full">
-                                        <iconify-icon icon="bitcoin-icons:verify-outline"
-                                            class="text-2xl"></iconify-icon>
-                                    </div>
-                                    <div>
-                                        <h6 class="text-sm fw-semibold mb-1">Congratulations</h6>
-                                        <p class="mb-0 text-sm line-clamp-1">Your profile has been Verified. Your
-                                            profile has been Verified</p>
-                                    </div>
-                                </div>
-                                <div class="shrink-0">
-                                    <span class="text-sm text-neutral-500">23 Mins ago</span>
-                                </div>
-                            </a>
-                        </div>
+                
 
-                        <div class="text-center py-3 px-4">
-                            <a href="javascript:void(0)"
-                                class="text-primary-600 dark:text-primary-600 font-semibold hover:underline text-center">See
-                                All Notification </a>
-                        </div>
-                    </div>
-                </div>
-                <!-- Notification End  -->
+                <livewire:notifications-dropdown />
 
 
                 <button data-dropdown-toggle="dropdownProfile" class="flex justify-center items-center rounded-full"
@@ -125,3 +84,30 @@
         </div>
     </div>
 </div>
+
+@push('scripts')
+    <script>
+        function openNotification(id) {
+            fetch(`/notifications/read/${id}`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById('notifTitle').innerText = data.title;
+                document.getElementById('notifMessage').innerText = data.message;
+
+                document.getElementById('notificationModal').style.display = 'flex';
+
+                // optional: reload badge count only later
+            });
+        }
+
+        function closeNotification() {
+            document.getElementById('notificationModal').style.display = 'none';
+        }
+    </script>
+@endpush
