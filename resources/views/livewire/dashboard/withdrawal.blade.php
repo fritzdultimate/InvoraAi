@@ -25,7 +25,7 @@
             <h4>Withdrawal Notice</h4>
 
             <ul>
-                <li>Minimum withdrawal: <strong>$20</strong></li>
+                <li>Minimum withdrawal: <strong>${{ $this->minimumWithdrawalAmount() }}</strong></li>
                 <li>Maximum per transaction: <strong>$1,000,000</strong></li>
                 <li>Withdrawals are processed within <strong>24 hours</strong></li>
                 <li>Only <strong>one withdrawal request per day</strong> is allowed</li>
@@ -110,7 +110,7 @@
                     </div>
 
                     <div class="invora-hint">
-                        Minimum deposit: $50
+                        Minimum withdrawal: ${{ $this->minimumWithdrawalAmount() }}
                     </div>
 
                     @error('amount')

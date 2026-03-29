@@ -6,6 +6,7 @@ use App\Domain\Withdrawal\WithdrawalRules;
 use App\Models\CustomSetting;
 use App\Models\WithdrawalCurrency;
 use Illuminate\Support\Facades\DB;
+use Livewire\Attributes\Computed;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
@@ -19,6 +20,11 @@ class Withdrawal extends Component {
     public $networks = [];
     public $perPage = 10;
 
+    #[Computed]
+    public function minimumWithdrawalAmount() {
+        return CustomSetting::get('minimum_withdrawal') ?? 20;
+    }
+
     public function getFeeProperty() {
         $fee = CustomSetting::get('withdrawal_fee');
         return ($this->amount ?? 0) * ($fee * 0.01);
@@ -29,17 +35,21 @@ class Withdrawal extends Component {
     }
 
 
-    protected $rules = [
-        'amount' => 'required|numeric|min:50',
-        'selectedWallet' => 'required',
-        'address' => 'string|max:120',
-    ];
+    protected function rules() {
+        return [
+            'amount' => 'required|numeric|min:' . $this->minimumWithdrawalAmount,
+            'selectedWallet' => 'required',
+            'address' => 'string|max:120',
+        ];
+    }
 
-    protected $messages = [
-        'amount.min' => "Amount must be at least $50.",
-        'selectedWallet.required' => "Please choose a currency.",
-        'address' => 'Enter correct address to proceed'
-    ];
+    protected function messages() { 
+        return  [
+            'amount.min' => "Amount must be at least $" . $this->minimumWithdrawalAmount,
+            'selectedWallet.required' => "Please choose a currency.",
+            'address' => 'Enter correct address to proceed'
+        ];
+    }
 
 
     public function mount() {
