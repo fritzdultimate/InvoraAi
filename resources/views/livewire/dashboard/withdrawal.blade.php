@@ -104,7 +104,7 @@
                             type="text" 
                             placeholder="0.00"
                             inputmode="decimal"
-                            id="amountInput"
+                            id="amountInputx"
                             class="deposit-amount"
                         >
                     </div>
@@ -160,7 +160,7 @@
                         <div class="invora-summary-row total">
                             <span>You will receive</span>
                             <span>
-                                ${{ number_format(((float)$amount ?: 0) * 0.98, 2) }}
+                                ${{ number_format(((float)$this->netAmount ?: 0) * 0.98, 2) }}
                             </span>
                         </div>
                     </div>
