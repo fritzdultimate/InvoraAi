@@ -152,4 +152,12 @@ class User extends Authenticatable
     public function rank() {
         return $this->hasOne(UserRank::class);
     }
+
+    public function referredBy() {
+        return $this->belongsTo(User::class, 'referrer_id');
+    }
+
+    public function referrals() {
+        return $this->hasMany(User::class, 'referrer_id');
+    }
 }

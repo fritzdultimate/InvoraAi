@@ -85,6 +85,14 @@ class UsersTable
                     ->falseColor('danger'),
                 TextColumn::make('created_at')
                     ->dateTime()
+                    ->sortable(),
+                TextColumn::make('referredBy.name')
+                    ->label('Referrer')
+                    ->description(fn ($record) => $record->referredBy?->email ?? 'N/A')
+                    ->icon('heroicon-o-user')
+                    ->color('success')
+                    ->weight('medium')
+                    ->searchable(['referredBy.name', 'referredBy.email'])
                     ->sortable()
             ])
             ->defaultSort('created_at', 'desc')
@@ -92,8 +100,6 @@ class UsersTable
                 //
             ])
             ->recordActions([
-                ViewAction::make()
-                    ->badge(),
                 ActionGroup::make([
                     Action::make('impersonate')
                         ->label('Login as user')
