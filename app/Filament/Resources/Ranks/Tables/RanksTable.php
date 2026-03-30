@@ -40,33 +40,6 @@ class RanksTable
                     ->sortable()
                     ->icon('heroicon-o-bolt')
                     ->color('success'),
-                TextColumn::make('deposits')
-                    ->label('Deposits Required')
-                    ->numeric()
-                    ->money('USD')
-                    ->sortable()
-                    ->icon('heroicon-o-bolt')
-                    ->color('success'),
-                TextColumn::make('direct_referrals')
-                    ->label('Direct Referrals')
-                    ->numeric()
-                    ->sortable()
-                    ->icon('heroicon-o-chart-bar')
-                    ->color('success'),
-                IconColumn::make('global_pool_share')
-                    ->label('Global Pool Share')
-                    ->boolean()
-                    ->trueIcon('heroicon-o-check-badge')
-                    ->falseIcon('heroicon-o-x-circle')
-                    ->trueColor('success')
-                    ->falseColor('danger'),
-                IconColumn::make('global_override')
-                    ->label('Global Override')
-                    ->boolean()
-                    ->trueIcon('heroicon-o-check-badge')
-                    ->falseIcon('heroicon-o-x-circle')
-                    ->trueColor('success')
-                    ->falseColor('danger'),
                 TextColumn::make('required_volume')
                     ->label('Required Volume')
                     ->numeric()
@@ -74,12 +47,18 @@ class RanksTable
                     ->sortable()
                     ->icon('heroicon-o-chart-bar')
                     ->color('success'),
-
-                TextColumn::make(name: 'required_active_referrals')
-                    ->label('Active Referrals')
+                TextColumn::make('direct_referrals_volume')
                     ->numeric()
+                    ->money('USD')
                     ->sortable()
-                    ->icon('heroicon-o-users')
+                    ->icon('heroicon-o-chart-bar')
+                    ->color('success'),
+
+                TextColumn::make('one_time_bonus')
+                    ->numeric()
+                    ->money('USD')
+                    ->sortable()
+                    ->icon('heroicon-o-bolt')
                     ->alignCenter(),
 
                 TextColumn::make('required_earnings')
