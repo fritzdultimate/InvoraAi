@@ -33,7 +33,7 @@ class RanksTable
                         'success' => fn ($state) => $state >= 7,
                     ])
                     ->sortable(),
-                TextColumn::make('bonus')
+                TextColumn::make('one_time_bonus')
                     ->label('Bonus')
                     ->numeric()
                     ->money('USD')
@@ -53,21 +53,6 @@ class RanksTable
                     ->sortable()
                     ->icon('heroicon-o-chart-bar')
                     ->color('success'),
-
-                TextColumn::make('one_time_bonus')
-                    ->numeric()
-                    ->money('USD')
-                    ->sortable()
-                    ->icon('heroicon-o-bolt')
-                    ->alignCenter(),
-
-                TextColumn::make('required_earnings')
-                    ->label('Required Earnings')
-                    ->numeric()
-                    ->money('USD')
-                    ->sortable()
-                    ->icon('heroicon-o-banknotes')
-                    ->color('warning'),
 
                 TextColumn::make('created_at')
                     ->label('Created')
