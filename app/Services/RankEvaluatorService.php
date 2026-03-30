@@ -68,7 +68,7 @@ class RankEvaluatorService {
 
     }
 
-    private static function getTotalTeamVolume($userId) {
+    public static function getTotalTeamVolume($userId) {
         $percentages = UnilevelPercentage::pluck('percentage', 'level');
 
         $total = 0;
