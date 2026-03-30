@@ -44,7 +44,7 @@
                     Next Rank → {{ $nextRank->name }}
                 </div>
                 <div class="progress-sub">
-                    Unlock bonus: ${{ number_format($nextRank->bonus,2) }}
+                    Unlock bonus: ${{ number_format($nextRank->one_time_bonus,2) }}
                 </div>
             </div>
 
@@ -94,10 +94,6 @@
             ✔ Direct Referral Volume
         </div>
 
-        <div class="check-item {{ $maxBonus >= $nextRank->one_time_bonus ? 'done' : '' }}">
-            ✔ Deposit Bonus Requirement
-        </div>
-
     </div>
     @endif
 
@@ -139,12 +135,12 @@
 
     <div class="rank-ladder mt-4">
 
-    <div class="rank-message hidden">
-        You need 
-        <strong>${{ number_format(max(0, $nextRank->required_volume - $teamVolume)) }}</strong> 
-        more volume to reach 
-        <strong>{{ $nextRank->name }}</strong>
-    </div>
+        <div class="rank-message hidden">
+            You need 
+            <strong>${{ number_format(max(0, $nextRank->required_volume - $teamVolume)) }}</strong> 
+            more volume to reach 
+            <strong>{{ $nextRank->name }}</strong>
+        </div>
 
         @foreach($ranks as $rank)
 
@@ -181,7 +177,7 @@
                         </div>
 
                         <div class="rank-bonus">
-                            +${{ number_format($rank->bonus,2) }}
+                            +${{ number_format($rank->one_time_bonus,2) }}
                         </div>
                     </div>
 
@@ -200,14 +196,14 @@
                     <div class="rank-req">
 
                         <div class="{{ $teamVolume >= $rank->required_volume ? 'ok' : '' }}">
-                            Team: {{ number_format($rank->required_volume) }}
+                            Team: ${{ number_format($rank->required_volume) }}
                         </div>
 
                         <div class="{{ $directVolume >= $rank->direct_referrals_volume ? 'ok' : '' }}">
-                            Direct: {{ number_format($rank->direct_referrals_volume) }}
+                            Direct: ${{ number_format($rank->direct_referrals_volume) }}
                         </div>
 
-                        <div class="{{ $maxBonus >= $rank->one_time_bonus ? 'ok' : '' }}">
+                        <div class="{{ $maxBonus >= $rank->one_time_bonus ? 'ok' : '' }} hidden">
                             Bonus: {{ number_format($rank->one_time_bonus) }}
                         </div>
 
