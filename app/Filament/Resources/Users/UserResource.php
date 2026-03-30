@@ -33,7 +33,7 @@ class UserResource extends Resource
     }
 
     protected function getTableQuery(): Builder {
-        return User::query()->with('referredBy');
+        return User::query()->with(['referredBy', 'rank.rank']);
     }
 
     public static function getRelations(): array

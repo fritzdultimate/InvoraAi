@@ -57,19 +57,6 @@ class UsersTable
                     ->falseIcon('heroicon-o-lock-open')
                     ->trueColor('danger')
                     ->falseColor('success'),
-                TextColumn::make('rank.rank.name')
-                    ->label('Rank')
-                    ->badge()
-                    ->color(fn ($state) => match (strtolower($state ?? '')) {
-                        'bronze' => 'warning',
-                        'silver' => 'gray',
-                        'gold' => 'amber',
-                        'platinum' => 'info',
-                        'diamond' => 'success',
-                        default => 'gray',
-                    })
-                    ->sortable()
-                    ->placeholder('Unranked'),
 
                 IconColumn::make('suspended_at')
                     ->label('Suspended')
@@ -93,6 +80,20 @@ class UsersTable
                     ->color('success')
                     ->weight('medium')
                     ->searchable(['referredBy.name', 'referredBy.email'])
+                    ->sortable(),
+                TextColumn::make('rank_display')
+                    ->label('Rank')
+                    ->getStateUsing(function ($record) {
+                        return $record->rank?->rank?->name ?? 'Unranked';
+                    })
+                    ->description(fn ($record) => 
+                        $record->rank?->rank 
+                            ? 'Level ' . $record->rank->rank->level 
+                            : 'No level yet'
+                    )
+                    ->icon('heroicon-o-trophy')
+                    ->color(fn ($state) => $state ? 'success' : 'gray')
+                    ->weight('medium')
                     ->sortable()
             ])
             ->defaultSort('created_at', 'desc')
