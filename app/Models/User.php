@@ -148,4 +148,8 @@ class User extends Authenticatable
             ->withPivot('read_at', 'dismissed_at')
             ->withTimestamps();
     }
+
+    public function rank() {
+        return $this->hasOne(UserRank::class);
+    }
 }

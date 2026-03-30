@@ -41,6 +41,26 @@ function getDownlineUserIds(int $userId, int $maxDepth = 10): array
     return array_values(array_unique($all));
 }
 
+function getDownlineUsersByLevel(int $userId, int $targetLevel): array
+{
+    $currentLevel = [$userId];
+
+    for ($i = 1; $i <= $targetLevel; $i++) {
+
+        $nextLevel = Referral::whereIn('level_1_id', $currentLevel)
+            ->pluck('user_id')
+            ->toArray();
+
+        if ($i === $targetLevel) {
+            return $nextLevel;
+        }
+
+        $currentLevel = $nextLevel;
+    }
+
+    return [];
+}
+
 function mask($target) {
     if (!$target) return '—';
 
