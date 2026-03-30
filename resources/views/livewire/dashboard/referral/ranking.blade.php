@@ -36,49 +36,114 @@
 
     <!-- 🚀 PROGRESSION -->
     @if($nextRank)
-    <div class="rank-progress-card mt-4">
 
-        <div class="progress-header">
-            <div>
-                <div class="progress-title">
-                    Next Rank → {{ $nextRank->name }}
+        <div class="rank-next-card mt-4">
+
+            <!-- 🔥 TOP (FOCUS AREA) -->
+            <div class="rank-next-header">
+
+                <div class="rank-next-left">
+                    <div class="next-label">NEXT RANK</div>
+
+                    <div class="next-name">
+                        {{ $nextRank->name }}
+                    </div>
+
+                    <div class="next-reward">
+                        Earn +${{ number_format($nextRank->one_time_bonus,2) }}
+                    </div>
                 </div>
-                <div class="progress-sub">
-                    Unlock bonus: ${{ number_format($nextRank->one_time_bonus,2) }}
+
+                <div class="rank-progress-circle">
+                    <div 
+                        class="circle-progress"
+                        style="--progress: {{ $this->getProgress() }};"
+                    >
+                        <span>{{ $this->getProgress() }}%</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- 🔥 PROGRESS BAR (GLOW) -->
+            <div class="rank-bar-wrap">
+                <div class="rank-bar">
+                    <div 
+                        class="rank-bar-fill"
+                        style="width: {{ $this->getProgress() }}%"
+                    ></div>
                 </div>
             </div>
 
-            <div class="progress-percent">
-                {{ $this->getProgress() }}%
-            </div>
-        </div>
-
-        <div class="rank-progress-bar">
-            <div 
-                class="rank-progress-fill"
-                style="width: {{ $this->getProgress() }}%"
-            ></div>
-        </div>
-
-        <div class="progress-stats">
-
-            <div>
-                <span>Team Volume</span>
+            <!-- 🔥 EMOTIONAL MESSAGE -->
+            <div class="rank-message">
+                You’re 
                 <strong>
-                    {{ number_format($teamVolume) }} / {{ number_format($nextRank->required_volume) }}
-                </strong>
+                    ${{ number_format(max(0, $nextRank->required_volume - $teamVolume)) }}
+                </strong> 
+                away from 
+                <span>{{ $nextRank->name }}</span>
             </div>
 
-            <div>
-                <span>Direct Volume</span>
-                <strong>
-                    {{ number_format($directVolume) }} / {{ number_format($nextRank->direct_referrals_volume) }}
-                </strong>
+            <!-- 🔥 STATS -->
+
+            <div class="rank-stats">
+
+                <!-- TEAM VOLUME -->
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <span class="stat-title">Team Volume</span>
+                        <span class="stat-badge {{ $teamVolume >= $nextRank->required_volume ? 'done' : '' }}">
+                            {{ $teamVolume >= $nextRank->required_volume ? '✓' : '...' }}
+                        </span>
+                    </div>
+
+                    <div class="stat-main">
+                        ${{ number_format($teamVolume) }}
+                    </div>
+
+                    <div class="stat-sub">
+                        of ${{ number_format($nextRank->required_volume) }}
+                    </div>
+
+                    <div class="mini-bar">
+                        <div 
+                            class="mini-fill"
+                            style="width: {{ min(100, ($teamVolume / $nextRank->required_volume) * 100) }}%"
+                        ></div>
+                    </div>
+                </div>
+
+
+                <!-- DIRECT VOLUME -->
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <span class="stat-title">Direct Volume</span>
+                        <span class="stat-badge {{ $directVolume >= $nextRank->direct_referrals_volume ? 'done' : '' }}">
+                            {{ $directVolume >= $nextRank->direct_referrals_volume ? '✓' : '...' }}
+                        </span>
+                    </div>
+
+                    <div class="stat-main">
+                        ${{ number_format($directVolume) }}
+                    </div>
+
+                    <div class="stat-sub">
+                        of ${{ number_format($nextRank->direct_referrals_volume) }}
+                    </div>
+
+                    <div class="mini-bar">
+                        <div 
+                            class="mini-fill"
+                            style="width: {{ min(100, ($directVolume / $nextRank->direct_referrals_volume) * 100) }}%"
+                        ></div>
+                    </div>
+                </div>
+
             </div>
 
         </div>
 
-    </div>
     @endif
 
 
