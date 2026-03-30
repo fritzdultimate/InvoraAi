@@ -10,6 +10,7 @@ use App\Models\UnilevelPercentage;
 use App\Models\User;
 use App\Models\UserRank;
 use App\Services\Wallet\WalletService;
+use Illuminate\Support\Facades\DB;
 
 class RankEvaluatorService {
     public static function evaluate(User $user): void {
@@ -22,46 +23,51 @@ class RankEvaluatorService {
             ->orderBy('level')
             ->get();
 
-        foreach ($ranks as $rank) {
-            $qualified =
-                $volume >= $rank->required_volume &&
-                $directReferralVolume >= $rank->direct_referrals_volume;
+        DB::transaction(function () use ($user, $ranks, $volume, $directReferralVolume) {
+            foreach ($ranks as $rank) {
+                
+                $qualified =
+                    $volume >= $rank->required_volume &&
+                    $directReferralVolume >= $rank->direct_referrals_volume;
 
-            if (!$qualified || !$user->isActive()) {
-                continue;
+                if (!$qualified || !$user->isActive()) {
+                    return;
+                }
+
+            
+                UserRank::updateOrCreate(
+                    ['user_id' => $user->id],
+                    [
+                        'rank_id' => $rank->id,
+                        'achieved_at' => now(),
+                    ]
+                );
+
+            
+                $rankBonus = RankBonus::firstOrCreate(
+                    [
+                        'user_id' => $user->id,
+                        'rank_id' => $rank->id,
+                    ],
+                    [
+                        'amount' => $rank->one_time_bonus,
+                        'status' => 'credited',
+                        'credited_at' => now(),
+                    ]
+                );
+
+                if ($rankBonus->wasRecentlyCreated) {
+                    WalletService::credit(
+                        $user,
+                        $rank->one_time_bonus,
+                        LedgerReference::RANKBONUS,
+                        $rank->id,
+                        'rank bonus credited',
+                        LedgerAsset::REFERRALBONUS
+                    );
+                }
             }
-
-            
-            UserRank::updateOrCreate(
-                ['user_id' => $user->id],
-                [
-                    'rank_id' => $rank->id,
-                    'achieved_at' => now(),
-                ]
-            );
-
-            
-            RankBonus::firstOrCreate(
-                [
-                    'user_id' => $user->id,
-                    'rank_id' => $rank->id,
-                ],
-                [
-                    'amount' => $rank->one_time_bonus,
-                    'status' => 'credited',
-                    'credited_at' => now(),
-                ]
-            );
-
-            WalletService::credit(
-                $user,
-                $rank->one_time_bonus,
-                LedgerReference::RANKBONUS,
-                $rank->id,
-                'rank bonus credited',
-                LedgerAsset::REFERRALBONUS
-            );
-        }
+        });
 
     }
 
