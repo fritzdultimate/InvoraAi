@@ -18,8 +18,6 @@ class RankEvaluatorService {
 
         $currentLevel = $user->rank?->rank?->level ?? 0;
 
-        $maxBonus = $user->deposits()->max('bonus') ?? 0;
-
         $ranks = Rank::where('level', '>', $currentLevel)
             ->orderBy('level')
             ->get();
@@ -27,10 +25,9 @@ class RankEvaluatorService {
         foreach ($ranks as $rank) {
             $qualified =
                 $volume >= $rank->required_volume &&
-                $directReferralVolume >= $rank->direct_referrals_volume &&
-                $maxBonus >= $rank->one_time_bonus;
+                $directReferralVolume >= $rank->direct_referrals_volume;
 
-            if (!$qualified) {
+            if (!$qualified || !$user->isActive()) {
                 continue;
             }
 
@@ -50,7 +47,7 @@ class RankEvaluatorService {
                     'rank_id' => $rank->id,
                 ],
                 [
-                    'amount' => $rank->bonus,
+                    'amount' => $rank->one_time_bonus,
                     'status' => 'credited',
                     'credited_at' => now(),
                 ]
@@ -58,7 +55,7 @@ class RankEvaluatorService {
 
             WalletService::credit(
                 $user,
-                $rank->bonus,
+                $rank->one_time_bonus,
                 LedgerReference::RANKBONUS,
                 $rank->id,
                 'rank bonus credited',

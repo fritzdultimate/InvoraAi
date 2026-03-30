@@ -160,4 +160,21 @@ class User extends Authenticatable
     public function referrals() {
         return $this->hasMany(User::class, 'referrer_id');
     }
+
+    public function botInvestments() {
+        return $this->hasMany(BotInvestment::class);
+    }
+
+    public function isActive(): bool {
+        $monthlyInvestment = BotInvestment::where('user_id', $this->id)
+            ->whereBetween('created_at', [now()->startOfMonth(), now()->endOfMonth()])
+            ->whereYear('created_at', now()->year)
+            ->sum('amount');
+
+        $hasActiveReferral = $this->referrals()
+            ->whereHas('botInvestments')
+            ->exists();
+
+        return $monthlyInvestment >= 500 && $hasActiveReferral;
+    }
 }
