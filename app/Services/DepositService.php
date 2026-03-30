@@ -16,6 +16,9 @@ use Illuminate\Support\Facades\Mail;
 
 class DepositService {
     public static function depositBonus($deposit) {
+        if ($deposit->bonus > 0) {
+            return $deposit->bonus;
+        }
         $bonus = (float) CustomSetting::get('deposit_bonus', 0);
         $bonusDuration = (int) CustomSetting::get('deposit_bonus_duration_days', 0);
 
@@ -44,6 +47,9 @@ class DepositService {
     }
 
     public static function markAsFinished(Deposit $deposit) {
+        if ($deposit->status === DepositStatus::FINISHED) {
+            throw new Halt('Deposit already processed.');
+        }
         if($deposit->status === DepositStatus::FINISHED || $deposit->status === DepositStatus::CANCELLED || $deposit->status === DepositStatus::FAILED || $deposit->status === DepositStatus::EXPIRED) {
             throw new Halt('This deposit cannot be approved.');
         }
