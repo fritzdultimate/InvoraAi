@@ -16,7 +16,7 @@
         <div class="rank-top">
             <div>
                 <div class="rank-title">
-                    {{ $currentRank?->name ?? 'Starter' }}
+                    {{ $currentRank?->name ?? 'Unranked' }}
                 </div>
 
                 <div class="rank-sub">
@@ -138,6 +138,13 @@
     </div>
 
     <div class="rank-ladder mt-4">
+
+    <div class="rank-message hidden">
+        You need 
+        <strong>${{ number_format(max(0, $nextRank->required_volume - $teamVolume)) }}</strong> 
+        more volume to reach 
+        <strong>{{ $nextRank->name }}</strong>
+    </div>
 
         @foreach($ranks as $rank)
 
