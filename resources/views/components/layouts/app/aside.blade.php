@@ -73,7 +73,7 @@
 
 			<li class="dropdown">
 				<a href="javascript:void(0)">
-					<iconify-icon icon="solar:home-smile-angle-outline" class="menu-icon"></iconify-icon>
+					<iconify-icon icon="solar:users-group-rounded-outline" class="menu-icon"></iconify-icon>
 					<span>Referral Center</span>
 				</a>
 				<ul class="sidebar-submenu">
@@ -114,7 +114,7 @@
 
 					<li>
 						<a href="{{ route('ranking') }}">
-							<iconify-icon icon="mdi:source-branch" class="menu-icon"></iconify-icon>
+							<iconify-icon icon="solar:medal-star-outline" class="menu-icon"></iconify-icon>
 							<span>My Rank</span>
 						</a>
 					</li>
