@@ -24,8 +24,9 @@
             </div>
         </div>
 
-        <div class="invora-kyc-badge {{ auth()->user()->kyc_status }}">
-            {{ strtoupper(auth()->user()->kyc_status ?? 'UNVERIFIED') }}
+        <div class="invora-kyc-badge {{ auth()->user()->kyc_status }} flex items-center gap-1">
+            <iconify-icon icon="solar:medal-star-outline" class="menu-icon"></iconify-icon>
+            {{ strtoupper(auth()->user()->rank?->rank?->name ?? 'Unranked') }}
         </div>
     </div>
 
