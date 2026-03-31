@@ -17,6 +17,10 @@ class VerifyAction extends Component
     public function mount($user, $hash) {
         $user = User::findOrFail($user);
 
+        if ($user->hasVerifiedEmail()) {
+            return redirect()->route('login');
+        }
+
         // 🔐 Validate hash
         if (!hash_equals(sha1($user->email), $hash)) {
             $this->error = 'Invalid verification link.';

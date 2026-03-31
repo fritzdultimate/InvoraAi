@@ -52,7 +52,8 @@ class User extends Authenticatable
         'notify_deposit_alerts',
         'notify_withdrawal_alerts',
         'notify_security_alerts',
-        'last_verification_sent_at'
+        'last_verification_sent_at',
+        'email_verified_at'
     ];
 
     /**
