@@ -54,7 +54,7 @@
                 <span style="font-size: 13px; color: var(--secondary)" class="text-gray-600 text-secondary">Secure crypto funding</span>
             </div>
 
-            <form wire:submit.prevent="makeDeposit" class="invora-form-pro mt-4">
+            <form wire:submit.prevent="prepareDeposit" class="invora-form-pro mt-4">
 
                 <!-- WALLET -->
                 <div class="invora-field">
@@ -144,11 +144,11 @@
                 <!-- BUTTON -->
                 <button class="invora-btn-pro">
 
-                    <span wire:loading.remove wire:target="makeDeposit">
+                    <span wire:loading.remove wire:target="prepareDeposit">
                         Generate Invoice →
                     </span>
 
-                    <span wire:loading wire:target="makeDeposit">
+                    <span wire:loading wire:target="prepareDeposit">
                         Processing...
                     </span>
 
@@ -157,6 +157,14 @@
             </form>
 
         </div>
+
+        <x-action-message 
+            :showConfirm="$showConfirm" 
+            :type="$type" 
+            :title="$title" 
+            :message="$text" 
+            :warning="$warning" 
+        />
 
 
         <!-- HISTORY -->

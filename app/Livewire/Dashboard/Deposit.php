@@ -26,6 +26,16 @@ class  Deposit extends Component {
     public $deletingId;
     public $perPage = 0;
 
+    // //////////////////////////
+    public $showConfirm = false;
+    public $title;
+    public $text;
+    public $warning;
+    public $type = 'danger';
+    public $confirmText = 'Confirm';
+    public $icon = '⚠️';
+    public $action;
+
     protected $rules = [
         'amount' => 'required|numeric|min:50',
         'selectedWallet' => 'required',
@@ -84,7 +94,6 @@ class  Deposit extends Component {
             $deposit->address = $invoice['pay_address'];
             $deposit->save();
 
-            DepositService::depositBonus($deposit);
 
             $this->deposit = $deposit;
             $this->invoice = $invoice;
@@ -103,6 +112,33 @@ class  Deposit extends Component {
         });
 
         return redirect()->route('deposit.page', ['deposit' => $deposit->id]);
+    }
+
+    public function cancelConfirm() {
+        $this->showConfirm = false;
+    }
+
+    public function prepareDeposit() {
+        $this->amount = str_replace(',', '', $this->amount);
+        $this->validate();
+
+        $this->showConfirm = true;
+        $this->type = 'warning';
+        $this->title = 'Confirm Deposit';
+        $this->text = 'Make sure you are sending the correct asset.';
+        $this->warning = 'Sending wrong network/asset will result in permanent loss.';
+        $this->confirmText = 'I Confirm';
+        $this->action = 'makeDeposit';
+    }
+
+    public function confirmAction() {
+        $action = $this->action;
+
+        if (method_exists($this, $action)) {
+            $this->$action();
+        }
+
+        $this->showConfirm = false;
     }
 
     public function resumeDeposit($id) {
