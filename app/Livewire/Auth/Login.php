@@ -31,6 +31,18 @@ class  Login extends Component {
             ]);
         }
 
+        $user = Auth::user();
+
+        // 🚫 BLOCK IF NOT VERIFIED
+        if (! $user->email_verified_at) {
+
+            Auth::logout();
+
+            session(['verify_email' => $user->email]);
+
+            return redirect()->route('verify.notice');
+        }
+
         session()->regenerate();
 
         $this->reset('password');

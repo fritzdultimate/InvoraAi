@@ -2,10 +2,13 @@
 
 namespace App\Livewire\Auth;
 
+use App\Mail\VerifyEmailMail;
 use App\Models\User;
 use App\Services\ReferralCreationService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
@@ -72,7 +75,6 @@ class  Register extends Component {
 
             if($referrer) {
                 ReferralCreationService::createFor($user, $referrer);
-                // RankEvaluatorService::evaluate($referrer);
 
                 // Mail::to($referrer->email)->queue(
                 //     new ReferredUserNotice(
@@ -84,12 +86,20 @@ class  Register extends Component {
                 // send email
             }
 
-            // Role::create(['name' => 'user']);
-            // Role::create(['name' => 'admin']);
-            // Role::create(['name' => 'tester']);
-            // Role::create(['name' => 'leader']);
-
             $user->assignRole('user');
+
+            $verificationUrl = URL::temporarySignedRoute(
+                'verification.link',
+                now()->addMinutes(10),
+                [
+                    'user' => $user->id,
+                    'hash' => sha1($user->email),
+                ]
+            );
+
+            Mail::to($user->email)->send(new VerifyEmailMail(
+                $verificationUrl,
+            ));
 
 
 
