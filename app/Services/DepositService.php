@@ -127,4 +127,23 @@ class DepositService {
 
         });
     }
+
+    public static function expireOldDeposits(): void {
+        $deposits = Deposit::whereIn('status', [
+                DepositStatus::PENDING,
+                DepositStatus::WAITING
+            ])
+            ->where('created_at', '<', now()->subMinutes(20))
+            ->get();
+
+        foreach ($deposits as $deposit) {
+            DB::transaction(function() use ($deposit) {
+                $deposit->update([
+                    'status' => DepositStatus::EXPIRED
+                ]);
+
+            });
+
+        }
+    }
 }

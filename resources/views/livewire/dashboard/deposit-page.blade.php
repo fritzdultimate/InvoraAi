@@ -4,7 +4,8 @@
          x-data="{
             time: {{ $remainingSeconds }},
             copied: false,
-            expired: false
+            expired: false,
+            status: '{{ $deposit->status }}'
          }"
          x-init="
             let interval = setInterval(() => {
@@ -34,7 +35,7 @@
         <!-- COUNTDOWN -->
         <div class="invora-countdown" 
              :class="time < 60 ? 'danger' : ''"
-             x-show="!expired">
+             x-show="!expired && status !== 'finished'">
 
             ⏳ 
             <span x-text="Math.floor(time/60) + ':' + ('0'+time%60).slice(-2)"></span>
@@ -95,7 +96,7 @@
 
         <!-- FOOTER -->
         <div class="invora-payment-footer">
-            ⚠️ Send only <span class="uppercase">{{ $deposit->currency }}</span>. Wrong network = loss of funds.
+            ⚠️ Send only {{ strtoupper($deposit->currency) }}. Wrong network = loss of funds.
         </div>
 
     </div>
