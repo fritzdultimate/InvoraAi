@@ -27,7 +27,7 @@ class VerifyEmailMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Registration Completed ✅',
+            subject: 'Complete Your Sign-Up (Verification Needed)',
         );
     }
 
