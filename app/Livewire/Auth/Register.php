@@ -108,7 +108,11 @@ class  Register extends Component {
             $this->reset('password', 'password_confirmation');
 
             DB::commit();
-            return redirect()->intended(route('dashboard'));
+            // return redirect()->intended(route('dashboard'));
+            return redirect()
+                ->route('login')
+                ->with('status', 'Please verify your email before logging in.');
+                
         } catch (\Throwable $e) {
            DB::rollBack();
            
