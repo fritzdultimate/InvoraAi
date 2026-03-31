@@ -86,7 +86,8 @@ class User extends Authenticatable
             'notify_email_notifications' => 'boolean',
             'notify_deposit_alerts' => 'boolean',
             'notify_withdrawal_alerts' => 'boolean',
-            'notify_security_alerts' => 'boolean'
+            'notify_security_alerts' => 'boolean',
+            'last_verification_sent_at' => 'datetime'
 
         ];
     }

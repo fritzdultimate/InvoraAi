@@ -30,15 +30,16 @@ class VerifyNotice extends Component
             return redirect()->route('login');
         }
 
-        // 🔐 RATE LIMIT (important)
+        
         if ($user->last_verification_sent_at &&
-            now()->diffInSeconds($user->last_verification_sent_at) < 60) {
+            $user->last_verification_sent_at->diffInSeconds(now()) < 60) {
+            $secondsLeft = 60 - $user->last_verification_sent_at->diffInSeconds(now());
 
-            $this->addError('email', 'Please wait before requesting another email.');
+            $this->addError('email', "Please wait {$secondsLeft}s before requesting another email.");
             return;
         }
 
-        // 🔗 GENERATE LINK
+        
         $url = URL::temporarySignedRoute(
             'verification.link',
             now()->addMinutes(10),
@@ -48,12 +49,12 @@ class VerifyNotice extends Component
             ]
         );
 
-        // 📧 SEND MAIL
+        
         Mail::to($user->email)->send(
             new VerifyEmailMail($url)
         );
 
-        // 🧠 TRACK LAST SENT
+        
         $user->update([
             'last_verification_sent_at' => now()
         ]);
