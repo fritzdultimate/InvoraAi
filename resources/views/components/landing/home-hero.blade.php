@@ -1,8 +1,8 @@
 @props([
-    'title' => 'Weclome to ' . env('APP_NAME'),
+    'title' => 'Welcome to ' . config('app.public_name'),
     'desc' => 'AI-Powered Crypto Arbitrage Investing',
-    'subtitle' => env('APP_NAME') .' uses advanced AI systems to identify real-time cryptocurrency price differences across multiple markets. We buy assets at lower prices and resell at higher rates, helping you earn from market inefficiencies automatically, transparently, and efficiently.',
-    'showCta' => true
+    'subtitle' => config('app.public_name') . ' uses advanced AI systems to identify real-time cryptocurrency price differences across multiple markets. We buy assets at lower prices and resell at higher rates, helping you earn from market inefficiencies automatically, transparently, and efficiently.',
+    'showCta' => true,
 ])
 <div 
     class="elementor-element elementor-element-359f100 e-flex e-con-boxed e-con e-parent" 

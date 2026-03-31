@@ -30,7 +30,7 @@
                         data-widget_type="heading.default">
                         <div class="elementor-widget-container">
                             <div class="elementor-heading-title elementor-size-default">
-                                At {{ env('APP_NAME') }}, we value your trust. This Privacy Policy details how we collect, use, share, and protect the information you provide while using our services. By using {{ env('APP_NAME') }}, you agree to the terms outlined below.
+                                At {{ config('app.public_name') }}, we value your trust. This Privacy Policy details how we collect, use, share, and protect the information you provide while using our services. By using {{ config('app.public_name') }}, you agree to the terms outlined below.
                                 <br><br>
 
                                 <strong>1. Information We Collect:</strong><br>
@@ -43,7 +43,7 @@
                                 We do not sell your personal data. However, we may share information with trusted third-party service providers for operational purposes, such as payment processing, analytics, or customer support. These providers are contractually required to protect your data.
 
                                 <br><br><strong>4. Data Security Measures:</strong><br>
-                                {{ env('APP_NAME') }} implements robust security protocols to safeguard your information. This includes encryption, secure servers, access controls, and regular security audits to prevent unauthorized access, disclosure, or modification of your data.
+                                {{ config('app.public_name') }} implements robust security protocols to safeguard your information. This includes encryption, secure servers, access controls, and regular security audits to prevent unauthorized access, disclosure, or modification of your data.
 
                                 <br><br><strong>5. Cookies and Tracking:</strong><br>
                                 We use cookies and similar technologies to enhance user experience, track website usage, and provide relevant content. You may disable cookies through your browser settings, although some features may not function properly without them.
@@ -55,7 +55,7 @@
                                 Our services are not directed to children under 13 years old, and we do not knowingly collect personal data from minors. If we become aware of any data from children, we will promptly delete it.
 
                                 <br><br><strong>8. International Users:</strong><br>
-                                For users accessing {{ env('APP_NAME') }} from outside our primary jurisdiction, your data may be processed according to local data protection laws. We ensure that international data transfers are secure and compliant with applicable regulations.
+                                For users accessing {{ config('app.public_name') }} from outside our primary jurisdiction, your data may be processed according to local data protection laws. We ensure that international data transfers are secure and compliant with applicable regulations.
 
                                 <br><br><strong>9. Retention of Data:</strong><br>
                                 We retain personal information only as long as necessary for operational, legal, or regulatory purposes. When data is no longer required, we ensure secure deletion or anonymization.

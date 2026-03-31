@@ -107,7 +107,7 @@
                 <!-- Image / Screenshot -->
                 <div class="col-lg-7 order-2 order-lg-0">
                     <div class="dashboard-img text-center wow fadeInUp" data-wow-delay=".2s">
-                        <img src="{{ asset('new_assets/img/images/mobile-illus.png') }}" alt="Invora Dashboard on Mobile" class="img-fluid">
+                        <img src="{{ asset('new_assets/img/images/mobile-1.png') }}" alt="Invora Dashboard on Mobile" class="img-fluid">
                     </div>
                 </div>
 

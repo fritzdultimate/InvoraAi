@@ -2,10 +2,10 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="profile" href="https://gmpg.org/xfn/11">
-	<title>Capwise</title>
+	<title>{{ config('app.public_name') }}</title>
 	<meta name='robots' content='max-image-preview:large' />
-	<link rel="alternate" type="application/rss+xml" title="Capwise &raquo; Feed" href="feed/index.html" />
-	<link rel="alternate" type="application/rss+xml" title="Capwise &raquo; Comments Feed" href="comments/feed/index.html" />
+	<link rel="alternate" type="application/rss+xml" title="{{ config('app.public_name') }} &raquo; Feed" href="feed/index.html" />
+	<link rel="alternate" type="application/rss+xml" title="{{ config('app.public_name') }} &raquo; Comments Feed" href="comments/feed/index.html" />
 	<link rel="alternate" title="oEmbed (JSON)" type="application/json+oembed" href="wp-json/oembed/1.0/embeda441.json?url=https%3A%2F%2Fdemokit.creativemox.com%2Fcapwise%2F" />
 	<link rel="alternate" title="oEmbed (XML)" type="text/xml+oembed" href="wp-json/oembed/1.0/embed1a6e?url=https%3A%2F%2Fdemokit.creativemox.com%2Fcapwise%2F&amp;format=xml" />
 	<style>

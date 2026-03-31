@@ -19,7 +19,7 @@
                 data-id="cc6086c" data-element_type="widget" data-widget_type="heading.default">
                 <div class="elementor-widget-container">
                     <div class="elementor-heading-title elementor-size-default">
-                        Thank you for registering with {{ env('APP_NAME') }}. Please check your email inbox and click the verification link to activate your account.
+                        Thank you for registering with {{ config('app.public_name') }}. Please check your email inbox and click the verification link to activate your account.
                     </div>
                 </div>
             </div>

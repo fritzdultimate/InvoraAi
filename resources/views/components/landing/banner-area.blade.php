@@ -9,7 +9,6 @@
         <div class="row justify-content-center">
             <div class="col-lg-10">
                 <div class="banner-content text-center">
-                    <img src="{{ asset('new_assets/img/icon/fire.png') }}" alt="">
                     <h2 class="title">
                         A Global <span style="color: #009A76;">AI-Driven</span>, Market-Neutral Trading <span
                             style="color: #009A76;">Ecosystem</span>
@@ -54,7 +53,7 @@
                             Get Started
                         </a>
 
-                        <a href="/about" class="btn btn-outline-light ms-2 mt-2">
+                        <a href="{{ route('about-us') }}" class="btn btn-outline-light ms-2 mt-2">
                             Learn More
                         </a>
                     </div>

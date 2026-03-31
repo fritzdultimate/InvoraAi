@@ -18,7 +18,7 @@
                 </h1>
 
                 <p style="color:#94a3b8;font-size:14px;line-height:1.6;margin:0 auto;max-width:460px;">
-                    Your deposit has been securely received and credited to your InvoraAI account. The funds are now ready for allocation into active strategies.
+                    Your deposit has been securely received and credited to your {{ config('app.name') }} account. The funds are now ready for allocation into active strategies.
                 </p>
             </td>
         </tr>
@@ -99,7 +99,7 @@
         <!-- FOOTNOTE -->
         <tr>
             <td align="center" style="padding:16px 20px 24px;color:#64748b;font-size:12px;line-height:1.5;text-align:center;">
-                This transaction was processed securely by InvoraAI systems.<br>
+                This transaction was processed securely by {{ config('app.name') }} systems.<br>
                 If you did not authorize this deposit, please contact support immediately.
             </td>
         </tr>

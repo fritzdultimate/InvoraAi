@@ -37,7 +37,7 @@
                                 <div class="chart-content-inner">
                                     <h2 class="title">Smart AI Trading System</h2>
                                     <p>
-                                        InvoraAI uses advanced algorithms to scan global markets, identify
+                                        {{ config('app.public_name') }} uses advanced algorithms to scan global markets, identify
                                         profitable opportunities, and execute trades automatically with
                                         precision and speed.
                                     </p>

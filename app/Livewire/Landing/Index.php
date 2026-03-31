@@ -7,7 +7,7 @@ use Livewire\Attributes\Locked;
 use Livewire\Component;
 
 // #[Layout('components.layouts.guest')]
-#[Layout('components.layouts.landing')]
+#[Layout('components.layouts.landing', params: ['showPreloader' => true])]
 class  Index extends Component {
     #[Locked]
     public bool $twoFactorEnabled;

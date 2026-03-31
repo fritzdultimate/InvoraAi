@@ -11,8 +11,8 @@
                         <a href="{{ route('home-landing') }}">
                             <img 
                                 src="{{ asset('logo/invora-logo.png') }}"
-                                title="{{ env('APP_NAME') }}" 
-                                alt="{{ env('APP_NAME') }}"
+                                title="{{ config('app.public_name') }}" 
+                                alt="{{ config('app.public_name') }}"
                                 class="lazyload"
                                 style="--smush-placeholder-width: 609px; --smush-placeholder-aspect-ratio: 609/128;" />
                         </a>

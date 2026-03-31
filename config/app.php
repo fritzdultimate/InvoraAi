@@ -17,6 +17,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Public / marketing site name
+    |--------------------------------------------------------------------------
+    |
+    | Used on guest-facing pages (landing, legal, public auth). Admin and
+    | dashboard UIs continue to use "name" (APP_NAME) unless you point both
+    | at the same value in your environment.
+    |
+    */
+
+    'public_name' => env('PUBLIC_APP_NAME', 'InvoraAi'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application Environment
     |--------------------------------------------------------------------------
     |

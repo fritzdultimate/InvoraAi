@@ -43,7 +43,7 @@
                             <div class="close-btn"><i class="fas fa-times"></i></div>
                             <div class="nav-logo">
                                 <a href="{{ route('home-landing') }}">
-                                    <img style="width: 60px; height: auto" src="{{ asset('new_assets/img/logo/invora1.png') }}" alt="{{ env('APP_NAME') }}" title="{{ env('APP_NAME') }}">
+                                    <img style="width: 60px; height: auto" src="{{ asset('new_assets/img/logo/invora1.png') }}" alt="{{ config('app.public_name') }}" title="{{ config('app.public_name') }}">
                                 </a>
                             </div>
                             <div class="menu-outer">
