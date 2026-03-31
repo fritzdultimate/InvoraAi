@@ -5,7 +5,7 @@
             <div class="col-lg-8">
                 <div class="section-title text-center mb-70">
                     <span class="sub-title">Contact</span>
-                    <h2 class="title"><span>Contact</span> InvoraAI</h2>
+                    <h2 class="title"><span>Contact</span> {{ config('app.public_name') }}</h2>
                 </div>
             </div>
         </div>
@@ -21,18 +21,6 @@
                         </div>
                         <div class="content">
                             <p>support@invora.ai <br> info@invora.ai</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-sm-6">
-                    <div class="contact-info-item">
-                        <div class="icon">
-                            <span class="icon-background"></span>
-                            <i class="fas fa-phone"></i>
-                        </div>
-                        <div class="content">
-                            <p>+234 800 000 0000 <br> +234 900 000 0000</p>
                         </div>
                     </div>
                 </div>

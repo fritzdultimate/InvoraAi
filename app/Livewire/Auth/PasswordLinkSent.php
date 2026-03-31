@@ -5,10 +5,7 @@ namespace App\Livewire\Auth;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
-#[Layout('components.layouts.auth', [
-    'title' => 'Reset Link Sent',
-    'subtitle' => 'Check your email'
-])]
+#[Layout('components.layouts.auth')]
 class PasswordLinkSent extends Component {
     public function render(): \Illuminate\View\View
     {

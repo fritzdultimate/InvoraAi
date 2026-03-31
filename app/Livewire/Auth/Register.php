@@ -13,10 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use Spatie\Permission\Models\Role;
 
-#[Layout('components.layouts.auth', [
-    'title' => 'Create Your Account',
-    'subtitle' => "Sign up to start your journey with us and manage your investments securely"
-])]
+#[Layout('components.layouts.auth')]
 class  Register extends Component {
     public $email = '';
     public $password = '';

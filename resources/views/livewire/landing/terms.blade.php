@@ -30,40 +30,40 @@
                         data-widget_type="heading.default">
                         <div class="elementor-widget-container">
                             <div class="elementor-heading-title elementor-size-default">
-                                Welcome to {{ env('APP_NAME') }}. By accessing or using our services, you agree to comply with and be bound by the following Terms and Conditions. Please read them carefully before using our website, platform, or services.
+                                Welcome to {{ config('app.public_name') }}. By accessing or using our services, you agree to comply with and be bound by the following Terms and Conditions. Please read them carefully before using our website, platform, or services.
                                 
                                 <br><br><strong>1. Acceptance of Terms:</strong><br>
-                                By using {{ env('APP_NAME') }}, you acknowledge that you have read, understood, and agree to be bound by these Terms. If you do not agree, please refrain from using our services.
+                                By using {{ config('app.public_name') }}, you acknowledge that you have read, understood, and agree to be bound by these Terms. If you do not agree, please refrain from using our services.
 
                                 <br><br><strong>2. Eligibility:</strong><br>
-                                You must be at least 18 years old or of legal age in your jurisdiction to use {{ env('APP_NAME') }}. By using our services, you represent and warrant that you meet these requirements.
+                                You must be at least 18 years old or of legal age in your jurisdiction to use {{ config('app.public_name') }}. By using our services, you represent and warrant that you meet these requirements.
 
                                 <br><br><strong>3. Account Responsibilities:</strong><br>
                                 Users are responsible for maintaining the confidentiality of their account information, including login credentials. You agree to notify us immediately of any unauthorized use of your account. All activities under your account are your responsibility.
 
                                 <br><br><strong>4. Use of Services:</strong><br>
-                                You agree to use {{ env('APP_NAME') }} only for lawful purposes. Prohibited activities include, but are not limited to, fraudulent activity, illegal transactions, infringement of intellectual property rights, or violating any applicable laws.
+                                You agree to use {{ config('app.public_name') }} only for lawful purposes. Prohibited activities include, but are not limited to, fraudulent activity, illegal transactions, infringement of intellectual property rights, or violating any applicable laws.
 
                                 <br><br><strong>5. Payments and Fees:</strong><br>
                                 Any payments, subscription fees, or charges incurred while using our platform must be made promptly and accurately. Failure to pay may result in suspension or termination of your account.
 
                                 <br><br><strong>6. Intellectual Property:</strong><br>
-                                All content, logos, trademarks, and software associated with {{ env('APP_NAME') }} are the property of {{ env('APP_NAME') }} or its licensors. You may not reproduce, distribute, or use any materials without explicit permission.
+                                All content, logos, trademarks, and software associated with {{ config('app.public_name') }} are the property of {{ config('app.public_name') }} or its licensors. You may not reproduce, distribute, or use any materials without explicit permission.
 
                                 <br><br><strong>7. Disclaimers:</strong><br>
-                                {{ env('APP_NAME') }} provides its services "as is" and makes no warranties regarding accuracy, reliability, or suitability. Use of the platform is at your own risk. We are not liable for any financial losses, damages, or interruptions in service.
+                                {{ config('app.public_name') }} provides its services "as is" and makes no warranties regarding accuracy, reliability, or suitability. Use of the platform is at your own risk. We are not liable for any financial losses, damages, or interruptions in service.
 
                                 <br><br><strong>8. Limitation of Liability:</strong><br>
-                                To the maximum extent permitted by law, {{ env('APP_NAME') }} shall not be liable for any indirect, incidental, special, or consequential damages arising from your use of the platform.
+                                To the maximum extent permitted by law, {{ config('app.public_name') }} shall not be liable for any indirect, incidental, special, or consequential damages arising from your use of the platform.
 
                                 <br><br><strong>9. Termination:</strong><br>
                                 We reserve the right to suspend or terminate your account at our discretion, particularly in cases of breach of these Terms or illegal activity.
 
                                 <br><br><strong>10. Governing Law:</strong><br>
-                                These Terms shall be governed by and construed in accordance with the laws of the jurisdiction in which {{ env('APP_NAME') }} operates. Any disputes will be subject to the exclusive jurisdiction of the competent courts.
+                                These Terms shall be governed by and construed in accordance with the laws of the jurisdiction in which {{ config('app.public_name') }} operates. Any disputes will be subject to the exclusive jurisdiction of the competent courts.
 
                                 <br><br><strong>11. Changes to Terms:</strong><br>
-                                {{ env('APP_NAME') }} may update these Terms and Conditions from time to time. Updated versions will be published on this page. Users are encouraged to review them periodically.
+                                {{ config('app.public_name') }} may update these Terms and Conditions from time to time. Updated versions will be published on this page. Users are encouraged to review them periodically.
 
                                 <br><br>For questions or clarifications regarding these Terms and Conditions, please contact us at <a href="mailto:{{ env('SUPPORT_EMAIL') }}">{{ env('SUPPORT_EMAIL') }}</a>. Your compliance and understanding of these Terms ensure a safe and reliable platform for everyone.
                             </div>

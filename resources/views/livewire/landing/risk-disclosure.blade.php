@@ -31,7 +31,7 @@
                         <div class="elementor-widget-container">
                             <div class="elementor-heading-title elementor-size-default">
                                 Investing involves risks, and it is essential that all users understand the potential
-                                for loss before participating in any financial activities through {{ env('APP_NAME') }}.
+                                for loss before participating in any financial activities through {{ config('app.public_name') }}.
                                 This Risk Disclosure Statement is provided to ensure transparency and awareness.
 
                                 <br><br><strong>1. Market Risks:</strong><br>
@@ -45,18 +45,18 @@
                                 and regulatory developments.
 
                                 <br><br><strong>3. Loss of Capital:</strong><br>
-                                Users may lose some or all of the capital invested. {{ env('APP_NAME') }} does not
+                                Users may lose some or all of the capital invested. {{ config('app.public_name') }} does not
                                 provide any assurances or guarantees regarding the protection of your funds or the
                                 success of your investments.
 
                                 <br><br><strong>4. No Financial Advice:</strong><br>
-                                The information provided by {{ env('APP_NAME') }} is for educational and informational
+                                The information provided by {{ config('app.public_name') }} is for educational and informational
                                 purposes only. It should not be construed as financial, legal, or investment advice.
                                 Users should consult with a qualified professional before making any investment
                                 decisions.
 
                                 <br><br><strong>5. Technology Risks:</strong><br>
-                                While {{ env('APP_NAME') }} implements robust security protocols, technical issues,
+                                While {{ config('app.public_name') }} implements robust security protocols, technical issues,
                                 system failures, or cyber-attacks may result in disruption or loss of data. Users must
                                 take responsibility for secure storage of their login credentials and personal
                                 information.
@@ -67,7 +67,7 @@
                                 complying with local laws and regulations.
 
                                 <br><br><strong>7. Third-Party Risks:</strong><br>
-                                {{ env('APP_NAME') }} may engage third-party service providers for payment processing,
+                                {{ config('app.public_name') }} may engage third-party service providers for payment processing,
                                 analytics, or other operations. While these providers are trusted, the company cannot
                                 guarantee their performance or protect against third-party failures.
 
@@ -77,13 +77,13 @@
                                 transactions.
 
                                 <br><br><strong>9. Limitation of Liability:</strong><br>
-                                {{ env('APP_NAME') }} shall not be liable for any direct, indirect, incidental, or
+                                {{ config('app.public_name') }} shall not be liable for any direct, indirect, incidental, or
                                 consequential damages arising from your use of the platform or investment losses
                                 incurred. By using our services, you accept full responsibility for your financial
                                 decisions.
 
                                 <br><br><strong>10. Acknowledgment:</strong><br>
-                                By accessing {{ env('APP_NAME') }}, you acknowledge that you have read, understood, and
+                                By accessing {{ config('app.public_name') }}, you acknowledge that you have read, understood, and
                                 accepted this Risk Disclosure Statement. You confirm that you are aware of the risks
                                 involved and agree to proceed voluntarily.
 

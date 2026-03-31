@@ -75,7 +75,7 @@
                 <div class="row align-items-center">
                     <div class="col-lg-6">
                         <div class="copyright-text">
-                            <p>Copyright &copy; {{ date('Y') }} {{ env('APP_NAME') }}. All Rights Reserved</p>
+                            <p>Copyright &copy; {{ date('Y') }} {{ config('app.public_name') }}. All Rights Reserved</p>
                         </div>
                     </div>
                     <div class="col-lg-6 d-none d-sm-block">

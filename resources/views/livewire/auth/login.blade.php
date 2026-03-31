@@ -59,9 +59,15 @@
 
                             <div x-data="{ show: false }"
                                 class="elementor-field-type-text elementor-field-group elementor-column elementor-field-group-field_98da870 elementor-col-50 elementor-md-100">
-                                <label for="password" class="elementor-field-label">
-                                    Password
-                                </label>
+                                <div class="mb-2 flex w-full flex-wrap items-center justify-between gap-2">
+                                    <label for="password" class="elementor-field-label mb-0">
+                                        Password
+                                    </label>
+                                    <a href="{{ route('password.request') }}"
+                                        class="text-primary shrink-0 text-sm font-medium hover:underline">
+                                        Forgot password?
+                                    </a>
+                                </div>
                                 <div id="password" class="relative w-full">
                                     <input size="1" type="password"
                                         class="elementor-field elementor-size-sm  elementor-field-textual"

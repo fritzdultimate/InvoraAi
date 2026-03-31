@@ -13,22 +13,22 @@
             <div class="col-lg-3">
                 <div class="choose-item">
                     <div class="choose-icon">
+                        <img src="{{ asset('new_assets/img/icon/choose_icon04.svg') }}" alt="">
+                    </div>
+                    <div class="choose-content">
+                        <h3 class="title">Full Control</h3>
+                        <p>Track performance, manage funds, and stay in control at every step.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="choose-item">
+                    <div class="choose-icon">
                         <img src="{{ asset('new_assets/img/icon/choose_icon01.svg') }}" alt="">
                     </div>
                     <div class="choose-content">
-                        <h2 class="title"><a href="#">AI-Powered Decisions</a></h2>
-                        <p>Our system analyzes market data in real-time to identify high-probability opportunities.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3">
-                <div class="choose-item">
-                    <div class="choose-icon">
-                        <img src="{{ asset('new_assets/img/icon/choose_icon02.svg') }}" alt="">
-                    </div>
-                    <div class="choose-content">
-                        <h2 class="title"><a href="#">Consistent Performance</a></h2>
-                        <p>Designed to perform in both rising and falling markets using market-neutral strategies.</p>
+                        <h3 class="title">AI-Powered Engine</h3>
+                        <p>Our system analyzes market data in real time to act on high-probability opportunities with precision.</p>
                     </div>
                 </div>
             </div>
@@ -38,19 +38,8 @@
                         <img src="{{ asset('new_assets/img/icon/choose_icon03.svg') }}" alt="">
                     </div>
                     <div class="choose-content">
-                        <h2 class="title"><a href="#">Advanced Risk Control</a></h2>
-                        <p>Smart risk management systems help protect your capital at all times.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3">
-                <div class="choose-item">
-                    <div class="choose-icon">
-                        <img src="{{ asset('new_assets/img/icon/choose_icon04.svg') }}" alt="">
-                    </div>
-                    <div class="choose-content">
-                        <h2 class="title"><a href="#">Secure & Transparent</a></h2>
-                        <p>Built with strong security and clear performance tracking for full user confidence.</p>
+                        <h3 class="title">Secure &amp; Real-Time Transparent</h3>
+                        <p>Strong security, clear performance tracking, and real-time visibility into what drives your results.</p>
                     </div>
                 </div>
             </div>
@@ -60,8 +49,19 @@
                         <img src="{{ asset('new_assets/img/icon/choose_icon02.svg') }}" alt="">
                     </div>
                     <div class="choose-content">
-                        <h2 class="title"><a href="#">Automated Investing</a></h2>
-                        <p>Let AI handle complex trading while you monitor and grow your portfolio effortlessly.</p>
+                        <h3 class="title">Market-Neutral by Design</h3>
+                        <p>No exposure to price direction — profits are driven by funding flows only.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="choose-item">
+                    <div class="choose-icon">
+                        <img src="{{ asset('new_assets/img/icon/choose_icon01.svg') }}" alt="">
+                    </div>
+                    <div class="choose-content">
+                        <h3 class="title">Structural Yield Strategy</h3>
+                        <p>Built to capture predictable funding payments, not rely on market speculation.</p>
                     </div>
                 </div>
             </div>
@@ -71,8 +71,8 @@
                         <img src="{{ asset('new_assets/img/icon/choose_icon03.svg') }}" alt="">
                     </div>
                     <div class="choose-content">
-                        <h2 class="title"><a href="#">Data-Driven Strategy</a></h2>
-                        <p>Every move is backed by data, not emotions or speculation.</p>
+                        <h3 class="title">Risk-First Architecture</h3>
+                        <p>Delta-neutral execution ensures minimized volatility and controlled exposure.</p>
                     </div>
                 </div>
             </div>
@@ -82,8 +82,8 @@
                         <img src="{{ asset('new_assets/img/icon/choose_icon04.svg') }}" alt="">
                     </div>
                     <div class="choose-content">
-                        <h2 class="title"><a href="#">Full Control</a></h2>
-                        <p>Track performance, manage funds, and stay in control at every step.</p>
+                        <h3 class="title">Performs in All Market Conditions</h3>
+                        <p>Works in bullish, bearish, and sideways markets.</p>
                     </div>
                 </div>
             </div>

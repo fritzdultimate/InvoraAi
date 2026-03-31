@@ -8,10 +8,7 @@ use Livewire\Attributes\Layout;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Hash;
 
-#[Layout('components.layouts.auth', [
-    'title' => 'Reset Password',
-    'subtitle' => 'Create a new password'
-])]
+#[Layout('components.layouts.auth')]
 class ResetPassword extends Component {
     public $email;
     public $token;

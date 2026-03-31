@@ -10,10 +10,7 @@ use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 
-#[Layout('components.layouts.auth', [
-    'title' => 'Account Created',
-    'subtitle' => "Verify account to gain access."
-])]
+#[Layout('components.layouts.auth')]
 class  RegistrationSuccess extends Component {
 
 

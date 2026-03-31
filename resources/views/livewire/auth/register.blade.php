@@ -18,7 +18,7 @@
                 data-id="cc6086c" data-element_type="widget" data-widget_type="heading.default">
                 <div class="elementor-widget-container">
                     <div class="elementor-heading-title elementor-size-default">
-                        Join {{ env('APP_NAME') }} today to start managing your investments, track your financial growth, and take full control of your financial journey.
+                        Join {{ config('app.public_name') }} today to start managing your investments, track your financial growth, and take full control of your financial journey.
                     </div>
                 </div>
             </div>
