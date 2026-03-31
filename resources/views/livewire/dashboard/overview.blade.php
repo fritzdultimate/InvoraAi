@@ -240,7 +240,7 @@
                     nextLabel: 'Next →',
                     prevLabel: '← Back',
                     skipLabel: 'Skip',
-                    doneLabel: 'Start Trading 🚀',
+                    doneLabel: 'Start Earning 🚀',
 
                     showProgress: true,
                     showBullets: false,
