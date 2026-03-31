@@ -33,7 +33,7 @@ class VerifyNotice extends Component
         
         if ($user->last_verification_sent_at &&
             $user->last_verification_sent_at->diffInSeconds(now()) < 60) {
-            $secondsLeft = 60 - $user->last_verification_sent_at->diffInSeconds(now());
+            $secondsLeft = round(60 - $user->last_verification_sent_at->diffInSeconds(now()));
 
             $this->addError('email', "Please wait {$secondsLeft}s before requesting another email.");
             return;
