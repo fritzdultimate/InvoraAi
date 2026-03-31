@@ -258,8 +258,8 @@
 
                                 <select wire:model="asset" class="modal-select">
 
-                                    <option value="main">Main Balance</option>
-                                    <option value="deposit">Deposit Balance</option>
+                                    <option value="main">Main Balance (${{ number_format(auth()->user()->main_balance, 2) }})</option>
+                                    <option value="deposit">Deposit Balance (${{ number_format(auth()->user()->deposit_balance, 2) }})</option>
                                 </select>
 
                                 @error('asset')

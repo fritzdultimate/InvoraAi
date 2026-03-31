@@ -79,6 +79,7 @@ class Bot extends Component {
                         'bot_id' => $this->selectedBot->id,
                     ],
                     [
+                        'status' => 'active',
                         'starts_at' => now(),
                         'expires_at' => now()->addDays($this->selectedBot->license_duration_days),
                         'meta' => [

@@ -8,6 +8,7 @@ use App\Enums\LedgerReference;
 use App\Mail\DepositApprovedMail;
 use App\Models\CustomSetting;
 use App\Models\Deposit;
+use App\Models\User;
 use App\Services\Wallet\WalletService;
 use Filament\Support\Exceptions\Halt;
 use Illuminate\Support\Facades\DB;
@@ -79,6 +80,51 @@ class DepositService {
                 'https://invora.ai/dashboard',
                 $bonus
             ));
+        });
+    }
+
+    public static function debitForInvestment(User $user, float $amount): void {
+        DB::transaction(function () use ($user, $amount) {
+
+            $remaining = $amount;
+
+            
+            $bonusBalance = $user->getBalance(LedgerAsset::DEPOSITBONUSBALANCE);
+
+            if ($bonusBalance > 0) {
+                $fromBonus = min($bonusBalance, $remaining);
+
+                WalletService::debit(
+                    $user,
+                    $fromBonus,
+                    LedgerReference::BOT_INVESTMENT,
+                    null,
+                    'investment debit (bonus balance)',
+                    LedgerAsset::DEPOSITBONUSBALANCE
+                );
+
+                $remaining -= $fromBonus;
+            }
+
+            
+            if ($remaining > 0) {
+
+                $depositBalance = $user->getBalance(LedgerAsset::DEPOSIT);
+
+                if ($depositBalance < $remaining) {
+                    throw new \Exception('Insufficient balance.');
+                }
+
+                WalletService::debit(
+                    $user,
+                    $remaining,
+                    LedgerReference::BOT_INVESTMENT,
+                    null,
+                    'investment debit (main balance)',
+                    LedgerAsset::DEPOSIT
+                );
+            }
+
         });
     }
 }

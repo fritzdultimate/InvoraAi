@@ -194,7 +194,7 @@
                         <label>Select Asset</label>
                         <select class="input" wire:model.live="asset">
                             <option value="main">Main Balance - (${{ number_format(auth()->user()->main_balance) }})</option>
-                            <option value="deposit">Deposit Balance - (${{ number_format(auth()->user()->deposit_balance) }})</option>
+                            <option value="deposit">Deposit Balance - (${{ number_format($depositBalance) }})</option>
                         </select>
                     </div>
                 @else
@@ -203,7 +203,7 @@
                         <label>Select Asset</label>
                         <select class="input" wire:model.live="asset">
                             <option value="main">Main Balance - (${{ number_format(auth()->user()->main_balance) }})</option>
-                            <option value="deposit">Deposit Balance - (${{ number_format(auth()->user()->deposit_balance) }})</option>
+                            <option value="deposit">Deposit Balance - (${{ number_format($depositBalance) }})</option>
                         </select>
                     </div>
 
@@ -224,19 +224,19 @@
 
                 {{-- Button --}}
                 <button 
-                    wire:click="{{ $upgradeMode ? 'upgradeLicense' : 'createInvestment' }}" 
+                    wire:click="{{ $upgradeMode ? 'upgradeLicense' : 'prepareInvesment' }}" 
                     wire:loading.attr="disabled" 
                     class="btn-modal"
                 >
                     <span 
                         wire:loading.remove 
-                        wire:target="{{ $upgradeMode ? 'upgradeLicense' : 'createInvestment' }}"
+                        wire:target="{{ $upgradeMode ? 'upgradeLicense' : 'prepareInvesment' }}"
                     >
                         {{ $upgradeMode ? 'Confirm Upgrade' : 'Deploy' }}
                     </span>
                     <span 
                         wire:loading 
-                        wire:target="{{ $upgradeMode ? 'upgradeLicense' : 'createInvestment' }}"
+                        wire:target="{{ $upgradeMode ? 'upgradeLicense' : 'prepareInvesment' }}"
                     >
                         Processing...
                     </span>
@@ -338,6 +338,14 @@
             }
         </style>
     @endif
+
+    <x-action-message 
+        :showConfirm="$showConfirm" 
+        :type="$type" 
+        :title="$title" 
+        :message="$message" 
+        :warning="$warning" 
+    />
 
     <x-dashboard.investment-history :investments="$investments" />
 

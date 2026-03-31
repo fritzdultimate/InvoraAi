@@ -9,6 +9,7 @@ use App\Models\BotInvestment;
 use App\Models\BotLicense;
 use App\Models\BotLicenseUpgrade;
 use App\Services\Bot\BotInvestmentService;
+use App\Services\DepositService;
 use App\Services\ReferralBonusService;
 use App\Services\Wallet\WalletService;
 use Illuminate\Support\Facades\DB;
@@ -23,23 +24,49 @@ class Investment extends Component
     public $selectedLicense;
     public $asset = 'main';
     public $search;
-    public $type;
 
     public $upgradeMode = false;
     public $availableUpgradeBots;
     public $upgradedBotId;
+    public $depositBalance = 0;
+
+    // //////////////////////////
+    public $showConfirm = false;
+    public $title;
+    public $message;
+    public $warning;
+    public $type = 'danger';
+    public $confirmText = 'Confirm';
+    public $icon = '⚠️';
+    public $action;
 
     public function mount() {
         $this->licenses = BotLicense::with('bot')
             ->where('user_id', auth()->id())
             ->latest()
             ->get();
+
+        $this->depositBalance = bcadd(
+            (string) auth()->user()->deposit_balance, 
+            (string) auth()->user()->deposit_bonus_balance, 
+            8
+        ); 
     }
 
     public function rules() {
         return [
             'amount' => ['required','numeric']
         ];
+    }
+
+    public function confirmAction() {
+        $action = $this->action;
+
+        if (method_exists($this, $action)) {
+            $this->$action();
+        }
+
+        $this->showConfirm = false;
     }
 
     public function openModal($licenseId) {
@@ -51,8 +78,7 @@ class Investment extends Component
         $this->showModal = true;
     }
 
-    public function render()
-    {
+    public function render() {
         $licenses = BotLicense::with('bot')
             ->where('user_id', auth()->id())
             ->latest()
@@ -68,6 +94,31 @@ class Investment extends Component
         ]);
     }
 
+    public function cancelConfirm() {
+        $this->showConfirm = false;
+    }
+
+    public function prepareInvesment() {
+        if(!$this->selectedLicense) return;
+
+        $this->validate([
+            'amount' => [
+                'required',
+                'numeric',
+                'min:' . $this->selectedLicense->bot->min_amount,
+                // 'max:' . $this->selectedLicense->bot->max_amount,
+            ],
+        ]);
+
+        $this->showConfirm = true;
+
+        $this->type = 'success';
+        $this->title = 'Start Investment';
+        $this->message = 'Your funds will be locked for the selected duration.';
+        $this->confirmText = 'Proceed';
+        $this->action = 'createInvestment';
+    }
+
     public function createInvestment() {
         if(!$this->selectedLicense) return;
 
@@ -81,19 +132,18 @@ class Investment extends Component
         ]);
 
         try {
-
-
-            $asset = $this->asset === 'deposit' ? LedgerAsset::DEPOSIT : LedgerAsset::MAIN;
-
-
-            WalletService::debit(
-                auth()->user(), 
-                $this->amount, 
-                LedgerReference::BOT_INVESTMENT, 
-                $this->selectedLicense->id, 
-                null, 
-                $asset
-            );        
+            if($this->asset === 'deposit') {
+                DepositService::debitForInvestment(auth()->user(), $this->amount);
+            } else {
+                WalletService::debit(
+                    auth()->user(), 
+                    $this->amount, 
+                    LedgerReference::BOT_INVESTMENT, 
+                    $this->selectedLicense->id, 
+                    null, 
+                    LedgerAsset::MAIN
+                );      
+            }  
 
             $investment = BotInvestment::create([
                 'user_id' => auth()->id(),
