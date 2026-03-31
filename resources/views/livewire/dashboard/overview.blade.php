@@ -240,7 +240,7 @@
                     nextLabel: 'Next →',
                     prevLabel: '← Back',
                     skipLabel: 'Skip',
-                    doneLabel: 'Start Investing 🚀',
+                    doneLabel: 'Start Trading 🚀',
 
                     showProgress: true,
                     showBullets: false,
@@ -258,12 +258,12 @@
                         {
                             element: document.querySelector('#fund'),
                             title: "Fund Your Account",
-                            intro: "Deposit funds here to start investing."
+                            intro: "Deposit funds here to start trading."
                         },
                         {
                             element: document.querySelector('#investment'),
-                            title: "Create Investment",
-                            intro: "Use your balance to create your first investment."
+                            title: "Trade with AI BOTs",
+                            intro: "Use your balance to create your first AI trade."
                         },
                         {
                             element: document.querySelector('#withdraw'),
