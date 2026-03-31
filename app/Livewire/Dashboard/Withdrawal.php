@@ -20,6 +20,16 @@ class Withdrawal extends Component {
     public $networks = [];
     public $perPage = 10;
 
+    // //////////////////////////
+    public $showConfirm = false;
+    public $title;
+    public $text;
+    public $warning;
+    public $type = 'danger';
+    public $confirmText = 'Confirm';
+    public $icon = '⚠️';
+    public $action;
+
     #[Computed]
     public function minimumWithdrawalAmount() {
         return CustomSetting::get('minimum_withdrawal') ?? 20;
@@ -100,6 +110,34 @@ class Withdrawal extends Component {
         });
 
         return redirect()->route('withdrawal.page', ['withdrawal' => $withdrawal->id]);
+    }
+
+    public function cancelConfirm() {
+        $this->showConfirm = false;
+    }
+
+    public function prepareWithdrawal() {
+        $this->amount = str_replace(',', '', $this->amount);
+        $this->validate();
+
+        $this->showConfirm = true;
+        $this->type = 'danger';
+        $this->title = 'Confirm Withdrawal';
+        $this->text = 'You are about to withdraw funds from your account. Please review the details carefully before proceeding.';
+        $this->warning = 'Ensure the wallet address and network are correct. Transactions cannot be reversed once processed.';
+        $this->confirmText = 'Yes, Withdraw';
+        $this->icon = '💸';
+        $this->action = 'makeWithdrawal';
+    }
+
+    public function confirmAction() {
+        $action = $this->action;
+
+        if (method_exists($this, $action)) {
+            $this->$action();
+        }
+
+        $this->showConfirm = false;
     }
 
     public function deleteWithdrawal() {
