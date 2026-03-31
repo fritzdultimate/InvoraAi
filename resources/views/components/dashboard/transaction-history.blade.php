@@ -84,7 +84,7 @@
                 <div style="display:flex; justify-content:space-between;">
                     <strong class="invora-balance-meta">#{{ $txn->reference ?? $txn->id }}</strong>
 
-                    <span class="{{ $type === 'withdrawal' ? 'invora-debit' : 'invora-credit' }}">
+                    <span class="{{ $type === 'withdrawal' ? 'invora-debitt' : 'invora-creditt' }} {{ $txn->status }}">
                         +${{ number_format($txn->amount,2) }}
                     </span>
                 </div>
