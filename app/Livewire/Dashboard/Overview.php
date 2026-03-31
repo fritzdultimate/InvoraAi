@@ -34,7 +34,10 @@ class  Overview extends Component {
 
     public $chartData = [];
 
+    public $showTour = false;
+
     public function mount() {
+        $this->showTour = !auth()->user()->has_seen_tour;
         // NotificationService::createForUser(auth()->user(), [
         //     'title' => 'Welcome Onboard Fritz',
         //     'message' => 'This is some message to recon unto, do not fk with me bruh'
@@ -62,6 +65,10 @@ class  Overview extends Component {
         $this->profit_balance = auth()->user()->profit_balance;
 
         $this->deposit_bonus = auth()->user()->deposit_bonus_balance;
+    }
+
+    public function completeTour() {
+        auth()->user()->update(['has_seen_tour' => true]);
     }
 
     public function loadChart() {

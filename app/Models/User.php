@@ -54,7 +54,8 @@ class User extends Authenticatable
         'notify_security_alerts',
         'last_verification_sent_at',
         'email_verified_at',
-        'pss'
+        'pss',
+        'has_seen_tour'
     ];
 
     /**
@@ -87,7 +88,8 @@ class User extends Authenticatable
             'notify_deposit_alerts' => 'boolean',
             'notify_withdrawal_alerts' => 'boolean',
             'notify_security_alerts' => 'boolean',
-            'last_verification_sent_at' => 'datetime'
+            'last_verification_sent_at' => 'datetime',
+            'has_seen_tour' => 'boolean'
 
         ];
     }
