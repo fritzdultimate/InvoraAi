@@ -50,9 +50,7 @@
         <div class="invora-payment-grid">
 
             <!-- QR -->
-            <div class="invora-qr-box">
-                <img src="/qr.png">
-            </div>
+            <livewire:dashboard.qr-code address="{{  $deposit->address  }}" />
             
             <!-- LEFT -->
             <div>
