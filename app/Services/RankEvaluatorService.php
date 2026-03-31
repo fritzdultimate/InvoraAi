@@ -4,6 +4,7 @@ namespace App\Services;
 use App\Enums\LedgerAsset;
 use App\Enums\LedgerReference;
 use App\Models\BotInvestment;
+use App\Models\DailyResidualBonus;
 use App\Models\Rank;
 use App\Models\RankBonus;
 use App\Models\UnilevelPercentage;
@@ -94,5 +95,40 @@ class RankEvaluatorService {
         }
 
         return $total;
+    }
+
+    public static function distributeResidualBonus(User $user) {
+        if(!$user->isActive()) return;
+
+        $bonus = $user->rank?->rank?->bonus ?? 0;
+
+        if ($bonus <= 0) return;
+
+        DB::transaction(function () use ($user, $bonus) {
+            $residualBonus = DailyResidualBonus::firstOrCreate(
+                [
+                    'user_id' => $user->id,
+                    'created_at' => now()->startOfDay(),
+                ],
+                [
+                    'rank_id' => $user->rank->rank_id,
+                    'amount' => $bonus,
+                    'credited_at' => now(),
+                ]
+            );
+
+            if ($residualBonus->wasRecentlyCreated) {
+
+                WalletService::credit(
+                    $user,
+                    $bonus,
+                    LedgerReference::RESIDUALBONUS,
+                    $residualBonus->id,
+                    'daily residual bonus credited',
+                    LedgerAsset::REFERRALBONUS
+                );
+            }
+
+        });
     }
 }

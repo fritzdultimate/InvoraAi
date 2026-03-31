@@ -17,4 +17,5 @@ enum LedgerReference: string
     case LICENSE_UPGRADE = 'license_upgrade';
     case ReferralBonus = 'referral_bonus';
     case RANKBONUS = 'rank_bonus';
+    case RESIDUALBONUS = 'residual_bonus';
 }

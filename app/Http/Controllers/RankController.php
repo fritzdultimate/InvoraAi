@@ -13,6 +13,7 @@ class RankController extends Controller {
 
         foreach($users as $user) {
             RankEvaluatorService::evaluate($user);
+            RankEvaluatorService::distributeResidualBonus($user);
         }
     }
 
