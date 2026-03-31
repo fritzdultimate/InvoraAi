@@ -68,7 +68,7 @@
                     ● {{ auth()->user()->isActive() ? 'Account Active' : 'Account Inactive' }}
 
                     @unless (auth()->user()->isActive())
-                        <span x-data="{ open: false }" class="relative flexs items-center" x-cloak style="position:relative">
+                        <span x-data="{ open: false }" class="relative flex items-center" x-cloak style="position:relative">
                             <iconify-icon icon="solar:info-circle-outline"
                                 class="cursor-pointer text-gray-400 hover:text-white transition"
                                 @click="open = !open"></iconify-icon>
