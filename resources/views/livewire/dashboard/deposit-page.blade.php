@@ -95,7 +95,7 @@
 
         <!-- FOOTER -->
         <div class="invora-payment-footer">
-            ⚠️ Send only BTC. Wrong network = loss of funds.
+            ⚠️ Send only <span class="uppercase">{{ $deposit->currency }}</span>. Wrong network = loss of funds.
         </div>
 
     </div>
