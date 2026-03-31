@@ -64,7 +64,7 @@
                 </div>
 
                 <div
-                    class="invora-profile-status {{ auth()->user()->isActive() ? 'invora-credit' : 'invora-debit' }} flex items-center gap-2">
+                    class="invora-profile-status {{ auth()->user()->isActive() ? 'invora-credit' : 'invora-debit' }} flex items-center gap-2 mt-3">
                     ● {{ auth()->user()->isActive() ? 'Account Active' : 'Account Inactive' }}
 
                     @unless (auth()->user()->isActive())
