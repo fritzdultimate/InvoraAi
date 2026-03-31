@@ -134,7 +134,7 @@
                     <!-- ACTION BUTTONS -->
                     <div class="invora-balance-actions">
 
-                        <a href="{{ route('deposit') }}" class="invora-action-btn deposit" id="deposit">
+                        <a href="{{ route('deposit') }}" class="invora-action-btn deposit" id="fund">
                             <!-- <iconify-icon icon="solar:card-send-bold"></iconify-icon> -->
                             <iconify-icon icon="mdi:plus"></iconify-icon>
                             <span>Deposit</span>
@@ -256,7 +256,7 @@
                             intro: "This is where you activate your trading bot license."
                         },
                         {
-                            element: document.querySelector('#deposit'),
+                            element: document.querySelector('#fund'),
                             title: "Fund Your Account",
                             intro: "Deposit funds here to start investing."
                         },
