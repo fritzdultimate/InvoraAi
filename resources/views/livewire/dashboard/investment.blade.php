@@ -224,19 +224,19 @@
 
                 {{-- Button --}}
                 <button 
-                    wire:click="{{ $upgradeMode ? 'upgradeLicense' : 'prepareInvesment' }}" 
+                    wire:click="{{ $upgradeMode ? 'prepareUpgrade' : 'prepareInvesment' }}" 
                     wire:loading.attr="disabled" 
                     class="btn-modal"
                 >
                     <span 
                         wire:loading.remove 
-                        wire:target="{{ $upgradeMode ? 'upgradeLicense' : 'prepareInvesment' }}"
+                        wire:target="{{ $upgradeMode ? 'prepareUpgrade' : 'prepareInvesment' }}"
                     >
                         {{ $upgradeMode ? 'Confirm Upgrade' : 'Deploy' }}
                     </span>
                     <span 
                         wire:loading 
-                        wire:target="{{ $upgradeMode ? 'upgradeLicense' : 'prepareInvesment' }}"
+                        wire:target="{{ $upgradeMode ? 'prepareUpgrade' : 'prepareInvesment' }}"
                     >
                         Processing...
                     </span>

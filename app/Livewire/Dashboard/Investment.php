@@ -119,6 +119,40 @@ class Investment extends Component
         $this->action = 'createInvestment';
     }
 
+    public function prepareUpgrade() {
+        $this->validate([
+            'upgradedBotId' => [
+                'required',
+                'exists:bots,id',
+                function ($attribute, $value, $fail) {
+                    $selectedBot = Bot::find($value);
+
+                    if (!$selectedBot) {
+                        return;
+                    }
+
+                    if ($selectedBot->price <= $this->selectedLicense->bot->price) {
+                        $fail('You can only upgrade to a higher-tier bot.');
+                    }
+                }
+            ],
+        ], [
+            'upgradedBotId.required' => 'Please select a bot to upgrade.',
+            'upgradedBotId.exists' => 'The selected bot is invalid.'
+        ]);
+
+        $selectedUpgradeBot = Bot::where('id', $this->upgradedBotId)->first();
+        if(!$this->selectedLicense || !$selectedUpgradeBot) return;
+
+        $this->showConfirm = true;
+
+        $this->type = 'success';
+        $this->title = 'Upgrade License';
+        $this->message = 'Current bot will be upgraded to selected bot.';
+        $this->confirmText = 'Proceed';
+        $this->action = 'upgradeLicense';
+    }
+
     public function createInvestment() {
         if(!$this->selectedLicense) return;
 
