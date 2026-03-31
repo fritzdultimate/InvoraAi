@@ -20,7 +20,7 @@ class Withdrawal extends Component {
     public $networks = [];
     public $perPage = 10;
 
-    // //////////////////////////
+    // ////////////////////////
     public $showConfirm = false;
     public $title;
     public $text;
