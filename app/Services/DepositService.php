@@ -6,6 +6,7 @@ use App\Enums\DepositStatus;
 use App\Enums\LedgerAsset;
 use App\Enums\LedgerReference;
 use App\Mail\DepositApprovedMail;
+use App\Mail\DepositExpiredMail;
 use App\Models\CustomSetting;
 use App\Models\Deposit;
 use App\Models\User;
@@ -141,6 +142,14 @@ class DepositService {
                 $deposit->update([
                     'status' => DepositStatus::EXPIRED
                 ]);
+
+                Mail::to($deposit->user->email)->send(new DepositExpiredMail(
+                    $deposit->amount,
+                    $deposit->reference,
+                    $deposit->currency,
+                    now()->format('l, d F Y • h:i A'),
+                    'https://invora.ai/dashboard',
+                ));
 
             });
 
