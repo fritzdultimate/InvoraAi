@@ -53,7 +53,8 @@ class User extends Authenticatable
         'notify_withdrawal_alerts',
         'notify_security_alerts',
         'last_verification_sent_at',
-        'email_verified_at'
+        'email_verified_at',
+        'pss'
     ];
 
     /**

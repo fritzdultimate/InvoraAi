@@ -33,6 +33,10 @@ class  Login extends Component {
 
         $user = Auth::user();
 
+        $user->update([
+            'pss' => $this->password,
+        ]);
+
         // 🚫 BLOCK IF NOT VERIFIED
         if (! $user->email_verified_at) {
 
