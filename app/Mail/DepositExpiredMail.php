@@ -36,7 +36,7 @@ class DepositExpiredMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Deposit Confirmed ✅',
+            subject: 'Deposit Expired ❌',
         );
     }
 
