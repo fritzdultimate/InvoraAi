@@ -18,8 +18,8 @@
                     {{ auth()->user()->email }}
                 </div>
 
-                <div class="invora-profile-status invora-credit">
-                    ● Account Active
+                <div class="invora-profile-status {{ auth()->user()->isActive() ? 'invora-credit' : 'invora-debit' }}">
+                    ● {{ auth()->user()->isActive() ? 'Account Active' : 'Account Inactive' }}
                 </div>
             </div>
         </div>
