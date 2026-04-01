@@ -80,7 +80,7 @@
                     class="invora-profile-status {{ auth()->user()->hasActiveLicense() ? 'invora-credit' : 'invora-debit' }} flex items-center gap-2 mt-3">
                     ● {{ auth()->user()->hasActiveLicense() ? 'Account Active' : 'Account Inactive' }}
 
-                    @unless (!auth()->user()->hasActiveLicense())
+                    @unless (auth()->user()->hasActiveLicense())
                         <span x-data="{ open: false }" class="relative flex items-center" x-cloak style="position:relative">
                             <iconify-icon icon="solar:info-circle-outline"
                                 class="cursor-pointer text-gray-400 hover:text-white transition"

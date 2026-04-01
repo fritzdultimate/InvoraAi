@@ -1,3 +1,164 @@
+@push('styles')
+    <style>
+        .invora-tooltip {
+            position: absolute;
+            top: 28px;
+            left: -700%;
+            width: 260px;
+
+            background: #020617;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+
+            padding: 14px;
+            z-index: 50;
+
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+        }
+
+        .invora-tooltip .title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 6px;
+        }
+
+        .invora-tooltip .text {
+            font-size: 12px;
+            color: #94a3b8;
+            margin-bottom: 8px;
+        }
+
+        .invora-tooltip ul {
+            font-size: 12px;
+            color: #e2e8f0;
+            line-height: 1.6;
+        }
+
+        .invora-mini-btn {
+            display: inline-block;
+            margin-top: 10px;
+            font-size: 12px;
+            color: #22c55e !important;
+            font-weight: 600;
+        }
+
+        .highlight-box {
+            margin-top: 10px;
+            padding: 10px 12px;
+            border-radius: 10px;
+
+            background: rgba(34,197,94,0.08);
+            border: 1px solid rgba(34,197,94,0.2);
+
+            font-size: 12px;
+            color: #22c55e;
+            line-height: 1.5;
+        }
+
+        .invora-rank-tooltip {
+    width: 280px;
+}
+
+        .rank-ladder {
+            margin-top: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            max-height: 180px;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+
+        .rank-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            padding: 8px 10px;
+            border-radius: 10px;
+
+            background: #020617;
+            border: 1px solid rgba(255,255,255,0.05);
+
+            font-size: 12px;
+        }
+
+        .rank-item.active {
+            border: 1px solid rgba(34,197,94,0.4);
+            background: rgba(34,197,94,0.08);
+        }
+
+        .rank-name {
+            color: #e2e8f0;
+            font-weight: 500;
+        }
+
+        .rank-values {
+            color: #64748b;
+            font-size: 11px;
+        }
+
+        /* Steps */
+        .steps {
+            margin-top: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            color: #e2e8f0;
+        }
+
+        .step span {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #22c55e;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            color: #fff;
+        }
+
+        /* Warning box */
+        .highlight-box.warning {
+            background: rgba(245,158,11,0.08);
+            border: 1px solid rgba(245,158,11,0.2);
+            color: #f59e0b;
+        }
+
+        .rank-meta {
+            display: flex;
+            gap: 8px;
+            font-size: 11px;
+            color: #94a3b8;
+        }
+
+        .rank-meta span {
+            background: rgba(255,255,255,0.05);
+            padding: 3px 6px;
+            border-radius: 6px;
+        }
+
+        .rank-legend {
+            margin-top: 10px;
+            margin-bottom: 6px;
+            font-size: 11px;
+            color: #64748b;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+    </style>
+@endpush
+
 <div class="invora-profile-wrapper">
 
     <!-- 🔥 HEADER -->
@@ -29,6 +190,104 @@
                 ${{ number_format($bonuses->sum('amount'),2) }}
                 <span>Total Earned</span>
             </div>
+
+        </div>
+
+        <div
+            class="invora-profile-status {{ auth()->user()->isActive() ? 'invora-credit' : 'invora-debit' }} flex items-center gap-2 mt-3">
+                    ● {{ auth()->user()->isActive() ? 'Account Active' : 'Account Inactive' }}
+
+            @unless (auth()->user()->isActive())
+                <span x-data="{ open: false }" class="relative flex items-center" x-cloak style="position:relative">
+                    <iconify-icon icon="solar:info-circle-outline"
+                        class="cursor-pointer text-gray-400 hover:text-white transition"
+                        @click="open = !open"></iconify-icon>
+
+                    <div x-show="open" @click.outside="open = false" x-transition class="invora-tooltip invora-rank-tooltip">
+
+                        <div class="title">Why is my account unranked?</div>
+
+                        <div class="text">
+                            Your account is currently <strong>unranked</strong> because you haven’t met the required
+                            <strong>team volume</strong> and <strong>direct referral volume</strong>.
+                        </div>
+
+                        <div class="text" style="margin-top:8px;">
+                            Unlock your first rank by building your network and increasing your trading activity.
+                        </div>
+
+                        <!-- ACTIVATION NOTE -->
+                        <div class="highlight-box warning">
+                            ⚠️ Team volume tracking only starts after you generate at least 
+                            <strong>$500</strong> in trading volume within 30 days.
+                        </div>
+
+                        <!-- HOW TO -->
+                        <div class="steps">
+                            <div class="step">
+                                <span>1</span>
+                                Build your team volume
+                            </div>
+
+                            <div class="step">
+                                <span>2</span>
+                                Meet direct referral volume requirements
+                            </div>
+                        </div>
+
+                        <div class="rank-legend">
+                            <span><strong>TV</strong> = Team Volume</span>
+                            <span><strong>DV</strong> = Direct Referral Volume</span>
+                        </div>
+
+                        <div class="rank-ladder">
+
+                            <div class="rank-item active">
+                                <div class="rank-name">Amateur</div>
+                                <div class="rank-meta">
+                                    <span>TV: $4,999</span>
+                                    <span>DV: $1,499</span>
+                                </div>
+                            </div>
+
+                            <div class="rank-item">
+                                <div class="rank-name">Bronze</div>
+                                <div class="rank-meta">
+                                    <span>TV: $9,999</span>
+                                    <span>DV: $2,499</span>
+                                </div>
+                            </div>
+
+                            <div class="rank-item">
+                                <div class="rank-name">Achiever</div>
+                                <div class="rank-meta">
+                                    <span>TV: $19,999</span>
+                                    <span>DV: $4,999</span>
+                                </div>
+                            </div>
+
+                            <div class="rank-item">
+                                <div class="rank-name">Silver</div>
+                                <div class="rank-meta">
+                                    <span>TV: $49,999</span>
+                                    <span>DV: $7,499</span>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="highlight-box" style="margin-top:10px;">
+                            💰 Each rank unlocks exclusive one-time rewards and daily earning bonuses.
+                        </div>
+
+                        <!-- CTA -->
+                        <a href="{{ route('bot') }}" class="invora-mini-btn">
+                            Start Building Rank →
+                        </a>
+
+                    </div>
+                </span>
+            @endunless
         </div>
 
     </div>
