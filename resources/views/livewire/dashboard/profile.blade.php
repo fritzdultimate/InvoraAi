@@ -42,6 +42,19 @@
             color: #22c55e !important;
             font-weight: 600;
         }
+
+        .highlight-box {
+            margin-top: 10px;
+            padding: 10px 12px;
+            border-radius: 10px;
+
+            background: rgba(34,197,94,0.08);
+            border: 1px solid rgba(34,197,94,0.2);
+
+            font-size: 12px;
+            color: #22c55e;
+            line-height: 1.5;
+        }
     </style>
 @endpush
 
@@ -64,16 +77,16 @@
                 </div>
 
                 <div
-                    class="invora-profile-status {{ auth()->user()->isActive() ? 'invora-credit' : 'invora-debit' }} flex items-center gap-2 mt-3">
-                    ● {{ auth()->user()->isActive() ? 'Account Active' : 'Account Inactive' }}
+                    class="invora-profile-status {{ auth()->user()->hasActiveLicense() ? 'invora-credit' : 'invora-debit' }} flex items-center gap-2 mt-3">
+                    ● {{ auth()->user()->hasActiveLicense() ? 'Account Active' : 'Account Inactive' }}
 
-                    @unless (auth()->user()->isActive())
+                    @unless (!auth()->user()->hasActiveLicense())
                         <span x-data="{ open: false }" class="relative flex items-center" x-cloak style="position:relative">
                             <iconify-icon icon="solar:info-circle-outline"
                                 class="cursor-pointer text-gray-400 hover:text-white transition"
                                 @click="open = !open"></iconify-icon>
 
-                            <div x-show="open" @click.outside="open = false" x-transition class="invora-tooltip">
+                            <div x-show="open" @click.outside="open = false" x-transition class="invora-tooltip hidden">
                                 <div class="title">Why is my account inactive?</div>
 
                                 <div class="text">
@@ -117,6 +130,27 @@
                                     </span>
 
                                 </div>
+                            </div>
+
+                            <div x-show="open" @click.outside="open = false" x-transition class="invora-tooltip">
+                                <div class="title">Why is my account inactive?</div>
+
+                                <div class="text">
+                                    Your account is currently inactive because you have not activated a trading bot on the Invora Smart Trading platform.
+                                </div>
+
+                                <div class="text" style="margin-top:8px;">
+                                    To activate your account, you need to purchase and activate a trading bot.
+                                </div>
+
+                                <div class="highlight-box">
+                                    🚀 Activate your account by getting a bot license and start earning automatically.
+                                </div>
+
+                                <!-- CTA -->
+                                <a href="{{ route('bot') }}" class="invora-mini-btn">
+                                    Get Trading Bot →
+                                </a>
                             </div>
                         </span>
                     @endunless
