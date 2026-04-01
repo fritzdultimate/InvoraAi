@@ -15,12 +15,30 @@
             align-items: center;
             justify-content: center;
             height: 100vh;
+            overflow: hidden;
+        }
+
+        /* subtle glow background */
+        body::before {
+            content: '';
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(34,197,94,0.15), transparent 70%);
+            filter: blur(80px);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%,100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
         }
 
         .invora-error-card {
+            position: relative;
             max-width: 520px;
             width: 90%;
-            padding: 32px;
+            padding: 36px;
             border-radius: 18px;
 
             background: linear-gradient(145deg, rgba(20,25,40,0.95), rgba(10,15,30,0.98));
@@ -28,11 +46,19 @@
 
             box-shadow: 0 30px 80px rgba(0,0,0,0.7);
             text-align: center;
+
+            backdrop-filter: blur(10px);
+        }
+
+        .invora-icon {
+            font-size: 42px;
+            margin-bottom: 12px;
         }
 
         .invora-code {
-            font-size: 72px;
-            font-weight: 800;
+            font-size: 68px;
+            font-weight: 900;
+            letter-spacing: -2px;
             background: linear-gradient(135deg, #22c55e, #009A76);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -40,19 +66,25 @@
 
         .invora-title {
             font-size: 22px;
-            margin-top: 10px;
+            margin-top: 6px;
             font-weight: 600;
         }
 
         .invora-text {
             font-size: 14px;
             color: #94a3b8;
-            margin-top: 10px;
+            margin-top: 12px;
             line-height: 1.6;
         }
 
+        .invora-hint {
+            margin-top: 14px;
+            font-size: 12px;
+            color: #64748b;
+        }
+
         .invora-actions {
-            margin-top: 24px;
+            margin-top: 26px;
             display: flex;
             justify-content: center;
             gap: 10px;
@@ -81,11 +113,39 @@
             transform: translateY(-2px);
             opacity: 0.9;
         }
+
+        .invora-footer {
+            margin-top: 18px;
+            font-size: 11px;
+            color: #475569;
+        }
     </style>
 </head>
 <body>
 
+@php
+    $icon = match($code ?? 500) {
+        404 => '🔍',
+        403 => '🚫',
+        419 => '⏳',
+        429 => '⚡',
+        503 => '🛠️',
+        default => '💥'
+    };
+
+    $hint = match($code ?? 500) {
+        404 => 'The link may be broken or removed.',
+        403 => 'Your account does not have permission.',
+        419 => 'Session expired due to inactivity.',
+        429 => 'You’re sending requests too quickly.',
+        503 => 'System maintenance in progress.',
+        default => 'Unexpected system failure.'
+    };
+@endphp
+
 <div class="invora-error-card">
+
+    <div class="invora-icon">{{ $icon }}</div>
 
     <div class="invora-code">
         {{ $code ?? 'Error' }}
@@ -96,7 +156,11 @@
     </div>
 
     <div class="invora-text">
-        {{ $message ?? 'An unexpected issue occurred. Please try again or return to dashboard.' }}
+        {{ $message ?? 'We hit a small issue. Don’t worry, it’s not your fault.' }}
+    </div>
+
+    <div class="invora-hint">
+        {{ $hint }}
     </div>
 
     <div class="invora-actions">
@@ -104,7 +168,17 @@
         <a href="{{ url()->previous() }}" class="invora-btn secondary">Go Back</a>
     </div>
 
+    <!-- <div class="invora-footer">
+        Redirecting automatically in 8 seconds...
+    </div> -->
+
 </div>
+
+<script>
+    setTimeout(() => {
+        // window.location.href = "{{ url('/') }}";
+    }, 8000);
+</script>
 
 </body>
 </html>
