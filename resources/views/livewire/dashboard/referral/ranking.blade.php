@@ -176,8 +176,100 @@
 
         <div class="rank-top">
             <div>
-                <div class="rank-title">
+                <div class="rank-title flex items-center gap-2 mt-3">
                     {{ $currentRank?->name ?? 'Unranked' }}
+
+                    @unless (auth()->user()->isActive())
+                        <span x-data="{ open: false }" class="relative flex items-center" x-cloak style="position:relative">
+                            <iconify-icon icon="solar:info-circle-outline" style="font-size:20px;"
+                                class="cursor-pointer text-gray-400 hover:text-white transition"
+                                @click="open = !open"></iconify-icon>
+
+                            <div x-show="open" @click.outside="open = false" x-transition class="invora-tooltip invora-rank-tooltip">
+
+                                <div class="title">Why is my account unranked?</div>
+
+                                <div class="text">
+                                    Your account is currently <strong>unranked</strong> because you haven’t met the required
+                                    <strong>team volume</strong> and <strong>direct referral volume</strong>.
+                                </div>
+
+                                <div class="text" style="margin-top:8px;">
+                                    Unlock your first rank by building your network and increasing your trading activity.
+                                </div>
+
+                                <!-- ACTIVATION NOTE -->
+                                <div class="highlight-box warning">
+                                    ⚠️ Team volume tracking only starts after you generate at least 
+                                    <strong>$500</strong> in trading volume within 30 days.
+                                </div>
+
+                                <!-- HOW TO -->
+                                <div class="steps">
+                                    <div class="step">
+                                        <span>1</span>
+                                        Build your team volume
+                                    </div>
+
+                                    <div class="step">
+                                        <span>2</span>
+                                        Meet direct referral volume requirements
+                                    </div>
+                                </div>
+
+                                <div class="rank-legend">
+                                    <span><strong>TV</strong> = Team Volume</span>
+                                    <span><strong>DV</strong> = Direct Referral Volume</span>
+                                </div>
+
+                                <div class="rank-ladder">
+
+                                    <div class="rank-item active">
+                                        <div class="rank-name">Amateur</div>
+                                        <div class="rank-meta">
+                                            <span>TV: $4,999</span>
+                                            <span>DV: $1,499</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="rank-item">
+                                        <div class="rank-name">Bronze</div>
+                                        <div class="rank-meta">
+                                            <span>TV: $9,999</span>
+                                            <span>DV: $2,499</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="rank-item">
+                                        <div class="rank-name">Achiever</div>
+                                        <div class="rank-meta">
+                                            <span>TV: $19,999</span>
+                                            <span>DV: $4,999</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="rank-item">
+                                        <div class="rank-name">Silver</div>
+                                        <div class="rank-meta">
+                                            <span>TV: $49,999</span>
+                                            <span>DV: $7,499</span>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="highlight-box" style="margin-top:10px;">
+                                    💰 Each rank unlocks exclusive one-time rewards and daily earning bonuses.
+                                </div>
+
+                                <!-- CTA -->
+                                <a href="{{ route('bot') }}" class="invora-mini-btn">
+                                    Start Building Rank →
+                                </a>
+
+                            </div>
+                        </span>
+                    @endunless
                 </div>
 
                 <div class="rank-sub">
@@ -191,103 +283,6 @@
                 <span>Total Earned</span>
             </div>
 
-        </div>
-
-        <div
-            class="invora-profile-status {{ auth()->user()->isActive() ? 'invora-credit' : 'invora-debit' }} flex items-center gap-2 mt-3">
-                    ● {{ auth()->user()->isActive() ? 'Account Active' : 'Account Inactive' }}
-
-            @unless (auth()->user()->isActive())
-                <span x-data="{ open: false }" class="relative flex items-center" x-cloak style="position:relative">
-                    <iconify-icon icon="solar:info-circle-outline"
-                        class="cursor-pointer text-gray-400 hover:text-white transition"
-                        @click="open = !open"></iconify-icon>
-
-                    <div x-show="open" @click.outside="open = false" x-transition class="invora-tooltip invora-rank-tooltip">
-
-                        <div class="title">Why is my account unranked?</div>
-
-                        <div class="text">
-                            Your account is currently <strong>unranked</strong> because you haven’t met the required
-                            <strong>team volume</strong> and <strong>direct referral volume</strong>.
-                        </div>
-
-                        <div class="text" style="margin-top:8px;">
-                            Unlock your first rank by building your network and increasing your trading activity.
-                        </div>
-
-                        <!-- ACTIVATION NOTE -->
-                        <div class="highlight-box warning">
-                            ⚠️ Team volume tracking only starts after you generate at least 
-                            <strong>$500</strong> in trading volume within 30 days.
-                        </div>
-
-                        <!-- HOW TO -->
-                        <div class="steps">
-                            <div class="step">
-                                <span>1</span>
-                                Build your team volume
-                            </div>
-
-                            <div class="step">
-                                <span>2</span>
-                                Meet direct referral volume requirements
-                            </div>
-                        </div>
-
-                        <div class="rank-legend">
-                            <span><strong>TV</strong> = Team Volume</span>
-                            <span><strong>DV</strong> = Direct Referral Volume</span>
-                        </div>
-
-                        <div class="rank-ladder">
-
-                            <div class="rank-item active">
-                                <div class="rank-name">Amateur</div>
-                                <div class="rank-meta">
-                                    <span>TV: $4,999</span>
-                                    <span>DV: $1,499</span>
-                                </div>
-                            </div>
-
-                            <div class="rank-item">
-                                <div class="rank-name">Bronze</div>
-                                <div class="rank-meta">
-                                    <span>TV: $9,999</span>
-                                    <span>DV: $2,499</span>
-                                </div>
-                            </div>
-
-                            <div class="rank-item">
-                                <div class="rank-name">Achiever</div>
-                                <div class="rank-meta">
-                                    <span>TV: $19,999</span>
-                                    <span>DV: $4,999</span>
-                                </div>
-                            </div>
-
-                            <div class="rank-item">
-                                <div class="rank-name">Silver</div>
-                                <div class="rank-meta">
-                                    <span>TV: $49,999</span>
-                                    <span>DV: $7,499</span>
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <div class="highlight-box" style="margin-top:10px;">
-                            💰 Each rank unlocks exclusive one-time rewards and daily earning bonuses.
-                        </div>
-
-                        <!-- CTA -->
-                        <a href="{{ route('bot') }}" class="invora-mini-btn">
-                            Start Building Rank →
-                        </a>
-
-                    </div>
-                </span>
-            @endunless
         </div>
 
     </div>
