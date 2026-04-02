@@ -58,7 +58,7 @@ class KycVerificationsTable
                         ->requiresConfirmation()
                         ->action(function (KycVerification $record) {
                             DB::transaction(function() use($record) {
-                                $record->update(['status' => 'approved']);
+                                $record->update(['status' => 'approved', 'reviewed_at' => now()]);
                                 $record->user->update(['kyc_status' => 'approved']);
                                 \Mail::to($record->user->email)->send(new KycApprovedMail($record->user));
                             });
@@ -81,6 +81,7 @@ class KycVerificationsTable
                                 // Update KYC record and user status
                                 $record->update([
                                     'status' => 'rejected',
+                                    'reviewed_at' => now()
                                     // 'rejection_reason' => $data['reason'] ?? null,
                                 ]);
 
