@@ -52,7 +52,7 @@
 
     </div>
 
-    @if (!auth()->user()->kyc)
+    @if (!auth()->user()->kyc || auth()->user()->kyc_status === 'rejected')
         
     
         <!-- FORM -->

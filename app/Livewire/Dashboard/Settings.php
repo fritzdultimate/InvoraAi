@@ -185,16 +185,19 @@ class Settings extends Component {
 
         abort_if(auth()->user()->kyc && auth()->user()->kyc->status != 'rejected', 403);
 
-        $kyc = KycVerification::create([
-            'user_id' => auth()->id(),
-            'address' => $this->address,
-            'country' => $this->country,
-            'date_of_birth' => $this->dob,
-            'document_type' => $this->document_type,
-            'document_front' => $this->id_front->store('kyc', 'local'),
-            'document_back' => $this->id_back?->store('kyc', 'local'),
-            'status' => 'pending',
-        ]);
+        $kyc = KycVerification::updateOrCreate(
+            ['user_id' => auth()->id()],
+            [
+                'address' => $this->address,
+                'country' => $this->country,
+                'date_of_birth' => $this->dob,
+                'document_type' => $this->document_type,
+                'document_front' => $this->id_front->store('kyc', 'local'),
+                'document_back' => $this->id_back?->store('kyc', 'local'),
+                'status' => 'pending',
+                // 'rejection_reason' => null,
+            ]
+        );
 
         if($kyc) {
             auth()->user()->update([
