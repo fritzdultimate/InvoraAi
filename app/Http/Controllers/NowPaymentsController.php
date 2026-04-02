@@ -72,7 +72,7 @@ class NowPaymentsController extends Controller {
 
                 $deposit->update([
                     'received_at' => now(),
-                    'amount_paid' => $paidAmount
+                    'actually_paid' => $paidAmount
                 ]);
 
                 
