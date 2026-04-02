@@ -88,7 +88,7 @@ class UsersTable
                     ->icon('heroicon-o-user')
                     ->color('success')
                     ->weight('medium')
-                    ->searchable(['referredBy.name', 'referredBy.email'])
+                    // ->searchable(['referredBy.name', 'referredBy.email'])
                     ->sortable(),
                 TextColumn::make('rank_display')
                     ->label('Rank')
