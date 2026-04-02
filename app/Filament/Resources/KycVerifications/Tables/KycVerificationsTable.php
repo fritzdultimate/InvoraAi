@@ -14,6 +14,7 @@ use Filament\Tables\Columns\BadgeColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\DB;
 
 class KycVerificationsTable
 {
@@ -54,9 +55,11 @@ class KycVerificationsTable
                         ->color('success')
                         ->requiresConfirmation()
                         ->action(function (KycVerification $record) {
-                            $record->update(['status' => 'approved']);
-                            $record->user->update(['kyc_status' => 'approved']);
-                            \Mail::to($record->user->email)->send(new KycAprrovedMail($record->user));
+                            DB::transaction(function() use($record) {
+                                $record->update(['status' => 'approved']);
+                                $record->user->update(['kyc_status' => 'approved']);
+                                \Mail::to($record->user->email)->send(new KycAprrovedMail($record->user));
+                            });
                         })
                         ->visible(fn($record) => $record->status === 'pending'),
 
