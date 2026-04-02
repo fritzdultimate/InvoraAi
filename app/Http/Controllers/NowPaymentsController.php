@@ -43,7 +43,7 @@ class NowPaymentsController extends Controller {
             \Log::info("I got the data" . json_encode($data));
             if (!$deposit) return;
 
-            \Log::info("I got the data" . json_encode($data));
+            \Log::info("I got the data" . json_encode($deposit));
             return;
 
             $allowedStatuses = [
