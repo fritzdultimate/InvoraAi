@@ -144,7 +144,7 @@ class DepositService {
                 DepositStatus::PENDING,
                 DepositStatus::WAITING
             ])
-            ->where('created_at', '<', now()->subMinutes(20))
+            ->where('created_at', '<', now()->subMinutes(90))
             ->get();
 
         foreach ($deposits as $deposit) {
