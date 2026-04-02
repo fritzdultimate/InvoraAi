@@ -63,7 +63,7 @@ class NowPaymentsController extends Controller {
             $deposit->meta = $data;
             $deposit->save();
 
-            if ($deposit->processed_at) {
+            if ($deposit->received_at) {
                 return;
             }
 
@@ -71,7 +71,7 @@ class NowPaymentsController extends Controller {
                 $paidAmount = (float) ($data['actually_paid'] ?? 0);
 
                 $deposit->update([
-                    'processed_at' => now(),
+                    'received_at' => now(),
                     'amount_paid' => $paidAmount
                 ]);
 
