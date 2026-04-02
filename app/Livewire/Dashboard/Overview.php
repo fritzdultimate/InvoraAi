@@ -110,12 +110,16 @@ class  Overview extends Component {
     public function render(): \Illuminate\View\View {
         $transactions = WalletLedger::where('user_id', auth()->id())
             ->when($this->search, fn ($q) =>
-                $q->where('reference', 'like', "%{$this->search}%")
+                $q->where('reference_type', 'like', "%{$this->search}%")
             )
-            ->when($this->type, fn ($q) =>
-                $q->where('type', $this->type)
-            )
-            ->latest()
+            ->when($this->type, function ($q) {
+                if ($this->type === 'credit') {
+                    $q->where('credit', '>', 0);
+                } elseif ($this->type === 'debit') {
+                    $q->where('debit', '>', 0);
+                }
+            })
+            ->latest('id')
             ->paginate($this->perPage);
 
         return view('livewire.dashboard.overview', [
