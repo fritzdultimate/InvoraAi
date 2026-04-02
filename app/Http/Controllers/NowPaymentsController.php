@@ -41,10 +41,10 @@ class NowPaymentsController extends Controller {
 
         DB::transaction(function() use ($orderId, $data) {
             $deposit = Deposit::where('nowpayments_invoice_id', $data['payment_id'])->lockForUpdate()->first();
-            \Log::info("I got the data" . json_encode($data));
+            // \Log::info("I got the data" . json_encode($data));
             if (!$deposit) return;
 
-            \Log::info("I got the data" . json_encode($deposit));
+            // \Log::info("I got the data" . json_encode($deposit));
             
 
             $allowedStatuses = [
