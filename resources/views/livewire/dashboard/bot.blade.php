@@ -83,7 +83,7 @@
                                         $botCount = $bots->count();
                                         $baseShare = $botCount > 0 ? (20 / $botCount) : 0;
 
-                                        // $p = $bot->profitCycles()->sum('profit_amount');
+                                        
 
                                         $profitShare = $totalPlatformProfits > 0
                                             ? ($bot->total_profit / $totalPlatformProfits) * 80
