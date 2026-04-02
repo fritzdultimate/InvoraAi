@@ -44,7 +44,7 @@ class NowPaymentsController extends Controller {
             if (!$deposit) return;
 
             \Log::info("I got the data" . json_encode($deposit));
-            return;
+            
 
             $allowedStatuses = [
                 DepositStatus::PENDING->value => ['waiting', 'confirming'],
