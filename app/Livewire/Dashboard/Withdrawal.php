@@ -149,11 +149,18 @@ class Withdrawal extends Component {
     }
 
     public function processConvert($from, $amount) {
+        $min_conversion = CustomSetting::get('minimum_conversion') ?? 10;
         $user = auth()->user();
         $amount = (float) $amount;
 
         if ($amount <= 0) {
             $this->dispatch('error', message: 'Invalid amount');
+            return;
+        }
+
+        if ($amount < $min_conversion) {
+            $min_conversion = number_format($min_conversion, 2);
+            $this->dispatch('error', message: "Minimum conversion amount is $$min_conversion");
             return;
         }
 
