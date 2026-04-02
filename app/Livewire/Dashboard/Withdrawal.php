@@ -218,10 +218,10 @@ class Withdrawal extends Component {
                 $this->dispatch('success', message: "$$amount convertion was successful");
             }
 
-            NotificationService::createForUser($user, [
-                'title' => 'Conversion Successful',
-                'message' => "You converted $$amount successfully.",
-            ]);
+            // NotificationService::createForUser($user, [
+            //     'title' => 'Conversion Successful',
+            //     'message' => "You converted $$amount successfully.",
+            // ]);
 
             return true;
         });
