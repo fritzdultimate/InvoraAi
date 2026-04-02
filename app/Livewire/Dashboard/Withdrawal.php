@@ -3,8 +3,12 @@
 namespace App\Livewire\Dashboard;
 
 use App\Domain\Withdrawal\WithdrawalRules;
+use App\Enums\LedgerAsset;
+use App\Enums\LedgerReference;
 use App\Models\CustomSetting;
 use App\Models\WithdrawalCurrency;
+use App\Services\NotificationService;
+use App\Services\Wallet\WalletService;
 use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Layout;
@@ -143,6 +147,79 @@ class Withdrawal extends Component {
     public function deleteWithdrawal() {
 
     }
+
+    public function processConvert($from, $amount) {
+        $user = auth()->user();
+        $amount = (float) $amount;
+
+        if ($amount <= 0) {
+            $this->dispatch('error', message: 'Invalid amount');
+            return;
+        }
+
+        DB::transaction(function () use ($user, $amount, $from) {
+
+            if ($from === 'profit') {
+                if ($user->profit_balance < $amount) {
+                    $this->dispatch('error', message: 'Insufficient profit balance');
+                    return;
+                }
+
+                WalletService::debit(
+                    $user,
+                    $amount,
+                    LedgerReference::PROFITTRANSFER,
+                    null,
+                    'profit transfer to main balance',
+                    LedgerAsset::PROFIT
+                );
+
+                WalletService::credit(
+                    $user,
+                    $amount,
+                    LedgerReference::PROFITTRANSFER,
+                    null,
+                    'profit transfer from profit balance',
+                    LedgerAsset::MAIN
+                );
+
+                $this->dispatch('success', message: "$$amount convertion was successful");
+
+            } else {
+                if ($user->referral_balance < $amount) {
+                    $this->dispatch('error', message: 'Insufficient referral balance');
+                    return;
+                }
+
+                WalletService::debit(
+                    $user,
+                    $amount,
+                    LedgerReference::REFERRALBONUSTRANSFER,
+                    null,
+                    'referral bonus transfer to main balance',
+                    LedgerAsset::REFERRALBONUS
+                );
+
+                WalletService::credit(
+                    $user,
+                    $amount,
+                    LedgerReference::REFERRALBONUSTRANSFER,
+                    null,
+                    'referral bonus transfer from referral bonus balance',
+                    LedgerAsset::MAIN
+                );
+                $this->dispatch('success', message: "$$amount convertion was successful");
+            }
+
+            NotificationService::createForUser($user, [
+                'title' => 'Conversion Successful',
+                'message' => "You converted $$amount successfully.",
+            ]);
+
+            return true;
+        });
+    }
+
     public function render() {
         $withdrawals = \App\Models\Withdrawal::where('user_id', auth()->id())
             ->latest()
