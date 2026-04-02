@@ -18,7 +18,7 @@ class Deposit extends Model {
         'status',
         'bonus',
         'bonus_expires_at',
-        'processed_at',
+        'received_at',
         'address',
         'reference',
         'updated_at',
@@ -28,13 +28,13 @@ class Deposit extends Model {
     protected $casts = [
         'meta' => 'array',
         'status' => DepositStatus::class,
-        'created_at' => 'datetime'
+        'created_at' => 'datetime',
+        'received_at' => 'datetime'
     ];
 
     public function markFinished(): self {
         $this->update([
             'confirmed_at' => now(),
-            'processed_at' => now(),
             'received_at' => now(),
         ]);
         return $this->setStatus(DepositStatus::FINISHED);
