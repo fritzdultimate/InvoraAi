@@ -44,7 +44,7 @@ class KycRejectedMail extends Mailable
             with: [
                 'user' => $this->user,
                 'reason' => $this->reason,
-                'url' => route('dashboard')
+                'url' => route('settings')
             ]
         );
     }
