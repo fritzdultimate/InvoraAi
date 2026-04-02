@@ -29,7 +29,8 @@ class DepositService {
 
 
         if ($deposit->bonus > 0) {
-            return $deposit->bonus;
+            // return $deposit->bonus;
+            return;
         }
         $bonus = (float) CustomSetting::get('deposit_bonus', 0);
         $bonusDuration = (int) CustomSetting::get('deposit_bonus_duration_days', 0);
