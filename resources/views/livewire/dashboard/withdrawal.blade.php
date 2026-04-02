@@ -404,6 +404,7 @@
                             type="number"
                             x-model="amount"
                             placeholder="0.00"
+                            inputmode="decimal"
                         >
                     </div>
                 </div>
