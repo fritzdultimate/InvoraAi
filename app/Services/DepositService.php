@@ -10,6 +10,7 @@ use App\Mail\DepositExpiredMail;
 use App\Models\CustomSetting;
 use App\Models\Deposit;
 use App\Models\User;
+use App\Models\WalletLedger;
 use App\Services\Wallet\WalletService;
 use Filament\Support\Exceptions\Halt;
 use Illuminate\Support\Facades\DB;
@@ -18,6 +19,15 @@ use Illuminate\Support\Facades\Mail;
 
 class DepositService {
     public static function depositBonus($deposit) {
+        $hasReceivedBonus = WalletLedger::where('user_id', $deposit->user_id)
+            ->where('reference_type', LedgerReference::DEPOSITBONUS)
+            ->exists();
+
+        if ($hasReceivedBonus) {
+            return 0;
+        }
+
+
         if ($deposit->bonus > 0) {
             return $deposit->bonus;
         }
