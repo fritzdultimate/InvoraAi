@@ -59,7 +59,6 @@ class NowPaymentsController extends Controller {
             // }
             
             $deposit->status = $status;
-            $deposit->confirmations = $data['confirmations'] ?? $deposit->confirmations;
             $deposit->meta = $data;
             $deposit->save();
 
