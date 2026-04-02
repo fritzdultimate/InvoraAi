@@ -91,7 +91,7 @@
         }
      </style>
 @endpush
-<div class="invora-container" x-data="{deletingId: @entangle('deletingId'), selectedWallet: @entangle('networks')}">
+<div class="invora-container" x-data="{selectedWallet: @entangle('networks')}">
     <div class="invora-deposit-page">
 
         

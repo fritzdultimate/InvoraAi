@@ -164,7 +164,7 @@ class Withdrawal extends Component {
             return;
         }
 
-        DB::transaction(function () use ($user, $amount, $from) {
+        return DB::transaction(function () use ($user, $amount, $from) {
 
             if ($from === 'profit') {
                 if ($user->profit_balance < $amount) {
@@ -191,6 +191,7 @@ class Withdrawal extends Component {
                 );
 
                 $this->dispatch('success', message: "$$amount convertion was successful");
+                return true;
 
             } else {
                 if ($user->referral_balance < $amount) {
@@ -216,6 +217,7 @@ class Withdrawal extends Component {
                     LedgerAsset::MAIN
                 );
                 $this->dispatch('success', message: "$$amount convertion was successful");
+                return true;
             }
 
             // NotificationService::createForUser($user, [
@@ -223,7 +225,7 @@ class Withdrawal extends Component {
             //     'message' => "You converted $$amount successfully.",
             // ]);
 
-            return true;
+            // return true;
         });
     }
 
