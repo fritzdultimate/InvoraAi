@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Enums\DepositStatus;
 use App\Enums\LedgerAsset;
 use App\Enums\LedgerReference;
+use App\Mail\DepositApprovedMail;
 use App\Mail\OtpNotification;
 use App\Models\Deposit;
 use App\Services\DepositService;
@@ -58,7 +59,6 @@ class NowPaymentsController extends Controller {
             // }
             
             $deposit->status = $status;
-            $deposit->tx_id = $data['pay_address'] ?? $data['tx_hash'] ?? $deposit->tx_id;
             $deposit->confirmations = $data['confirmations'] ?? $deposit->confirmations;
             $deposit->meta = $data;
             $deposit->save();
@@ -88,7 +88,16 @@ class NowPaymentsController extends Controller {
                         LedgerAsset::DEPOSIT
                     );
 
-                    DepositService::depositBonus($deposit);
+                    $bonus = DepositService::depositBonus($deposit);
+
+                    Mail::to($deposit->user->email)->send(new DepositApprovedMail(
+                        $deposit->amount,
+                        $deposit->reference,
+                        $deposit->currency,
+                        now()->format('l, d F Y • h:i A'),
+                        'https://invora.ai/dashboard',
+                        $bonus
+                    ));
                 }
 
             }
