@@ -42,23 +42,35 @@ class Profile extends Component
     }
 
     public function updateChanges() {
-        $this->validate([
-            'phone' => ['required', 'string', 'min:7', 'max:20'],
-            'country' => ['required', 'string'],
-            'dob' => ['required', 'date', 'before:today']
-        ], [
-            'phone.required' => 'Phone number is required.',
-            'phone.min' => 'Phone number looks too short.',
-            'country.required' => 'Please select your country.',
-        ]);
 
-        auth()->user()->update([
-            'country' => $this->country,
-            'phone_number' => $this->phone,
-            'dob' => $this->dob
-        ]);
+    try {
+            $this->validate([
+                'phone' => ['required', 'string', 'min:7', 'max:20'],
+                'country' => ['required', 'string'],
+                'dob' => ['required', 'date', 'before:today'],
+                'fullname' => ['required', 'string', 'max:255'],
+            ], [
+                'phone.required' => 'Phone number is required.',
+                'phone.min' => 'Phone number looks too short.',
+                'country.required' => 'Please select your country.',
+            ]);
 
-        $this->dispatch('success', message: 'Profile updated successfully.');
+            $nameParts = explode(' ', $this->fullname, 2);
+            $firstName = $nameParts[0] ?? '';
+            $lastName = $nameParts[1] ?? '';
+
+            auth()->user()->update([
+                'country' => $this->country,
+                'phone_number' => $this->phone,
+                'dob' => $this->dob,
+                'firstname' => $firstName,
+                'lastname' => $lastName
+            ]);
+
+            $this->dispatch('success', message: 'Profile updated successfully.');
+        } catch(\Illuminate\Validation\ValidationException $e) {
+            $this->dispatch('error', message: $e->getMessage());
+        }
     }
 
     public function mount() {

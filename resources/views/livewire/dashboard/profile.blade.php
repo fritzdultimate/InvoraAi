@@ -179,7 +179,7 @@
                 <div class="invora-form-grid">
                     <div class="invora-input">
                         <label>Full Name</label>
-                        <input type="text" wire:model.defer="fullname" disabled>
+                        <input type="text" wire:model.defer="fullname">
                     </div>
 
                     <div class="invora-input">
