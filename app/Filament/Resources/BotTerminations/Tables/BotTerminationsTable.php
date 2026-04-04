@@ -76,7 +76,7 @@ class BotTerminationsTable
                         ->modalDescription('This investment will be terminated.')
                         ->requiresConfirmation()
                         ->visible(fn (BotTermination $record) =>
-                            $record->terminated_at !== null
+                            $record->terminated_at === null
                         )
                         ->action(function (BotTermination $record) {
                             try {
