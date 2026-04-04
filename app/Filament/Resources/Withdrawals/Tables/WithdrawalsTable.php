@@ -125,7 +125,7 @@ class WithdrawalsTable
                     }),
 
                     Action::make('approve')
-                        ->label('Aprrove')
+                        ->label('Aprrove') 
                         ->color('success')
                         ->icon('heroicon-o-check-circle')
                         ->modalHeading('Approve Withdrawal?')
