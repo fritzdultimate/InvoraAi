@@ -89,6 +89,8 @@ class InvestmentItem extends Component {
     }
 
     public function confirmTerminate() {
+        $this->dispatch('error', message: 'Not Available at the moment.');
+        return;
         $this->confirmingTerminate = true;
     }
 
