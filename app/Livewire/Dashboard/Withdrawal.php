@@ -106,6 +106,7 @@ class Withdrawal extends Component {
                 'withdrawal_network_id' => $this->network,
                 'meta' => [
                     'total_to_debit' => $this->amount,
+                    'fee' => $this->fee
                 ],
                 'reference' => generate_withdrawal_reference()
             ]);
@@ -125,7 +126,7 @@ class Withdrawal extends Component {
             $this->dispatch('error', message: 'You cannot withdraw until your KYC is approved.');
             return;
         }
-        
+
         $this->amount = str_replace(',', '', $this->amount);
         $this->validate();
 
