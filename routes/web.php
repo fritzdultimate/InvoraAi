@@ -66,7 +66,7 @@ Route::get('/verify-account', \App\Livewire\Auth\VerifyNotice::class)
 
 Route::get('/forgot-password', ForgotPassword::class)->name('password.request');
 Route::get('/password/link-sent', PasswordLinkSent::class)->name('password.link.sent');
-Route::get('/reset-password/{token}/{email}', ResetPassword::class)->name('password.reset');
+Route::get('/reset-password/{token}', ResetPassword::class)->name('password.reset');
 Route::get('/password/reset-success', PasswordResetSuccess::class)->name('password.reset.success');
 
 
