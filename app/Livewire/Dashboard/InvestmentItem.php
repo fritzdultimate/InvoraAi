@@ -23,6 +23,8 @@ class InvestmentItem extends Component {
     }
 
     public function terminateInvestment() {
+        $this->dispatch('error', message: 'Not Available at the moment.');
+        return;
         $inv = $this->investment;
 
         if ($inv->isMatured()) return;
