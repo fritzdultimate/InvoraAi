@@ -262,7 +262,7 @@
                         <div class="invora-summary-row total">
                             <span>You will receive</span>
                             <span>
-                                ${{ number_format(((float)$this->netAmount ?: 0) * 0.98, 2) }}
+                                ${{ number_format(((float)$this->netAmount ?: 0), 2) }}
                             </span>
                         </div>
                     </div>
