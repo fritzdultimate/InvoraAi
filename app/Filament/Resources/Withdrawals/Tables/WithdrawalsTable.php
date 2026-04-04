@@ -45,6 +45,12 @@ class WithdrawalsTable
                 TextColumn::make('asset')
                     ->badge()
                     ->color('info'),
+                TextColumn::make('currency_display')
+                    ->label('Currency')
+                    ->getStateUsing(fn (Withdrawal $record) => $record->currency?->name . ($record->network ? ' (' . strtoupper($record->network?->name) . ')' : ''))
+                    ->badge()
+                    ->color('info')
+                    ->searchable(),
                 BadgeColumn::make('address')
                     ->color('info')
                     ->copyable()
