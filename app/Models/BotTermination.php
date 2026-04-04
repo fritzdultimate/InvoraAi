@@ -14,4 +14,8 @@ class BotTermination extends Model {
         'amount_returned',
         'terminated_at'
     ];
+
+    public function botInvestment() {
+        return $this->belongsTo(BotInvestment::class);
+    }
 }

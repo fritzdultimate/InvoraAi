@@ -133,9 +133,16 @@
 .invora-status-dot.active { background:#22c55e; }
 .invora-status-dot.completed { background:#22c55e; }
 .invora-status-dot.terminated { background:#ef4444; }
+.invora-status-dot.termination_requested { background:#f59e0b; }
 
 .active, .completed { color:#22c55e !important; }
 .terminated { color:#ef4444 !important; }
+.termination_requested {
+    color: #f59e0b !important;
+}
+.rejected_termination {
+    color: #6b7280 !important;
+}
 
 .invora-hero-balance h1 {
     font-size:36px;

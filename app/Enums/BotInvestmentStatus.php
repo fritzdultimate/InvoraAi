@@ -6,4 +6,5 @@ enum BotInvestmentStatus: string {
     case ACTIVE = 'active';
     case COMPLETED = 'completed';
     case TERMINATED = 'terminated';
+    case TERMINATIONREQUEST = 'termination_requested';
 }

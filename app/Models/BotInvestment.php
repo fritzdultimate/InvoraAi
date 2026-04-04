@@ -29,6 +29,10 @@ class BotInvestment extends Model {
         'status' => BotInvestmentStatus::class,
     ];
 
+    public function termination() {
+        return $this->hasOne(BotTermination::class);
+    }
+
     public function user() {
         return $this->belongsTo(User::class);
     }
