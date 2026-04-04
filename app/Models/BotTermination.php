@@ -15,6 +15,10 @@ class BotTermination extends Model {
         'terminated_at'
     ];
 
+    protected $casts = [
+        'terminated_at' => 'datetime'
+    ];
+
     public function botInvestment() {
         return $this->belongsTo(BotInvestment::class);
     }
