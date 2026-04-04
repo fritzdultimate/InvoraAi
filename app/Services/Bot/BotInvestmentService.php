@@ -51,7 +51,7 @@ class BotInvestmentService {
 
         $investment = $termination->botInvestment;
 
-        if ($investment->status !== BotInvestmentStatus::ACTIVE) {
+        if ($investment->status !== BotInvestmentStatus::TERMINATIONREQUEST) {
             throw new \Exception('Investment not active.');
         }
 
