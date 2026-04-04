@@ -124,7 +124,7 @@ class Withdrawal extends Component {
     public function prepareWithdrawal() {
         if(auth()->user()->kyc_status !== 'approved') {
             $this->dispatch('error', message: 'You cannot withdraw until your KYC is approved.');
-            return;
+            // return;
         }
 
         $this->amount = str_replace(',', '', $this->amount);
