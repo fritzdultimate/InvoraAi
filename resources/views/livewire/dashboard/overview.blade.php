@@ -166,7 +166,7 @@
                     </div>
 
                     <div class="invora-mini-card">
-                        <div class="invora-mini-title">Withdrable</div>
+                        <div class="invora-mini-title">Withdrawable</div>
                         <div class="invora-mini-value">
                             ${{ number_format($main_balance, 2) }}
                         </div>
