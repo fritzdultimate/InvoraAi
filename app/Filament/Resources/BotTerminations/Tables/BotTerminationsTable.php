@@ -31,13 +31,13 @@ class BotTerminationsTable
                     ->sortable(),
                 TextColumn::make('penalty_amount')
                     ->label('Penalty Amount')
-                    ->money('NGN', true)
+                    ->money('USD')
                     ->color('danger')
                     ->weight('medium')
                     ->sortable(),
                 TextColumn::make('amount_returned')
                     ->label('Settled Amount')
-                    ->money('NGN', true)
+                    ->money('USD', true)
                     ->color('success')
                     ->weight('bold')
                     ->description(fn ($record) => 'After penalties deducted')
