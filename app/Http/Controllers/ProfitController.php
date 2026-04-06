@@ -7,8 +7,6 @@ use Illuminate\Http\Request;
 
 class ProfitController extends Controller {
     public function distribute() {
-        
-        BotProfitService::run();
-                
+        BotProfitService::run();          
     }
 }

@@ -27,11 +27,11 @@
             </div>
 
             <div class="invora-hero-right">
-                <div class="invora-status-dot {{ $investment->status->value }}"></div>
+                <div class="invora-status-dot {{ $investment->status->value === 'termination_requested' ? 'active' : $investment->status->value }}"></div>
                 <span class="invora-status-text">
                     {{
                         match($investment->status->value) {
-                            'termination_requested' => 'Pending',
+                            'termination_requested' => 'Active',
                             'terminated' => 'Terminated',
                             'completed' => 'Completed',
                             'active' => 'Active',
@@ -84,10 +84,10 @@
 
             <div class="invora-stat-card">
                 <span>Status</span>
-                <h3 class="{{ $investment->status->value }} capitalize">
+                <h3 class="{{ $investment->status->value == 'termination_requested' ? 'active' : $investment->status->value }} capitalize">
                     {{
                         match($investment->status->value) {
-                            'termination_requested' => 'Pending',
+                            'termination_requested' => 'Active',
                             'terminated' => 'Terminated',
                             'completed' => 'Completed',
                             'active' => 'Active',

@@ -96,9 +96,13 @@
                         </span>
 
                     @elseif($bonus->isClaimable())
+                        <span class="status-badge claimable">
+                            Pending
+                        </span>
                         <button
                             wire:click="claim({{ $bonus->id }})"
-                            class="status-badge claimable"
+                            class="status-badge claimable hidden"
+                            style="display: none;"
                         >
                             <span wire:loading wire:target="claim" class="spinner"></span>
                             <span wire:loading.remove wire:target="claim" style="color: #3b82f6">Claim</span>

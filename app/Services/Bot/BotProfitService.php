@@ -15,7 +15,7 @@ class BotProfitService
         
 
             BotInvestment::with('bot', 'user')
-                ->where('status', 'active')
+                ->whereIn('status', ['active', 'termination_requested'])
                 ->where('next_cycle_at', '<=', now())
                 ->chunkById(100, function($investments) {
                 DB::transaction(function () use($investments) {
