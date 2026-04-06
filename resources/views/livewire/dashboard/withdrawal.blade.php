@@ -1,4 +1,97 @@
-<div class="invora-container" x-data="{deletingId: @entangle('deletingId'), selectedWallet: @entangle('networks')}">
+@push('styles')
+    <!-- Convertion modal styles -->
+     <style>
+        /* MODAL OVERLAY */
+        .invora-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(2, 6, 23, 0.75);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+
+        /* MODAL CARD */
+        .invora-modal-card {
+            width: 100%;
+            max-width: 420px;
+            background: linear-gradient(145deg, #020617, #0f172a);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+            animation: scaleIn 0.25s ease;
+        }
+
+        @keyframes scaleIn {
+            from { transform: scale(0.95); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        /* HEADER */
+        .invora-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .invora-modal-header h3 {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        /* SELECT GRID */
+        .invora-select-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .invora-select-grid button {
+            padding: 12px;
+            border-radius: 12px;
+            background: #020617;
+            border: 1px solid rgba(255,255,255,0.05);
+            text-align: left;
+            transition: 0.2s;
+        }
+
+        .invora-select-grid button span {
+            display: block;
+            font-size: 12px;
+            color: #94a3b8;
+        }
+
+        .invora-select-grid button.active {
+            border-color: #3b82f6;
+            background: rgba(59,130,246,0.1);
+        }
+
+        /* STATIC BOX */
+        .invora-static-box {
+            padding: 12px;
+            border-radius: 12px;
+            background: #020617;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        /* SECONDARY BUTTON */
+        .invora-btn-secondary {
+            padding: 10px 16px;
+            border-radius: 12px;
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: 0.2s;
+        }
+
+        .invora-btn-secondary:hover {
+            background: rgba(255,255,255,0.05);
+        }
+     </style>
+@endpush
+<div class="invora-container" x-data="{selectedWallet: @entangle('networks')}">
     <div class="invora-deposit-page">
 
         
@@ -19,6 +112,15 @@
                 </div>
             </div>
 
+        </div>
+
+        <div class="mt-4 flex gap-2">
+            <button 
+                class="invora-btn-secondary"
+                @click="$dispatch('open-convert-modal')"
+            >
+                Convert Balance ⇄
+            </button>
         </div>
 
         <div class="invora-withdrawal-notice">
@@ -160,7 +262,7 @@
                         <div class="invora-summary-row total">
                             <span>You will receive</span>
                             <span>
-                                ${{ number_format(((float)$this->netAmount ?: 0) * 0.98, 2) }}
+                                ${{ number_format(((float)$this->netAmount ?: 0), 2) }}
                             </span>
                         </div>
                     </div>
@@ -241,6 +343,93 @@
         </div>
     </div>
     <!-- Modal Select Currecny End -->
+
+    <!-- Convert asset -->
+    <div 
+        x-data="convertModal()" 
+        x-show="open"
+        x-cloak
+        @open-convert-modal.window="openModal()"
+        class="invora-modal-overlay"
+    >
+        <div class="invora-modal-card">
+
+            <!-- HEADER -->
+            <div class="invora-modal-header">
+                <h3>Convert Balance</h3>
+                <button @click="close()">✕</button>
+            </div>
+
+            <!-- BODY -->
+            <div class="invora-modal-body">
+
+                <!-- FROM -->
+                <div class="invora-field">
+                    <label>From Balance</label>
+
+                    <div class="invora-select-grid">
+                        <button 
+                            :class="from === 'profit' ? 'active' : ''"
+                            @click="from = 'profit'"
+                        >
+                            Profit
+                            <span>${{ number_format(auth()->user()->profit_balance, 2) }}</span>
+                        </button>
+
+                        <button 
+                            :class="from === 'referral' ? 'active' : ''"
+                            @click="from = 'referral'"
+                        >
+                            Referral
+                            <span>${{ number_format(auth()->user()->referral_balance, 2) }}</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- TO -->
+                <div class="invora-field">
+                    <label>To</label>
+                    <div class="invora-static-box">
+                        Main Balance
+                    </div>
+                </div>
+
+                <!-- AMOUNT -->
+                <div class="invora-field">
+                    <label>Amount</label>
+
+                    <div class="invora-input-pro">
+                        <span class="prefix">$</span>
+                        <input 
+                            type="number"
+                            x-model="amount"
+                            placeholder="0.00"
+                            inputmode="decimal"
+                        >
+                    </div>
+                </div>
+
+                <!-- SUMMARY -->
+                <div class="invora-summary-box">
+                    <div class="invora-summary-row">
+                        <span>You will receive</span>
+                        <span x-text="'$' + format(amount)"></span>
+                    </div>
+                </div>
+
+                <!-- ACTION -->
+                <button 
+                    class="invora-btn-pro w-full mt-3"
+                    @click="submit()"
+                    :disabled="loading"
+                >
+                    <span x-show="!loading">Continue →</span>
+                    <span x-show="loading">Processing...</span>
+                </button>
+
+            </div>
+        </div>
+    </div>
 
     <div 
         x-data="confirmModal()" 
@@ -424,6 +613,49 @@
 
                     this.loading = false;
                     this.close();
+                }
+            }
+        }
+    </script>
+
+    <script>
+        function convertModal() {
+            return {
+                open: false,
+                loading: false,
+
+                from: 'profit',
+                amount: '',
+
+                openModal() {
+                    this.open = true;
+                },
+
+                close() {
+                    this.open = false;
+                    this.amount = '';
+                },
+
+                format(value) {
+                    return new Intl.NumberFormat('en-US', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    }).format(parseFloat(value || 0));
+                },
+
+                async submit() {
+                    this.loading = true;
+
+                    const result = await @this.call('processConvert', this.from, this.amount);
+
+                    this.loading = false;
+
+                    console.log(result)
+
+                    if(result) {
+                        this.amount = '';
+                        this.close();
+                    }
                 }
             }
         }

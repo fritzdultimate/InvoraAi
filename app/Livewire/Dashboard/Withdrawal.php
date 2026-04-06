@@ -3,8 +3,12 @@
 namespace App\Livewire\Dashboard;
 
 use App\Domain\Withdrawal\WithdrawalRules;
+use App\Enums\LedgerAsset;
+use App\Enums\LedgerReference;
 use App\Models\CustomSetting;
 use App\Models\WithdrawalCurrency;
+use App\Services\NotificationService;
+use App\Services\Wallet\WalletService;
 use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Layout;
@@ -102,6 +106,7 @@ class Withdrawal extends Component {
                 'withdrawal_network_id' => $this->network,
                 'meta' => [
                     'total_to_debit' => $this->amount,
+                    'fee' => $this->fee
                 ],
                 'reference' => generate_withdrawal_reference()
             ]);
@@ -117,6 +122,11 @@ class Withdrawal extends Component {
     }
 
     public function prepareWithdrawal() {
+        if(auth()->user()->kyc_status !== 'approved') {
+            $this->dispatch('error', message: 'You cannot withdraw until your KYC is approved.');
+            return;
+        }
+
         $this->amount = str_replace(',', '', $this->amount);
         $this->validate();
 
@@ -143,6 +153,88 @@ class Withdrawal extends Component {
     public function deleteWithdrawal() {
 
     }
+
+    public function processConvert($from, $amount) {
+        $min_conversion = CustomSetting::get('minimum_conversion') ?? 10;
+        $user = auth()->user();
+        $amount = (float) $amount;
+
+        if ($amount <= 0) {
+            $this->dispatch('error', message: 'Invalid amount');
+            return;
+        }
+
+        if ($amount < $min_conversion) {
+            $min_conversion = number_format($min_conversion, 2);
+            $this->dispatch('error', message: "Minimum conversion amount is $$min_conversion");
+            return;
+        }
+
+        return DB::transaction(function () use ($user, $amount, $from) {
+
+            if ($from === 'profit') {
+                if ($user->profit_balance < $amount) {
+                    $this->dispatch('error', message: 'Insufficient profit balance');
+                    return;
+                }
+
+                WalletService::debit(
+                    $user,
+                    $amount,
+                    LedgerReference::PROFITTRANSFER,
+                    null,
+                    'profit transfer to main balance',
+                    LedgerAsset::PROFIT
+                );
+
+                WalletService::credit(
+                    $user,
+                    $amount,
+                    LedgerReference::PROFITTRANSFER,
+                    null,
+                    'profit transfer from profit balance',
+                    LedgerAsset::MAIN
+                );
+
+                $this->dispatch('success', message: "$$amount convertion was successful");
+                return true;
+
+            } else {
+                if ($user->referral_balance < $amount) {
+                    $this->dispatch('error', message: 'Insufficient referral balance');
+                    return;
+                }
+
+                WalletService::debit(
+                    $user,
+                    $amount,
+                    LedgerReference::REFERRALBONUSTRANSFER,
+                    null,
+                    'referral bonus transfer to main balance',
+                    LedgerAsset::REFERRALBONUS
+                );
+
+                WalletService::credit(
+                    $user,
+                    $amount,
+                    LedgerReference::REFERRALBONUSTRANSFER,
+                    null,
+                    'referral bonus transfer from referral bonus balance',
+                    LedgerAsset::MAIN
+                );
+                $this->dispatch('success', message: "$$amount convertion was successful");
+                return true;
+            }
+
+            // NotificationService::createForUser($user, [
+            //     'title' => 'Conversion Successful',
+            //     'message' => "You converted $$amount successfully.",
+            // ]);
+
+            // return true;
+        });
+    }
+
     public function render() {
         $withdrawals = \App\Models\Withdrawal::where('user_id', auth()->id())
             ->latest()

@@ -53,6 +53,10 @@
             'resources/css/tickets.css',
             'resources/css/bot.css',
         ])
+        <link rel="stylesheet" href="https://unpkg.com/intro.js/introjs.css">
+        <script src="https://unpkg.com/intro.js/intro.js"></script>
+
+        @stack('styles')
     </head>
 
     <body class="dark:bg-neutral-800 bg-neutral-100 dark:text-white">

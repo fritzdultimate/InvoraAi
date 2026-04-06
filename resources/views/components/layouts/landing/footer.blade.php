@@ -18,12 +18,7 @@
                                     intelligent, data-driven strategies with a focus on risk management and
                                     long-term performance.
                                 </p>
-                                <ul class="footer-social">
-                                    <li><a href="#"><i class="fab fa-youtube"></i></a></li>
-                                    <li><a href="#"><i class="fab fa-twitter"></i></a></li>
-                                    <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                                    <li><a href="#"><i class="fab fa-skype"></i></a></li>
-                                </ul>
+                                @include('components.layouts.landing.social-button', ['class' => 'footer-social'])
                             </div>
                         </div>
                     </div>

@@ -23,7 +23,7 @@
                     </div>
                 </div>
             </div>
-
+            <x-auth-session-status class="text-center" :status="session('status')" />
 
             <div class="elementor-element elementor-element-1c0c898 elementor-widget-divider--view-line elementor-widget elementor-widget-divider"
                 data-id="1c0c898" data-element_type="widget" data-widget_type="divider.default">
@@ -34,6 +34,7 @@
                     </div>
                 </div>
             </div>
+
 
 
             <div class="elementor-element elementor-element-649ce4e elementor-button-align-stretch elementor-widget elementor-widget-form"

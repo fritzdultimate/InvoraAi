@@ -45,6 +45,11 @@ class WithdrawalsTable
                 TextColumn::make('asset')
                     ->badge()
                     ->color('info'),
+                TextColumn::make('currency_display')
+                    ->label('Currency')
+                    ->getStateUsing(fn (Withdrawal $record) => $record->currency?->name . ($record->network ? ' (' . strtoupper($record->network?->name) . ')' : ''))
+                    ->badge()
+                    ->color('info'),
                 BadgeColumn::make('address')
                     ->color('info')
                     ->copyable()
@@ -125,7 +130,7 @@ class WithdrawalsTable
                     }),
 
                     Action::make('approve')
-                        ->label('Aprrove')
+                        ->label('Aprrove') 
                         ->color('success')
                         ->icon('heroicon-o-check-circle')
                         ->modalHeading('Approve Withdrawal?')

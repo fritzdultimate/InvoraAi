@@ -29,7 +29,15 @@
             <div class="invora-hero-right">
                 <div class="invora-status-dot {{ $investment->status->value }}"></div>
                 <span class="invora-status-text">
-                    {{ ucfirst($investment->status->value) }}
+                    {{
+                        match($investment->status->value) {
+                            'termination_requested' => 'Pending',
+                            'terminated' => 'Terminated',
+                            'completed' => 'Completed',
+                            'active' => 'Active',
+                            default => ucfirst($investment->status->value),
+                        }
+                    }}
                 </span>
             </div>
 
@@ -77,7 +85,15 @@
             <div class="invora-stat-card">
                 <span>Status</span>
                 <h3 class="{{ $investment->status->value }} capitalize">
-                    {{ $investment->status->value }}
+                    {{
+                        match($investment->status->value) {
+                            'termination_requested' => 'Pending',
+                            'terminated' => 'Terminated',
+                            'completed' => 'Completed',
+                            'active' => 'Active',
+                            default => ucfirst($investment->status->value),
+                        }
+                    }}
                 </h3>
             </div>
 
@@ -112,7 +128,7 @@
         </div>
 
         <!-- ACTION -->
-        @if(!$investment->is_early_terminated && !$investment->isMatured())
+        @if($investment->status->value !== 'termination_requested' && !$investment->isMatured())
             <button 
                 wire:click="confirmTerminate" 
                 class="invora-danger"
@@ -120,7 +136,7 @@
                 wire:target="confirmTerminate"
             >
                 <span wire:loading.remove wire:target="confirmTerminate">
-                    Early Terminate
+                    Request Terminate
                 </span>
 
                 <span wire:loading wire:target="confirmTerminate" class="btn-loader">
@@ -137,7 +153,7 @@
                     <h4 style="font-size: 20px; color: var(--text-primary)">Terminate Investment?</h4>
 
                     <p style="font-size: 14px; color: var(--text-secondary)">
-                        You will lose a penalty fee. This action cannot be undone.
+                        You will lose a penalty fee once approved. This action cannot be undone.
                     </p>
 
                     <div class="confirm-actions">
@@ -153,7 +169,7 @@
                             wire:target="terminateInvestmentConfirmed"
                         >
                             <span wire:loading.remove wire:target="terminateInvestmentConfirmed">
-                                Yes, Terminate
+                                Yes, Continue
                             </span>
 
                             <span wire:loading wire:target="terminateInvestmentConfirmed" class="btn-loader">

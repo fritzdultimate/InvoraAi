@@ -8,8 +8,11 @@ use Livewire\Component;
 #[Layout('components.layouts.auth')]
 class VerificationSuccess extends Component
 {
-    public function render(): \Illuminate\View\View
-    {
+    public $success = true;
+    public $error = null;
+    public $email;
+
+    public function render(): \Illuminate\View\View {
         return view('livewire.auth.verification-success');
     }
 }

@@ -1,4 +1,62 @@
+@push('styles')
+    <style>
+        .invora-tooltip {
+            position: absolute;
+            top: 28px;
+            left: -700%;
+            width: 260px;
 
+            background: #020617;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+
+            padding: 14px;
+            z-index: 50;
+
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+        }
+
+        .invora-tooltip .title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 6px;
+        }
+
+        .invora-tooltip .text {
+            font-size: 12px;
+            color: #94a3b8;
+            margin-bottom: 8px;
+        }
+
+        .invora-tooltip ul {
+            font-size: 12px;
+            color: #e2e8f0;
+            line-height: 1.6;
+        }
+
+        .invora-mini-btn {
+            display: inline-block;
+            margin-top: 10px;
+            font-size: 12px;
+            color: #22c55e !important;
+            font-weight: 600;
+        }
+
+        .highlight-box {
+            margin-top: 10px;
+            padding: 10px 12px;
+            border-radius: 10px;
+
+            background: rgba(34,197,94,0.08);
+            border: 1px solid rgba(34,197,94,0.2);
+
+            font-size: 12px;
+            color: #22c55e;
+            line-height: 1.5;
+        }
+    </style>
+@endpush
 
 <div class="invora-profile-wrapper">
 
@@ -18,14 +76,91 @@
                     {{ auth()->user()->email }}
                 </div>
 
-                <div class="invora-profile-status invora-credit">
-                    ● Account Active
+                <div
+                    class="invora-profile-status {{ auth()->user()->hasActiveLicense() ? 'invora-credit' : 'invora-debit' }} flex items-center gap-2 mt-3">
+                    ● {{ auth()->user()->hasActiveLicense() ? 'Account Active' : 'Account Inactive' }}
+
+                    @unless (auth()->user()->hasActiveLicense())
+                        <span x-data="{ open: false }" class="relative flex items-center" x-cloak style="position:relative">
+                            <iconify-icon icon="solar:info-circle-outline"
+                                class="cursor-pointer text-gray-400 hover:text-white transition"
+                                @click="open = !open"></iconify-icon>
+
+                            <div x-show="open" @click.outside="open = false" x-transition class="invora-tooltip hidden">
+                                <div class="title">Why is my account inactive?</div>
+
+                                <div class="text">
+                                    To activate your account:
+                                </div>
+
+                                <ul>
+                                    <li>• Generate at least <strong>$500</strong> volume within 30 days</li>
+                                    <li>• Refer at least <strong>1 active user</strong> who has invested</li>
+                                </ul>
+
+                                @php
+                                    $refLink = url('/register?ref=' . auth()->user()->affiliate_code);
+                                @endphp
+
+                                <div x-data="{ copied: false }">
+
+                                    <button 
+                                        @click="
+                                            const link = '{{ $refLink }}';
+
+                                            if (navigator.share) {
+                                                navigator.share({
+                                                    title: 'Join me on Invora',
+                                                    text: 'Start investing with me 🚀',
+                                                    url: link
+                                                });
+                                            } else {
+                                                navigator.clipboard.writeText(link);
+                                                copied = true;
+                                                setTimeout(() => copied = false, 2000);
+                                            }
+                                        "
+                                        class="invora-mini-btn"
+                                    >
+                                        Invite a User →
+                                    </button>
+
+                                    <span x-show="copied" x-transition class="text-green-400 text-xs ml-2">
+                                        Copied ✅
+                                    </span>
+
+                                </div>
+                            </div>
+
+                            <div x-show="open" @click.outside="open = false" x-transition class="invora-tooltip">
+                                <div class="title">Why is my account inactive?</div>
+
+                                <div class="text">
+                                    Your account is currently inactive because you have not activated a trading bot on the Invora Smart Trading platform.
+                                </div>
+
+                                <div class="text" style="margin-top:8px;">
+                                    To activate your account, you need to purchase and activate a trading bot.
+                                </div>
+
+                                <div class="highlight-box">
+                                    🚀 Activate your account by getting a bot license and start earning automatically.
+                                </div>
+
+                                <!-- CTA -->
+                                <a href="{{ route('bot') }}" class="invora-mini-btn">
+                                    Get Trading Bot →
+                                </a>
+                            </div>
+                        </span>
+                    @endunless
                 </div>
             </div>
         </div>
 
-        <div class="invora-kyc-badge {{ auth()->user()->kyc_status }}">
-            {{ strtoupper(auth()->user()->kyc_status ?? 'UNVERIFIED') }}
+        <div class="invora-kyc-badge {{ auth()->user()->kyc_status }} flex items-center gap-1">
+            <iconify-icon icon="solar:medal-star-outline" class="menu-icon"></iconify-icon>
+            {{ strtoupper(auth()->user()->rank?->rank?->name ?? 'Unranked') }}
         </div>
     </div>
 
@@ -44,7 +179,7 @@
                 <div class="invora-form-grid">
                     <div class="invora-input">
                         <label>Full Name</label>
-                        <input type="text" wire:model.defer="fullname" disabled>
+                        <input type="text" wire:model.defer="fullname">
                     </div>
 
                     <div class="invora-input">
@@ -105,15 +240,11 @@
                             <span>{{ $message }}</span>
                         @enderror
                     </div>
-                    
-                    
+
+
                 </div>
 
-                <button 
-                    class="invora-btn-primary"
-                    wire:click="updatePassword"
-                    wire:loading.attr="disabled"
-                >
+                <button class="invora-btn-primary" wire:click="updatePassword" wire:loading.attr="disabled">
                     <span wire:loading wire:target="updatePassword">
                         <span class="spinner"></span>
                         Please wait...
@@ -157,4 +288,3 @@
 
     </div>
 </div>
-

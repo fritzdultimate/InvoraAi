@@ -43,52 +43,35 @@
                 This helps us ensure that it's really you accessing your account.
             </p>
 
-            <!-- OTP BLOCK -->
+            <!-- 🔘 VERIFY BUTTON -->
             <table width="100%" style="margin-top:30px;">
                 <tr>
                     <td align="center">
 
-                        <!-- OUTER GLOW WRAP -->
-                        <div style="
-                        display:inline-block;
-                        padding:2px;
-                        border-radius:16px;
-                        background:linear-gradient(135deg,#009A76,#22c55e);
-                    ">
-
-                            <!-- INNER CARD -->
-                            <div style="
-                            background:#020617;
-                            border-radius:14px;
-                            padding:24px 34px;
-                            text-align:center;
-                            border:1px solid rgba(255,255,255,0.05);
+                        <a href="{{ $url }}" style="
+                            display:inline-block;
+                            padding:14px 28px;
+                            border-radius:12px;
+                            background:linear-gradient(135deg,#009A76,#22c55e);
+                            color:#ffffff;
+                            font-size:14px;
+                            font-weight:600;
+                            text-decoration:none;
+                            box-shadow:0 10px 25px rgba(34,197,94,0.25);
                         ">
+                            Verify My Identity
+                        </a>
 
-                                <!-- OTP -->
-                                <div style="
-                                font-size:38px;
-                                letter-spacing:12px;
-                                font-weight:800;
-                                color:#22c55e;
-                                font-family:monospace;
-                            ">
-                                    466322
-                                </div>
+                    </td>
+                </tr>
+            </table>
 
-                                <!-- LABEL -->
-                                <div style="
-                                margin-top:10px;
-                                font-size:11px;
-                                color:#64748b;
-                                letter-spacing:1px;
-                            ">
-                                    ONE-TIME PASSWORD
-                                </div>
-
-                            </div>
-                        </div>
-
+            <!-- FALLBACK LINK -->
+            <table width="100%" style="margin-top:18px;">
+                <tr>
+                    <td align="center" style="font-size:12px; color:#64748b; word-break:break-all;">
+                        If the button doesn't work, copy and paste this link:<br>
+                        <span style="color:#22c55e;">{{ $url }}</span>
                     </td>
                 </tr>
             </table>

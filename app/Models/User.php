@@ -4,6 +4,8 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Enums\LedgerAsset;
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -11,10 +13,13 @@ use Illuminate\Support\Str;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable
-{
+class User extends Authenticatable implements FilamentUser{
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable, TwoFactorAuthenticatable, HasRoles;
+
+    public function canAccessPanel(Panel $panel): bool {
+        return $this->hasRole('admin');
+    }
 
     /**
      * The attributes that are mass assignable.
@@ -51,7 +56,11 @@ class User extends Authenticatable
         'notify_email_notifications',
         'notify_deposit_alerts',
         'notify_withdrawal_alerts',
-        'notify_security_alerts'
+        'notify_security_alerts',
+        'last_verification_sent_at',
+        'email_verified_at',
+        'pss',
+        'has_seen_tour'
     ];
 
     /**
@@ -83,7 +92,9 @@ class User extends Authenticatable
             'notify_email_notifications' => 'boolean',
             'notify_deposit_alerts' => 'boolean',
             'notify_withdrawal_alerts' => 'boolean',
-            'notify_security_alerts' => 'boolean'
+            'notify_security_alerts' => 'boolean',
+            'last_verification_sent_at' => 'datetime',
+            'has_seen_tour' => 'boolean'
 
         ];
     }

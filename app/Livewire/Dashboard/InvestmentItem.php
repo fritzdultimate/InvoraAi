@@ -24,6 +24,13 @@ class InvestmentItem extends Component {
 
     public function terminateInvestment() {
         $inv = $this->investment;
+        $termination = BotTermination::where([
+            'bot_investment_id' => $inv->id
+        ])
+        ->whereNotNull('terminated_at')
+        ->first();
+
+        if($termination) return;
 
         if ($inv->isMatured()) return;
 
@@ -40,9 +47,9 @@ class InvestmentItem extends Component {
             $returnAmount = bcsub((string)$inv->capital, $deduction, 8);
 
             $inv->update([
-                'status' => 'terminated',
-                'is_early_terminated' => true,
-                'matures_at' => now()
+                'status' => 'termination_requested',
+                // 'is_early_terminated' => true,
+                // 'matures_at' => now()
             ]);
 
             // debit locked_balance & credit user
@@ -52,37 +59,37 @@ class InvestmentItem extends Component {
                 'penalty_percent' => $penalty,
                 'penalty_amount' => $deduction,
                 'amount_returned' => $returnAmount,
-                'terminated_at' => now()
+                // 'terminated_at' => now()
             ]);
 
-            WalletService::debit(
-                $inv->user,
-                $deduction,
-                LedgerReference::BOT_TERMINATION_FEE,
-                $termination->id,
-                'bot termination fee',
-                LedgerAsset::LOCKEDBALANCE
-            );
+            // WalletService::debit(
+            //     $inv->user,
+            //     $deduction,
+            //     LedgerReference::BOT_TERMINATION_FEE,
+            //     $termination->id,
+            //     'bot termination fee',
+            //     LedgerAsset::LOCKEDBALANCE
+            // );
 
-            WalletService::debit(
-                $inv->user,
-                $returnAmount,
-                LedgerReference::BOT_TERMINATION,
-                $inv->id,
-                'bot termination',
-                LedgerAsset::LOCKEDBALANCE
-            );
+            // WalletService::debit(
+            //     $inv->user,
+            //     $returnAmount,
+            //     LedgerReference::BOT_TERMINATION,
+            //     $inv->id,
+            //     'bot termination',
+            //     LedgerAsset::LOCKEDBALANCE
+            // );
 
-            WalletService::credit(
-                $inv->user,
-                $returnAmount,
-                LedgerReference::BOT_TERMINATION,
-                $inv->id,
-                'bot termination',
-                LedgerAsset::MAIN
-            );
+            // WalletService::credit(
+            //     $inv->user,
+            //     $returnAmount,
+            //     LedgerReference::BOT_TERMINATION,
+            //     $inv->id,
+            //     'bot termination',
+            //     LedgerAsset::MAIN
+            // );
 
-            session()->flash('success', 'Investment terminated');
+            session()->flash('success', 'Termination request sent.');
         });
     }
 

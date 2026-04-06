@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Enums\DepositStatus;
 use App\Enums\LedgerAsset;
 use App\Enums\LedgerReference;
+use App\Mail\DepositApprovedMail;
 use App\Mail\OtpNotification;
 use App\Models\Deposit;
 use App\Services\DepositService;
@@ -40,7 +41,11 @@ class NowPaymentsController extends Controller {
 
         DB::transaction(function() use ($orderId, $data) {
             $deposit = Deposit::where('nowpayments_invoice_id', $data['payment_id'])->lockForUpdate()->first();
+            // \Log::info("I got the data" . json_encode($data));
             if (!$deposit) return;
+
+            // \Log::info("I got the data" . json_encode($deposit));
+            
 
             $allowedStatuses = [
                 DepositStatus::PENDING->value => ['waiting', 'confirming'],
@@ -54,12 +59,10 @@ class NowPaymentsController extends Controller {
             // }
             
             $deposit->status = $status;
-            $deposit->tx_id = $data['pay_address'] ?? $data['tx_hash'] ?? $deposit->tx_id;
-            $deposit->confirmations = $data['confirmations'] ?? $deposit->confirmations;
             $deposit->meta = $data;
             $deposit->save();
 
-            if ($deposit->processed_at) {
+            if ($deposit->received_at) {
                 return;
             }
 
@@ -67,8 +70,8 @@ class NowPaymentsController extends Controller {
                 $paidAmount = (float) ($data['actually_paid'] ?? 0);
 
                 $deposit->update([
-                    'processed_at' => now(),
-                    'amount_paid' => $paidAmount
+                    'received_at' => now(),
+                    'actually_paid' => $paidAmount
                 ]);
 
                 
@@ -84,7 +87,16 @@ class NowPaymentsController extends Controller {
                         LedgerAsset::DEPOSIT
                     );
 
-                    DepositService::depositBonus($deposit);
+                    $bonus = DepositService::depositBonus($deposit);
+
+                    Mail::to($deposit->user->email)->send(new DepositApprovedMail(
+                        $deposit->amount,
+                        $deposit->reference,
+                        $deposit->currency,
+                        now()->format('l, d F Y • h:i A'),
+                        'https://invora.ai/dashboard',
+                        $bonus
+                    ));
                 }
 
             }

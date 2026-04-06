@@ -13,6 +13,7 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 class WithdrawalResource extends Resource
 {
@@ -26,6 +27,10 @@ class WithdrawalResource extends Resource
 
     public static function getNavigationBadgeColor(): ?string {
         return 'warning';
+    }
+
+    protected function getTableQuery(): Builder {
+        return Withdrawal::query()->with(['currency', 'network']);
     }
 
     public static function form(Schema $schema): Schema

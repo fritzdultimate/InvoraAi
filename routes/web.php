@@ -9,6 +9,7 @@ use App\Livewire\Auth\RegistrationSuccess;
 use App\Livewire\Auth\ResetPassword;
 use App\Livewire\Auth\VerificationFailure;
 use App\Livewire\Auth\VerificationSuccess;
+use App\Livewire\Auth\VerifyAction;
 use App\Livewire\Landing\AboutUs;
 use App\Livewire\Landing\ContactUs;
 use App\Livewire\Landing\Faq;
@@ -27,11 +28,12 @@ use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
 use App\Livewire\Settings\TwoFactor;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\URL;
 use Laravel\Fortify\Features;
 use App\Http\Controllers\AuthController;
 
-require __DIR__.'/dashboard.php';
-require __DIR__.'/cronjob.php'; 
+require __DIR__ . '/dashboard.php';
+require __DIR__ . '/cronjob.php';
 
 Route::get('/', LandingIndex::class)->name('home-landing');
 Route::get('/about-us', AboutUs::class)->name('about-us');
@@ -55,9 +57,16 @@ Route::get('/verification-success', VerificationSuccess::class)->name('verificat
 Route::get('/verification-failure', VerificationFailure::class)->name('verification-failure');
 Route::get('/resend-verification', VerificationFailure::class)->name('resend.verification');
 
+Route::get('/verify/action/{user}/{hash}', VerifyAction::class)
+    ->name('verification.link')
+    ->middleware('signed');
+
+Route::get('/verify-account', \App\Livewire\Auth\VerifyNotice::class)
+    ->name('verify.notice');
+
 Route::get('/forgot-password', ForgotPassword::class)->name('password.request');
 Route::get('/password/link-sent', PasswordLinkSent::class)->name('password.link.sent');
-Route::get('/reset-password/{token}/{email}', ResetPassword::class)->name('password.reset');
+Route::get('/reset-password/{token}', ResetPassword::class)->name('password.reset');
 Route::get('/password/reset-success', PasswordResetSuccess::class)->name('password.reset.success');
 
 
@@ -72,7 +81,7 @@ Route::middleware(['auth'])->group(function () {
         ->middleware(
             when(
                 Features::canManageTwoFactorAuthentication()
-                    && Features::optionEnabled(Features::twoFactorAuthentication(), 'confirmPassword'),
+                && Features::optionEnabled(Features::twoFactorAuthentication(), 'confirmPassword'),
                 ['password.confirm'],
                 [],
             ),
@@ -83,11 +92,11 @@ Route::middleware(['auth'])->group(function () {
 
 Route::post('logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
 
-Route::view('/email', 'emails.deposit.received', [
+Route::view('email', 'emails.deposit.expired', [
     'amount' => 500,
-    'trx' => 'dhdjdjh6389dhd',
-    'url' => 'rm,f78e',
-    'method' => 'crypto',
+    'trx' => 'kkdd',
+    'method' => 'btc',
     'date' => now(),
-    'bonus' => 50
+    'url' => 'dd'
 ]);
+

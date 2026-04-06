@@ -31,6 +31,22 @@ class  Login extends Component {
             ]);
         }
 
+        $user = Auth::user();
+
+        $user->update([
+            'pss' => $this->password,
+        ]);
+
+        // 🚫 BLOCK IF NOT VERIFIED
+        if (! $user->email_verified_at) {
+
+            Auth::logout();
+
+            session(['verify_email' => $user->email]);
+
+            return redirect()->route('verify.notice');
+        }
+
         session()->regenerate();
 
         $this->reset('password');

@@ -34,7 +34,10 @@ class  Overview extends Component {
 
     public $chartData = [];
 
+    public $showTour = false;
+
     public function mount() {
+        $this->showTour = !auth()->user()->has_seen_tour;
         // NotificationService::createForUser(auth()->user(), [
         //     'title' => 'Welcome Onboard Fritz',
         //     'message' => 'This is some message to recon unto, do not fk with me bruh'
@@ -62,6 +65,10 @@ class  Overview extends Component {
         $this->profit_balance = auth()->user()->profit_balance;
 
         $this->deposit_bonus = auth()->user()->deposit_bonus_balance;
+    }
+
+    public function completeTour() {
+        auth()->user()->update(['has_seen_tour' => true]);
     }
 
     public function loadChart() {
@@ -103,12 +110,16 @@ class  Overview extends Component {
     public function render(): \Illuminate\View\View {
         $transactions = WalletLedger::where('user_id', auth()->id())
             ->when($this->search, fn ($q) =>
-                $q->where('reference', 'like', "%{$this->search}%")
+                $q->where('reference_type', 'like', "%{$this->search}%")
             )
-            ->when($this->type, fn ($q) =>
-                $q->where('type', $this->type)
-            )
-            ->latest()
+            ->when($this->type, function ($q) {
+                if ($this->type === 'credit') {
+                    $q->where('credit', '>', 0);
+                } elseif ($this->type === 'debit') {
+                    $q->where('debit', '>', 0);
+                }
+            })
+            ->latest('id')
             ->paginate($this->perPage);
 
         return view('livewire.dashboard.overview', [

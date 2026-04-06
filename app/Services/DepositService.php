@@ -6,9 +6,11 @@ use App\Enums\DepositStatus;
 use App\Enums\LedgerAsset;
 use App\Enums\LedgerReference;
 use App\Mail\DepositApprovedMail;
+use App\Mail\DepositExpiredMail;
 use App\Models\CustomSetting;
 use App\Models\Deposit;
 use App\Models\User;
+use App\Models\WalletLedger;
 use App\Services\Wallet\WalletService;
 use Filament\Support\Exceptions\Halt;
 use Illuminate\Support\Facades\DB;
@@ -17,8 +19,18 @@ use Illuminate\Support\Facades\Mail;
 
 class DepositService {
     public static function depositBonus($deposit) {
+        $hasReceivedBonus = WalletLedger::where('user_id', $deposit->user_id)
+            ->where('reference_type', LedgerReference::DEPOSITBONUS)
+            ->exists();
+
+        if ($hasReceivedBonus) {
+            return 0;
+        }
+
+
         if ($deposit->bonus > 0) {
-            return $deposit->bonus;
+            // return $deposit->bonus;
+            return;
         }
         $bonus = (float) CustomSetting::get('deposit_bonus', 0);
         $bonusDuration = (int) CustomSetting::get('deposit_bonus_duration_days', 0);
@@ -39,7 +51,7 @@ class DepositService {
             LedgerAsset::DEPOSITBONUSBALANCE
         );
 
-        NotificationService::createForUser(auth()->user(), [
+        NotificationService::createForUser($deposit->user, [
             'title' => 'Deposit Bonus Received 🎉',
             'message' => 'You have received your deposit bonus! Check your balance to see the updated amount.',
         ]);
@@ -126,5 +138,32 @@ class DepositService {
             }
 
         });
+    }
+
+    public static function expireOldDeposits(): void {
+        $deposits = Deposit::whereIn('status', [
+                DepositStatus::PENDING,
+                DepositStatus::WAITING
+            ])
+            ->where('created_at', '<', now()->subMinutes(90))
+            ->get();
+
+        foreach ($deposits as $deposit) {
+            DB::transaction(function() use ($deposit) {
+                $deposit->update([
+                    'status' => DepositStatus::EXPIRED
+                ]);
+
+                Mail::to($deposit->user->email)->send(new DepositExpiredMail(
+                    $deposit->amount,
+                    $deposit->reference,
+                    $deposit->currency,
+                    now()->format('l, d F Y • h:i A'),
+                    'https://invora.ai/dashboard',
+                ));
+
+            });
+
+        }
     }
 }

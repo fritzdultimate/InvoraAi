@@ -4,7 +4,8 @@
          x-data="{
             time: {{ $remainingSeconds }},
             copied: false,
-            expired: false
+            expired: false,
+            status: '{{ $deposit->status }}'
          }"
          x-init="
             let interval = setInterval(() => {
@@ -34,7 +35,7 @@
         <!-- COUNTDOWN -->
         <div class="invora-countdown" 
              :class="time < 60 ? 'danger' : ''"
-             x-show="!expired">
+             x-show="!expired && status !== 'finished'">
 
             ⏳ 
             <span x-text="Math.floor(time/60) + ':' + ('0'+time%60).slice(-2)"></span>
@@ -50,9 +51,7 @@
         <div class="invora-payment-grid">
 
             <!-- QR -->
-            <div class="invora-qr-box">
-                <img src="/qr.png">
-            </div>
+            <livewire:dashboard.qr-code address="{{  $deposit->address  }}" />
             
             <!-- LEFT -->
             <div>
@@ -97,7 +96,7 @@
 
         <!-- FOOTER -->
         <div class="invora-payment-footer">
-            ⚠️ Send only BTC. Wrong network = loss of funds.
+            ⚠️ Send only {{ strtoupper($deposit->currency) }}. Wrong network = loss of funds.
         </div>
 
     </div>

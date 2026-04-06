@@ -2,18 +2,21 @@
 
 namespace App\Filament\Resources\KycVerifications\Tables;
 
-use App\Mail\KycAprrovedMail;
+use App\Mail\KycApprovedMail;
+use App\Mail\KycRejectedMail;
 use App\Models\KycVerification;
 use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
-use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
+use Filament\Forms\Components\Textarea;
 use Filament\Tables\Columns\BadgeColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class KycVerificationsTable
 {
@@ -54,9 +57,11 @@ class KycVerificationsTable
                         ->color('success')
                         ->requiresConfirmation()
                         ->action(function (KycVerification $record) {
-                            $record->update(['status' => 'approved']);
-                            $record->user->update(['kyc_status' => 'approved']);
-                            \Mail::to($record->user->email)->send(new KycAprrovedMail($record->user));
+                            DB::transaction(function() use($record) {
+                                $record->update(['status' => 'approved', 'reviewed_at' => now()]);
+                                $record->user->update(['kyc_status' => 'approved']);
+                                \Mail::to($record->user->email)->send(new KycApprovedMail($record->user));
+                            });
                         })
                         ->visible(fn($record) => $record->status === 'pending'),
 
@@ -64,10 +69,30 @@ class KycVerificationsTable
                         ->label('Reject')
                         ->color('danger')
                         ->requiresConfirmation()
-                        ->action(function (KycVerification $record) {
-                            $record->update(['status' => 'rejected']);
-                            $record->user->update(['kyc_status' => 'rejected']);
-                            \Mail::to($record->user->email)->send(new \App\Mail\KycRejectedMail($record->user));
+                        ->form([
+                            Textarea::make('reason')
+                                ->label('Rejection Reason')
+                                ->placeholder('Enter reason for rejecting this KYC submission')
+                                ->required()
+                                ->rows(3),
+                        ])
+                        ->action(function (KycVerification $record, array $data) {
+                            DB::transaction(function() use ($record, $data) {
+                                // Update KYC record and user status
+                                $record->update([
+                                    'status' => 'rejected',
+                                    'reviewed_at' => now()
+                                    // 'rejection_reason' => $data['reason'] ?? null,
+                                ]);
+
+                                $record->user->update([
+                                    'kyc_status' => 'rejected',
+                                ]);
+
+                                // Send mail with reason
+                                Mail::to($record->user->email)
+                                    ->send(new KycRejectedMail($record->user, $data['reason'] ?? null));
+                            });
                         })
                         ->visible(fn($record) => $record->status === 'pending'),
 

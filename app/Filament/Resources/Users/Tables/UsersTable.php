@@ -19,6 +19,7 @@ use Filament\Notifications\Notification;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 
 class UsersTable
@@ -49,21 +50,29 @@ class UsersTable
                     ->falseIcon('heroicon-o-x-circle')
                     ->trueColor('success')
                     ->falseColor('danger'),
-                IconColumn::make('lock_roi_at')
-                    ->label('ROI Lock')
+                IconColumn::make('is_admin')
+                    ->label('Admin')
                     ->boolean()
-                    ->getStateUsing(fn ($record) => filled($record->lock_roi_at))
-                    ->trueIcon('heroicon-o-lock-closed')
-                    ->falseIcon('heroicon-o-lock-open')
-                    ->trueColor('danger')
-                    ->falseColor('success'),
+                    ->getStateUsing(fn ($record) => $record->hasRole('admin'))
+                    ->trueIcon('heroicon-o-shield-check')
+                    ->falseIcon('heroicon-o-x-circle')
+                    ->trueColor('success')
+                    ->falseColor('danger'),
+                // IconColumn::make('lock_roi_at')
+                //     ->label('ROI Lock')
+                //     ->boolean()
+                //     ->getStateUsing(fn ($record) => filled($record->lock_roi_at))
+                //     ->trueIcon('heroicon-o-lock-closed')
+                //     ->falseIcon('heroicon-o-lock-open')
+                //     ->trueColor('danger')
+                //     ->falseColor('success'),
 
                 IconColumn::make('suspended_at')
                     ->label('Suspended')
                     ->boolean()
                     ->getStateUsing(fn ($record) => filled($record->suspended_at))
-                    ->trueColor('success')
-                    ->falseColor('danger'),
+                    ->trueColor('danger')
+                    ->falseColor('success'),
                 IconColumn::make('is_leader')
                     ->label('Leader')
                     ->boolean()
@@ -79,7 +88,7 @@ class UsersTable
                     ->icon('heroicon-o-user')
                     ->color('success')
                     ->weight('medium')
-                    ->searchable(['referredBy.name', 'referredBy.email'])
+                    // ->searchable(['referredBy.name', 'referredBy.email'])
                     ->sortable(),
                 TextColumn::make('rank_display')
                     ->label('Rank')

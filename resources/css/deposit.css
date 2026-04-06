@@ -149,11 +149,11 @@
     color: #facc36 !important;
 }
 
-.completed {
+.completed, .finished, .confirmed {
     color: #49ec40 !important;
 }
 
-.cancelled {
+.cancelled, .expired, .failed {
     color: #fe3636 !important;
 }
 

@@ -47,13 +47,15 @@ class BotInvestmentService {
         });
     }
 
-    public function terminate(BotInvestment $investment) {
+    public static function terminate(BotTermination $termination) {
 
-        if ($investment->status !== BotInvestmentStatus::ACTIVE) {
-            throw new \Exception('Investment not active.');
+        $investment = $termination->botInvestment;
+
+        if ($investment->status !== BotInvestmentStatus::TERMINATIONREQUEST) {
+            throw new \Exception('Investment cannot be twerminated.');
         }
 
-        return DB::transaction(function () use ($investment) {
+        return DB::transaction(function () use ($investment, $termination) {
 
             $bot = $investment->bot;
 
@@ -63,14 +65,31 @@ class BotInvestmentService {
 
             $finalReturn = $investment->amount - $penalty;
 
-            $investment->user->increment('balance', $finalReturn);
-
             WalletService::debit(
                 $investment->user,
                 $finalReturn,
                 LedgerReference::BOT_TERMINATION,
                 $investment->id,
-                'Bot termination'
+                'Bot termination',
+                LedgerAsset::LOCKEDBALANCE
+            );
+
+            WalletService::debit(
+                $investment->user,
+                $penalty,
+                LedgerReference::BOT_TERMINATION_FEE,
+                $investment->id,
+                'bot termination fee',
+                LedgerAsset::LOCKEDBALANCE
+            );
+
+            WalletService::credit(
+                $investment->user,
+                $finalReturn,
+                LedgerReference::BOT_TERMINATION,
+                $investment->id,
+                'bot termination',
+                LedgerAsset::MAIN
             );
 
             $investment->update([
@@ -78,11 +97,7 @@ class BotInvestmentService {
                 'is_early_terminated' => true,
             ]);
 
-            BotTermination::create([
-                'bot_investment_id' => $investment->id,
-                'penalty_percent' => $penaltyPercent,
-                'penalty_amount' => $penalty,
-                'amount_returned' => $finalReturn,
+            $termination->update([
                 'terminated_at' => now()
             ]);
 

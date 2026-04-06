@@ -15,9 +15,9 @@ class ResetPassword extends Component {
     public $password;
     public $password_confirmation;
 
-    public function mount($token, $email) {
+    public function mount($token) {
         $this->token = $token;
-        $this->email = $email;
+        // $this->email = $email;
     }
 
     protected function rules() {
