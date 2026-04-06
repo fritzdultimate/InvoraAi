@@ -21,7 +21,7 @@ class Bonuses extends Component
 
     protected $paginationTheme = 'tailwind';
 
-    public function claim($id) {
+    public function claim($id) { 
         DB::transaction(function () use ($id) {
 
             $bonus = ReferralBonus::where('id', $id)
