@@ -31,6 +31,10 @@ class ReferralBonus extends Model {
         return $this->belongsTo(User::class, 'from_user_id');
     }
 
+    public function user() {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
     public function isClaimable(): bool {
         return $this->status === 'pending' && ($this->claimable_at === null || now()->gte($this->claimable_at));
     }
