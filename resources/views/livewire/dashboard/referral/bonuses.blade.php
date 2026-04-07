@@ -110,7 +110,7 @@
 
                     @else
                         <span class="status-badge locked">
-                            Pending
+                            {{ $bonus->remainingTime() }}
                         </span>
                     @endif
 
