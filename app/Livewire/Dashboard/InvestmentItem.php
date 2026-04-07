@@ -16,6 +16,13 @@ class InvestmentItem extends Component {
     public $investment;
     public $confirmingTerminate = false;
     public $compoundAmount;
+    public $showConfirm = false;
+    public $type = 'success';
+    public $title = '';
+    public $message = '';
+    public $confirmText;
+    public $action;
+    public $warning;
 
     public function mount($id) {
         $this->investment = BotInvestment::where('user_id', auth()->id())
@@ -63,6 +70,33 @@ class InvestmentItem extends Component {
         $this->dispatch('success', message: 'Profit compounded successfully.');
 
         $this->investment->refresh();
+    }
+
+    public function prepareCompoundProfit() {
+
+        $inv = $this->investment;
+
+        if ($inv->isMatured()) return;
+
+        $amount = (float) $this->compoundAmount;
+
+        if ($amount <= 0) {
+            $this->dispatch('error', message: 'Invalid amount');
+            return;
+        }
+
+        if ($amount > $inv->total_profit) {
+            $this->dispatch('error', message: 'Cannot exceed available profit');
+            return;
+        }
+
+        $this->showConfirm = true;
+
+        $this->type = 'success';
+        $this->title = 'Start Investment';
+        $this->message = 'Your funds will be locked for the selected duration.';
+        $this->confirmText = 'Proceed';
+        $this->action = 'compoundProfit';
     }
 
     public function terminateInvestment() {

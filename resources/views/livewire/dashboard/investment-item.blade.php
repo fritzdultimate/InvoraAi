@@ -184,10 +184,10 @@
 
                 <!-- ACTION -->
                 <button 
-                    wire:click="compoundProfit"
+                    wire:click="prepareCompoundProfit"
                     class="compound-action"
                     wire:loading.attr="disabled"
-                    wire:target="compoundProfit"
+                    wire:target="prepareCompoundProfit"
                 >
                     <span wire:loading.remove>Reinvest Profit</span>
                     <span wire:loading class="btn-loader">
@@ -256,6 +256,14 @@
         @endif
 
     </div>
+
+    <x-action-message 
+        :showConfirm="$showConfirm" 
+        :type="$type" 
+        :title="$title" 
+        :message="$message" 
+        :warning="$warning" 
+    />
 </div>
 
 @push('scripts')
