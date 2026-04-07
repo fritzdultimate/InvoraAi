@@ -15,11 +15,54 @@ use Livewire\Component;
 class InvestmentItem extends Component {
     public $investment;
     public $confirmingTerminate = false;
+    public $compoundAmount;
 
     public function mount($id) {
         $this->investment = BotInvestment::where('user_id', auth()->id())
             ->where('id', $id)
             ->first();
+    }
+
+    public function compoundProfit() {
+        $inv = $this->investment;
+
+        if ($inv->isMatured()) return;
+
+        $amount = (float) $this->compoundAmount;
+
+        if ($amount <= 0) {
+            $this->dispatch('error', message: 'Invalid amount');
+            return;
+        }
+
+        if ($amount > $inv->total_profit) {
+            $this->dispatch('error', message: 'Cannot exceed available profit');
+            return;
+        }
+
+        DB::transaction(function () use ($inv, $amount) {
+
+            // 🔥 Reduce profit
+            $inv->total_profit = bcsub((string)$inv->total_profit, (string)$amount, 8);
+
+            // 🔥 Increase capital
+            $inv->amount = bcadd((string)$inv->amount, (string)$amount, 8);
+
+            $inv->save();
+
+            // Optional: track compounding history
+            // DB::table('investment_compounds')->insert([
+            //     'bot_investment_id' => $inv->id,
+            //     'amount' => $amount,
+            //     'created_at' => now(),
+            // ]);
+        });
+
+        $this->compoundAmount = null;
+
+        $this->dispatch('success', message: 'Profit compounded successfully.');
+
+        $this->investment->refresh();
     }
 
     public function terminateInvestment() {
@@ -103,6 +146,6 @@ class InvestmentItem extends Component {
     }
 
     public function render() {
-        return view('livewire.dashboard.investment-item');
+        return view('livewire.dashboard.investment-item'); 
     }
 }

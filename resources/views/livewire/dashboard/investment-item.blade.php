@@ -127,6 +127,78 @@
             <div id="investmentChart"></div>
         </div>
 
+        @if($investment->total_profit > 0 && !$investment->isMatured())
+            <div class="invora-compound-card mt-5">
+
+                <!-- HEADER -->
+                <div class="compound-top">
+                    <div>
+                        <h3>Reinvest Profit</h3>
+                        <p>Increase your capital using earned returns</p>
+                    </div>
+
+                    <div class="compound-amount">
+                        ${{ number_format($investment->total_profit, 2) }}
+                        <span>available</span>
+                    </div>
+                </div>
+
+                <!-- QUICK ACTIONS -->
+                <div class="compound-presets">
+                    @foreach([25, 50, 75, 100] as $pct)
+                        <button 
+                            wire:click="$set('compoundAmount', {{ ($investment->total_profit * $pct) / 100 }})"
+                        >
+                            {{ $pct }}%
+                        </button>
+                    @endforeach
+                </div>
+
+                <!-- INPUT -->
+                <div class="compound-input-wrap">
+                    <span class="currency">$</span>
+                    <input 
+                        type="number"
+                        step="0.01"
+                        wire:model.live="compoundAmount"
+                        placeholder="0.00"
+                    />
+                </div>
+
+                <!-- LIVE IMPACT -->
+                <div class="compound-impact">
+                    <div>
+                        <span>New Capital</span>
+                        <strong>
+                            ${{ number_format($investment->amount + ($compoundAmount ?? 0), 2) }}
+                        </strong>
+                    </div>
+
+                    <div>
+                        <span>Remaining Profit</span>
+                        <strong>
+                            ${{ number_format(max(0, $investment->total_profit - ($compoundAmount ?? 0)), 2) }}
+                        </strong>
+                    </div>
+                </div>
+
+                <!-- ACTION -->
+                <button 
+                    wire:click="compoundProfit"
+                    class="compound-action"
+                    wire:loading.attr="disabled"
+                    wire:target="compoundProfit"
+                >
+                    <span wire:loading.remove>Reinvest Profit</span>
+                    <span wire:loading class="btn-loader">
+                        <span class="spinner"></span>
+                        Executing...
+                    </span>
+                </button>
+
+            </div>
+        @endif
+
         <!-- ACTION -->
         @if($investment->status->value !== 'termination_requested' && !$investment->isMatured())
             <button 
