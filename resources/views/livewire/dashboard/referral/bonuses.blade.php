@@ -96,7 +96,7 @@
                         </span>
 
                     @elseif($bonus->isClaimable())
-                        <span class="status-badge claimable">
+                        <span class="status-badge locked">
                             Pending
                         </span>
                         <button
