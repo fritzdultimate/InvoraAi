@@ -102,8 +102,8 @@
                                 <span class="invora-badge invora-badge-green">Running</span>
                             @elseif($txn->status->value === 'completed')
                                 <span class="invora-badge">Completed</span>
-                            @elseif($txn->status->value === 'pending')
-                                <span class="invora-badge">Pending</span>
+                            @elseif($txn->status->value === 'termination_request')
+                                <span class="invora-badge invora-badge-green">Running</span>
                             @else
                                 <span class="invora-badge invora-badge-red">Stopped</span>
                             @endif
@@ -156,8 +156,8 @@
                 <div class="invora-invest-bottom">
 
                     <span class="invora-badge 
-                        {{ $txn->status->value === 'active' ? 'invora-badge-green' : 'invora-badge-red' }}">
-                        {{ $txn->status->value === 'active' ? 'Running' : 'Stopped' }}
+                        {{ $txn->status->value === 'active' ? 'invora-badge-green' : ($txn->status->value === 'termination_request' ? 'invora-badge-green' : 'invora-badge-red') }}">
+                        {{ $txn->status->value === 'active' ? 'Running' : ($txn->status->value === 'termination_request' ? 'Running' : 'Stopped') }}
                     </span>
 
                     <div class="invora-invest-date">
