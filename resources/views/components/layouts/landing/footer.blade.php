@@ -43,7 +43,6 @@
                                     <li><a href="{{ route('trading-execution') }}">Trading execution</a></li>
                                     <li><a href="{{ route('trading-guidelines') }}">Trading guidelines</a></li>
                                     <li><a href="{{ route('portfolio-management') }}">Portfolio management</a></li>
-                                    <li><a href="{{ route('risk-assessment') }}">Risk assessment</a></li>
                                 </ul>
                             </div>
                         </div>

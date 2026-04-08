@@ -18,7 +18,6 @@
                                     <li><a href="{{ route('home-landing') }}" class="section-link">Home</a></li>
                                     <li><a href="{{ route('about-us') }}" class="section-link">About us</a></li>
                                     <li><a href="{{ route('contact-us') }}" class="section-link">Contact us</a></li>
-                                    <li><a href="{{ route('risk-assessment') }}" class="section-link">Risk Assessment</a></li>
                                     <li class="menu-item-has-children">
                                         <a href="javascript:void(0)" class="section-link">Others</a>
                                         <ul class="sub-menu">
