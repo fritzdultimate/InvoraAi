@@ -1,3 +1,5 @@
+@props(['showFooterNote' => true])
+
 {{-- Invora trading bot tiers: member cost, daily yield target, capital required --}}
                 @php
                     $plans = [
@@ -40,7 +42,7 @@
                             'features' => [
                 'Top-tier parameters & longest membership',
                 'Designed for larger capital deployment',
-                'Best for experienced participants',
+                'Best for higher yields',
                             ],
                         ],
                     ];
@@ -255,7 +257,9 @@
                                         </ul>
 
                             <a href="{{ route('register') }}" class="invora-plan-card__btn">Get started</a>
-                            <p class="invora-plan-card__note">Subject to availability, verification, and product rules in-app.</p>
+                            @if ($showFooterNote)
+                                <p class="invora-plan-card__note">Subject to availability, verification, and product rules in-app.</p>
+                            @endif
                         </div>
                     </article>
                 </div>

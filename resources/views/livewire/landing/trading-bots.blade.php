@@ -74,7 +74,7 @@
             </div>
         </section>
 
-        <x-landing.subscription-plans />
+        <x-landing.subscription-plans :show-footer-note="false" />
 
         <x-landing.who-we-are />
 

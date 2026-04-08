@@ -51,6 +51,7 @@
         [
             'q' => 'Compliance and disclaimers',
             'paragraphs' => [
+                config('app.public_name').' uses strict risk management systems, including capital allocation controls and automated safeguards, to help protect user funds where the platform can influence process. However, like all trading, returns are not guaranteed. The platform is risk-first: position and margin constraints, exchange rules, liquidation risk, and operational safeguards apply. Funding can change sign or magnitude, and markets can gap.',
                 'Information from '.config('app.public_name').' is educational, not financial advice; outcomes depend on your situation and market conditions. Read our risk disclosure and terms for binding language. Never allocate more than you can afford to lose, and comply with laws where you live.',
             ],
         ],

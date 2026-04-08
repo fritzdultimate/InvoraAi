@@ -3,11 +3,11 @@
 namespace App\Livewire\Landing;
 
 use Livewire\Attributes\Layout;
-use Livewire\Attributes\Locked;
 use Livewire\Component;
 
-#[Layout('components.layouts.guest')]
-class  Faq extends Component {
+#[Layout('components.layouts.landing')]
+class Faq extends Component
+{
 
 
     /**

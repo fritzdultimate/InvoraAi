@@ -28,7 +28,8 @@
         [
             'q' => 'Risk and responsibility',
             'paragraphs' => [
-                'Funding rates, margin, liquidity, and venue rules can all change. '.$name.' is risk-first, but no platform removes market, counterparty, or technology risk. Read our risk disclosure and terms before you deploy capital.',
+                $name.' uses strict risk management systems, including capital allocation controls and automated safeguards, to help protect user funds where the platform can influence process. However, like all trading, returns are not guaranteed.',
+                'The platform is risk-first: position and margin constraints, exchange rules, liquidation risk, and operational safeguards apply. Funding can change sign or magnitude, and markets can gap. Funding rates, margin, liquidity, and venue rules can all change; no platform removes market, counterparty, or technology risk. Read our risk disclosure and terms before you deploy capital.',
             ],
         ],
         [

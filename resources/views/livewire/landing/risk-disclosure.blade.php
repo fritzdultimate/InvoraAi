@@ -16,7 +16,7 @@
                             Risk <span style="color: #009A76;">Disclosure</span>
                         </h2>
                         <p class="mt-3 mb-0 text-light" style="max-width: 640px; margin-left: auto; margin-right: auto;">
-                            Understand the risks before you allocate capital or use {{ config('app.public_name') }}.
+                            Understand the risks before you allocate capital or use {{ config('app.public_name') }}. The platform is risk-first: position and margin constraints, exchange rules, liquidation risk, and operational safeguards apply. Funding can change sign or magnitude, and markets can gap.
                         </p>
                     </div>
                         </div>
@@ -31,9 +31,7 @@
                             <p class="legal-kicker">Risk Disclosure</p>
                             <h1 class="legal-title">Important Information About Material Risks</h1>
                             <p class="legal-lead mb-0">
-                                Using the platform involves risks, and it is essential that all users understand the potential
-                                for loss before participating in any financial activities through {{ config('app.public_name') }}.
-                                This Risk Disclosure Statement is provided to ensure transparency and awareness.
+                                {{ config('app.public_name') }} uses strict risk management systems, including capital allocation controls and automated safeguards, to help protect user funds where the platform can influence process. However, like all trading, returns are not guaranteed. Using the platform involves risks, and it is essential that all users understand the potential for loss before participating in any financial activities through {{ config('app.public_name') }}. The platform is risk-first: position and margin constraints, exchange rules, liquidation risk, and operational safeguards apply. Funding can change sign or magnitude, and markets can gap. This Risk Disclosure Statement is provided to ensure transparency and awareness.
                             </p>
 
                             <h2>1. Market Risks</h2>

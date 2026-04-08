@@ -10,7 +10,7 @@
         ],
         [
             'q' => 'How is risk managed during execution?',
-            'a' => 'The platform is risk-first: position and margin constraints, exchange rules, liquidation risk, and operational safeguards apply. Funding can change sign or magnitude, and markets can gap—see our risk disclosure if you want more detail.',
+            'a' => config('app.public_name').' uses strict risk management systems, including capital allocation controls and automated safeguards, to help protect user funds where the platform can influence process. However, like all trading, returns are not guaranteed. The platform is risk-first: position and margin constraints, exchange rules, liquidation risk, and operational safeguards apply. Funding can change sign or magnitude, and markets can gap—see our risk disclosure if you want more detail.',
         ],
         [
             'q' => 'How can I review what happened?',
