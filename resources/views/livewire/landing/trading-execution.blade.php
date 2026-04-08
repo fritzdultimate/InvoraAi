@@ -1,292 +1,144 @@
+@php
+    $executionTopics = [
+        [
+            'q' => 'How does '.config('app.public_name').' decide when to act?',
+            'a' => config('app.public_name').' is built to capture funding flows in perpetual futures—not to forecast spot direction for speculative gain. Execution responds to structural inputs such as funding rates, basis, spreads, margin requirements, and venue liquidity, so automated workflows stay aligned with Invora AI’s delta-neutral, funding-yield design.',
+        ],
+        [
+            'q' => 'What does “execution” mean in this model?',
+            'a' => 'Execution is infrastructure-level and rules-based: the system opens, adjusts, and maintains hedged exposure consistent with the parameters you choose, aiming to stay on the receiving side of funding fees paid by leveraged participants—Invora AI’s “funding capture, not forecasts” approach. It is systematic automation, not discretionary manual trading on your behalf.',
+        ],
+        [
+            'q' => 'How is risk managed during execution?',
+            'a' => 'The platform is risk-first: position and margin constraints, exchange rules, liquidation risk, and operational safeguards apply. Funding can change sign or magnitude, and markets can gap—see our risk disclosure if you want more detail.',
+        ],
+        [
+            'q' => 'How can I review what happened?',
+            'a' => 'Your dashboard shows allocation-relevant activity—balances, funding-related outcomes where applicable, and status of automated workflows—so you can review and reconcile. Yields and outcomes are scenario-dependent; past activity does not guarantee future results.',
+        ],
+    ];
+@endphp
+
+<div class="invora-legal-page-root">
+    @include('components.landing.legal-page-styles')
+
 <style>
-    .faq-search-wrap {
-        position: sticky;
-        top: 0;
-        z-index: 5;
-        padding: 12px 0 16px;
-        margin-bottom: 20px;
-    }
-
-    .faq-search-input {
-        width: 100%;
-        padding: 14px 16px;
-        border-radius: 10px;
-        border: 1px solid #e5e7eb;
-        font-size: 15px;
-        outline: none;
-        transition: all .2s ease;
-    }
-
-    .faq-search-input:focus {
-        border-color: #2563eb;
-        box-shadow: 0 0 0 3px rgba(37,99,235,.12);
-    }
-
-    .faq-result-count {
-        font-size: 13px;
-        color: #6b7280;
-        margin-top: 8px;
-    }
-
-    .e-n-accordion-item[hidden] {
-        display: none !important;
-    }
-
-    /* mark {
-        background: rgba(37,99,235,.15);
-        color: inherit;
-        padding: 0 2px;
-        border-radius: 3px;
-    } */
-
-
-    @media (max-width: 768px) {
-        .faq-search-input {
-            font-size: 15px!important;
-            padding: 12px 14px;
+        .invora-exec-accordion {
+            margin-top: 1.5rem;
         }
+        .invora-exec-accordion details {
+            border: 1px solid rgba(157, 188, 212, 0.14);
+            border-radius: 14px;
+            background: rgba(6, 16, 28, 0.55);
+            margin-bottom: 0.65rem;
+            overflow: hidden;
+        }
+        .invora-exec-accordion details[open] {
+            border-color: rgba(0, 176, 139, 0.28);
+        }
+        .invora-exec-accordion summary {
+            list-style: none;
+            cursor: pointer;
+            padding: 1rem 1.15rem 1rem 3rem;
+            position: relative;
+            font-weight: 600;
+            font-size: 1rem;
+            color: #dbe8f4;
+            line-height: 1.4;
+        }
+        .invora-exec-accordion summary::-webkit-details-marker {
+            display: none;
+        }
+        .invora-exec-accordion summary::before {
+            content: attr(data-step);
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            color: #00b08b;
+        }
+        .invora-exec-accordion .invora-exec-accordion__panel {
+            padding: 0 1.15rem 1.1rem 3rem;
+            color: #a4b4c3;
+            font-size: 0.98rem;
+            line-height: 1.7;
+        }
+        .invora-exec-accordion .invora-exec-accordion__panel p:last-child {
+            margin-bottom: 0;
     }
 </style>
 
-<div
-    class="wp-singular page-template page-template-elementor_header_footer page page-id-114 wp-embed-responsive wp-theme-hello-elementor hello-elementor-default elementor-default elementor-template-full-width elementor-kit-8 elementor-page elementor-page-114 e--ua-blink e--ua-chrome e--ua-webkit">
-    <div data-elementor-type="wp-page" data-elementor-id="114" class="elementor elementor-114"
-        data-elementor-post-type="page">
-
-        <div class="elementor-element elementor-element-d94f2d6 e-flex e-con-boxed e-con e-parent e-lazyloaded"
-            data-id="d94f2d6" data-element_type="container"
-            data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
-            <div class="e-con-inner">
-                <div class="elementor-element elementor-element-2c14f63 e-con-full e-flex e-con e-child"
-                    data-id="2c14f63" data-element_type="container">
-                    <div class="elementor-element elementor-element-b7e0468 elementor-widget elementor-widget-heading animated fadeInUp"
-                        data-id="b7e0468" data-element_type="widget"
-                        data-settings="{&quot;_animation&quot;:&quot;fadeInUp&quot;,&quot;_animation_delay&quot;:200}"
-                        data-widget_type="heading.default">
-                        <div class="elementor-widget-container">
-                            <h1 class="elementor-heading-title elementor-size-default">
-                                AI Trading Execution
-                            </h1>
+    <main class="fix">
+        <section class="banner-area banner-bg invora-legal-hero">
+            <div class="banner-shape-wrap">
+                <img src="{{ asset('new_assets/img/banner/banner_shape01.png') }}" alt="" class="img-one">
+                <img src="{{ asset('new_assets/img/banner/banner_shape02.png') }}" alt="" class="img-two">
+                <img src="{{ asset('new_assets/img/banner/banner_shape03.png') }}" alt="" class="img-three">
                         </div>
-                    </div>
-                    <div class="elementor-element elementor-element-68551fe elementor-widget elementor-widget-heading animated fadeInUp"
-                        data-id="68551fe" data-element_type="widget"
-                        data-settings="{&quot;_animation&quot;:&quot;fadeInUp&quot;,&quot;_animation_delay&quot;:300}"
-                        data-widget_type="heading.default">
-                        <div class="elementor-widget-container">
-                            <h4 class="elementor-heading-title elementor-size-default">
-                                Learn how our AI bot executes trades intelligently and securely
-                            </h4>
-                        </div>
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-10 text-center">
+                        <p class="legal-kicker mb-2" style="color: #00b08b; letter-spacing: 0.12em;">Platform</p>
+                        <h2 class="title" style="font-size: clamp(1.75rem, 4vw, 2.35rem);">
+                            Trading <span style="color: #009A76;">execution</span>
+                        </h2>
+                        <p class="mt-3 mb-0 text-light" style="max-width: 680px; margin-left: auto; margin-right: auto;">
+                            How {{ config('app.public_name') }} runs infrastructure-level, risk-first execution around a <strong class="fw-semibold text-white">delta-neutral funding yield</strong> strategy on perpetual futures—funding capture, not price forecasts.
+                        </p>
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
 
+        <section class="invora-legal-wrap pt-70 pb-110">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-xl-9 col-lg-10">
+                        <article class="invora-legal-card">
+                            <p class="legal-kicker">{{ config('app.public_name') }}</p>
+                            <h1 class="legal-title">Key execution factors</h1>
+                            <p class="legal-lead mb-0">
+                                The points below reflect how {{ config('app.public_name') }} frames execution: a <strong>delta-neutral</strong>, <strong>funding-yield</strong> approach on <strong>perpetual futures</strong>—infrastructure-level and <strong>risk-first</strong>, not a return-chasing bot. This is general information only, not personalized advice. For more detail, read the
+                                <a href="{{ asset('new_assets/docs/INVORA DOCUMENTATION .pdf') }}" target="_blank" rel="noopener">full Invora AI overview</a>.
+                            </p>
 
-        <div class="elementor-element elementor-element-d054b34 e-flex e-con-boxed e-con e-parent e-lazyloaded"
-            data-id="d054b34" data-element_type="container">
-            <div class="e-con-inner">
-                <div data-elementor-type="wp-page" data-elementor-id="295" class="elementor elementor-295"
-                    data-elementor-post-type="page">
-                    <div class="elementor-element elementor-element-9cdca02 e-con-full e-flex e-con e-parent e-lazyloaded"
-                        data-id="9cdca02" data-element_type="container"
-                        data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
+                            <div class="invora-exec-accordion">
+                                @foreach ($executionTopics as $index => $topic)
+                                    <details @if ($index === 0) open @endif>
+                                        <summary data-step="{{ str_pad((string) ($index + 1), 2, '0', STR_PAD_LEFT) }}">
+                                            {{ $topic['q'] }}
+                                            </summary>
+                                        <div class="invora-exec-accordion__panel">
+                                            <p>{{ $topic['a'] }}</p>
+                                            </div>
+                                        </details>
+                                @endforeach
+                                                    </div>
 
-                        <div class="elementor-element elementor-element-65daf70 e-con-full e-flex e-con e-child animated fadeInRight"
-                            data-id="65daf70" data-element_type="container"
-                            data-settings="{&quot;animation&quot;:&quot;fadeInRight&quot;}">
-                            <div class="elementor-element elementor-element-283fe67 elementor-widget elementor-widget-heading"
-                                data-id="283fe67" data-element_type="widget" data-widget_type="heading.default">
-                                <div class="elementor-widget-container">
-                                    <h2 class="elementor-heading-title elementor-size-default">
-                                        Key Trading Execution Factors
-                                    </h2>
-                                </div>
+                            <p class="mb-0 mt-4">
+                                Questions? Email
+                                <a href="mailto:{{ env('SUPPORT_EMAIL', 'support@invora.ai') }}">{{ env('SUPPORT_EMAIL', 'support@invora.ai') }}</a>.
+                            </p>
+
+                            <div class="invora-legal-related">
+                                Related:
+                                <a href="{{ asset('new_assets/docs/INVORA DOCUMENTATION .pdf') }}" target="_blank" rel="noopener">Full Invora AI overview</a>
+                                <span class="mx-2">·</span>
+                                <a href="{{ route('how-it-works') }}">How it works</a>
+                                <span class="mx-2">·</span>
+                                <a href="{{ route('trading-bots') }}">Trading bots</a>
+                                <span class="mx-2">·</span>
+                                <a href="{{ route('risk-disclosure') }}">Risk disclosure</a>
+                                <span class="mx-2">·</span>
+                                <a href="{{ route('contact-us') }}">Contact us</a>
                             </div>
-                            <div class="elementor-element elementor-element-9803166 elementor-widget elementor-widget-heading"
-                                data-id="9803166" data-element_type="widget" data-widget_type="heading.default">
-                                <div class="elementor-widget-container">
-                                    <div class="elementor-heading-title elementor-size-default">
-                                        Review the bot’s approach on maximizing profit through AI-trading.
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="elementor-element elementor-element-3a4b5cf elementor-widget elementor-widget-n-accordion"
-                                data-id="3a4b5cf" data-element_type="widget"
-                                data-settings="{&quot;default_state&quot;:&quot;expanded&quot;,&quot;max_items_expended&quot;:&quot;one&quot;,&quot;n_accordion_animation_duration&quot;:{&quot;unit&quot;:&quot;ms&quot;,&quot;size&quot;:400,&quot;sizes&quot;:[]}}"
-                                data-widget_type="nested-accordion.default">
-                                <div class="elementor-widget-container">
-                                    <div class="e-n-accordion"
-                                        aria-label="Accordion. Open links with Enter or Space, close with Escape, and navigate with Arrow Keys">
-                                        <details id="e-n-accordion-item-6110" class="e-n-accordion-item" style="">
-                                            <summary class="e-n-accordion-item-title" data-accordion-index="1"
-                                                tabindex="0" aria-expanded="false"
-                                                aria-controls="e-n-accordion-item-6110">
-                                                <span class="e-n-accordion-item-title-header">
-                                                    <div class="e-n-accordion-item-title-text">
-                                                        How does the AI bot decide when to trade?
-                                                    </div>
-                                                </span>
-                                                <span class="e-n-accordion-item-title-icon">
-                                                    <span class="e-opened"><i aria-hidden="true"
-                                                            class="mdi mdi-checkbox-marked-circle"></i></span>
-                                                    <span class="e-closed"><i aria-hidden="true"
-                                                            class="mdi mdi-check-circle-outline"></i></span>
-                                                </span>
-
-                                            </summary>
-                                            <div role="region" aria-labelledby="e-n-accordion-item-6110"
-                                                class="elementor-element elementor-element-90a8056 e-con-full e-flex e-con e-child"
-                                                data-id="90a8056" data-element_type="container">
-                                                <div class="elementor-element elementor-element-e86ce1f elementor-widget elementor-widget-text-editor"
-                                                    data-id="e86ce1f" data-element_type="widget"
-                                                    data-widget_type="text-editor.default">
-                                                    <div class="elementor-widget-container">
-                                                        <p>
-                                                            The bot analyzes market trends, price patterns, and historical performance in real-time to identify high-probability trades. It continuously adjusts strategies based on market volatility.
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                                <div class="elementor-element elementor-element-10e296a elementor-absolute elementor-widget elementor-widget-heading"
-                                                    data-id="10e296a" data-element_type="widget"
-                                                    data-settings="{&quot;_position&quot;:&quot;absolute&quot;}"
-                                                    data-widget_type="heading.default">
-                                                    <div class="elementor-widget-container">
-                                                        <div class="elementor-heading-title elementor-size-default">01
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </details>
-                                        <details id="e-n-accordion-item-6111" class="e-n-accordion-item" style="">
-                                            <summary class="e-n-accordion-item-title" data-accordion-index="2"
-                                                tabindex="-1" aria-expanded="false"
-                                                aria-controls="e-n-accordion-item-6111">
-                                                <span class="e-n-accordion-item-title-header">
-                                                    <div class="e-n-accordion-item-title-text">
-                                                        Which strategies does the bot use?
-                                                    </div>
-                                                </span>
-                                                <span class="e-n-accordion-item-title-icon">
-                                                    <span class="e-opened"><i aria-hidden="true"
-                                                            class="mdi mdi-checkbox-marked-circle"></i></span>
-                                                    <span class="e-closed"><i aria-hidden="true"
-                                                            class="mdi mdi-check-circle-outline"></i></span>
-                                                </span>
-
-                                            </summary>
-                                            <div role="region" aria-labelledby="e-n-accordion-item-6111"
-                                                class="elementor-element elementor-element-a0d9a34 e-con-full e-flex e-con e-child"
-                                                data-id="a0d9a34" data-element_type="container">
-                                                <div class="elementor-element elementor-element-95d8bd2 elementor-widget elementor-widget-text-editor"
-                                                    data-id="95d8bd2" data-element_type="widget"
-                                                    data-widget_type="text-editor.default">
-                                                    <div class="elementor-widget-container">
-                                                        <p>
-                                                            Strategies include momentum trading, scalping, arbitrage, and AI-driven predictive models. Each strategy is tailored to your account size and risk profile.
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                                <div class="elementor-element elementor-element-d8e157d elementor-absolute elementor-widget elementor-widget-heading"
-                                                    data-id="d8e157d" data-element_type="widget"
-                                                    data-settings="{&quot;_position&quot;:&quot;absolute&quot;}"
-                                                    data-widget_type="heading.default">
-                                                    <div class="elementor-widget-container">
-                                                        <div class="elementor-heading-title elementor-size-default">02
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </details>
-                                        <details id="e-n-accordion-item-6112" class="e-n-accordion-item" style="">
-                                            <summary class="e-n-accordion-item-title" data-accordion-index="3"
-                                                tabindex="-1" aria-expanded="false"
-                                                aria-controls="e-n-accordion-item-6112">
-                                                <span class="e-n-accordion-item-title-header">
-                                                    <div class="e-n-accordion-item-title-text">
-                                                        How is risk managed during execution?
-                                                    </div>
-                                                </span>
-                                                <span class="e-n-accordion-item-title-icon">
-                                                    <span class="e-opened"><i aria-hidden="true"
-                                                            class="mdi mdi-checkbox-marked-circle"></i></span>
-                                                    <span class="e-closed"><i aria-hidden="true"
-                                                            class="mdi mdi-check-circle-outline"></i></span>
-                                                </span>
-
-                                            </summary>
-                                            <div role="region" aria-labelledby="e-n-accordion-item-6112"
-                                                class="elementor-element elementor-element-99287f0 e-con-full e-flex e-con e-child"
-                                                data-id="99287f0" data-element_type="container">
-                                                <div class="elementor-element elementor-element-d05ba4e elementor-widget elementor-widget-text-editor"
-                                                    data-id="d05ba4e" data-element_type="widget"
-                                                    data-widget_type="text-editor.default">
-                                                    <div class="elementor-widget-container">
-                                                        <p>
-                                                            Automated stop-losses, position sizing, and portfolio diversification minimize downside risk. All trades are logged with transparency for monitoring.
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                                <div class="elementor-element elementor-element-5fbfd82 elementor-absolute elementor-widget elementor-widget-heading"
-                                                    data-id="5fbfd82" data-element_type="widget"
-                                                    data-settings="{&quot;_position&quot;:&quot;absolute&quot;}"
-                                                    data-widget_type="heading.default">
-                                                    <div class="elementor-widget-container">
-                                                        <div class="elementor-heading-title elementor-size-default">03
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </details>
-                                        <details id="e-n-accordion-item-6113" class="e-n-accordion-item" style="">
-                                            <summary class="e-n-accordion-item-title" data-accordion-index="4"
-                                                tabindex="-1" aria-expanded="false"
-                                                aria-controls="e-n-accordion-item-6113">
-                                                <span class="e-n-accordion-item-title-header">
-                                                    <div class="e-n-accordion-item-title-text">
-                                                        How does performance tracking work?
-                                                    </div>
-                                                </span>
-                                                <span class="e-n-accordion-item-title-icon">
-                                                    <span class="e-opened"><i aria-hidden="true"
-                                                            class="mdi mdi-checkbox-marked-circle"></i></span>
-                                                    <span class="e-closed"><i aria-hidden="true"
-                                                            class="mdi mdi-check-circle-outline"></i></span>
-                                                </span>
-
-                                            </summary>
-                                            <div role="region" aria-labelledby="e-n-accordion-item-6113"
-                                                class="elementor-element elementor-element-55ec418 e-con-full e-flex e-con e-child"
-                                                data-id="55ec418" data-element_type="container">
-                                                <div class="elementor-element elementor-element-2e37f9d elementor-widget elementor-widget-text-editor"
-                                                    data-id="2e37f9d" data-element_type="widget"
-                                                    data-widget_type="text-editor.default">
-                                                    <div class="elementor-widget-container">
-                                                        <p>
-                                                            Users get access to a dashboard showing executed trades, profits, losses, and AI decisions. Analytics help optimize your strategy in real-time.
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                                <div class="elementor-element elementor-element-7dcd4e0 elementor-absolute elementor-widget elementor-widget-heading"
-                                                    data-id="7dcd4e0" data-element_type="widget"
-                                                    data-settings="{&quot;_position&quot;:&quot;absolute&quot;}"
-                                                    data-widget_type="heading.default">
-                                                    <div class="elementor-widget-container">
-                                                        <div class="elementor-heading-title elementor-size-default">04
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </details>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        </article>
                     </div>
                 </div>
             </div>
-        </div>
-
-    </div>
+        </section>
+    </main>
 </div>

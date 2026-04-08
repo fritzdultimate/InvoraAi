@@ -15,7 +15,7 @@
                         <h2 class="title">A Smart <span>AI-Driven</span> Trading Ecosystem</h2>
                     </div>
                     <p>
-                        InvoraAI is a precision-engineered Artificial trading infrastructure built to extract value from perpetual futures markets.
+                        {{ config('app.public_name') }} is precision-engineered trading infrastructure built to extract value from perpetual futures markets.
                     </p>
 
                     <p>

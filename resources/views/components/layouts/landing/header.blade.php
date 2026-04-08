@@ -13,14 +13,32 @@
                                     <img style="width: 60px; height: auto" src="{{ asset('new_assets/img/logo/invora1.png') }}" alt="">
                                 </a>
                             </div>
-                            <div class="navbar-wrap main-menu d-none d-lg-flex">
+                            <div class="navbar-wrap main-menu d-none d-lg-flex flex-column flex-lg-row align-items-lg-center">
                                 <ul class="navigation">
                                     <li><a href="{{ route('home-landing') }}" class="section-link">Home</a></li>
                                     <li><a href="{{ route('about-us') }}" class="section-link">About us</a></li>
-                                    <li><a href="#sales" class="section-link">Sales</a></li>
-                                    <li><a href="#roadmap" class="section-link">Roadmap</a></li>
                                     <li><a href="{{ route('contact-us') }}" class="section-link">Contact us</a></li>
+                                    <li><a href="{{ route('risk-assessment') }}" class="section-link">Risk Assessment</a></li>
+                                    <li class="menu-item-has-children">
+                                        <a href="javascript:void(0)" class="section-link">Others</a>
+                                        <ul class="sub-menu">
+                                            <li><a href="{{ route('faq') }}">FAQs</a></li>
+                                            <li><a href="{{ route('how-it-works') }}">How it works</a></li>
+                                            <li><a href="{{ route('trading-bots') }}">Trading bots</a></li>
+                                            <li><a href="{{ route('trading-execution') }}">Trading Execution</a></li>
+                                            <li><a href="{{ route('trading-guidelines') }}">Trading Guidelines</a></li>
+                                            <li><a href="{{ route('portfolio-management') }}">Portfolio Management</a></li>
+                                            <li><a href="{{ route('privacy-policy') }}">Privacy policy</a></li>
+                                            <li><a href="{{ route('terms') }}">Terms &amp; conditions</a></li>
+                                            <li><a href="{{ route('risk-disclosure') }}">Risk disclosure</a></li>
+                                        </ul>
+                                    </li>
                                 </ul>
+                                {{-- Cloned into the hamburger panel; hidden on desktop where header-action shows Login --}}
+                                <div class="invora-mobile-menu-auth d-lg-none w-100 px-1 pt-3 mt-2" style="border-top: 1px solid rgba(255,255,255,0.12);">
+                                    <a href="{{ route('login') }}" class="btn w-100 mb-2 d-block text-center">Login</a>
+                                    <a href="{{ route('register') }}" class="btn w-100 d-block text-center" style="background: transparent; border: 2px solid rgba(0, 176, 139, 0.65); color: #5ee9c9;">Sign up</a>
+                                </div>
                             </div>
                             <div class="header-action d-none d-md-block">
                                 <ul>

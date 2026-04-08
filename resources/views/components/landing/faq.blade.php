@@ -29,9 +29,14 @@
         box-shadow: none;
     }
 
-    /* Active/Open */
+    /* Active/Open — muted green (was #009A76, too bright on hover vs rest of UI) */
     .faq-area .accordion-button:not(.collapsed) {
-        background: #009A76;
+        background: #0c4a3d;
+        color: #f1f5f9;
+    }
+
+    .faq-area .accordion-button:not(.collapsed):hover {
+        background: #0f5647;
         color: #ffffff;
     }
 
@@ -47,16 +52,27 @@
         line-height: 1.6;
     }
 
-    /* Hover effect */
-    .faq-area .accordion-button:hover {
-        background: #111c3a;
+    /* Hover — collapsed rows only (avoid fighting open-state green) */
+    .faq-area .accordion-button.collapsed:hover {
+        background: #151d33;
         color: #ffffff;
+    }
+
+    .faq-area .accordion-button:focus,
+    .faq-area .accordion-button:focus-visible {
+        box-shadow: none;
+        border-color: transparent;
+    }
+
+    .faq-area .accordion-button:focus-visible {
+        outline: 2px solid rgba(100, 116, 139, 0.45);
+        outline-offset: 2px;
     }
 
     /* Smooth transition */
     .faq-area .accordion-button,
     .faq-area .accordion-item {
-        transition: all 0.3s ease;
+        transition: background-color 0.25s ease, color 0.25s ease;
     }
 </style>
 <section class="faq-area pt-130 pb-130">

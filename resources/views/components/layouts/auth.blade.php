@@ -49,11 +49,18 @@
                     #000 100%
                 );
             }
-            body.auth-layout-page > header,
+            /* Header above main so desktop "Others" sub-menu is not covered by main (same z-index + DOM order hid dropdown) */
+            body.auth-layout-page > header {
+                position: relative;
+                z-index: 200;
+            }
             body.auth-layout-page > main,
             body.auth-layout-page > footer {
                 position: relative;
                 z-index: 1;
+            }
+            body.auth-layout-page .navbar-wrap ul li .sub-menu {
+                z-index: 300;
             }
             /* Header: match accent to brand green (theme CSS still uses cyan #00C4F4) */
             body.auth-layout-page .navbar-wrap .navigation > li:not(.header-btn) > a:hover,
@@ -262,6 +269,6 @@
         @include('components.layouts.landing.footer')
         @include('components.layouts.landing.footer-scripts')
         @livewireScripts
-        @include('components.layouts.live-chat')
-    </body>
+    @include('components.layouts.live-chat')
+</body>
 </html>
