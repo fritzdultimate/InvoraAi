@@ -72,6 +72,21 @@ class InvestmentItem extends Component {
         $this->investment->refresh();
     }
 
+    public function cancelConfirm() {
+        $this->showConfirm = false;
+    }
+
+    public function confirmAction() {
+        $action = $this->action;
+
+        if (method_exists($this, $action)) {
+            $this->$action();
+        }
+
+        $this->showConfirm = false;
+    }
+
+
     public function prepareCompoundProfit() {
 
         $inv = $this->investment;
@@ -93,9 +108,9 @@ class InvestmentItem extends Component {
         $this->showConfirm = true;
 
         $this->type = 'success';
-        $this->title = 'Start Investment';
-        $this->message = 'Your funds will be locked for the selected duration.';
-        $this->confirmText = 'Proceed';
+        $this->title = 'Reinvest Profit';
+        $this->message = 'This amount will be added to your capital and continue earning returns.';
+        $this->confirmText = 'Confirm Reinvestment';
         $this->action = 'compoundProfit';
     }
 

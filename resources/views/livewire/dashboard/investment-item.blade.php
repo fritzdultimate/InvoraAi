@@ -128,7 +128,10 @@
         </div>
 
         @if($investment->total_profit > 0 && !$investment->isMatured())
-            <div class="invora-compound-card mt-5">
+            <div 
+                class="invora-compound-card mt-5"
+                x-data="{ amount: @entangle('compoundAmount').defer }" 
+            >
 
                 <!-- HEADER -->
                 <div class="compound-top">
@@ -155,13 +158,17 @@
                 </div>
 
                 <!-- INPUT -->
-                <div class="compound-input-wrap">
+                <div
+                    class="compound-input-wrap"
+                >
                     <span class="currency">$</span>
                     <input 
                         type="number"
                         step="0.01"
-                        wire:model.live="compoundAmount"
+                        x-model="amount"
+                        wire:model="compoundAmount"
                         placeholder="0.00"
+                        inputMode="decimal"
                     />
                 </div>
 
@@ -169,15 +176,15 @@
                 <div class="compound-impact">
                     <div>
                         <span>New Capital</span>
-                        <strong>
-                            ${{ number_format($investment->amount + ($compoundAmount ?? 0), 2) }}
+                        <strong x-text="(parseFloat({{ $investment->amount }}) + (parseFloat(amount) || 0)).toFixed(2)">
+                            ${{ number_format((float)$investment->amount + ((float)$compoundAmount ?? 0), 2) }}
                         </strong>
                     </div>
 
                     <div>
                         <span>Remaining Profit</span>
-                        <strong>
-                            ${{ number_format(max(0, $investment->total_profit - ($compoundAmount ?? 0)), 2) }}
+                        <strong x-text="(parseFloat({{ $investment->total_profit }}) - (parseFloat(amount) || 0)).toFixed(2)">
+                            ${{ number_format(max(0, (float)$investment->total_profit - ((float)$compoundAmount ?? 0)), 2) }}
                         </strong>
                     </div>
                 </div>
