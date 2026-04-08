@@ -57,6 +57,24 @@ class InvestmentItem extends Component {
 
             $inv->save();
 
+            WalletService::debit(
+                $inv->user,
+                $amount,
+                LedgerReference::REINVESTMENT,
+                $inv->id,
+                'reinvestment',
+                LedgerAsset::PROFIT
+            );
+
+            WalletService::credit(
+                $inv->user,
+                $amount,
+                LedgerReference::REINVESTMENT,
+                $inv->id,
+                'reinvestment',
+                LedgerAsset::LOCKEDBALANCE
+            );
+
             // Optional: track compounding history
             // DB::table('investment_compounds')->insert([
             //     'bot_investment_id' => $inv->id,

@@ -20,4 +20,5 @@ enum LedgerReference: string
     case RESIDUALBONUS = 'residual_bonus';
     case PROFITTRANSFER = 'profit_transfer';
     case REFERRALBONUSTRANSFER = 'referral_bonus_transfer';
+    case REINVESTMENT = 'reinvestment';
 }
