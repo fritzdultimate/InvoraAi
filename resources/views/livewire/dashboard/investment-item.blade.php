@@ -127,6 +127,85 @@
             <div id="investmentChart"></div>
         </div>
 
+        @if($investment->total_profit > 0 && !$investment->isMatured())
+            <div 
+                class="invora-compound-card mt-5"
+                x-data="{ amount: @entangle('compoundAmount').live }" 
+            >
+
+                <!-- HEADER -->
+                <div class="compound-top">
+                    <div>
+                        <h3>Reinvest Profit</h3>
+                        <p>Increase your capital using earned returns</p>
+                    </div>
+
+                    <div class="compound-amount">
+                        ${{ number_format($investment->total_profit, 2) }}
+                        <span>available</span>
+                    </div>
+                </div>
+
+                <!-- QUICK ACTIONS -->
+                <div class="compound-presets">
+                    @foreach([25, 50, 75, 100] as $pct)
+                        <button 
+                            @click="amount = (({{ $investment->total_profit }} * {{ $pct }}) / 100).toFixed(2)"
+                        >
+                            {{ $pct }}%
+                        </button>
+                    @endforeach
+                </div>
+
+                <!-- INPUT -->
+                <div
+                    class="compound-input-wrap"
+                >
+                    <span class="currency">$</span>
+                    <input 
+                        type="number"
+                        step="0.01"
+                        x-model="amount"
+                        wire:model="compoundAmount"
+                        placeholder="0.00"
+                        inputMode="decimal"
+                    />
+                </div>
+
+                <!-- LIVE IMPACT -->
+                <div class="compound-impact">
+                    <div>
+                        <span>New Capital</span>
+                        <strong x-text="(parseFloat({{ $investment->amount }}) + (parseFloat(amount) || 0)).toFixed(2)">
+                            ${{ number_format((float)$investment->amount + ((float)$compoundAmount ?? 0), 2) }}
+                        </strong>
+                    </div>
+
+                    <div>
+                        <span>Remaining Profit</span>
+                        <strong x-text="(parseFloat({{ $investment->total_profit }}) - (parseFloat(amount) || 0)).toFixed(2)">
+                            ${{ number_format(max(0, (float)$investment->total_profit - ((float)$compoundAmount ?? 0)), 2) }}
+                        </strong>
+                    </div>
+                </div>
+
+                <!-- ACTION -->
+                <button 
+                    wire:click="prepareCompoundProfit"
+                    class="compound-action"
+                    wire:loading.attr="disabled"
+                    wire:target="prepareCompoundProfit"
+                >
+                    <span wire:loading.remove>Reinvest Profit</span>
+                    <span wire:loading class="btn-loader">
+                        <span class="spinner"></span>
+                        Executing...
+                    </span>
+                </button>
+
+            </div>
+        @endif
+
         <!-- ACTION -->
         @if($investment->status->value !== 'termination_requested' && !$investment->isMatured())
             <button 
@@ -184,6 +263,14 @@
         @endif
 
     </div>
+
+    <x-action-message 
+        :showConfirm="$showConfirm" 
+        :type="$type" 
+        :title="$title" 
+        :message="$message" 
+        :warning="$warning" 
+    />
 </div>
 
 @push('scripts')

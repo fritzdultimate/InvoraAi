@@ -257,5 +257,7 @@
             }, 5000);
         </script>
 
+        @include('components.layouts.live-chat')
+
     </body>
 </html>

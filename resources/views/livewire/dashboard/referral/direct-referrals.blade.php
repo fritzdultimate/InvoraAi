@@ -78,7 +78,7 @@
                     <div class="direct-stat">
                         <span>Status</span>
 
-                        @if($user->deposit_balance > 0)
+                        @if($user->hasActiveLicense())
                             <span class="status-pill active">Active</span>
                         @else
                             <span class="status-pill inactive">Inactive</span>

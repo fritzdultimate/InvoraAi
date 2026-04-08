@@ -57,7 +57,10 @@ class  Overview extends Component {
         $this->referral_balance = auth()->user()->referral_balance;
         $this->has_active_license = auth()->user()->hasActiveLicense();
         $this->license_expires_at = optional(
-            auth()->user()->botLicenses()->latest()->first()
+            auth()->user()
+                ->botLicenses()
+                ->orderByRaw('TIMESTAMPDIFF(SECOND, starts_at, expires_at) DESC')
+                ->first()
         )->expires_at;
 
         $this->loadChart();
