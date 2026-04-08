@@ -118,6 +118,11 @@ class InvestmentItem extends Component {
             return;
         }
 
+        if ($amount < 1) {
+            $this->dispatch('error', message: 'Minimum reinvest amount is $1');
+            return;
+        }
+
         if ($amount > $inv->total_profit) {
             $this->dispatch('error', message: 'Cannot exceed available profit');
             return;
