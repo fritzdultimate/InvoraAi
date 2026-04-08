@@ -130,7 +130,7 @@
         @if($investment->total_profit > 0 && !$investment->isMatured())
             <div 
                 class="invora-compound-card mt-5"
-                x-data="{ amount: @entangle('compoundAmount').defer }" 
+                x-data="{ amount: @entangle('compoundAmount').live }" 
             >
 
                 <!-- HEADER -->
@@ -150,7 +150,7 @@
                 <div class="compound-presets">
                     @foreach([25, 50, 75, 100] as $pct)
                         <button 
-                            wire:click="$set('compoundAmount', {{ ($investment->total_profit * $pct) / 100 }})"
+                            @click="amount = (({{ $investment->total_profit }} * {{ $pct }}) / 100).toFixed(2)"
                         >
                             {{ $pct }}%
                         </button>
