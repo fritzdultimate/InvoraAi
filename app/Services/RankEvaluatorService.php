@@ -46,7 +46,7 @@ class RankEvaluatorService {
                 );
 
             
-                $rankBonus = RankBonus::firstOrCreate(
+                RankBonus::firstOrCreate(
                     [
                         'user_id' => $user->id,
                         'rank_id' => $rank->id,
@@ -58,16 +58,16 @@ class RankEvaluatorService {
                     ]
                 );
 
-                if ($rankBonus->wasRecentlyCreated) {
-                    WalletService::credit(
-                        $user,
-                        $rank->one_time_bonus,
-                        LedgerReference::RANKBONUS,
-                        $rank->id,
-                        'rank bonus credited',
-                        LedgerAsset::REFERRALBONUS
-                    );
-                }
+                // if ($rankBonus->wasRecentlyCreated) {
+                //     WalletService::credit(
+                //         $user,
+                //         $rank->one_time_bonus,
+                //         LedgerReference::RANKBONUS,
+                //         $rank->id,
+                //         'rank bonus credited',
+                //         LedgerAsset::REFERRALBONUS
+                //     );
+                // }
             }
         });
 
@@ -105,7 +105,7 @@ class RankEvaluatorService {
         if ($bonus <= 0) return;
 
         DB::transaction(function () use ($user, $bonus) {
-            $residualBonus = DailyResidualBonus::firstOrCreate(
+            DailyResidualBonus::firstOrCreate(
                 [
                     'user_id' => $user->id,
                     'created_at' => now()->startOfDay(),
@@ -117,17 +117,17 @@ class RankEvaluatorService {
                 ]
             );
 
-            if ($residualBonus->wasRecentlyCreated) {
+            // if ($residualBonus->wasRecentlyCreated) {
 
-                WalletService::credit(
-                    $user,
-                    $bonus,
-                    LedgerReference::RESIDUALBONUS,
-                    $residualBonus->id,
-                    'daily residual bonus credited',
-                    LedgerAsset::REFERRALBONUS
-                );
-            }
+            //     WalletService::credit(
+            //         $user,
+            //         $bonus,
+            //         LedgerReference::RESIDUALBONUS,
+            //         $residualBonus->id,
+            //         'daily residual bonus credited',
+            //         LedgerAsset::REFERRALBONUS
+            //     );
+            // }
 
         });
     }
