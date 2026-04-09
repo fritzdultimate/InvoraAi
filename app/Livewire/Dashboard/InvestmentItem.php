@@ -47,47 +47,52 @@ class InvestmentItem extends Component {
             return;
         }
 
-        DB::transaction(function () use ($inv, $amount) {
+        try {
 
-            // 🔥 Reduce profit
-            $inv->total_profit = bcsub((string)$inv->total_profit, (string)$amount, 8);
+            DB::transaction(function () use ($inv, $amount) {
 
-            // 🔥 Increase capital
-            $inv->amount = bcadd((string)$inv->amount, (string)$amount, 8);
+                // 🔥 Reduce profit
+                $inv->total_profit = bcsub((string)$inv->total_profit, (string)$amount, 8);
 
-            $inv->save();
+                // 🔥 Increase capital
+                $inv->amount = bcadd((string)$inv->amount, (string)$amount, 8);
 
-            WalletService::debit(
-                $inv->user,
-                $amount,
-                LedgerReference::REINVESTMENT,
-                $inv->id,
-                'reinvestment',
-                LedgerAsset::PROFIT
-            );
+                $inv->save();
 
-            WalletService::credit(
-                $inv->user,
-                $amount,
-                LedgerReference::REINVESTMENT,
-                $inv->id,
-                'reinvestment',
-                LedgerAsset::LOCKEDBALANCE
-            );
+                WalletService::debit(
+                    $inv->user,
+                    $amount,
+                    LedgerReference::REINVESTMENT,
+                    $inv->id,
+                    'reinvestment',
+                    LedgerAsset::PROFIT
+                );
 
-            // Optional: track compounding history
-            // DB::table('investment_compounds')->insert([
-            //     'bot_investment_id' => $inv->id,
-            //     'amount' => $amount,
-            //     'created_at' => now(),
-            // ]);
-        });
+                WalletService::credit(
+                    $inv->user,
+                    $amount,
+                    LedgerReference::REINVESTMENT,
+                    $inv->id,
+                    'reinvestment',
+                    LedgerAsset::LOCKEDBALANCE
+                );
 
-        $this->compoundAmount = null;
+                // Optional: track compounding history
+                // DB::table('investment_compounds')->insert([
+                //     'bot_investment_id' => $inv->id,
+                //     'amount' => $amount,
+                //     'created_at' => now(),
+                // ]);
+            });
 
-        $this->dispatch('success', message: 'Profit compounded successfully.');
+            $this->compoundAmount = null;
 
-        $this->investment->refresh();
+            $this->dispatch('success', message: 'Profit compounded successfully.');
+
+            $this->investment->refresh();
+        } catch(\Throwable $e) {
+            $this->dispatch('error', message: $e->getMessage());
+        }
     }
 
     public function cancelConfirm() {

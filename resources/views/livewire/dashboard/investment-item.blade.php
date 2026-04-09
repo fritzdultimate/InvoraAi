@@ -141,7 +141,7 @@
                     </div>
 
                     <div class="compound-amount">
-                        ${{ number_format($investment->total_profit, 2) }}
+                        ${{ number_format($investment->total_profit, 8) }}
                         <span>available</span>
                     </div>
                 </div>
@@ -150,7 +150,7 @@
                 <div class="compound-presets">
                     @foreach([25, 50, 75, 100] as $pct)
                         <button 
-                            @click="amount = (({{ $investment->total_profit }} * {{ $pct }}) / 100).toFixed(2)"
+                            @click="amount = (({{ $investment->total_profit }} * {{ $pct }}) / 100).toFixed(8)"
                         >
                             {{ $pct }}%
                         </button>
@@ -183,7 +183,7 @@
 
                     <div>
                         <span>Remaining Profit</span>
-                        <strong x-text="(parseFloat({{ $investment->total_profit }}) - (parseFloat(amount) || 0)).toFixed(2)">
+                        <strong x-text="(parseFloat({{ $investment->total_profit }}) - (parseFloat(amount) || 0)).toFixed(8)">
                             ${{ number_format(max(0, (float)$investment->total_profit - ((float)$compoundAmount ?? 0)), 2) }}
                         </strong>
                     </div>
