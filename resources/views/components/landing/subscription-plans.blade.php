@@ -1,237 +1,269 @@
-<div data-elementor-type="wp-page" data-elementor-id="295" class="elementor elementor-295"
-    data-elementor-post-type="page">
-    <div class="elementor-element elementor-element-5c24357 e-flex e-con-boxed e-con e-parent" data-id="5c24357"
-        data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
-        <div class="e-con-inner">
-            <div class="elementor-element elementor-element-0565c22 e-flex e-con-boxed e-con e-child" data-id="0565c22"
-                data-element_type="container">
-                <div class="e-con-inner">
-                    <div class="elementor-element elementor-element-b1fc91f elementor-invisible elementor-widget elementor-widget-heading"
-                        data-id="b1fc91f" data-element_type="widget"
-                        data-settings="{&quot;_animation_delay&quot;:200,&quot;_animation&quot;:&quot;fadeInUp&quot;}"
-                        data-widget_type="heading.default">
-                        <div class="elementor-widget-container">
-                            <h6 class="elementor-heading-title elementor-size-default">Choose Package</h6>
-                        </div>
-                    </div>
-                    <div class="elementor-element elementor-element-f8d3e0b elementor-invisible elementor-widget elementor-widget-heading"
-                        data-id="f8d3e0b" data-element_type="widget"
-                        data-settings="{&quot;_animation&quot;:&quot;fadeInUp&quot;,&quot;_animation_delay&quot;:300}"
-                        data-widget_type="heading.default">
-                        <div class="elementor-widget-container">
-                            <h1 class="elementor-heading-title elementor-size-default">
-                                Subscribe to AI-Powered Crypto Arbitrage Plans
-                            </h1>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div>
-                <div 
-                    class="e-con-inner" 
-                    data-id="ffec643"
-                    data-element_type="container"
-                    style="justify-content: center; display: flex"
-                >
+@props(['showFooterNote' => true])
 
+{{-- Invora trading bot tiers: member cost, daily yield target, capital required --}}
                 @php
                     $plans = [
                         [
                             'id' => 212,
-                            'name' => 'Arbitrage Starter',
-                            'price' => 100,
+            'name' => 'Invora Smart Bot',
+            'image' => 'assets/images/bot/invora-smart-bot.png',
+            'member_tier_cost' => '$25 / 3 months',
+            'daily_yield' => 'Up to 0.70% daily',
+            'capital_required' => '$299',
                             'popular' => false,
-                            'details' => [
-                                'Minimum Capital' => '$100',
-                                'Maximum Capital' => '$1,000',
-                                'Execution Model' => 'Low-Volume Arbitrage',
-                                'Strategy Type' => 'Cross-Exchange Price Gaps',
-                                'Settlement' => 'Earnings Calculated Daily',
-                                'Cycle Duration' => '30 Days',
-                            ],
                             'features' => [
-                                'AI Price Discrepancy Detection',
-                                'Automated Buy & Sell Execution',
-                                'Capital Allocation Control',
-                                '24/7 Market Monitoring',
-                                'Manual Withdrawal Access',
+                'Market-neutral systematic execution',
+                'Dashboard access & performance visibility',
+                'Suited for smaller allocations',
                             ],
                         ],
                         [
                             'id' => 432,
-                            'name' => 'Arbitrage Pro',
-                            'price' => 99,
+            'name' => 'Invora Brilliant Bot',
+            'image' => 'assets/images/bot/invora-brilliant-bot.png',
+            'member_tier_cost' => '$50 / 6 months',
+            'daily_yield' => 'Up to 1.10% daily',
+            'capital_required' => '$4,999',
                             'popular' => true,
-                            'details' => [
-                                'Minimum Capital' => '$500',
-                                'Maximum Capital' => '$5,000',
-                                'Execution Model' => 'Balanced Arbitrage Flow',
-                                'Strategy Type' => 'Multi-Exchange Arbitrage',
-                                'Settlement' => 'Daily Performance Tracking',
-                                'Cycle Duration' => '30 Days',
-                            ],
                             'features' => [
-                                'Advanced Arbitrage Engine',
-                                'Higher Execution Frequency',
-                                'Liquidity-Aware Allocation',
-                                'Daily Performance Metrics',
-                                'Priority Support',
+                'Higher tier funding-yield focus',
+                'Priority execution profile vs Smart',
+                'Extended membership window',
                             ],
                         ],
                         [
                             'id' => 4934,
-                            'name' => 'Arbitrage Elite',
-                            'price' => 149,
+            'name' => 'Invora Genius Bot',
+            'image' => 'assets/images/bot/invora-genius-bot.png',
+            'member_tier_cost' => '$100 / annual',
+            'daily_yield' => 'Up to 1.30% daily',
+            'capital_required' => '$19,999',
                             'popular' => false,
-                            'details' => [
-                                'Minimum Capital' => '$1,000',
-                                'Maximum Capital' => '$15,000',
-                                'Execution Model' => 'High-Volume Arbitrage',
-                                'Strategy Type' => 'Multi-Market Arbitrage',
-                                'Settlement' => 'Daily Performance Tracking',
-                                'Cycle Duration' => '30 Days',
-                            ],
                             'features' => [
-                                'Institution-Grade Arbitrage Logic',
-                                'Optimized Spread Capture',
-                                'Multi-Exchange Liquidity Routing',
-                                'Automated Risk Controls',
-                                'VIP Support Access',
+                'Top-tier parameters & longest membership',
+                'Designed for larger capital deployment',
+                'Best for higher yields',
                             ],
                         ],
                     ];
-
                 @endphp
 
-                <div class="elementor-element elementor-element-ffec643 e-con-full e-grid e-con e-child flex! flex-col! md:flex-row! justify-center!">
+<style>
+    .invora-plans-area {
+        background: linear-gradient(180deg, #030b15 0%, #071510 48%, #030b15 100%);
+        padding-top: clamp(3rem, 6vw, 4.5rem);
+        padding-bottom: clamp(3.5rem, 7vw, 5.5rem);
+    }
+    .invora-plans-area .section-title .sub-title {
+        color: #00b08b;
+        letter-spacing: 0.12em;
+    }
+    .invora-plan-card {
+        position: relative;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        border: 1px solid rgba(157, 188, 212, 0.14);
+        border-radius: 20px;
+        background: linear-gradient(165deg, rgba(13, 27, 44, 0.72) 0%, rgba(6, 16, 28, 0.92) 100%);
+        box-shadow: 0 24px 56px rgba(0, 0, 0, 0.3);
+        overflow: hidden;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .invora-plan-card:hover {
+        border-color: rgba(0, 176, 139, 0.3);
+    }
+    .invora-plan-card--popular {
+        border-color: rgba(0, 176, 139, 0.45);
+        box-shadow: 0 28px 64px rgba(0, 154, 118, 0.15);
+    }
+    .invora-plan-card__badge {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        z-index: 2;
+        font-size: 0.68rem;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: #030b15;
+        background: linear-gradient(135deg, #5ee9c9 0%, #00b08b 100%);
+        padding: 0.35rem 0.75rem;
+        border-radius: 999px;
+    }
+    .invora-plan-card__img-wrap {
+        background: linear-gradient(180deg, rgba(0, 40, 32, 0.35) 0%, transparent 100%);
+        padding: 1.25rem 1.25rem 0.5rem;
+        text-align: center;
+    }
+    .invora-plan-card__img {
+        max-height: 160px;
+        width: auto;
+        max-width: 100%;
+        object-fit: contain;
+    }
+    .invora-plan-card__body {
+        padding: 0 1.5rem 1.5rem;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+    .invora-plan-card__name {
+        color: #e6edf3;
+        font-size: 1.15rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        line-height: 1.3;
+    }
+    .invora-plan-card__table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.88rem;
+        margin-bottom: 1.25rem;
+    }
+    .invora-plan-card__table th,
+    .invora-plan-card__table td {
+        padding: 0.5rem 0;
+        text-align: left;
+        vertical-align: top;
+        border-bottom: 1px solid rgba(157, 188, 212, 0.1);
+    }
+    .invora-plan-card__table th {
+        color: #8fa3b5;
+        font-weight: 600;
+        width: 48%;
+    }
+    .invora-plan-card__table td {
+        color: #dbe8f4;
+        font-weight: 600;
+    }
+    .invora-plan-card__table tr:last-child th,
+    .invora-plan-card__table tr:last-child td {
+        border-bottom: none;
+    }
+    .invora-plan-card__features {
+        list-style: none;
+        padding: 0;
+        margin: 0 0 1.25rem;
+        flex: 1;
+    }
+    .invora-plan-card__features li {
+        position: relative;
+        padding-left: 1.25rem;
+        margin-bottom: 0.5rem;
+        font-size: 0.9rem;
+        color: #a4b4c3;
+        line-height: 1.5;
+    }
+    .invora-plan-card__features li::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0.45em;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #00b08b;
+    }
+    .invora-plan-card__btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        padding: 0.9rem 1.25rem;
+        border-radius: 999px;
+        font-size: 0.82rem;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        text-decoration: none;
+        color: #fff !important;
+        background: linear-gradient(135deg, #009A76 0%, #007a62 100%);
+        border: 1px solid rgba(0, 201, 154, 0.4);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .invora-plan-card__btn:hover {
+        color: #fff !important;
+        transform: translateY(-2px);
+        box-shadow: 0 10px 28px rgba(0, 154, 118, 0.35);
+    }
+    .invora-plan-card__note {
+        font-size: 0.72rem;
+        color: #7a8d9e;
+        margin-top: 0.75rem;
+        line-height: 1.45;
+        text-align: center;
+    }
+</style>
 
-                    @foreach ($plans as $plan)
-                        <div 
-                            class="elementor-element {{ $plan['popular'] ? 'elementor-element-26519ae' : 'elementor-element-5d94182' }} e-con-full e-flex elementor-invisible e-con e-child" data-settings='{
-                                "background_background":"{{ $plan["popular"] ? "gradient" : "classic" }}",
-                                "animation":"fadeInUp",
-                                "animation_delay":"200"
-                            }'
-                            data-element_type="container"
-                            data-id="bot-{{ $plan['id'] }}"
-                        >
-
-                            {{-- Popular badge --}}
-                            @if($plan['popular'])
-                                <div 
-                                    class="elementor-element elementor-element-2e31ea5 elementor-absolute elementor-widget elementor-widget-heading"
-                                    data-id="2e31ea5" 
-                                    data-element_type="widget"
-                                    data-settings="{&quot;_position&quot;:&quot;absolute&quot;}" data-widget_type="heading.default"
-                                >
-                                    <div class="elementor-widget-container">
-                                        <h6 class="elementor-heading-title elementor-size-default">Most Popular</h6>
-                                    </div>
-                                </div>
-                            @endif
-
-                            {{-- Header --}}
-                            <div 
-                                class="elementor-element {{ $plan['popular'] ? 'elementor-element-e15a1d5' : 'elementor-element-a5b39af' }} e-con-full e-flex e-con e-child"
-                                data-id="bot-{{ $plan['id'] }}" 
-                                data-element_type="container"
-                            >
-                                <div 
-                                    class="elementor-element {{ $plan['popular'] ? 'elementor-element-21cfafc' : 'elementor-element-3c0e38f' }} elementor-widget elementor-widget-heading"
-                                    data-id="{{ $plan['popular'] ? '21cfafc' : '3c0e38f' }}" 
-                                    data-element_type="widget" 
-                                    data-widget_type="heading.default"
-                                >
-                                    <div class="elementor-widget-container">
-                                        <h6 class="elementor-heading-title elementor-size-default">{{ $plan['name'] }}</h6>
-                                    </div>
-                                </div>
-                                <div class="elementor-element {{ $plan['popular'] ? 'elementor-element-0fece19' : 'elementor-element-ef9335b' }} elementor-widget elementor-widget-heading"
-                                    data-id="ef9335b" data-element_type="widget" data-widget_type="heading.default">
-                                    <div class="elementor-widget-container">
-                                        <div class="elementor-heading-title elementor-size-default">${{ $plan['price'] }}</div>
-                                    </div>
-                                </div>
-                                <div class="elementor-element {{ $plan['popular'] ? 'elementor-element-f292adb' : 'elementor-element-c2a580d' }} elementor-widget elementor-widget-heading"
-                                    data-id="c2a580d" data-element_type="widget" data-widget_type="heading.default">
-                                    <div class="elementor-widget-container">
-                                        <div class="elementor-heading-title elementor-size-default">/monthly</div>
+<section id="subscription" class="invora-plans-area" aria-labelledby="invora-plans-heading">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-xl-8 col-lg-10">
+                <div class="section-title text-center mb-40">
+                    <span class="sub-title">Member tiers</span>
+                    <h2 id="invora-plans-heading" class="title">
+                        {{ config('app.public_name') }} <span>trading bots</span>
+                    </h2>
+                    <p class="mt-3 mb-0 mx-auto" style="max-width: 640px; color: #9bb2c6; font-size: 1rem; line-height: 1.65;">
+                        Compare member tier cost, indicative daily yield, and minimum capital. Yields are not guaranteed; see our
+                        <a href="{{ route('risk-disclosure') }}" style="color: #5ee9c9;">risk disclosure</a>.
+                    </p>
                                     </div>
                                 </div>
                             </div>
 
-                            {{-- Details --}}
-                            <div class="elementor-element elementor-element-2044f60 e-con-full e-flex e-con e-child"
-                            data-id="2044f60" data-element_type="container">
-                                <div class="elementor-element elementor-element-c3ca9a6 elementor-widget elementor-widget-heading"
-                                    data-id="c3ca9a6" data-element_type="widget" data-widget_type="heading.default">
-                                    <div class="elementor-widget-container">
-                                        <h5 class="elementor-heading-title elementor-size-default">Features :</h5>
+        <div class="row g-4 justify-content-center">
+            @foreach ($plans as $plan)
+                <div class="col-lg-4 col-md-6">
+                    <article class="invora-plan-card @if ($plan['popular']) invora-plan-card--popular @endif">
+                        @if ($plan['popular'])
+                            <span class="invora-plan-card__badge">Most popular</span>
+                        @endif
+                        <div class="invora-plan-card__img-wrap">
+                            <img
+                                src="{{ asset($plan['image']) }}"
+                                alt="{{ $plan['name'] }}"
+                                class="invora-plan-card__img"
+                                loading="lazy"
+                                width="280"
+                                height="160"
+                            >
                                     </div>
-                                </div>
-                                <div 
-                                    class="elementor-element {{ $plan['popular'] ? 'elementor-element-467517a' : 'elementor-element-73e7d95' }} elementor-icon-list--layout-traditional elementor-list-item-link-full_width elementor-widget elementor-widget-icon-list"
-                                    data-id="73e7d95" 
-                                    data-element_type="widget" 
-                                    data-widget_type="icon-list.default"
-                                >
-                                    <div class="elementor-widget-container">
-                                        <ul class="elementor-icon-list-items">
+                        <div class="invora-plan-card__body">
+                            <h3 class="invora-plan-card__name">{{ $plan['name'] }}</h3>
 
-                                            @foreach ($plan['details'] as $label => $value)
-                                                <li class="elementor-icon-list-item">
-                                                    <span class="elementor-icon-list-icon">
-                                                        <i class="mdi mdi-star-circle"></i>
-                                                    </span>
-                                                    <span class="elementor-icon-list-text">
-                                                        <strong>{{ $label }}:</strong> {{ $value }}
-                                                    </span>
-                                                </li>
-                                            @endforeach
+                            <table class="invora-plan-card__table">
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">Member tier cost</th>
+                                        <td>{{ $plan['member_tier_cost'] }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Daily yield</th>
+                                        <td>{{ $plan['daily_yield'] }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Capital required</th>
+                                        <td>{{ $plan['capital_required'] }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
 
-                                            {{-- Divider spacing --}}
-                                            <li class="elementor-icon-list-item" style="opacity:0.4;"></li>
-
-
-                                            @foreach ($plan['features'] as $label => $feature)
-                                                <li class="elementor-icon-list-item">
-                                                    <span class="elementor-icon-list-icon">
-                                                        <i aria-hidden="true" class="mdi mdi-checkbox-marked-circle"></i> </span>
-                                                    <span class="elementor-icon-list-text">{{ $feature }}</span>
-                                                </li>
+                            <ul class="invora-plan-card__features">
+                                @foreach ($plan['features'] as $feature)
+                                    <li>{{ $feature }}</li>
                                             @endforeach
                                         </ul>
-                                    </div>
-                                </div>
-                            </div>
 
-                            {{-- Button --}}
-                            <div class="elementor-element {{ $plan['popular'] ? 'elementor-element-d9f1844' : 'elementor-element-7b6905d' }} elementor-align-justify elementor-widget elementor-widget-button"
-                            data-id="d9f1844" data-element_type="widget" data-widget_type="button.default">
-                                <div class="elementor-widget-container">
-                                    <div class="elementor-button-wrapper">
-                                        <a class="elementor-button elementor-button-link elementor-size-sm" href="#">
-                                            <span class="elementor-button-content-wrapper">
-                                                <span class="elementor-button-icon">
-                                                    <svg aria-hidden="true" class="e-font-icon-svg e-fas-arrow-right"
-                                                        viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg">
-                                                        <path
-                                                            d="M190.5 66.9l22.2-22.2c9.4-9.4 24.6-9.4 33.9 0L441 239c9.4 9.4 9.4 24.6 0 33.9L246.6 467.3c-9.4 9.4-24.6 9.4-33.9 0l-22.2-22.2c-9.5-9.5-9.3-25 .4-34.3L311.4 296H24c-13.3 0-24-10.7-24-24v-32c0-13.3 10.7-24 24-24h287.4L190.9 101.2c-9.8-9.3-10-24.8-.4-34.3z">
-                                                        </path>
-                                                    </svg> </span>
-                                                <span class="elementor-button-text">Activate Arbitrage Plan</span>
-                                            </span>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-
-                            
+                            <a href="{{ route('register') }}" class="invora-plan-card__btn">Get started</a>
+                            @if ($showFooterNote)
+                                <p class="invora-plan-card__note">Subject to availability, verification, and product rules in-app.</p>
+                            @endif
                         </div>
-                    @endforeach
+                    </article>
                 </div>
-                </div>
-            </div>
+            @endforeach
         </div>
     </div>
-</div>
+</section>

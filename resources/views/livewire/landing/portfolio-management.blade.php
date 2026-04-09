@@ -1,380 +1,173 @@
-<div
-    class="wp-singular page-template page-template-elementor_header_footer page page-id-114 wp-embed-responsive wp-theme-hello-elementor hello-elementor-default elementor-default elementor-template-full-width elementor-kit-8 elementor-page elementor-page-114 e--ua-blink e--ua-chrome e--ua-webkit">
-    <div data-elementor-type="wp-page" data-elementor-id="114" class="elementor elementor-114"
-        data-elementor-post-type="page">
+@php
+    $name = config('app.public_name');
+    $portfolioTopics = [
+        [
+            'q' => 'What does portfolio management mean at '.$name.'?',
+            'paragraphs' => [
+                'At '.$name.', portfolio management is about how your capital is allocated and supervised inside our ecosystem—not a traditional stock-and-bond mix. You choose a membership tier and deployment size; the platform applies systematic, rules-based workflows aimed at delta-neutral funding yield on perpetual futures, with visibility in your dashboard.',
+            ],
+        ],
+        [
+            'q' => 'How is market exposure controlled?',
+            'paragraphs' => [
+                $name.' is built around market-neutral positioning: paired long and short legs sized to keep net price exposure at or near zero, so outcomes are driven primarily by funding flows and structure—not by betting on whether spot moves up or down.',
+            ],
+        ],
+        [
+            'q' => 'How do membership tiers relate to your allocation?',
+            'paragraphs' => [
+                'Tiers (for example Smart, Brilliant, and Genius) combine a license term, indicative yield band, and minimum capital. They let you match commitment level and horizon; details and live numbers are always shown in-app when you select or renew a plan.',
+            ],
+        ],
+        [
+            'q' => 'What can you monitor in the dashboard?',
+            'paragraphs' => [
+                'You can review balances, funding-related outcomes where applicable, status of automated workflows, and other allocation-relevant activity so you can reconcile what the system did with your own expectations. Transparency focuses on structure and funding, not opaque discretionary calls.',
+            ],
+        ],
+        [
+            'q' => 'Risk and responsibility',
+            'paragraphs' => [
+                $name.' uses strict risk management systems, including capital allocation controls and automated safeguards, to help protect user funds where the platform can influence process. However, like all trading, returns are not guaranteed.',
+                'The platform is risk-first: position and margin constraints, exchange rules, liquidation risk, and operational safeguards apply. Funding can change sign or magnitude, and markets can gap. Funding rates, margin, liquidity, and venue rules can all change; no platform removes market, counterparty, or technology risk. Read our risk disclosure and terms before you deploy capital.',
+            ],
+        ],
+        [
+            'q' => 'How do you get started?',
+            'paragraphs' => [
+                'Create an account, complete onboarding, pick the tier that fits your capital and horizon, and fund through the supported rails shown in-app. For a broader picture of how '.$name.' fits together, see the full Invora AI overview or our How it works page.',
+            ],
+        ],
+    ];
+@endphp
 
-        <div class="elementor-element elementor-element-d94f2d6 e-flex e-con-boxed e-con e-parent e-lazyloaded"
-            data-id="d94f2d6" data-element_type="container"
-            data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
-            <div class="e-con-inner">
-                <div class="elementor-element elementor-element-2c14f63 e-con-full e-flex e-con e-child"
-                    data-id="2c14f63" data-element_type="container">
-                    <div class="elementor-element elementor-element-b7e0468 elementor-widget elementor-widget-heading animated fadeInUp"
-                        data-id="b7e0468" data-element_type="widget"
-                        data-settings="{&quot;_animation&quot;:&quot;fadeInUp&quot;,&quot;_animation_delay&quot;:200}"
-                        data-widget_type="heading.default">
-                        <div class="elementor-widget-container">
-                            <h1 class="elementor-heading-title elementor-size-default">
-                                AI-Powered Portfolio Management
-                            </h1>
+<div class="invora-legal-page-root">
+    @include('components.landing.legal-page-styles')
+
+    <style>
+        .invora-pm-accordion {
+            margin-top: 1.5rem;
+        }
+        .invora-pm-accordion details {
+            border: 1px solid rgba(157, 188, 212, 0.14);
+            border-radius: 14px;
+            background: rgba(6, 16, 28, 0.55);
+            margin-bottom: 0.65rem;
+            overflow: hidden;
+        }
+        .invora-pm-accordion details[open] {
+            border-color: rgba(0, 176, 139, 0.28);
+        }
+        .invora-pm-accordion summary {
+            list-style: none;
+            cursor: pointer;
+            padding: 1rem 1.15rem 1rem 3rem;
+            position: relative;
+            font-weight: 600;
+            font-size: 1rem;
+            color: #dbe8f4;
+            line-height: 1.4;
+        }
+        .invora-pm-accordion summary::-webkit-details-marker {
+            display: none;
+        }
+        .invora-pm-accordion summary::before {
+            content: attr(data-step);
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            color: #00b08b;
+        }
+        .invora-pm-accordion .invora-pm-accordion__panel {
+            padding: 0 1.15rem 1.1rem 3rem;
+            color: #a4b4c3;
+            font-size: 0.98rem;
+            line-height: 1.7;
+        }
+        .invora-pm-accordion .invora-pm-accordion__panel p:last-child {
+            margin-bottom: 0;
+        }
+    </style>
+
+    <main class="fix">
+        <section class="banner-area banner-bg invora-legal-hero">
+            <div class="banner-shape-wrap">
+                <img src="{{ asset('new_assets/img/banner/banner_shape01.png') }}" alt="" class="img-one">
+                <img src="{{ asset('new_assets/img/banner/banner_shape02.png') }}" alt="" class="img-two">
+                <img src="{{ asset('new_assets/img/banner/banner_shape03.png') }}" alt="" class="img-three">
                         </div>
-                    </div>
-                    <div class="elementor-element elementor-element-68551fe elementor-widget elementor-widget-heading animated fadeInUp"
-                        data-id="68551fe" data-element_type="widget"
-                        data-settings="{&quot;_animation&quot;:&quot;fadeInUp&quot;,&quot;_animation_delay&quot;:300}"
-                        data-widget_type="heading.default">
-                        <div class="elementor-widget-container">
-                            <h4 class="elementor-heading-title elementor-size-default">
-                                Intelligent portfolio construction, optimization, and risk control powered by advanced
-                                AI systems.
-                            </h4>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="elementor-element elementor-element-d054b34 e-flex e-con-boxed e-con e-parent e-lazyloaded"
-            data-id="d054b34" data-element_type="container">
-            <div class="e-con-inner">
-                <div data-elementor-type="wp-page" data-elementor-id="295" class="elementor elementor-295"
-                    data-elementor-post-type="page">
-                    <div class="elementor-element elementor-element-9cdca02 e-con-full e-flex e-con e-parent e-lazyloaded"
-                        data-id="9cdca02" data-element_type="container"
-                        data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
-
-                        <div class="elementor-element elementor-element-65daf70 e-con-full e-flex e-con e-child animated fadeInRight"
-                            data-id="65daf70" data-element_type="container"
-                            data-settings="{&quot;animation&quot;:&quot;fadeInRight&quot;}">
-                            <div class="elementor-element elementor-element-283fe67 elementor-widget elementor-widget-heading"
-                                data-id="283fe67" data-element_type="widget" data-widget_type="heading.default">
-                                <div class="elementor-widget-container">
-                                    <h2 class="elementor-heading-title elementor-size-default">
-                                        Core Portfolio Management Principles
-                                    </h2>
-                                </div>
-                            </div>
-                            <div class="elementor-element elementor-element-9803166 elementor-widget elementor-widget-heading"
-                                data-id="9803166" data-element_type="widget" data-widget_type="heading.default">
-                                <div class="elementor-widget-container">
-                                    <div class="elementor-heading-title elementor-size-default">
-                                        Discover how our AI manages assets, balances risk, and compounds returns through
-                                        data-driven decision-making.
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="elementor-element elementor-element-3a4b5cf elementor-widget elementor-widget-n-accordion"
-                                data-id="3a4b5cf" data-element_type="widget"
-                                data-settings="{&quot;default_state&quot;:&quot;expanded&quot;,&quot;max_items_expended&quot;:&quot;one&quot;,&quot;n_accordion_animation_duration&quot;:{&quot;unit&quot;:&quot;ms&quot;,&quot;size&quot;:400,&quot;sizes&quot;:[]}}"
-                                data-widget_type="nested-accordion.default">
-                                <div class="elementor-widget-container">
-                                    <div class="e-n-accordion"
-                                        aria-label="Accordion. Open links with Enter or Space, close with Escape, and navigate with Arrow Keys">
-                                        <details id="e-n-accordion-item-6110" class="e-n-accordion-item" style="">
-                                            <summary class="e-n-accordion-item-title" data-accordion-index="1"
-                                                tabindex="0" aria-expanded="false"
-                                                aria-controls="e-n-accordion-item-6110">
-                                                <span class="e-n-accordion-item-title-header">
-                                                    <div class="e-n-accordion-item-title-text">
-                                                        How does the AI construct a portfolio?
-                                                    </div>
-                                                </span>
-                                                <span class="e-n-accordion-item-title-icon">
-                                                    <span class="e-opened"><i aria-hidden="true"
-                                                            class="mdi mdi-checkbox-marked-circle"></i></span>
-                                                    <span class="e-closed"><i aria-hidden="true"
-                                                            class="mdi mdi-check-circle-outline"></i></span>
-                                                </span>
-
-                                            </summary>
-                                            <div role="region" aria-labelledby="e-n-accordion-item-6110"
-                                                class="elementor-element elementor-element-90a8056 e-con-full e-flex e-con e-child"
-                                                data-id="90a8056" data-element_type="container">
-                                                <div class="elementor-element elementor-element-e86ce1f elementor-widget elementor-widget-text-editor"
-                                                    data-id="e86ce1f" data-element_type="widget"
-                                                    data-widget_type="text-editor.default">
-                                                    <div class="elementor-widget-container">
-                                                        <p>
-                                                            The AI builds portfolios using quantitative analysis, asset
-                                                            correlation modeling, and market cycle detection.
-                                                            It evaluates multiple asset classes including crypto, forex,
-                                                            indices, and commodities to create a diversified allocation
-                                                            tailored to your capital size, risk tolerance, and
-                                                            investment horizon.
-                                                        </p>
-                                                        <p>
-                                                            Portfolios are dynamically structured to reduce exposure to
-                                                            correlated risks while maximizing long-term growth
-                                                            potential.
-                                                        </p>
-
-                                                    </div>
-                                                </div>
-                                                <div class="elementor-element elementor-element-10e296a elementor-absolute elementor-widget elementor-widget-heading"
-                                                    data-id="10e296a" data-element_type="widget"
-                                                    data-settings="{&quot;_position&quot;:&quot;absolute&quot;}"
-                                                    data-widget_type="heading.default">
-                                                    <div class="elementor-widget-container">
-                                                        <div class="elementor-heading-title elementor-size-default">01
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </details>
-                                        <details id="e-n-accordion-item-6111" class="e-n-accordion-item" style="">
-                                            <summary class="e-n-accordion-item-title" data-accordion-index="2"
-                                                tabindex="-1" aria-expanded="false"
-                                                aria-controls="e-n-accordion-item-6111">
-                                                <span class="e-n-accordion-item-title-header">
-                                                    <div class="e-n-accordion-item-title-text">
-                                                        How does rebalancing and optimization work?
-                                                    </div>
-                                                </span>
-                                                <span class="e-n-accordion-item-title-icon">
-                                                    <span class="e-opened"><i aria-hidden="true"
-                                                            class="mdi mdi-checkbox-marked-circle"></i></span>
-                                                    <span class="e-closed"><i aria-hidden="true"
-                                                            class="mdi mdi-check-circle-outline"></i></span>
-                                                </span>
-
-                                            </summary>
-                                            <div role="region" aria-labelledby="e-n-accordion-item-6111"
-                                                class="elementor-element elementor-element-a0d9a34 e-con-full e-flex e-con e-child"
-                                                data-id="a0d9a34" data-element_type="container">
-                                                <div class="elementor-element elementor-element-95d8bd2 elementor-widget elementor-widget-text-editor"
-                                                    data-id="95d8bd2" data-element_type="widget"
-                                                    data-widget_type="text-editor.default">
-                                                    <div class="elementor-widget-container">
-                                                        <p>
-                                                            The system continuously monitors asset performance,
-                                                            volatility shifts, and macroeconomic indicators.
-                                                            When portfolio weights drift beyond optimal thresholds, the
-                                                            AI automatically rebalances positions to maintain
-                                                            strategic alignment.
-                                                        </p>
-                                                        <p>
-                                                            This process ensures profits are protected, underperforming
-                                                            assets are reduced, and capital is efficiently reallocated
-                                                            into stronger opportunities without emotional bias.
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                                <div class="elementor-element elementor-element-d8e157d elementor-absolute elementor-widget elementor-widget-heading"
-                                                    data-id="d8e157d" data-element_type="widget"
-                                                    data-settings="{&quot;_position&quot;:&quot;absolute&quot;}"
-                                                    data-widget_type="heading.default">
-                                                    <div class="elementor-widget-container">
-                                                        <div class="elementor-heading-title elementor-size-default">02
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </details>
-                                        <details id="e-n-accordion-item-6112" class="e-n-accordion-item" style="">
-                                            <summary class="e-n-accordion-item-title" data-accordion-index="3"
-                                                tabindex="-1" aria-expanded="false"
-                                                aria-controls="e-n-accordion-item-6112">
-                                                <span class="e-n-accordion-item-title-header">
-                                                    <div class="e-n-accordion-item-title-text">
-                                                        How is portfolio risk managed?
-                                                    </div>
-                                                </span>
-                                                <span class="e-n-accordion-item-title-icon">
-                                                    <span class="e-opened"><i aria-hidden="true"
-                                                            class="mdi mdi-checkbox-marked-circle"></i></span>
-                                                    <span class="e-closed"><i aria-hidden="true"
-                                                            class="mdi mdi-check-circle-outline"></i></span>
-                                                </span>
-
-                                            </summary>
-                                            <div role="region" aria-labelledby="e-n-accordion-item-6112"
-                                                class="elementor-element elementor-element-99287f0 e-con-full e-flex e-con e-child"
-                                                data-id="99287f0" data-element_type="container">
-                                                <div class="elementor-element elementor-element-d05ba4e elementor-widget elementor-widget-text-editor"
-                                                    data-id="d05ba4e" data-element_type="widget"
-                                                    data-widget_type="text-editor.default">
-                                                    <div class="elementor-widget-container">
-                                                        <p>
-                                                            Risk management is embedded at every level of portfolio
-                                                            execution. The AI applies exposure limits, drawdown
-                                                            controls,
-                                                            dynamic stop-loss mechanisms, and position scaling to
-                                                            protect capital.
-                                                        </p>
-                                                        <p>
-                                                            During periods of extreme volatility, the system can shift
-                                                            portfolios into defensive modes, reduce leverage,
-                                                            or increase stable asset allocation to preserve value.
-                                                        </p>
-
-                                                    </div>
-                                                </div>
-                                                <div class="elementor-element elementor-element-5fbfd82 elementor-absolute elementor-widget elementor-widget-heading"
-                                                    data-id="5fbfd82" data-element_type="widget"
-                                                    data-settings="{&quot;_position&quot;:&quot;absolute&quot;}"
-                                                    data-widget_type="heading.default">
-                                                    <div class="elementor-widget-container">
-                                                        <div class="elementor-heading-title elementor-size-default">03
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </details>
-                                        <details id="e-n-accordion-item-6113" class="e-n-accordion-item" style="">
-                                            <summary class="e-n-accordion-item-title" data-accordion-index="4"
-                                                tabindex="-1" aria-expanded="false"
-                                                aria-controls="e-n-accordion-item-6113">
-                                                <span class="e-n-accordion-item-title-header">
-                                                    <div class="e-n-accordion-item-title-text">
-                                                        How does the AI adapt to market conditions?
-                                                    </div>
-                                                </span>
-                                                <span class="e-n-accordion-item-title-icon">
-                                                    <span class="e-opened"><i aria-hidden="true"
-                                                            class="mdi mdi-checkbox-marked-circle"></i></span>
-                                                    <span class="e-closed"><i aria-hidden="true"
-                                                            class="mdi mdi-check-circle-outline"></i></span>
-                                                </span>
-
-                                            </summary>
-                                            <div role="region" aria-labelledby="e-n-accordion-item-6113"
-                                                class="elementor-element elementor-element-55ec418 e-con-full e-flex e-con e-child"
-                                                data-id="55ec418" data-element_type="container">
-                                                <div class="elementor-element elementor-element-2e37f9d elementor-widget elementor-widget-text-editor"
-                                                    data-id="2e37f9d" data-element_type="widget"
-                                                    data-widget_type="text-editor.default">
-                                                    <div class="elementor-widget-container">
-                                                        <p>
-                                                            The AI continuously learns from market behavior using
-                                                            machine learning models trained on historical and real-time
-                                                            data.
-                                                            It detects trend transitions, liquidity changes, and regime
-                                                            shifts to adjust portfolio strategies accordingly.
-                                                        </p>
-                                                        <p>
-                                                            This adaptive intelligence allows the portfolio to perform
-                                                            across bullish, bearish, and ranging market environments.
-                                                        </p>
-
-                                                    </div>
-                                                </div>
-                                                <div class="elementor-element elementor-element-7dcd4e0 elementor-absolute elementor-widget elementor-widget-heading"
-                                                    data-id="7dcd4e0" data-element_type="widget"
-                                                    data-settings="{&quot;_position&quot;:&quot;absolute&quot;}"
-                                                    data-widget_type="heading.default">
-                                                    <div class="elementor-widget-container">
-                                                        <div class="elementor-heading-title elementor-size-default">04
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </details>
-                                        <details id="e-n-accordion-item-6113" class="e-n-accordion-item" style="">
-                                            <summary class="e-n-accordion-item-title" data-accordion-index="4"
-                                                tabindex="-1" aria-expanded="false"
-                                                aria-controls="e-n-accordion-item-6113">
-                                                <span class="e-n-accordion-item-title-header">
-                                                    <div class="e-n-accordion-item-title-text">
-                                                        How is performance tracked and reported? (NEW – Strong Upgrade)
-                                                    </div>
-                                                </span>
-                                                <span class="e-n-accordion-item-title-icon">
-                                                    <span class="e-opened"><i aria-hidden="true"
-                                                            class="mdi mdi-checkbox-marked-circle"></i></span>
-                                                    <span class="e-closed"><i aria-hidden="true"
-                                                            class="mdi mdi-check-circle-outline"></i></span>
-                                                </span>
-
-                                            </summary>
-                                            <div role="region" aria-labelledby="e-n-accordion-item-6113"
-                                                class="elementor-element elementor-element-55ec418 e-con-full e-flex e-con e-child"
-                                                data-id="55ec418" data-element_type="container">
-                                                <div class="elementor-element elementor-element-2e37f9d elementor-widget elementor-widget-text-editor"
-                                                    data-id="2e37f9d" data-element_type="widget"
-                                                    data-widget_type="text-editor.default">
-                                                    <div class="elementor-widget-container">
-                                                        <p>
-                                                            Users gain access to a comprehensive portfolio dashboard
-                                                            showing real-time asset allocation, unrealized and realized
-                                                            profits, drawdowns, and historical performance metrics.
-                                                        </p>
-                                                        <p>
-                                                            Detailed analytics and reporting tools provide transparency
-                                                            into AI decisions, portfolio efficiency,
-                                                            and long-term growth trends.
-                                                        </p>
-
-
-                                                    </div>
-                                                </div>
-                                                <div class="elementor-element elementor-element-7dcd4e0 elementor-absolute elementor-widget elementor-widget-heading"
-                                                    data-id="7dcd4e0" data-element_type="widget"
-                                                    data-settings="{&quot;_position&quot;:&quot;absolute&quot;}"
-                                                    data-widget_type="heading.default">
-                                                    <div class="elementor-widget-container">
-                                                        <div class="elementor-heading-title elementor-size-default">05
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </details>
-                                        <details id="e-n-accordion-item-6113" class="e-n-accordion-item" style="">
-                                            <summary class="e-n-accordion-item-title" data-accordion-index="4"
-                                                tabindex="-1" aria-expanded="false"
-                                                aria-controls="e-n-accordion-item-6113">
-                                                <span class="e-n-accordion-item-title-header">
-                                                    <div class="e-n-accordion-item-title-text">
-                                                        Is the portfolio customizable? (NEW – Investor-Friendly)
-                                                    </div>
-                                                </span>
-                                                <span class="e-n-accordion-item-title-icon">
-                                                    <span class="e-opened"><i aria-hidden="true"
-                                                            class="mdi mdi-checkbox-marked-circle"></i></span>
-                                                    <span class="e-closed"><i aria-hidden="true"
-                                                            class="mdi mdi-check-circle-outline"></i></span>
-                                                </span>
-
-                                            </summary>
-                                            <div role="region" aria-labelledby="e-n-accordion-item-6113"
-                                                class="elementor-element elementor-element-55ec418 e-con-full e-flex e-con e-child"
-                                                data-id="55ec418" data-element_type="container">
-                                                <div class="elementor-element elementor-element-2e37f9d elementor-widget elementor-widget-text-editor"
-                                                    data-id="2e37f9d" data-element_type="widget"
-                                                    data-widget_type="text-editor.default">
-                                                    <div class="elementor-widget-container">
-                                                        <p>
-                                                            Yes. Users can define risk levels, preferred asset classes,
-                                                            capital limits, and investment goals.
-                                                            The AI respects these constraints while optimizing portfolio
-                                                            performance.
-                                                        </p>
-                                                        <p>
-                                                            This ensures every portfolio remains aligned with individual
-                                                            financial objectives and risk appetite.
-                                                        </p>
-
-                                                    </div>
-                                                </div>
-                                                <div class="elementor-element elementor-element-7dcd4e0 elementor-absolute elementor-widget elementor-widget-heading"
-                                                    data-id="7dcd4e0" data-element_type="widget"
-                                                    data-settings="{&quot;_position&quot;:&quot;absolute&quot;}"
-                                                    data-widget_type="heading.default">
-                                                    <div class="elementor-widget-container">
-                                                        <div class="elementor-heading-title elementor-size-default">06
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </details>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-10 text-center">
+                        <p class="legal-kicker mb-2" style="color: #00b08b; letter-spacing: 0.12em;">Platform</p>
+                        <h2 class="title" style="font-size: clamp(1.75rem, 4vw, 2.35rem);">
+                            Portfolio <span style="color: #009A76;">management</span>
+                        </h2>
+                        <p class="mt-3 mb-0 text-light" style="max-width: 700px; margin-left: auto; margin-right: auto;">
+                            How {{ config('app.public_name') }} helps you align capital, membership tiers, and visibility—inside a <strong class="fw-semibold text-white">delta-neutral, funding-first</strong> framework on perpetual futures.
+                        </p>
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
 
-    </div>
+        <section class="invora-legal-wrap pt-70 pb-110">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-xl-9 col-lg-10">
+                        <article class="invora-legal-card">
+                            <p class="legal-kicker">{{ config('app.public_name') }}</p>
+                            <h1 class="legal-title">How we think about your portfolio</h1>
+                            <p class="legal-lead mb-0">
+                                These notes explain allocation, exposure, tiers, and monitoring in plain language. They are general information only, not personalized advice. For binding terms and risks, use our
+                                <a href="{{ route('terms') }}">terms</a>,
+                                <a href="{{ route('risk-disclosure') }}">risk disclosure</a>,
+                                and in-app controls. For a deeper product narrative, read the
+                                <a href="{{ asset('new_assets/docs/INVORA DOCUMENTATION .pdf') }}" target="_blank" rel="noopener">full Invora AI overview</a>.
+                            </p>
+
+                            <div class="invora-pm-accordion">
+                                @foreach ($portfolioTopics as $index => $topic)
+                                    <details @if ($index === 0) open @endif>
+                                        <summary data-step="{{ str_pad((string) ($index + 1), 2, '0', STR_PAD_LEFT) }}">
+                                            {{ $topic['q'] }}
+                                            </summary>
+                                        <div class="invora-pm-accordion__panel">
+                                            @foreach ($topic['paragraphs'] as $p)
+                                                <p>{{ $p }}</p>
+                                            @endforeach
+                                            </div>
+                                        </details>
+                                @endforeach
+                                                    </div>
+
+                            <p class="mb-0 mt-4">
+                                Questions? Email
+                                <a href="mailto:{{ env('SUPPORT_EMAIL', 'support@invora.ai') }}">{{ env('SUPPORT_EMAIL', 'support@invora.ai') }}</a>.
+                            </p>
+
+                            <div class="invora-legal-related">
+                                Related:
+                                <a href="{{ route('trading-bots') }}">Trading bots</a>
+                                <span class="mx-2">·</span>
+                                <a href="{{ route('trading-execution') }}">Trading execution</a>
+                                <span class="mx-2">·</span>
+                                <a href="{{ route('trading-guidelines') }}">Trading guidelines</a>
+                                <span class="mx-2">·</span>
+                                <a href="{{ route('how-it-works') }}">How it works</a>
+                                <span class="mx-2">·</span>
+                                <a href="{{ route('risk-disclosure') }}">Risk disclosure</a>
+                                <span class="mx-2">·</span>
+                                <a href="{{ route('contact-us') }}">Contact us</a>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
 </div>
