@@ -42,22 +42,14 @@ class InvestmentItem extends Component {
             return;
         }
 
-        if ($amount > $inv->total_profit) {
-            $this->dispatch('error', message: 'Cannot exceed available profit');
-            return;
-        }
+        // if ($amount > $inv->total_profit) {
+        //     $this->dispatch('error', message: 'Cannot exceed available profit');
+        //     return;
+        // }
 
         try {
 
             DB::transaction(function () use ($inv, $amount) {
-
-                // 🔥 Reduce profit
-                $inv->total_profit = bcsub((string)$inv->total_profit, (string)$amount, 8);
-
-                // 🔥 Increase capital
-                $inv->amount = bcadd((string)$inv->amount, (string)$amount, 8);
-
-                $inv->save();
 
                 WalletService::debit(
                     $inv->user,
@@ -77,6 +69,14 @@ class InvestmentItem extends Component {
                     LedgerAsset::LOCKEDBALANCE
                 );
 
+                // 🔥 Reduce profit
+                $inv->total_profit = bcsub((string)$inv->total_profit, (string)$amount, 8);
+
+                // 🔥 Increase capital
+                $inv->amount = bcadd((string)$inv->amount, (string)$amount, 8);
+
+                $inv->save();
+
                 // Optional: track compounding history
                 // DB::table('investment_compounds')->insert([
                 //     'bot_investment_id' => $inv->id,
@@ -92,6 +92,7 @@ class InvestmentItem extends Component {
             $this->investment->refresh();
         } catch(\Throwable $e) {
             $this->dispatch('error', message: $e->getMessage());
+            return;
         }
     }
 
@@ -128,10 +129,10 @@ class InvestmentItem extends Component {
             return;
         }
 
-        if ($amount > $inv->total_profit) {
-            $this->dispatch('error', message: 'Cannot exceed available profit');
-            return;
-        }
+        // if ($amount > $inv->total_profit) {
+        //     $this->dispatch('error', message: 'Cannot exceed available profit');
+        //     return;
+        // }
 
         $this->showConfirm = true;
 
