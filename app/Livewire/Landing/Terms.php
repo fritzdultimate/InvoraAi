@@ -3,17 +3,16 @@
 namespace App\Livewire\Landing;
 
 use Livewire\Attributes\Layout;
-use Livewire\Attributes\Locked;
 use Livewire\Component;
 
-#[Layout('components.layouts.guest')]
-class  Terms extends Component {
-
-
+#[Layout('components.layouts.landing')]
+class Terms extends Component
+{
     /**
      * Mount the component.
      */
-    public function render(): \Illuminate\View\View {
+    public function render(): \Illuminate\View\View
+    {
         return view('livewire.landing.terms');
     }
 }

@@ -11,6 +11,8 @@
 
     @include('components.landing.roadmap')
 
+    @include('components.landing.mobile-app-coming-soon')
+
     @include('components.landing.faq')
 
     @include('components.landing.contact-us')

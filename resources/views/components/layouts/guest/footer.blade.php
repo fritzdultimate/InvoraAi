@@ -89,12 +89,6 @@
                             <li class="elementor-icon-list-item">
                                 <a href="#">
 
-                                    <span class="elementor-icon-list-text">Risk Assessment</span>
-                                </a>
-                            </li>
-                            <li class="elementor-icon-list-item">
-                                <a href="#">
-
                                     <span class="elementor-icon-list-text">Trading Execution</span>
                                 </a>
                             </li>

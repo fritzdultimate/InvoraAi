@@ -104,7 +104,7 @@
 
 
 
-{{-- ================= LIVE DEPOSITS SECTION ================= --}}
+{{-- Live deposits --}}
 
 <div data-elementor-type="wp-page" data-elementor-id="295" class="elementor elementor-295"
     data-elementor-post-type="page">

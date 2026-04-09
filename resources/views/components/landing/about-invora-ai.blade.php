@@ -1,4 +1,4 @@
-<!-- about-invora-ai — floating cards (About page only; homepage uses classic who-we-are) -->
+<!-- About: Invora card grid -->
 <section id="about" class="choose-area about-invora-cards" style="padding-top: 48px; padding-bottom: 56px;">
     <div class="container">
         <div class="row justify-content-center">
