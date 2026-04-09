@@ -33,7 +33,7 @@ class Investment extends Component
     // //////////////////////////
     public $showConfirm = false;
     public $title;
-    public $message;
+    public $message = '';
     public $warning;
     public $type = 'danger';
     public $confirmText = 'Confirm';
@@ -110,13 +110,14 @@ class Investment extends Component
             ],
         ]);
 
-        $this->showConfirm = true;
 
         $this->type = 'success';
         $this->title = 'Start Investment';
         $this->message = 'Your funds will be locked for the selected duration.';
         $this->confirmText = 'Proceed';
         $this->action = 'createInvestment';
+
+        $this->showConfirm = true;
     }
 
     public function prepareUpgrade() {
@@ -144,13 +145,13 @@ class Investment extends Component
         $selectedUpgradeBot = Bot::where('id', $this->upgradedBotId)->first();
         if(!$this->selectedLicense || !$selectedUpgradeBot) return;
 
-        $this->showConfirm = true;
-
         $this->type = 'success';
         $this->title = 'Upgrade License';
         $this->message = 'Current bot will be upgraded to selected bot.';
         $this->confirmText = 'Proceed';
         $this->action = 'upgradeLicense';
+
+        $this->showConfirm = true;
     }
 
     public function createInvestment() {

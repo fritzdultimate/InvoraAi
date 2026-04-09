@@ -42,10 +42,10 @@ class InvestmentItem extends Component {
             return;
         }
 
-        // if ($amount > $inv->total_profit) {
-        //     $this->dispatch('error', message: 'Cannot exceed available profit');
-        //     return;
-        // }
+        if ($amount > $inv->total_profit) {
+            $this->dispatch('error', message: 'Cannot exceed available profit');
+            return;
+        }
 
         try {
 
@@ -129,18 +129,18 @@ class InvestmentItem extends Component {
             return;
         }
 
-        // if ($amount > $inv->total_profit) {
-        //     $this->dispatch('error', message: 'Cannot exceed available profit');
-        //     return;
-        // }
-
-        $this->showConfirm = true;
+        if ($amount > $inv->total_profit) {
+            $this->dispatch('error', message: 'Cannot exceed available profit');
+            return;
+        }
 
         $this->type = 'success';
         $this->title = 'Reinvest Profit';
         $this->message = 'This amount will be added to your capital and continue earning returns.';
         $this->confirmText = 'Confirm Reinvestment';
         $this->action = 'compoundProfit';
+
+        $this->showConfirm = true;
     }
 
     public function terminateInvestment() {
