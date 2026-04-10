@@ -26,8 +26,8 @@ class InvestmentItem extends Component {
 
     public function mount($id) {
         $this->investment = BotInvestment::where('user_id', auth()->id())
-            ->where('id', $id)
-            ->first();
+            ->where('uuid', $id)
+            ->firstOrFail();
     }
 
     public function compoundProfit() {

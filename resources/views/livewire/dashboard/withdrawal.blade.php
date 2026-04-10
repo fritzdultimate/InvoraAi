@@ -166,7 +166,7 @@
                     @forelse($investments as $inv)
 
                         <a 
-                            href="{{ route('investments.item', $inv->id) }}"
+                            href="{{ route('investments.item', $inv->uuid) }}"
                             class="compound-invest-card {{ $inv->is_best ? 'best' : '' }}"
                         >
                             <div>
@@ -178,7 +178,7 @@
                                     @endif
                                 </h5>
 
-                                <p>#{{ $inv->id }}</p>
+                                <p>#{{ $inv->code }}</p>
                             </div>
 
                             <div class="text-right">
