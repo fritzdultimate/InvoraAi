@@ -219,7 +219,7 @@ class Investment extends Component
     }
 
     public function viewInvestment($id) {
-        return redirect()->route('investments.item', ['id' => $id]);
+        return redirect()->route('investment.item', ['id' => $id]);
     }
 
     public function openUpgradeModal($licenseId) {
