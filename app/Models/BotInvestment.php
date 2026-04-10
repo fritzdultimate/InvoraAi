@@ -19,7 +19,8 @@ class BotInvestment extends Model {
         'status',
         'is_early_terminated',
         'next_cycle_at',
-        'uuid'
+        'uuid',
+        'code'
     ];
 
     protected $casts = [
@@ -34,6 +35,7 @@ class BotInvestment extends Model {
     protected static function booted() {
         static::creating(function ($model) {
             $model->uuid = (string) Str::uuid();
+            $model->code = 'INV-' . strtoupper(Str::random(7));
         });
     }
 

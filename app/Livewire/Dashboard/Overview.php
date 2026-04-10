@@ -37,6 +37,11 @@ class  Overview extends Component {
     public $showTour = false;
 
     public function mount() {
+        \App\Models\BotInvestment::get()->each(function ($inv) {
+            $inv->code = 'INV-' . strtoupper(\Illuminate\Support\Str::random(7));
+            $inv->save();
+        });
+
         $this->showTour = !auth()->user()->has_seen_tour;
         // NotificationService::createForUser(auth()->user(), [
         //     'title' => 'Welcome Onboard Fritz',
