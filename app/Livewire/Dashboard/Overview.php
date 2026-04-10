@@ -37,10 +37,6 @@ class  Overview extends Component {
     public $showTour = false;
 
     public function mount() {
-        \App\Models\BotInvestment::get()->each(function ($inv) {
-            $inv->uuid = \Illuminate\Support\Str::uuid();
-            $inv->save();
-        });
         $this->showTour = !auth()->user()->has_seen_tour;
         // NotificationService::createForUser(auth()->user(), [
         //     'title' => 'Welcome Onboard Fritz',
