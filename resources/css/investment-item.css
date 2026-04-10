@@ -331,3 +331,92 @@
     transform: translateY(-1px);
     box-shadow: 0 6px 20px rgba(34,197,94,0.25);
 }
+
+/* coumpounding/reinvesting */
+
+.invora-compound-select {
+    background: linear-gradient(145deg, #020617, #0f172a);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 16px;
+    padding: 16px;
+}
+
+.compound-select-header h4 {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.compound-select-header span {
+    font-size: 12px;
+    color: #94a3b8;
+}
+
+.compound-invest-list {
+    margin-top: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.compound-invest-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px;
+    border-radius: 12px;
+    background: #020617;
+    border: 1px solid rgba(255,255,255,0.04);
+    transition: 0.2s;
+}
+
+.compound-invest-card:hover {
+    border-color: #22c55e;
+    background: rgba(34,197,94,0.05);
+}
+
+.compound-invest-card h5 {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.compound-invest-card p {
+    font-size: 12px;
+    color: #94a3b8;
+}
+
+.compound-invest-card strong {
+    display: block;
+    color: #22c55e;
+}
+
+.compound-invest-card span {
+    font-size: 11px;
+    color: #94a3b8;
+}
+
+.compound-invest-card.best {
+    border-color: #22c55e;
+    background: rgba(34,197,94,0.08);
+    box-shadow: 0 0 0 1px rgba(34,197,94,0.2);
+}
+
+.badge {
+    margin-left: 6px;
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 6px;
+    background: #22c55e;
+    color: #020617 !important;
+    font-weight: 600;
+}
+
+.roi {
+    display: block;
+    font-size: 11px;
+    color: #94a3b8;
+    margin-top: 2px;
+}
+
+.compound-invest-card:hover {
+    transform: translateY(-2px) scale(1.01);
+}

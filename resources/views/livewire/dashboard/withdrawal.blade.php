@@ -92,7 +92,8 @@
      </style>
 @endpush
 <div class="invora-container" x-data="{selectedWallet: @entangle('networks')}">
-    <div class="invora-deposit-page">
+
+    <div class="invora-deposit-page" x-data="compoundModal()">
 
         
 
@@ -121,6 +122,85 @@
             >
                 Convert Balance ⇄
             </button>
+        </div>
+
+        <div class="mt-2 flex">
+            <button 
+                class="invora-btn-secondary"
+                @click="showCompound = !showCompound"
+            >
+                Compound Profit ↗
+            </button>
+        </div>
+
+        <div>
+            <div 
+                x-show="showCompound"
+                x-transition
+                class="invora-compound-select mt-3"
+                x-cloak
+            >
+
+                <div class="compound-select-header">
+                    <h4>Select Investment</h4>
+                    <span>Choose where to reinvest your profit</span>
+                </div>
+
+                <div class="compound-invest-list">
+
+                    @php
+                        $investments = auth()->user()->botInvestments()->where('status', 'active')->get();
+                        $maxProfit = $investments->max('total_profit');
+
+                        $investments = $investments->map(function ($inv) use ($maxProfit) {
+                            $inv->roi = $inv->amount > 0 
+                                ? ($inv->total_profit / $inv->amount) * 100 
+                                : 0;
+
+                            $inv->is_best = $inv->total_profit == $maxProfit;
+
+                            return $inv;
+                        });
+                    @endphp
+
+                    @forelse($investments as $inv)
+
+                        <a 
+                            href="{{ route('investment.item', $inv->id) }}"
+                            class="compound-invest-card {{ $inv->is_best ? 'best' : '' }}"
+                        >
+                            <div>
+                                <h5>
+                                    {{ $inv->bot->name }}
+
+                                    @if($inv->is_best)
+                                        <span class="badge">Recommended</span>
+                                    @endif
+                                </h5>
+
+                                <p>#{{ $inv->id }}</p>
+                            </div>
+
+                            <div class="text-right">
+                                <strong>${{ number_format($inv->total_profit, 2) }}</strong>
+                                <span>profit</span>
+
+                                <small class="roi">
+                                    {{ number_format($inv->roi, 2) }}% ROI
+                                </small>
+                            </div>
+
+                            <i class="ri-arrow-right-s-line"></i>
+                        </a>
+                    @empty
+                        <div class="invora-empty">
+                            No active investments available
+                        </div>
+                    @endforelse
+
+                </div>
+
+            </div>
         </div>
 
         <div class="invora-withdrawal-notice">
@@ -619,6 +699,11 @@
     </script>
 
     <script>
+        function compoundModal() {
+            return {
+                showCompound: false, 
+            }
+        }
         function convertModal() {
             return {
                 open: false,

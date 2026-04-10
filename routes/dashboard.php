@@ -36,7 +36,7 @@ Route::middleware(['auth'])->prefix('dashboard')->group(function () {
 
     Route::get('/investment',  Investment::class)->name('investments.create');
 
-    Route::get('/investment/{id}',  InvestmentItem::class)->name('investments.item');
+    Route::get('/investment/{id}',  InvestmentItem::class)->name('investment.item');
 
 
     Route::get('/profile',  Profile::class)->name('profile');

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\BotInvestmentStatus;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class BotInvestment extends Model {
     protected $fillable = [
@@ -17,7 +18,8 @@ class BotInvestment extends Model {
         'matures_at',
         'status',
         'is_early_terminated',
-        'next_cycle_at'
+        'next_cycle_at',
+        'uuid'
     ];
 
     protected $casts = [
@@ -28,6 +30,12 @@ class BotInvestment extends Model {
         'is_early_terminated' => 'boolean',
         'status' => BotInvestmentStatus::class,
     ];
+
+    protected static function booted() {
+        static::creating(function ($model) {
+            $model->uuid = (string) Str::uuid();
+        });
+    }
 
     public function termination() {
         return $this->hasOne(BotTermination::class);
