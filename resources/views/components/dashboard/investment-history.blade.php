@@ -123,7 +123,7 @@
     <div class="invora-mobile">
         @foreach($investments as $txn)
             <a 
-                href="{{ route('investments.item', ['id' => $txn->id]) }}" 
+                href="{{ route('investments.item', ['id' => $txn->uuid]) }}" 
                 class="invora-invest-card" 
                 style="width: 100%"
             >
