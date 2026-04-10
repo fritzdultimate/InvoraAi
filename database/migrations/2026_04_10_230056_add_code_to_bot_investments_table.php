@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('bot_investments', function (Blueprint $table) {
-            $table->string('code');
+            $table->string('code')->after('uuid');
         });
     }
 
