@@ -190,7 +190,7 @@
                                 @forelse($investments as $inv)
 
                                     <a 
-                                        href="{{ route('investments.item', $inv->uuid) }}"
+                                        href="{{ route('investments.item', $inv->uuid) }}#compound"
                                         class="compound-invest-card {{ $inv->is_best ? 'best' : '' }}"
                                     >
                                         <div>
