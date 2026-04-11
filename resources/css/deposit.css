@@ -996,8 +996,11 @@ input[type=number] {
 
     /* WITHDRAW BUTTON */
     .invora-action-btn.withdraw{
-        background: #0ac24e;
-        color:#fff;
+        /* background: #0ac24e;
+        color:#fff; */
+
+        background: #334155; /* slate */
+        color: #e2e8f0;
     }
 
     .invora-action-btn.withdraw:hover{
@@ -1006,10 +1009,44 @@ input[type=number] {
     }
 
     /* MOBILE */
+
     @media (max-width:640px){
         .invora-balance-actions{
-            /* flex-direction:column; */
+            flex-wrap: wrap;
         }
+
+        .invora-action-btn{
+            flex: 1 1 calc(50% - 6px);
+        }
+
+        /* Compound takes full width */
+        .invora-action-btn.compound{
+            flex: 1 1 100%;
+        }
+
+        .invora-balance-actions{
+            gap: 10px;
+        }
+
+        .invora-action-btn.compound {
+            font-weight: 600;
+            letter-spacing: 0.3px;
+        }
+    }
+
+    .invora-action-btn.compound {
+        /* background: linear-gradient(135deg, #22c55e, #16a34a);
+        color: #020617; */
+
+        background: linear-gradient(135deg, #00c9a7, #22c55e);
+        color: #fff;
+        font-weight: 600;
+    }
+
+    /* Hover magic */
+    .invora-action-btn.compound:hover {
+        transform: translateY(-2px) scale(1.02);
+        box-shadow: 0 10px 25px rgba(34, 197, 94, 0.25);
     }
 
 

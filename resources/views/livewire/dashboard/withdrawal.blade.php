@@ -123,13 +123,13 @@
                 Convert Balance ⇄
             </button>
         </div>
-
+ 
         <div class="mt-2 flex">
             <button 
                 class="invora-btn-secondary"
                 @click="showCompound = !showCompound"
             >
-                Compound Profit ↗
+                Compound Profit <iconify-icon icon="mdi:trending-up"></iconify-icon>
             </button>
         </div>
 
@@ -149,7 +149,7 @@
                 <div class="compound-invest-list">
 
                     @php
-                        $investments = auth()->user()->botInvestments()->where('status', 'active')->get();
+                        $investments = auth()->user()->botInvestments()->where('status', 'activeM')->get();
                         $maxProfit = $investments->max('total_profit');
 
                         $investments = $investments->map(function ($inv) use ($maxProfit) {

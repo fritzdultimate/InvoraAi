@@ -130,7 +130,8 @@
         @if($investment->total_profit > 0 && !$investment->isMatured())
             <div 
                 class="invora-compound-card mt-5"
-                x-data="{ amount: @entangle('compoundAmount').live }" 
+                x-data="{ amount: @entangle('compoundAmount').live }"
+                id="compound"
             >
 
                 <!-- HEADER -->
@@ -360,5 +361,16 @@
             document.querySelector("#investmentChart").innerHTML = "";
             new ApexCharts(document.querySelector("#investmentChart"), options).render();
         }   
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (window.location.hash === '#compound') {
+                const el = document.querySelector('#compound');
+                if (el) {
+                    el.scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+        });
     </script>
 @endpush

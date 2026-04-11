@@ -112,11 +112,12 @@
                 </div>
 
                 <div 
-                    x-data="{ show: false, message: '' }"
+                    x-data="{ show: false, message: '', timeout: null }"
                     x-on:error.window="
+                        if (timeout) clearTimeout(timeout);
                         show = true;
                         message = $event.detail.message;
-                        setTimeout(() => show = false, 3000);
+                        timeout = setTimeout(() => show = false, 3000);
                     "
                     x-show="show"
                     x-cloak
