@@ -25,7 +25,7 @@ class RankEvaluatorService {
             ->get();
 
         DB::transaction(function () use ($user, $ranks, $volume, $directReferralVolume) {
-            $isActive = $user->isActive();
+            $isActive = true;//$user->isActive();
             foreach ($ranks as $rank) {
                 
                 $qualified =
@@ -98,7 +98,7 @@ class RankEvaluatorService {
     }
 
     public static function distributeResidualBonus(User $user) {
-        if(!$user->isActive()) return;
+        // if(!$user->isActive()) return;
 
         $bonus = $user->rank?->rank?->bonus ?? 0;
 

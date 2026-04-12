@@ -199,7 +199,7 @@
                                 </div>
 
                                 <!-- ACTIVATION NOTE -->
-                                <div class="highlight-box warning">
+                                <div class="highlight-box warning hidden">
                                     ⚠️ Team volume tracking only starts after you generate at least 
                                     <strong>$500</strong> in trading volume within 30 days.
                                 </div>
