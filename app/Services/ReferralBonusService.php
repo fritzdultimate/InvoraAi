@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 
 class ReferralBonusService {
     public static function distribute(User $investor, BotInvestment $inv): void {
+        if($investor->hasRole('leader')) return;
         $levels = ReferralLevel::where('is_active', true)
             ->orderBy('level')
             ->get()
@@ -51,6 +52,8 @@ class ReferralBonusService {
                 if ($referrer->id === $investor->id) {
                     continue;
                 }
+
+                if($referrer->hasRole('leader')) continue;
 
                 $amount = bcmul(
                     $inv->capital,
