@@ -6,6 +6,7 @@ use App\Enums\LedgerAsset;
 use App\Models\User;
 use App\Models\WalletLedger;
 use App\Enums\LedgerReference;
+use Filament\Support\Exceptions\Halt;
 use Illuminate\Support\Facades\DB;
 
 class WalletService {
@@ -78,7 +79,7 @@ class WalletService {
             $currentBalance = self::getBalance($user, $asset->value);
 
             if ($currentBalance < $amount) {
-                throw new \Exception('Insufficient balance.');
+                throw new Halt("Insufficient balance, available balance = $currentBalance");
             }
 
             $newBalance = $currentBalance - $amount;
