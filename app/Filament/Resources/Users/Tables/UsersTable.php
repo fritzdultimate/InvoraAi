@@ -21,6 +21,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
+use Filament\Support\Exceptions\Halt;
 
 class UsersTable
 {
@@ -210,19 +211,26 @@ class UsersTable
                         ])
                         ->requiresConfirmation()
                         ->action(function ($record, array $data) {
-                            WalletService::debit(
-                                $record,
-                                $data['amount'],
-                                LedgerReference::WITHDRAWAL,
-                                auth()->id(),
-                                "made by admin | " . $data['description'],
-                                LedgerAsset::from($data['asset'])
-                            );
+                            try {
+                                WalletService::debit(
+                                    $record,
+                                    $data['amount'],
+                                    LedgerReference::WITHDRAWAL,
+                                    auth()->id(),
+                                    "made by admin | " . $data['description'],
+                                    LedgerAsset::from($data['asset'])
+                                );
 
-                            Notification::make()
-                                ->title('Balance Updated')
-                                ->success()
-                                ->send();
+                                Notification::make()
+                                    ->title('Balance Updated')
+                                    ->success()
+                                    ->send();
+                            } catch(Halt $e) {
+                                Notification::make()
+                                    ->title($e->getMessage())
+                                    ->danger()
+                                    ->send();
+                            }
                         }),
                     // ->visible(fn () => auth()->user()->hasRole(['super-admin'])),
 
