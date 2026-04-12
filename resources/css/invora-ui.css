@@ -121,6 +121,7 @@
     pointer-events:none;
 }
 
+
 /* ===== TABLE ===== */
 .invora-table-wrapper {
     width: 100%;
@@ -130,6 +131,7 @@
 .invora-table {
     width: 100%;
     border-collapse: collapse;
+    table-layout: fixed;
 }
 
 /* subtle top separation */
@@ -152,12 +154,13 @@
     color: var(--text-primary);
 }
 
+
 /* ===== ROW (THIS IS WHERE MAGIC IS) ===== */
 .invora-row {
     border-top: 1px solid var(--border-soft);
     transition: all 0.2s ease;
     position: relative;
-    /* clear: both; */
+    clear: both;
 }
 
 .invora-row:hover {

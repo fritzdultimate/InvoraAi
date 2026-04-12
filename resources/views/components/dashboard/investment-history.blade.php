@@ -1,4 +1,14 @@
-
+@push('styles')
+    <style>
+        .invora-row td {
+            display: block;
+            width: 100%;
+            height: 100%;
+            text-decoration: none;
+            color: inherit;
+        }
+    </style>
+@endpush
 <div class="invora-card mt-4">
 
     <!-- HEADER -->
@@ -30,7 +40,7 @@
     <div class="invora-table-wrapper">
         <table class="invora-table">
             <thead>
-                <tr>
+                <tr class="invora-row">
                     <th>Bot</th>
                     <th>Issued Date</th>
                     <th>Purchase Amount</th>
@@ -39,11 +49,13 @@
                 </tr>
             </thead>
 
-            <tbody>
+            <tbody style="display: flex; flex-direction: column; gap: 10px;">
                 @forelse($investments as $txn)
-                    <tr class="invora-row" wire:click="viewInvestment({{ $txn->uuid }})" style="cursor:pointer;">
+                    <tr class="invora-row" onclick="window.location='{{ route('investments.item', $txn->uuid) }}'" style="cursor:pointer;">
                         <td>
-                            <div style="display:flex; align-items:center; gap:10px;">
+                            <div 
+                                style="display:flex; align-items:center; gap:10px;"
+                            >
                                 
                                 <div style="
                                     width:36px;
@@ -88,7 +100,7 @@
                             </div>
                         </td>
 
-                        <td>
+                        <td align="right">
                             <span class="invora-credit">
                                 ${{ number_format($txn->amount,2) }}
                             </span>
@@ -97,7 +109,7 @@
                             </div>
                         </td>
 
-                        <td>
+                        <td align="right">
                             @if($txn->status->value === 'active')
                                 <span class="invora-badge invora-badge-green">Running</span>
                             @elseif($txn->status->value === 'completed')
