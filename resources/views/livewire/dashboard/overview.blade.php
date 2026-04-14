@@ -205,7 +205,7 @@
                                             <p>#{{ $inv->code }}</p>
                                         </div>
 
-                                        <div class="text-right">
+                                        <div class="text-right hidden">
                                             <strong>${{ number_format($inv->total_profit, 2) }}</strong>
                                             <span>profit</span>
 

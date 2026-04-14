@@ -149,7 +149,7 @@
                 <div class="compound-invest-list">
 
                     @php
-                        $investments = auth()->user()->botInvestments()->where('status', 'activeM')->get();
+                        $investments = auth()->user()->botInvestments()->where('status', 'active')->get();
                         $maxProfit = $investments->max('total_profit');
 
                         $investments = $investments->map(function ($inv) use ($maxProfit) {
@@ -181,7 +181,7 @@
                                 <p>#{{ $inv->code }}</p>
                             </div>
 
-                            <div class="text-right">
+                            <div class="text-right hidden">
                                 <strong>${{ number_format($inv->total_profit, 2) }}</strong>
                                 <span>profit</span>
 

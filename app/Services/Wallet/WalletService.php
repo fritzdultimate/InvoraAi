@@ -111,17 +111,12 @@ class WalletService {
         });
     }
 
-    public static function getBalance(User $user, string $asset): float {
-        // $ledger = WalletLedger::where([
-        //     'user_id' => $user->id,
-        //     'asset' => $asset
-        // ])->first();
-        // if(!$ledger) {
-
-        // }
-        return (float) WalletLedger::where('user_id', $user->id)
+    public static function getBalance(User $user, string $asset) {
+        $balance = WalletLedger::where('user_id', $user->id)
             ->where('asset', $asset)
             ->latest()
-            ->value('balance_after') ?? 0;
+            ->value('balance_after');
+
+        return $balance ?? '0.00';
     }
 }

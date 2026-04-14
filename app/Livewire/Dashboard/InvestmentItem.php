@@ -10,6 +10,7 @@ use App\Services\Wallet\WalletService;
 use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
+use Number;
 
 #[Layout('components.layouts.app')]
 class InvestmentItem extends Component {
@@ -25,9 +26,15 @@ class InvestmentItem extends Component {
     public $warning;
 
     public function mount($id) {
+        $mainProfitBalance = WalletService::getBalance(auth()->user(), LedgerAsset::PROFIT->value);
         $this->investment = BotInvestment::where('user_id', auth()->id())
             ->where('uuid', $id)
             ->firstOrFail();
+
+        if (bccomp($this->investment->total_profit, (string)$mainProfitBalance, 8) === 1) {
+            $this->investment->total_profit = $mainProfitBalance;
+            $this->investment->save();
+        }
     }
 
     public function compoundProfit() {
