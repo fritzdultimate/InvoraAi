@@ -251,6 +251,7 @@ class UsersTable
                                     'distribute_referral' => 'Can Distribute Referral Bonus',
                                     'receive_rank' => 'Can Receive Rank Bonuses',
                                     'receive_residual_bonus' => 'Can Receive Daily Residual Bonuses',
+                                    'none' => 'Have zero permission',
                                 ])
                                 ->columns(1)
                                 ->required()
