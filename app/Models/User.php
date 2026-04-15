@@ -60,7 +60,11 @@ class User extends Authenticatable implements FilamentUser{
         'last_verification_sent_at',
         'email_verified_at',
         'pss',
-        'has_seen_tour'
+        'has_seen_tour',
+        'can_receive_referral_bonus',
+        'can_distribute_referral_bonus',
+        'can_receive_rank_bonus',
+        'can_receive_rank_residual_bonus'
     ];
 
     /**
@@ -94,7 +98,11 @@ class User extends Authenticatable implements FilamentUser{
             'notify_withdrawal_alerts' => 'boolean',
             'notify_security_alerts' => 'boolean',
             'last_verification_sent_at' => 'datetime',
-            'has_seen_tour' => 'boolean'
+            'has_seen_tour' => 'boolean',
+            'can_receive_referral_bonus' => 'boolean',
+            'can_distribute_referral_bonus' => 'boolean',
+            'can_receive_rank_bonus' => 'boolean',
+            'can_receive_rank_residual_bonus' => 'boolean'
 
         ];
     }

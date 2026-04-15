@@ -11,17 +11,13 @@ use Illuminate\Support\Facades\DB;
 
 class ReferralBonusService {
     public static function distribute(User $investor, BotInvestment $inv): void {
-        if($investor->hasRole('leader')) return;
+        if($investor->hasRole('leader') && !$investor->can_distribute_referral_bonus) return;
         $levels = ReferralLevel::where('is_active', true)
             ->orderBy('level')
             ->get()
             ->keyBy('level');
 
         if ($levels->isEmpty()) {
-            return;
-        }
-
-        if($investor->is_leader) {
             return;
         }
 
@@ -53,7 +49,7 @@ class ReferralBonusService {
                     continue;
                 }
 
-                if($referrer->hasRole('leader')) continue;
+                if($investor->hasRole('leader') && !$investor->can_receive_referral_bonus) continue;
 
                 $amount = bcmul(
                     $inv->capital,

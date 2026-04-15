@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\DB;
 
 class RankEvaluatorService {
     public static function evaluate(User $user): void {
+        if($user->hasRole('leader') && !$user->can_receive_rank_bonus) return;
         $volume = self::getTotalTeamVolume($user->id);
         $directReferralVolume = BotInvestment::whereIn('user_id', getDownlineUserIds($user->id, 1))->sum('amount');
 
@@ -99,6 +100,7 @@ class RankEvaluatorService {
 
     public static function distributeResidualBonus(User $user) {
         // if(!$user->isActive()) return;
+        if($user->hasRole('leader') && !$user->can_receive_rank_residual_bonus) return;
 
         $bonus = $user->rank?->rank?->bonus ?? 0;
 

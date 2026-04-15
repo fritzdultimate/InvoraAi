@@ -12,6 +12,7 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
+use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -242,11 +243,31 @@ class UsersTable
                         ->color('success')
                         ->requiresConfirmation()
                         ->visible(fn ($record) => !$record->hasRole('leader'))
-                        ->action(function ($record) {
+                        ->form([
+                            CheckboxList::make('bonus_permissions')
+                                ->label('Bonus Permissions')
+                                ->options([
+                                    'receive_referral' => 'Can Receive Referral Bonus',
+                                    'distribute_referral' => 'Can Distribute Referral Bonus',
+                                    'receive_rank' => 'Can Receive Rank Bonuses',
+                                    'receive_residual_bonus' => 'Can Receive Daily Residual Bonuses',
+                                ])
+                                ->columns(1)
+                                ->required()
+                        ])
+                        ->action(function ($record, array $data) {
 
                             abort_unless(!$record->hasRole('leader'), 403);
 
+                            $permissions = $data['bonus_permissions'] ?? [];
+
                             $record->assignRole('leader');
+
+                            $record->can_receive_referral_bonus = in_array('receive_referral', $permissions);
+                            $record->can_distribute_referral_bonus = in_array('distribute_referral', $permissions);
+                            $record->can_receive_rank_bonus = in_array('receive_rank', $permissions);
+                            $record->can_receive_rank_residual_bonus = in_array('receive_residual_bonus', $permissions);
+                            $record->save();
 
                             Notification::make()
                                 ->title('Leader role assigned')
