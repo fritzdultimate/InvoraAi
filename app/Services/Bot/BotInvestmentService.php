@@ -52,7 +52,7 @@ class BotInvestmentService {
         $investment = $termination->botInvestment;
 
         if ($investment->status !== BotInvestmentStatus::TERMINATIONREQUEST) {
-            throw new \Exception('Investment cannot be terminated.');
+            throw new \Exception('Investment cannot be terminated. Investment is ' . $investment->status->value);
         }
 
         return DB::transaction(function () use ($investment, $termination) {
