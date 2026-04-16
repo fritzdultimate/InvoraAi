@@ -88,7 +88,7 @@ class InvestmentCalculator extends Component {
         $final = $capital + $profit;
 
         $earlyPenalty = ($capital * $penalty) / 100;
-        $earlyReturn = $capital - $earlyPenalty;
+        $earlyReturn = $capital - $earlyPenalty + $profit;
 
         $this->result = [
             'final' => $final,

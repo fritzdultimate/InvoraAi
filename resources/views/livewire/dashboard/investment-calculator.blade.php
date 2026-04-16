@@ -1,8 +1,8 @@
 @push('styles')
     <style>
         /* =========================
-           INVORA CALCULATOR ELITE
-        ========================= */
+               INVORA CALCULATOR ELITE
+            ========================= */
 
         :root {
             --invora-green: #22c55e;
@@ -266,8 +266,217 @@
     </style>
 @endpush
 
+@push('styles')
+    <style>
+        :root {
+            --invora-green: #22c55e;
+            --invora-bg: #0b0f14;
+        }
+
+        /* GLOBAL */
+        .invora-invest-page {
+            padding: 16px;
+            padding-bottom: 120px;
+        }
+
+        /* HERO */
+        .invora-calc-hero {
+            border-radius: 22px;
+            padding: 24px;
+            background:
+                radial-gradient(circle at 10% 0%, rgba(34, 197, 94, 0.2), transparent 40%),
+                #0b0f14;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        /* TEXT */
+        .metric-value {
+            font-size: 34px;
+            font-weight: 700;
+        }
+
+        .metric-profit {
+            color: var(--invora-green);
+        }
+
+        /* NOTE */
+        .earnings-note {
+            font-size: 12px;
+            color: #9ca3af;
+            margin-top: 8px;
+        }
+
+        /* SECTIONS */
+        .invora-calc-section {
+            margin-top: 28px;
+        }
+
+        /* BOT GRID */
+        .bot-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        /* BOT CARD */
+        .bot-card {
+            padding: 16px;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+
+            backdrop-filter: blur(10px);
+
+            transition: all 0.25s ease;
+            cursor: pointer;
+        }
+
+        .bot-card:hover {
+            transform: translateY(-2px);
+        }
+
+        /* ACTIVE */
+        .bot-card.active {
+            border-color: var(--invora-green);
+            background: rgba(34, 197, 94, 0.1);
+            box-shadow: 0 0 25px rgba(34, 197, 94, 0.25);
+        }
+
+        /* CAPITAL */
+        .capital-box {
+            padding: 20px;
+            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .capital-input input {
+            font-size: 30px;
+            font-weight: 700;
+            background: transparent;
+            border: none;
+            color: white;
+        }
+
+        /* PRESETS */
+        .capital-presets button {
+            padding: 12px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .capital-presets button:active {
+            transform: scale(0.95);
+        }
+
+        /* SWITCH */
+        .switch-card {
+            padding: 18px;
+            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* TEXT */
+        .switch-title {
+            font-weight: 600;
+        }
+
+        .switch-sub {
+            font-size: 12px;
+            color: #9ca3af;
+            margin-top: 4px;
+        }
+
+        /* EXTRA INFO */
+        .compound-info {
+            font-size: 12px;
+            color: #6b7280;
+            margin-top: 6px;
+        }
+
+        /* TOGGLE */
+        .switch-toggle {
+            width: 50px;
+            height: 26px;
+            border-radius: 20px;
+            background: #222;
+            position: relative;
+        }
+
+        .switch-toggle.active {
+            background: var(--invora-green);
+        }
+
+        .toggle-dot {
+            width: 20px;
+            height: 20px;
+            background: white;
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            border-radius: 50%;
+            transition: 0.3s;
+        }
+
+        .switch-toggle.active .toggle-dot {
+            transform: translateX(24px);
+        }
+
+        /* RESULTS */
+        .result-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .result-card {
+            padding: 18px;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .result-card.profit {
+            background: rgba(34, 197, 94, 0.1);
+        }
+
+        .result-card h2 {
+            font-size: 22px;
+        }
+
+        /* RISK */
+        .invora-risk-box {
+            margin-top: 22px;
+            padding: 20px;
+            border-radius: 18px;
+            background: rgba(239, 68, 68, 0.1);
+        }
+
+        /* MOBILE */
+        @media (max-width: 768px) {
+            .bot-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .result-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .capital-presets {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+@endpush
+
 <div>
-    <div class="invora-invest-page">
+    <div class="invora-invest-page" x-data="{ selected: @entangle('selectedBotId') }">
 
         <div class="invora-hero-card invora-calc-hero">
 
@@ -293,6 +502,10 @@
 
         </div>
 
+        <div class="earnings-note">
+            Earnings update every 6-hour cycle • ~4 payouts per day
+        </div>
+
         <div style="font-size:12px; color:#9ca3af;">
             Est. earnings: ${{ number_format(($result['daily'] ?? 0) / 24, 4) }} / hour
         </div>
@@ -303,8 +516,8 @@
 
             <div class="bot-grid">
                 @foreach($bots as $bot)
-                    <div class="bot-card {{ $selectedBotId == $bot->id ? 'active' : '' }}"
-                        wire:click="$set('selectedBotId', {{ $bot->id }})">
+                    <div class="bot-card" :class="selected === {{ $bot->id }} ? 'active' : ''"
+                        @click="selected = {{ $bot->id }}" wire:click="$set('selectedBotId', {{ $bot->id }})">
                         <div class="bot-name">{{ $bot->name }}</div>
 
                         <div class="bot-meta">
@@ -350,7 +563,14 @@
 
                 <div>
                     <div class="switch-title">Auto Compounding</div>
-                    <div class="switch-sub">Reinvest profits every cycle</div>
+                    <div class="switch-sub">
+                        Profits are reinvested every
+                        <strong>6 hours (4 cycles daily)</strong> to grow your capital faster.
+                    </div>
+
+                    <div class="compound-info">
+                        Each cycle adds your profit back to your capital, increasing your next payout.
+                    </div>
                 </div>
 
                 <div class="switch-toggle {{ $compound ? 'active' : '' }}">
