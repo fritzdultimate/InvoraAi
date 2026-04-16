@@ -47,12 +47,12 @@ class BotInvestmentService {
         });
     }
 
-    public static function terminate(BotTermination $termination) {
+    public static function terminate(BotTermination $termination) { 
 
         $investment = $termination->botInvestment;
 
         if ($investment->status !== BotInvestmentStatus::TERMINATIONREQUEST) {
-            throw new \Exception('Investment cannot be twerminated.');
+            throw new \Exception('Investment cannot be terminated.');
         }
 
         return DB::transaction(function () use ($investment, $termination) {
