@@ -10,6 +10,7 @@ use App\Services\Wallet\WalletService;
 use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\Select;
@@ -52,7 +53,7 @@ class DailyResidualBonusesTable
                     ->colors([
                         'success' => 'credited',
                         'warning' => 'locked',
-                        'danger' => 'denied',
+                        'danger' => 'reversed',
                     ])
                     ->sortable(),
                 TextColumn::make('locked_at')
@@ -116,7 +117,35 @@ class DailyResidualBonusesTable
                                     ->danger()
                                     ->send();
                             }
-                        })
+                        }),
+
+                        Action::make('deny')
+                        ->label('Deny') 
+                        ->color('danger')
+                        ->icon('heroicon-o-check-circle')
+                        ->modalHeading('Deny This Residual Bonus?')
+                        ->modalDescription('This will mark this bonus as denied.')
+                        ->requiresConfirmation()
+                        ->visible(fn (DailyResidualBonus $record) =>
+                            $record->status === 'locked'
+                        )
+                        ->action(function (DailyResidualBonus $record, array $data) {
+                            try {
+                                $record->status = 'reversed';
+                                $record->save();
+
+                                Notification::make()
+                                    ->title('Bonus status updated.')
+                                    ->success()
+                                    ->send();
+                            } catch(Halt $e) {
+                                Notification::make()
+                                    ->title($e->getMessage())
+                                    ->danger()
+                                    ->send();
+                            }
+                        }),
+                    DeleteAction::make(),
                 ])
             ])
             ->toolbarActions([

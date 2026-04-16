@@ -18,4 +18,8 @@ class RankBonus extends Model {
         'credited_at' => 'datetime',
         'locked_at' => 'datetime'
     ];
+
+    public function user() {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }
