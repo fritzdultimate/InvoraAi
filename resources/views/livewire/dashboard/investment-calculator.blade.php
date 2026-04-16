@@ -370,49 +370,68 @@
             transform: scale(0.95);
         }
 
-        /* SWITCH */
+        /* ================= SWITCH ================= */
+
         .switch-card {
             padding: 18px;
             border-radius: 18px;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            background: var(--invora-card);
+            border: 1px solid var(--invora-border);
+            cursor: pointer;
         }
 
-        /* TEXT */
+        /* FLEX CONTROL (IMPORTANT) */
+        .switch-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        /* TEXT BLOCK */
+        .switch-text {
+            flex: 1;
+            min-width: 0;
+        }
+
+        /* TITLE */
         .switch-title {
             font-weight: 600;
+            font-size: 14px;
         }
 
+        /* SUBTEXT */
         .switch-sub {
             font-size: 12px;
             color: #9ca3af;
             margin-top: 4px;
+            line-height: 1.4;
         }
 
         /* EXTRA INFO */
         .compound-info {
-            font-size: 12px;
+            font-size: 11px;
             color: #6b7280;
             margin-top: 6px;
+            line-height: 1.4;
         }
 
         /* TOGGLE */
         .switch-toggle {
             width: 50px;
             height: 26px;
+            min-width: 50px; /* PREVENT SHRINK */
             border-radius: 20px;
             background: #222;
             position: relative;
+            flex-shrink: 0;
         }
 
         .switch-toggle.active {
             background: var(--invora-green);
         }
 
+        /* DOT */
         .toggle-dot {
             width: 20px;
             height: 20px;
@@ -426,6 +445,33 @@
 
         .switch-toggle.active .toggle-dot {
             transform: translateX(24px);
+        }
+
+        /* ================= MOBILE FIX ================= */
+
+        @media (max-width: 768px) {
+
+            .switch-content {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+
+            .switch-toggle {
+                align-self: flex-end;
+            }
+
+            .switch-title {
+                font-size: 15px;
+            }
+
+            .switch-sub {
+                font-size: 12px;
+            }
+
+            .compound-info {
+                font-size: 11px;
+            }
         }
 
         /* RESULTS */
@@ -559,22 +605,29 @@
 
         <div class="invora-calc-section">
 
-            <div class="switch-card" wire:click="$toggle('compound')">
+            <div 
+                class="switch-card" 
+                wire:click="$toggle('compound')"
+            >
 
-                <div>
-                    <div class="switch-title">Auto Compounding</div>
-                    <div class="switch-sub">
-                        Profits are reinvested every
-                        <strong>6 hours (4 cycles daily)</strong> to grow your capital faster.
+                <div class="switch-content">
+
+                    <div class="switch-text">
+                        <div class="switch-title">Auto Compounding</div>
+
+                        <div class="switch-sub">
+                            Reinvests profit every <strong>6 hours (4 cycles/day)</strong>
+                        </div>
+
+                        <div class="compound-info">
+                            Profit is added back to capital each cycle to increase future payouts.
+                        </div>
                     </div>
 
-                    <div class="compound-info">
-                        Each cycle adds your profit back to your capital, increasing your next payout.
+                    <div class="switch-toggle {{ $compound ? 'active' : '' }}">
+                        <div class="toggle-dot"></div>
                     </div>
-                </div>
 
-                <div class="switch-toggle {{ $compound ? 'active' : '' }}">
-                    <div class="toggle-dot"></div>
                 </div>
 
             </div>
