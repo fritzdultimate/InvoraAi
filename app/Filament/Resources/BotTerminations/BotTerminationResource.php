@@ -16,13 +16,12 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class BotTerminationResource extends Resource
-{
+class BotTerminationResource extends Resource {
     protected static ?string $model = BotTermination::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
-    protected static ?string $recordTitleAttribute = 'Investmnet Termination';
+    protected static ?string $navigationLabel = 'Investment Terminations';
 
     public static function form(Schema $schema): Schema
     {
