@@ -441,6 +441,12 @@
                         +${{ number_format($bonus->amount,2) }}
                     </div>
 
+                     @if($bonus->status === 'credited')
+                        <span class="status-badge claimed">
+                            Claimed
+                        </span>
+                    @endif
+
                 </div>
             @empty
                 <div class="invora-card">
@@ -464,7 +470,7 @@
 
                     <div>
                         <div class="bonus-user">
-                            {{ $bonus->title ?? 'Rank Bonus' }}
+                            {{ $bonus->title ?? 'Residual Bonus' }}
                         </div>
 
                         <div class="bonus-meta">
@@ -475,6 +481,12 @@
                     <div class="bonus-amount glow">
                         +${{ number_format($bonus->amount,2) }}
                     </div>
+
+                    @if($bonus->status === 'credited')
+                        <span class="status-badge claimed">
+                            Claimed
+                        </span>
+                    @endif
 
                 </div>
             @empty

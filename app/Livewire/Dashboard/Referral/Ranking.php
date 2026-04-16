@@ -54,7 +54,7 @@ class Ranking extends Component {
         return view('livewire.dashboard.referral.ranking', [
             'bonuses' => RankBonus::where([
                 'user_id' => auth()->id(),
-                'status' => 'claimed'
+                'status' => 'credited'
             ])->latest()->get(),
             'daily_bonuses' => DailyResidualBonus::where([
                 'user_id' => auth()->id(),

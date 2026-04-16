@@ -54,8 +54,8 @@ class RankEvaluatorService {
                     ],
                     [
                         'amount' => $rank->one_time_bonus,
-                        'status' => 'credited',
-                        'credited_at' => now(),
+                        'status' => 'locked',
+                        // 'credited_at' => now(),
                     ]
                 );
 
@@ -115,7 +115,7 @@ class RankEvaluatorService {
                 [
                     'rank_id' => $user->rank->rank_id,
                     'amount' => $bonus,
-                    'credited_at' => now(),
+                    // 'credited_at' => now(),
                     'status' => 'locked'
                 ]
             );
