@@ -417,7 +417,7 @@
     @endif
 
 
-    <!-- 💰 BONUS HISTORY -->
+    <!-- BONUS HISTORY -->
     <div class="rank-section mt-4">
 
         <div class="section-title">Rank Earnings</div>
@@ -425,6 +425,41 @@
         <div class="invora-bonus-grid">
 
             @forelse($bonuses as $bonus)
+                <div class="bonus-card">
+
+                    <div>
+                        <div class="bonus-user">
+                            {{ $bonus->title ?? 'Rank Bonus' }}
+                        </div>
+
+                        <div class="bonus-meta">
+                            {{ $bonus->created_at->diffForHumans() }}
+                        </div>
+                    </div>
+
+                    <div class="bonus-amount glow">
+                        +${{ number_format($bonus->amount,2) }}
+                    </div>
+
+                </div>
+            @empty
+                <div class="invora-card">
+                    No earnings yet.
+                </div>
+            @endforelse
+
+        </div>
+
+    </div>
+
+    <!--RESIDUAL HISTORY  -->
+    <div class="rank-section mt-4">
+
+        <div class="section-title">Rank Residual Earnings</div>
+
+        <div class="invora-bonus-grid">
+
+            @forelse($daily_bonuses as $bonus)
                 <div class="bonus-card">
 
                     <div>

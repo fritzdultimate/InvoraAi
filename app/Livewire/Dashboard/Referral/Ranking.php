@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Dashboard\Referral;
 
+use App\Models\DailyResidualBonus;
 use App\Services\RankEvaluatorService;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
@@ -51,7 +52,14 @@ class Ranking extends Component {
 
     public function render() {
         return view('livewire.dashboard.referral.ranking', [
-            'bonuses' => RankBonus::where('user_id', auth()->id())->latest()->get(),
+            'bonuses' => RankBonus::where([
+                'user_id' => auth()->id(),
+                'status' => 'claimed'
+            ])->latest()->get(),
+            'daily_bonuses' => DailyResidualBonus::where([
+                'user_id' => auth()->id(),
+                'status' => 'credited'
+            ])->latest()->get(),
             'ranks' => Rank::orderBy('level')->get()
         ]);
     }

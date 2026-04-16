@@ -116,6 +116,7 @@ class RankEvaluatorService {
                     'rank_id' => $user->rank->rank_id,
                     'amount' => $bonus,
                     'credited_at' => now(),
+                    'status' => 'locked'
                 ]
             );
 
