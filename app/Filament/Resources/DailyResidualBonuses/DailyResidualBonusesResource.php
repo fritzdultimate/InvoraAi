@@ -20,6 +20,10 @@ class DailyResidualBonusesResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedStar;
 
+    public static function getNavigationBadge(): ?string {
+        return (string) DailyResidualBonus::where('status', 'locked')->count();
+    }
+
     public static function form(Schema $schema): Schema
     {
         return DailyResidualBonusesForm::configure($schema);

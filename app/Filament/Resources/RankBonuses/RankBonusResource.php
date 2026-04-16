@@ -22,6 +22,10 @@ class RankBonusResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'Rank Bonuses';
 
+    public static function getNavigationBadge(): ?string {
+        return (string) RankBonus::where('status', 'locked')->count();
+    }
+
     public static function form(Schema $schema): Schema
     {
         return RankBonusForm::configure($schema);
