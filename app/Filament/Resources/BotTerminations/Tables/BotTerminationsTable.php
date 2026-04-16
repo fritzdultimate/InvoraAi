@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\BotTerminations\Tables;
 
+use App\Enums\BotInvestmentStatus;
 use App\Models\BotTermination;
 use App\Services\Bot\BotInvestmentService;
 use Filament\Actions\Action;
@@ -22,7 +23,67 @@ class BotTerminationsTable
     public static function configure(Table $table): Table
     {
         return $table
+        ->modifyQueryUsing(fn ($query) => 
+                $query->with(['botInvestment.user', 'botInvestment.bot'])
+            )
             ->columns([
+                TextColumn::make('botInvestment.user.name')
+                    ->label('User')
+                    ->searchable(query: function ($query, $search) {
+                        $query->whereHas('botInvestment.user', function ($q) use ($search) {
+                            $q->where('name', 'like', "%{$search}%")
+                            ->orWhere('email', 'like', "%{$search}%");
+                        });
+                    })
+                    ->formatStateUsing(fn ($state) => ucfirst($state))
+                    ->description(function ($record) {
+                        $email = $record->botInvestment?->user?->email;
+                        return $email ? strtolower($email) : '—';
+                    })
+                    ->color('primary')
+                    ->weight('semibold')
+                    ->icon('heroicon-o-user')
+                    ->sortable(),
+                TextColumn::make('botInvestment.bot.name')
+                    ->label('Bot')
+                    ->badge()
+                    ->color('info')
+                    ->sortable(),
+
+                TextColumn::make('botInvestment.amount')
+                    ->label('Capital')
+                    ->money('USD')
+                    ->sortable(),
+                TextColumn::make('botInvestment.total_profit')
+                    ->label('Profit')
+                    ->money('USD')
+                    ->color('success')
+                    ->sortable(),
+
+                TextColumn::make('botInvestment.status')
+                    ->label('Status')
+                    ->badge()
+                    ->formatStateUsing(fn ($state) => match($state) {
+                        BotInvestmentStatus::ACTIVE => 'Active',
+                        BotInvestmentStatus::COMPLETED => 'Completed',
+                        BotInvestmentStatus::TERMINATED => 'Terminated',
+                        BotInvestmentStatus::TERMINATIONREQUEST => 'Pending Termination',
+                        default => 'Unknown',
+                    })
+                    ->color(fn ($state) => match($state) {
+                        BotInvestmentStatus::ACTIVE => 'success',
+                        BotInvestmentStatus::COMPLETED => 'info',
+                        BotInvestmentStatus::TERMINATED => 'danger',
+                        BotInvestmentStatus::TERMINATIONREQUEST => 'warning',
+                        default => 'gray',
+                    })
+                    ->icon(fn ($state) => match($state) {
+                        BotInvestmentStatus::ACTIVE => 'heroicon-o-play',
+                        BotInvestmentStatus::COMPLETED => 'heroicon-o-check',
+                        BotInvestmentStatus::TERMINATED => 'heroicon-o-x-circle',
+                        BotInvestmentStatus::TERMINATIONREQUEST => 'heroicon-o-clock',
+                    })
+                    ->sortable(),
                 TextColumn::make('penalty_percent')
                     ->label('Penalty (%)')
                     ->formatStateUsing(fn ($state) => number_format($state, 2) . '%')
