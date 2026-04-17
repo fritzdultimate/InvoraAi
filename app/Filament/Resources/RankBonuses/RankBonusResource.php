@@ -9,6 +9,7 @@ use App\Filament\Resources\RankBonuses\Schemas\RankBonusForm;
 use App\Filament\Resources\RankBonuses\Tables\RankBonusesTable;
 use App\Models\RankBonus;
 use BackedEnum;
+use UnitEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -21,6 +22,8 @@ class RankBonusResource extends Resource
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedTrophy;
 
     protected static ?string $recordTitleAttribute = 'Rank Bonuses';
+
+    protected static  UnitEnum|string|null $navigationGroup = 'Bonuses';
 
     public static function getNavigationBadge(): ?string {
         return (string) RankBonus::where('status', 'locked')->count();

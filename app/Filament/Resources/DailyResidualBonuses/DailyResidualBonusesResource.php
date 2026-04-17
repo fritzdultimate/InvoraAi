@@ -9,6 +9,7 @@ use App\Filament\Resources\DailyResidualBonuses\Schemas\DailyResidualBonusesForm
 use App\Filament\Resources\DailyResidualBonuses\Tables\DailyResidualBonusesTable;
 use App\Models\DailyResidualBonus;
 use BackedEnum;
+use UnitEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -19,6 +20,8 @@ class DailyResidualBonusesResource extends Resource
     protected static ?string $model = DailyResidualBonus::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedStar;
+
+    protected static  UnitEnum|string|null $navigationGroup = 'Bonuses';
 
     public static function getNavigationBadge(): ?string {
         return (string) DailyResidualBonus::where('status', 'locked')->count();
