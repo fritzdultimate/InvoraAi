@@ -71,6 +71,13 @@
 				</a>
 			</li>
 
+			<li>
+				<a href="{{ route('calc') }}">
+					<iconify-icon icon="mdi:calculator-variant-outline" class="menu-icon"></iconify-icon>
+					<span>Investment Calculator</span>
+				</a>
+			</li>
+
 			<li class="dropdown">
 				<a href="javascript:void(0)">
 					<iconify-icon icon="solar:users-group-rounded-outline" class="menu-icon"></iconify-icon>

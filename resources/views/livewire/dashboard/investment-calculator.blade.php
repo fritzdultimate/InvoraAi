@@ -664,7 +664,7 @@
 
         </div>
 
-        <div class="invora-risk-box">
+        <div class="invora-risk-box hidden">
 
             <div class="risk-title">Early Exit Impact</div>
 
