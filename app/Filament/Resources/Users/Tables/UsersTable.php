@@ -256,7 +256,7 @@ class UsersTable
                                 ->descriptions([
                                     'receive_referral' => 'User earns money when people they invited join or invest.',
                                     
-                                    'distribute_referral' => 'User is allowed to share or allocate referral bonuses to others (usually admins or team leaders).',
+                                    'distribute_referral' => 'User is allowed to allocate referral bonuses to others.',
                                     
                                     'receive_rank' => 'User earns rewards when they reach certain levels or milestones in the system.',
                                     
