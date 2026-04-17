@@ -7,7 +7,7 @@
         [
             'q' => 'What is '.$name.'?',
             'type' => 'text',
-            'text' => $name.' is an AI-driven trading platform that uses advanced algorithms to analyze financial markets, manage risk, and execute trading strategies automatically.',
+            'text' => $name.' is a market-neutral, AI-powered trading system designed to generate consistent yield from crypto derivatives. Instead of predicting market direction, it captures funding fees from leveraged traders using balanced long and short positions, eliminating exposure to price volatility.  Built on institutional-grade infrastructure, Invora focuses on transparency, risk management, and sustainable, data-driven returns.',
         ],
         [
             'q' => 'How does the AI generate returns?',
