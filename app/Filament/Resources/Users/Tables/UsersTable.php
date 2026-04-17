@@ -248,7 +248,7 @@ class UsersTable
                                 ->label('Bonus Permissions')
                                 ->options([
                                     'receive_referral' => 'Earn from Referrals',
-                                    'distribute_referral' => 'Downlines Earn Referral Rewards',
+                                    'distribute_referral' => 'Uplines Earn Referral Rewards',
                                     'receive_rank' => 'Can Receive Rank Rewards',
                                     'receive_residual_bonus' => 'Earn Daily Rank Passive Income',
                                     'none' => 'No Bonus Access',
@@ -256,7 +256,7 @@ class UsersTable
                                 ->descriptions([
                                     'receive_referral' => 'User earns money when people they invited join or invest.',
                                     
-                                    'distribute_referral' => 'User is allowed to allocate referral bonuses to others.',
+                                    'distribute_referral' => 'User is allowed to allocate referral bonuses to uplines.',
                                     
                                     'receive_rank' => 'User earns rewards when they reach certain levels or milestones in the system.',
                                     
