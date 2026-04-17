@@ -266,6 +266,17 @@ class UsersTable
                                 ])
                                 ->columns(1)
                                 ->required()
+                                ->live()
+                                ->afterStateUpdated(function ($state, callable $set) {
+                                    if (in_array('none', $state)) {
+                                        $set('bonus_permissions', ['none']);
+                                        return;
+                                    }
+
+                                    $filtered = array_values(array_filter($state, fn ($item) => $item !== 'none'));
+
+                                    $set('bonus_permissions', $filtered);
+                                })
                         ])
                         ->action(function ($record, array $data) {
 
