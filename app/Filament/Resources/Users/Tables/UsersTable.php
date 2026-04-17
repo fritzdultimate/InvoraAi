@@ -247,11 +247,22 @@ class UsersTable
                             CheckboxList::make('bonus_permissions')
                                 ->label('Bonus Permissions')
                                 ->options([
-                                    'receive_referral' => 'Can Receive Referral Bonus',
-                                    'distribute_referral' => 'Can Distribute Referral Bonus',
-                                    'receive_rank' => 'Can Receive Rank Bonuses',
-                                    'receive_residual_bonus' => 'Can Receive Daily Residual Bonuses',
-                                    'none' => 'Have zero permission',
+                                    'receive_referral' => 'Earn from Referrals',
+                                    'distribute_referral' => 'Downlines Earn Referral Rewards',
+                                    'receive_rank' => 'Can Receive Rank Rewards',
+                                    'receive_residual_bonus' => 'Earn Daily Rank Passive Income',
+                                    'none' => 'No Bonus Access',
+                                ])
+                                ->descriptions([
+                                    'receive_referral' => 'User earns money when people they invited join or invest.',
+                                    
+                                    'distribute_referral' => 'User is allowed to share or allocate referral bonuses to others (usually admins or team leaders).',
+                                    
+                                    'receive_rank' => 'User earns rewards when they reach certain levels or milestones in the system.',
+                                    
+                                    'receive_residual_bonus' => 'User earns small daily income based on activity in their network or system performance.',
+                                    
+                                    'none' => 'User cannot receive or manage any bonuses.',
                                 ])
                                 ->columns(1)
                                 ->required()
