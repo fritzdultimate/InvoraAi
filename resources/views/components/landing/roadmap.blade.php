@@ -39,7 +39,7 @@
                             </div>
 
                             <div class="bt-roadmap-item">
-                                <span class="roadmap-title">Q4 2025</span>
+                                <span class="roadmap-title">Q4 2026</span>
                                 <div class="roadmap-content">
                                     <span class="dot"></span>
                                     <h4 class="title">Ecosystem Expansion</h4>
@@ -50,17 +50,6 @@
                             </div>
 
                             <div class="bt-roadmap-item">
-                                <span class="roadmap-title">Q1 - Q4 2026</span>
-                                <div class="roadmap-content">
-                                    <span class="dot"></span>
-                                    <h4 class="title">Pre-Launch & Launch</h4>
-                                    <span>InvoraAI platform & dashboard release</span>
-                                    <span>Membership plans & global onboarding</span>
-                                    <span>Worldwide marketing rollout</span>
-                                </div>
-                            </div>
-
-                            <div class="bt-roadmap-item hidden">
                                 <span class="roadmap-title">Q1 - Q4 2027</span>
                                 <div class="roadmap-content">
                                     <span class="dot"></span>
