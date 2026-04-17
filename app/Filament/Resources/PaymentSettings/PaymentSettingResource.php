@@ -9,6 +9,8 @@ use App\Filament\Resources\PaymentSettings\Schemas\PaymentSettingForm;
 use App\Filament\Resources\PaymentSettings\Tables\PaymentSettingsTable;
 use App\Models\PaymentSetting;
 use BackedEnum;
+use UnitEnum;
+
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -23,6 +25,7 @@ class PaymentSettingResource extends Resource
     protected static ?string $pluralModelLabel = 'Payment Settings';
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedCreditCard;
+    protected static  UnitEnum|string|null $navigationGroup = 'Financial Operations';
 
     public static function form(Schema $schema): Schema
     {

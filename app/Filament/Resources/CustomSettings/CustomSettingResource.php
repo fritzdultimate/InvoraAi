@@ -9,6 +9,7 @@ use App\Filament\Resources\CustomSettings\Schemas\CustomSettingForm;
 use App\Filament\Resources\CustomSettings\Tables\CustomSettingsTable;
 use App\Models\CustomSetting;
 use BackedEnum;
+use UnitEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -19,6 +20,7 @@ class CustomSettingResource extends Resource
     protected static ?string $model = CustomSetting::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedCog6Tooth;
+    protected static  UnitEnum|string|null $navigationGroup = 'System Configuration';
 
     public static function form(Schema $schema): Schema
     {

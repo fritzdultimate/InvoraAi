@@ -9,6 +9,7 @@ use App\Filament\Resources\WithdrawalCurrencies\Schemas\WithdrawalCurrencyForm;
 use App\Filament\Resources\WithdrawalCurrencies\Tables\WithdrawalCurrenciesTable;
 use App\Models\WithdrawalCurrency;
 use BackedEnum;
+use UnitEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -19,7 +20,7 @@ class WithdrawalCurrencyResource extends Resource
     protected static ?string $model = WithdrawalCurrency::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedCurrencyDollar;
-    // protected static ?string $navigationGroup = 'Finance';
+    protected static  UnitEnum|string|null $navigationGroup = 'Financial Operations';
     protected static ?string $label = 'Currency';
     protected static ?string $pluralLabel = 'Currencies';
 

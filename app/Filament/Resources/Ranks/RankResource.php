@@ -9,6 +9,7 @@ use App\Filament\Resources\Ranks\Schemas\RankForm;
 use App\Filament\Resources\Ranks\Tables\RanksTable;
 use App\Models\Rank;
 use BackedEnum;
+use UnitEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -19,6 +20,7 @@ class RankResource extends Resource
     protected static ?string $model = Rank::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static  UnitEnum|string|null $navigationGroup = 'Rewards & Network';
 
     public static function form(Schema $schema): Schema
     {

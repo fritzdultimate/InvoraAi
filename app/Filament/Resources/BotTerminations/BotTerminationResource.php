@@ -9,6 +9,7 @@ use App\Filament\Resources\BotTerminations\Schemas\BotTerminationForm;
 use App\Filament\Resources\BotTerminations\Tables\BotTerminationsTable;
 use App\Models\BotTermination;
 use BackedEnum;
+use UnitEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -22,6 +23,7 @@ class BotTerminationResource extends Resource {
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
     protected static ?string $navigationLabel = 'Investment Terminations';
+    protected static  UnitEnum|string|null $navigationGroup = 'Investment System';
 
     public static function form(Schema $schema): Schema
     {

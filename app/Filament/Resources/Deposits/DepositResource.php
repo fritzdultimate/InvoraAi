@@ -10,6 +10,7 @@ use App\Filament\Resources\Deposits\Schemas\DepositForm;
 use App\Filament\Resources\Deposits\Tables\DepositsTable;
 use App\Models\Deposit;
 use BackedEnum;
+use UnitEnum;
 use Filament\Actions\Action;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
@@ -23,6 +24,7 @@ class DepositResource extends Resource
     protected static ?string $model = Deposit::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedBanknotes;
+    protected static  UnitEnum|string|null $navigationGroup = 'Financial Operations';
 
 
 

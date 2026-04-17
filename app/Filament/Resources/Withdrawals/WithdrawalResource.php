@@ -9,6 +9,7 @@ use App\Filament\Resources\Withdrawals\Schemas\WithdrawalForm;
 use App\Filament\Resources\Withdrawals\Tables\WithdrawalsTable;
 use App\Models\Withdrawal;
 use BackedEnum;
+use UnitEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -20,6 +21,7 @@ class WithdrawalResource extends Resource
     protected static ?string $model = Withdrawal::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedArrowRight;
+    protected static  UnitEnum|string|null $navigationGroup = 'Financial Operations';
 
     public static function getNavigationBadge(): ?string {
         return (string) Withdrawal::where('status', 'pending')->count();

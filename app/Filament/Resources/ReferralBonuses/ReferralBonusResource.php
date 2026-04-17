@@ -9,6 +9,7 @@ use App\Filament\Resources\ReferralBonuses\Schemas\ReferralBonusForm;
 use App\Filament\Resources\ReferralBonuses\Tables\ReferralBonusesTable;
 use App\Models\ReferralBonus;
 use BackedEnum;
+use UnitEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -19,6 +20,7 @@ class ReferralBonusResource extends Resource
     protected static ?string $model = ReferralBonus::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedUserGroup;
+    protected static  UnitEnum|string|null $navigationGroup = 'Rewards & Network';
 
     protected static ?string $recordTitleAttribute = 'Referral Rewards';
 
