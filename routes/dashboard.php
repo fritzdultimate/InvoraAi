@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\Dashboard\AppComingSoon;
 use App\Livewire\Dashboard\Bot;
 use App\Livewire\Dashboard\Deposit;
 use App\Livewire\Dashboard\DepositDetails;
@@ -41,6 +42,7 @@ Route::middleware(['auth'])->prefix('dashboard')->group(function () {
 
 
     Route::get('/investment-calculator',  InvestmentCalculator::class)->name('calc');
+    Route::get('/app/coming-soon',  AppComingSoon::class)->name('coming-soon');
 
 
     Route::get('/profile',  Profile::class)->name('profile');
