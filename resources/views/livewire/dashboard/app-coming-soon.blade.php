@@ -163,7 +163,7 @@
             </div>
 
             <!-- CTA -->
-            <button class="notify-btn">
+            <button class="notify-btn hidden">
                 Get Early Access
             </button>
 
