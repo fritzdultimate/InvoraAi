@@ -295,9 +295,17 @@
                     Live trading will be available soon.
                 </div>
 
-                <button class="notify-btn hidden">
-                    Get Early Access
-                </button>
+                @if (auth()->user()->waitlist()->exists())
+                    <button class="notify-btn" style="background:#16a34a; display: flex; gap: 4px; justify-content: center; align-items: center;">
+                        <iconify-icon icon="mdi:check-circle"></iconify-icon>
+                        <span style="color: black">You're on the List</span>
+                    </button>
+                @else
+                    <button class="notify-btn" wire:click="wait">
+                        <span wire:loading>Joining...</span>
+                        <span wire:loading.remove>Get Early Access</span>
+                    </button>
+                @endif
             </div>
 
         </div>

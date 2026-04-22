@@ -204,4 +204,8 @@ class User extends Authenticatable implements FilamentUser{
 
         return $monthlyInvestment >= 500 && $hasActiveReferral;
     }
+
+    public function waitlist() {
+        return $this->hasOne(Waitlist::class);
+    }
 }
