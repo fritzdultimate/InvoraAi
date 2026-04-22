@@ -292,7 +292,7 @@
                 </div>
 
                 <div class="overlay-sub">
-                    Live trading will be available in the mobile app.
+                    Live trading will be available soon.
                 </div>
 
                 <button class="notify-btn hidden">
