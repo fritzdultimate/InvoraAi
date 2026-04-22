@@ -346,6 +346,50 @@
     transform: scale(1.05);
 }
 
+/* LIVE TRADING BUTTON (LOCKED FEEL) */
+.live-trading-btn {
+    background: linear-gradient(90deg, #0ea5e9, #22c55e);
+    position: relative;
+    overflow: hidden;
+}
+@media (max-width: 768px) {
+    .live-trading-btn {
+        margin-top: 10px;
+    }
+}
+
+
+/* subtle glow */
+.live-trading-btn::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        120deg,
+        transparent,
+        rgba(255,255,255,0.25),
+        transparent
+    );
+    opacity: 0.3;
+    animation: shine 2.5s infinite;
+}
+
+/* shine animation */
+@keyframes shine {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+/* COMING TAG */
+.coming-tag {
+    font-size: 10px;
+    margin-left: 6px;
+    padding: 2px 6px;
+    border-radius: 999px;
+    background: rgba(0,0,0,0.3);
+}
+/* live trading ends */
+
 /* ===== MAIN BALANCE ===== */
 
 .invora-balance-card {

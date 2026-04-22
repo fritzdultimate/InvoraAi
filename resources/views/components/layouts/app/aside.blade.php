@@ -55,6 +55,13 @@
 				</a>
 			</li>
 
+			<li>
+				<a href="{{ route('app-coming-soon') }}">
+					<iconify-icon icon="mdi:cellphone" class="menu-icon"></iconify-icon>
+					<span>Mobile App</span>
+				</a>
+			</li>
+
 			<li class="sidebar-menu-group-title">License & Investment</li>
 
 			<li>
