@@ -40,4 +40,8 @@ return [
         'ipn_secret' => env('NOWPAYMENT_IPN_KEY'),
     ],
 
+    'bitquery' => [
+        'key' => env('BITQUERY_API_KEY'),
+    ],
+
 ];
