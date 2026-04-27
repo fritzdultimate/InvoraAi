@@ -155,6 +155,10 @@ class Investment extends Component
     }
 
     public function createInvestment() {
+        if(auth()->user()->suspended_at) {
+            $this->dispatch('error', message: 'Your account has been suspended.');
+            return;
+        }
         if(!$this->selectedLicense) return;
 
         $this->validate([
@@ -236,6 +240,10 @@ class Investment extends Component
     }
 
     public function upgradeLicense() {
+        if(auth()->user()->suspended_at) {
+            $this->dispatch('error', message: 'Your account has been suspended.');
+            return;
+        }
         $this->validate([
             'upgradedBotId' => [
                 'required',

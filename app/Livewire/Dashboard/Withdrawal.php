@@ -81,6 +81,10 @@ class Withdrawal extends Component {
 
 
     public function makeWithdrawal() {
+        if(auth()->user()->suspended_at) {
+            $this->dispatch('error', message: 'Your account has been suspended.');
+            return;
+        }
         $this->amount = str_replace(',', '', $this->amount);
         $this->validate();
 
