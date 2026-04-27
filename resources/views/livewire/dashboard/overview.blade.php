@@ -75,9 +75,148 @@
             border-radius: 12px !important;
             box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.4) !important;
         }
+
+        .invora-suspended-banner {
+            background: linear-gradient(135deg, rgba(220, 38, 38, 0.12), rgba(2, 6, 23, 0.95));
+            border: 1px solid rgba(220, 38, 38, 0.25);
+            border-radius: 16px;
+            padding: 16px;
+            /* margin-bottom: 5px; */
+            backdrop-filter: blur(10px);
+        }
+
+        /* MAIN LAYOUT */
+        .invora-suspended-inner {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+        }
+
+        /* ICON */
+        .invora-suspended-icon {
+            font-size: 26px;
+            color: #ef4444;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        /* TEXT BLOCK */
+        .invora-suspended-content {
+            flex: 1;
+        }
+
+        .invora-suspended-content h4 {
+            margin: 0;
+            font-size: 15px;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .invora-suspended-content p {
+            margin: 6px 0 0;
+            font-size: 13px;
+            color: #94a3b8;
+            line-height: 1.6;
+            max-width: 600px;
+        }
+
+        /* BUTTON (desktop) */
+        .invora-suspended-action {
+            flex-shrink: 0;
+        }
+
+        .invora-suspended-action a {
+            display: inline-block;
+            background: linear-gradient(135deg, #dc2626, #ef4444);
+            color: white;
+            padding: 9px 14px;
+            border-radius: 10px;
+            font-size: 12px;
+            text-decoration: none;
+            transition: 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .invora-suspended-action a:hover {
+            transform: translateY(-1px);
+            opacity: 0.9;
+        }
+
+        /* MOBILE BUTTON (hidden on desktop) */
+        .invora-suspended-mobile-action {
+            display: none;
+            margin-top: 10px;
+        }
+
+        .invora-suspended-mobile-action a {
+            display: inline-block;
+            background: linear-gradient(135deg, #dc2626, #ef4444);
+            color: white;
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-size: 13px;
+            text-decoration: none;
+        }
+
+        /* 📱 RESPONSIVE */
+        @media (max-width: 768px) {
+            .invora-suspended-inner {
+                flex-direction: column;
+            }
+
+            .invora-suspended-action {
+                display: none;
+                /* hide desktop button */
+            }
+
+            .invora-suspended-mobile-action {
+                display: block;
+            }
+
+            .invora-suspended-content p {
+                max-width: 100%;
+            }
+        }
     </style>
 @endpush
 <div class="flex flex-col gap-6">
+    @if(auth()->user()->suspended_at)
+        <div class="invora-suspended-banner">
+
+            <div class="invora-suspended-inner">
+
+                <!-- ICON -->
+                <div class="invora-suspended-icon">
+                    <iconify-icon icon="mdi:shield-alert-outline"></iconify-icon>
+                </div>
+
+                <!-- TEXT -->
+                <div class="invora-suspended-content">
+                    <h4>Account Suspended</h4>
+                    <p>
+                        Your account has been temporarily suspended due to a policy review.
+                        If you believe this was an error, please contact support for assistance.
+                    </p>
+
+                    <!-- MOBILE BUTTON (inside text block) -->
+                    <div class="invora-suspended-mobile-action">
+                        <a href="mailto:support@invora.ai" onclick="openSupportChat(event)">
+                            Contact Support
+                        </a>
+                    </div>
+                </div>
+
+                <!-- DESKTOP BUTTON -->
+                <div class="invora-suspended-action">
+                    <a href="mailto:support@invora.ai" class="invora-suspended-btn" onclick="openSupportChat(event)">
+                        Contact Support
+                    </a>
+                </div>
+
+            </div>
+
+        </div>
+    @endif
     <div class="grid grid-cols-1 xl:grid-cols-12 gap-6">
 
         <div class="invora-grid col-span-12 2xl:col-span-6">
@@ -150,12 +289,8 @@
                             <span>Withdraw</span>
                         </a>
 
-                        <button
-                            class="invora-action-btn compound"
-                            @click="showCompound = !showCompound"
-                            id="compound"
-                        >
-                            
+                        <button class="invora-action-btn compound" @click="showCompound = !showCompound" id="compound">
+
                             <iconify-icon icon="mdi:trending-up"></iconify-icon>
                             <span>Compound</span>
                         </button>
@@ -163,12 +298,7 @@
                     </div>
 
                     <div>
-                        <div 
-                            x-show="showCompound"
-                            x-transition
-                            class="invora-compound-select mt-3"
-                            x-cloak
-                        >
+                        <div x-show="showCompound" x-transition class="invora-compound-select mt-3" x-cloak>
 
                             <div class="compound-select-header">
                                 <h4>Select Investment</h4>
@@ -182,8 +312,8 @@
                                     $maxProfit = $investments->max('total_profit');
 
                                     $investments = $investments->map(function ($inv) use ($maxProfit) {
-                                        $inv->roi = $inv->amount > 0 
-                                            ? ($inv->total_profit / $inv->amount) * 100 
+                                        $inv->roi = $inv->amount > 0
+                                            ? ($inv->total_profit / $inv->amount) * 100
                                             : 0;
 
                                         $inv->is_best = $inv->total_profit == $maxProfit;
@@ -194,10 +324,8 @@
 
                                 @forelse($investments as $inv)
 
-                                    <a 
-                                        href="{{ route('investments.item', $inv->uuid) }}#compound"
-                                        class="compound-invest-card {{ $inv->is_best ? 'best' : '' }}"
-                                    >
+                                    <a href="{{ route('investments.item', $inv->uuid) }}#compound"
+                                        class="compound-invest-card {{ $inv->is_best ? 'best' : '' }}">
                                         <div>
                                             <h5>
                                                 {{ $inv->bot->name }}
