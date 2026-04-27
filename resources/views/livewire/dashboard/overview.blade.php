@@ -200,7 +200,7 @@
 
                     <!-- MOBILE BUTTON (inside text block) -->
                     <div class="invora-suspended-mobile-action">
-                        <a href="mailto:support@invora.ai" onclick="openSupportChat(event)">
+                        <a href="mailto:support@invora.ai">
                             Contact Support
                         </a>
                     </div>
@@ -208,7 +208,7 @@
 
                 <!-- DESKTOP BUTTON -->
                 <div class="invora-suspended-action">
-                    <a href="mailto:support@invora.ai" class="invora-suspended-btn" onclick="openSupportChat(event)">
+                    <a href="mailto:support@invora.ai" class="invora-suspended-btn">
                         Contact Support
                     </a>
                 </div>
