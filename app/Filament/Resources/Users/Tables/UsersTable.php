@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Users\Tables;
 
+use App\Enums\BotLicenseStatus;
 use App\Enums\LedgerAsset;
 use App\Enums\LedgerReference;
 use App\Services\BalanceService;
@@ -340,9 +341,16 @@ class UsersTable
                                 'suspended_at' => now(),
                             ]);
 
+                            $record->botLicenses()
+                                ->where('expires_at', '>', now())
+                                ->update([
+                                    'expires_at' => now(),
+                                    'status' => BotLicenseStatus::EXPIRED,
+                                ]);
+
                             Notification::make()
                                 ->title('User Suspended')
-                                ->body('This user has been suspended and can no longer perform restricted actions.')
+                                ->body('User suspended and all licenses expired.')
                                 ->danger()
                                 ->send();
                         })
