@@ -13,7 +13,7 @@ class LiveTrading extends Component
 
     public function mount()
     {
-        // $this->data = BitqueryService::getTrades();
+        $this->data = BitqueryService::getTrades();
 
         // cache()->remember('dex_trades', 10, fn () => $this->getTrades());
     }
