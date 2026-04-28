@@ -483,6 +483,7 @@
     </div>
 
     <div class="trade-container">
+        @if(false)
 
         @foreach(\App\Models\LiveTrade::latest()->take(20)->get() as $trade)
 
@@ -537,6 +538,7 @@
             </div>
 
         @endforeach
+        @endif
 
     </div>
 
