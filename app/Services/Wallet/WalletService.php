@@ -114,7 +114,7 @@ class WalletService {
     public static function getBalance(User $user, string $asset) {
         $balance = WalletLedger::where('user_id', $user->id)
             ->where('asset', $asset)
-            ->latest()
+            ->latest('id')
             ->value('balance_after');
 
         return $balance ?? '0.00';
