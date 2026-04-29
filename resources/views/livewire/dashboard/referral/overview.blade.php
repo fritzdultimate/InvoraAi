@@ -56,15 +56,7 @@
                 ${{ number_format($claimableAmount, 2) }}
             </div>
 
-            @if($claimableAmount > 0)
-                <button
-                    wire:click="claimAll"
-                    wire:loading.attr="disabled"
-                    class="invora-btn-primary mt-2"
-                >
-                    Claim All
-                </button>
-            @endif
+            
         </div>
 
     </div>
