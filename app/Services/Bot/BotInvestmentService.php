@@ -157,6 +157,58 @@ class BotInvestmentService {
         });
     }
 
+    public static function refundToWallet($investment, $walletType, $amount) {
+        WalletService::debit(
+            $investment->user,
+            $amount,
+            LedgerReference::BOT_INVESTMENT_STOPPED,
+            $investment->id,
+            'Bot investment stopped from admin',
+            LedgerAsset::LOCKEDBALANCE
+        );
+
+            WalletService::credit(
+                $investment->user,
+                $amount,
+                LedgerReference::BOT_INVESTMENT_STOPPED,
+                $investment->id,
+                'bot investment stopped from admin',
+                LedgerAsset::from($walletType)
+            );
+
+            $investment->update([
+                'status' => BotInvestmentStatus::COMPLETED,
+                'matures_at' => now(),
+            ]);
+    }
+
+    public static function customAdjustment($investment, $walletType, $amount, $debitLocked) {
+        if($debitLocked) {
+            WalletService::debit(
+                $investment->user,
+                $amount,
+                LedgerReference::BOT_INVESTMENT_STOPPED,
+                $investment->id,
+                'Bot investment stopped from admin',
+                LedgerAsset::LOCKEDBALANCE
+            );
+        }
+
+            WalletService::credit(
+                $investment->user,
+                $amount,
+                LedgerReference::BOT_INVESTMENT_STOPPED,
+                $investment->id,
+                'bot investment stopped from admin',
+                LedgerAsset::from($walletType)
+            );
+
+            $investment->update([
+                'status' => BotInvestmentStatus::COMPLETED,
+                'matures_at' => now(),
+            ]);
+    }
+
     public static function upgrade($license, $bot, $asset) {
         DB::transaction(function () use ($license, $bot, $asset) {
 
