@@ -40,8 +40,8 @@ class Overview extends Component
             ->sum('amount');
     }
 
-    public function claimAll()
-    {
+    public function claimAll() {
+        return;
         DB::transaction(function () {
 
             $bonuses = ReferralBonus::where('user_id', auth()->id())
