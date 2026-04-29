@@ -170,7 +170,6 @@ class BotInvestmentsTable {
                                     'main' => 'Main Balance',
                                     'deposit' => 'Deposit Balance',
                                     'referral_bonus' => 'Referral Bonus Balance',
-                                    'locked_balance' => 'Locked Balance',
                                     'profit' => 'Profit Balance',
                                 ])
                                 ->visible(fn ($get) => in_array($get('action_type'), ['refund', 'custom']))
