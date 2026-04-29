@@ -19,7 +19,7 @@ class RankResource extends Resource
 {
     protected static ?string $model = Rank::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedArrowTrendingUp;
     protected static  UnitEnum|string|null $navigationGroup = 'Rewards & Network';
 
     public static function form(Schema $schema): Schema

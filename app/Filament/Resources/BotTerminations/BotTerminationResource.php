@@ -20,7 +20,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class BotTerminationResource extends Resource {
     protected static ?string $model = BotTermination::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedExclamationTriangle;
 
     protected static ?string $navigationLabel = 'Investment Terminations';
     protected static  UnitEnum|string|null $navigationGroup = 'Investment System';

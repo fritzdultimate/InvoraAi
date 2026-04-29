@@ -19,7 +19,7 @@ class BotResource extends Resource
 {
     protected static ?string $model = Bot::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedCpuChip;
     protected static  UnitEnum|string|null $navigationGroup = 'Investment System';
 
     public static function form(Schema $schema): Schema
