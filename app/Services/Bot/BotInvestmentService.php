@@ -105,6 +105,58 @@ class BotInvestmentService {
         });
     }
 
+    public static function adminTerminate(BotInvestment $investment) {
+
+        if ($investment->status === BotInvestmentStatus::COMPLETED) {
+            throw new \Exception('Investment cannot be terminated. Investment is ' . $investment->status->value);
+        }
+
+        return DB::transaction(function () use ($investment) {
+
+            $bot = $investment->bot;
+
+            $penaltyPercent = $bot->early_withdrawal_penalty_percent;
+
+            $penalty = $investment->amount * ($penaltyPercent / 100);
+
+            $finalReturn = $investment->amount - $penalty;
+
+            WalletService::debit(
+                $investment->user,
+                $finalReturn,
+                LedgerReference::BOT_TERMINATION,
+                $investment->id,
+                'Bot investment termination from admin',
+                LedgerAsset::LOCKEDBALANCE
+            );
+
+            WalletService::debit(
+                $investment->user,
+                $penalty,
+                LedgerReference::BOT_TERMINATION_FEE,
+                $investment->id,
+                'bot investment termination from admin fee',
+                LedgerAsset::LOCKEDBALANCE
+            );
+
+            WalletService::credit(
+                $investment->user,
+                $finalReturn,
+                LedgerReference::BOT_TERMINATION,
+                $investment->id,
+                'bot investment termination from admin',
+                LedgerAsset::MAIN
+            );
+
+            $investment->update([
+                'status' => BotInvestmentStatus::TERMINATED,
+                'is_early_terminated' => true,
+            ]);
+
+            return $finalReturn;
+        });
+    }
+
     public static function upgrade($license, $bot, $asset) {
         DB::transaction(function () use ($license, $bot, $asset) {
 

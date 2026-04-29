@@ -4,9 +4,11 @@ namespace App\Models;
 
 use App\Enums\BotInvestmentStatus;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
 class BotInvestment extends Model {
+    use SoftDeletes;
     protected $fillable = [
         'user_id',
         'bot_id',
