@@ -193,7 +193,16 @@ class BotInvestmentsTable {
                         )
                         ->action(function (BotInvestment $record, array $data) {
                             try {
-                                $amount = $data['amount'] ?? $record->capital;
+                                $amount = $data['amount'] ?? $record->amount;
+
+                                if($data['amount'] ?? 0 > $record->amount) {
+                                    Notification::make()
+                                        ->title('Action failed')
+                                        ->body("Insufficient Balance, amount cannot be greater than investment amount")
+                                        ->danger()
+                                        ->send();
+                                    return;
+                                }
 
                                 switch ($data['action_type']) {
                                     case 'silent':
