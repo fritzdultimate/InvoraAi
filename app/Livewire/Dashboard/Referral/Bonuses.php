@@ -53,6 +53,7 @@ class Bonuses extends Component
 
     public function render() {
         $query = ReferralBonus::where('user_id', auth()->id())
+            ->where('status', 'claimed')
             ->with('fromUser')
             ->latest();
 
