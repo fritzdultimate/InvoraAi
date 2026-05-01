@@ -630,7 +630,7 @@
     <!-- Premium Header -->
     <div class="dashboard-header">
         <div class="title-group">
-            <h2 class="title">Live Trading Simulation</h2>
+            <h2 class="title">Live Trading</h2>
             <p class="subtitle">Real-time arbitrage execution monitor</p>
         </div>
         <div class="header-actions">
