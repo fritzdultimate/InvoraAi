@@ -147,8 +147,7 @@ class TradeSimulatorService
         ]);
     }
 
-    public function updateTrade($trade)
-    {
+    public function updateTrade($trade) {
         $prices = $this->getLivePrices($trade->asset);
 
         $exitLong = $prices[strtolower($trade->long_exchange)];
@@ -158,12 +157,15 @@ class TradeSimulatorService
             return;
         }
 
+
         $pricePnL = ($exitLong - $trade->entry_price_long)
             + ($trade->entry_price_short - $exitShort);
 
         $lastFunding = $trade->last_funding_at ?? $trade->opened_at;
 
-        if (now()->diffInMinutes($lastFunding) >= 5) {
+        // dd(now()->diffInMinutes($lastFunding, true));
+
+        if (now()->diffInMinutes($lastFunding, true) >= 5) {
 
             $longFundingProfit =
                 $trade->position_size * $trade->funding_rate_long;
