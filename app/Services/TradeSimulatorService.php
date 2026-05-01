@@ -163,7 +163,7 @@ class TradeSimulatorService
 
         $lastFunding = $trade->last_funding_at ?? $trade->opened_at;
 
-        if (now()->diffInHours($lastFunding) >= 8) {
+        if (now()->diffInMinutes($lastFunding) >= 5) {
 
             $longFundingProfit =
                 $trade->position_size * $trade->funding_rate_long;
