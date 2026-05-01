@@ -10,6 +10,7 @@ class Trade extends Model {
     protected $casts = [
         'status' => 'boolean',
         'opened_at' => 'datetime',
+        'closed_at' => 'datetime',
         'last_funding_at' => 'datetime'
     ];
 
