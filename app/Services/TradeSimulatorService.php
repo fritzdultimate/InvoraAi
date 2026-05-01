@@ -56,8 +56,8 @@ class TradeSimulatorService
             return $prices;
         });
     }
-    public function openTrade($asset, $funding)
-    {
+    public function openTrade($asset, $funding) {
+        if(!$funding) return;
         $existing = Trade::where('trading_asset_id', $asset->id)
             ->where('status', 'open')
             ->first();
