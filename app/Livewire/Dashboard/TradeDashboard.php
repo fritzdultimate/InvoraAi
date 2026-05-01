@@ -51,7 +51,7 @@ class TradeDashboard extends Component {
     }
 
     public function mount(){
-        $this->fetchFundingRates();
+        // $this->fetchFundingRates();
         $this->loadTrades();
     }
 
