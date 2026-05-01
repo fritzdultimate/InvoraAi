@@ -1,0 +1,29 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::table('trades', function (Blueprint $table) {
+            $table->decimal('funding_rate_long', 8, 6);
+            $table->decimal('funding_rate_short', 8, 6);
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::table('trades', function (Blueprint $table) {
+            //
+        });
+    }
+};

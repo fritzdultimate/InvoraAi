@@ -1,13 +1,28 @@
 <?php
 
 use App\Jobs\RunBotProfitCycle;
-use Illuminate\Foundation\Inspiring;
-use Illuminate\Support\Facades\Artisan;
+use App\Models\Trade;
+use App\Models\TradingAsset;
+use App\Services\TradeSimulatorService;
 use Illuminate\Support\Facades\Schedule;
 
 Schedule::call(function($schedule) {
     $schedule->job(new RunBotProfitCycle())->everySixHours();
 });
 
-// $schedule->call(fn() => app(BotLicenseService::class)->expireLicenses())
-//     ->hourly();
+
+Schedule::call(function($schedule) {
+    $simulator = new TradeSimulatorService();
+
+    // Open new trades
+    TradingAsset::where('active', true)->each(function ($asset) use ($simulator) {
+        // if (rand(0, 1)) {
+            $simulator->openTrade($asset);
+        // }
+    });
+
+    // Update open trades
+    // Trade::where('status', 'open')->each(function ($trade) use ($simulator) {
+    //     $simulator->updateTrade($trade);
+    // });
+})->everyMinute();

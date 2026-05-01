@@ -44,4 +44,8 @@ return [
         'key' => env('BITQUERY_API_KEY'),
     ],
 
+    'coinalyze' => [
+        'key' => env('COINALYZE_API_KEY'),
+    ],
+
 ];
