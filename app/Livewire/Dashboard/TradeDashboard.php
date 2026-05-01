@@ -3,8 +3,10 @@
 namespace App\Livewire\Dashboard;
 use App\Models\Trade;
 use Illuminate\Support\Facades\Http;
+use Livewire\Attributes\Layout;
 use Livewire\Component;
 
+#[Layout('components.layouts.app')]
 class TradeDashboard extends Component {
 
     public $trades;
