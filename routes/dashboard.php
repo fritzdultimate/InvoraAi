@@ -50,7 +50,6 @@ Route::middleware(['auth'])->prefix('dashboard')->group(function () {
     Route::get('/live-trading',  LiveTrading::class)->name('live-trading');
 
     Route::get('/live-trading-track',  TradeDashboard::class)->name('live-trading-track');
-    Route::get('/live-trading-simulate',  [TradeController::class, 'simulate'])->name('live-trading-track');
 
 
     Route::get('/profile',  Profile::class)->name('profile');
