@@ -3,46 +3,113 @@
 namespace App\Services;
 
 use App\Models\Trade;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Http;
 
-class TradeSimulatorService {
-    public function openTrade($asset, $funding) {
+class TradeSimulatorService
+{
+
+    public function getLivePrices($asset)
+    {
+        $symbol = strtoupper($asset->symbol) . 'USDT';
+
+        return Cache::remember("prices_{$symbol}", 5, function () use ($symbol) {
+            $prices = [
+                'binance' => null,
+                'bybit' => null,
+            ];
+
+            try {
+                // 🔹 Binance Price
+                $binanceResponse = Http::get(
+                    "https://api.binance.com/api/v3/ticker/price",
+                    ['symbol' => $symbol]
+                );
+
+                if ($binanceResponse->successful()) {
+                    $prices['binance'] = (float) $binanceResponse['price'];
+                }
+
+                // 🔹 Bybit Price
+                $bybitResponse = Http::get(
+                    "https://api.bybit.com/v5/market/tickers",
+                    [
+                        'category' => 'linear',
+                        'symbol' => $symbol
+                    ]
+                );
+
+                if ($bybitResponse->successful()) {
+                    $list = $bybitResponse['result']['list'] ?? [];
+
+                    if (!empty($list)) {
+                        // use markPrice (more stable than lastPrice)
+                        $prices['bybit'] = (float) $list[0]['markPrice'];
+                    }
+                }
+
+            } catch (\Exception $e) {
+                // optional: log error
+                logger()->error('Price fetch error: ' . $e->getMessage());
+            }
+
+            return $prices;
+        });
+    }
+    public function openTrade($asset, $funding)
+    {
         $existing = Trade::where('trading_asset_id', $asset->id)
             ->where('status', 'open')
             ->first();
-        if($existing) return;
-        
+        if ($existing)
+            return;
+
+        // dd($funding);
+
         $bybitRate = $funding['bybit'];
         $binanceRate = $funding['binance'];
 
-        // dd($bybitRate, $binanceRate);
-
-        if ($bybitRate > 0 && $binanceRate < 0) {
-            // BEST CASE
-            $longExchange = 'Binance';
-            $shortExchange = 'Bybit';
-
-            $longFunding = $binanceRate;
-            $shortFunding = $bybitRate;
-
-        } elseif ($bybitRate < 0 && $binanceRate > 0) {
-
-            $longExchange = 'Bybit';
-            $shortExchange = 'Binance';
-
-            $longFunding = $bybitRate;
-            $shortFunding = $binanceRate;
-
-        } else {
-            // skip bad trades
+        if ($bybitRate === null || $binanceRate === null) {
             return null;
         }
 
-        $basePrice = rand(20000, 70000);
 
-        // simulate exchange price difference
-        $longPrice = $basePrice + rand(-30, 30);
-        $shortPrice = $basePrice + rand(-30, 30);
-        
+        if ($bybitRate > $binanceRate) {
+
+            // Bybit funding is higher → shorts earn more there
+            $shortExchange = 'Bybit';
+            $longExchange = 'Binance';
+
+            $shortFunding = $bybitRate;
+            $longFunding = $binanceRate;
+
+        } elseif ($binanceRate > $bybitRate) {
+
+            // Binance funding is higher → shorts earn more there
+            $shortExchange = 'Binance';
+            $longExchange = 'Bybit';
+
+            $shortFunding = $binanceRate;
+            $longFunding = $bybitRate;
+
+        } else {
+            // equal → no edge
+            return null;
+        }
+
+
+        $prices = $this->getLivePrices($asset);
+
+        if (!$prices['binance'] || !$prices['bybit']) {
+            return null;
+        }
+
+        $prices['binance'] += rand(-5, 5) / 100;
+        $prices['bybit'] += rand(-5, 5) / 100;
+
+        $longPrice = $prices[strtolower($longExchange)];
+        $shortPrice = $prices[strtolower($shortExchange)];
+
         $capital = 10000;
         $fundingDiff = abs($bybitRate - $binanceRate);
 
@@ -56,7 +123,7 @@ class TradeSimulatorService {
 
         $positionSize = $capital * $risk;
         $feeRate = 0.0006;
-        $fees = $positionSize * $longPrice * $feeRate;
+        $fees = $positionSize * $feeRate;
 
         return Trade::create([
             'trading_asset_id' => $asset->id,
@@ -64,9 +131,9 @@ class TradeSimulatorService {
             'long_exchange' => $longExchange,
             'short_exchange' => $shortExchange,
 
-            'position_size' => rand(500, 2000),
+            'position_size' => $positionSize,
 
-            
+
             'entry_price_long' => $longPrice,
             'entry_price_short' => $shortPrice,
 
@@ -80,27 +147,37 @@ class TradeSimulatorService {
         ]);
     }
 
-    public function updateTrade($trade) {
-        $priceMove = rand(-100, 100);
+    public function updateTrade($trade)
+    {
+        $prices = $this->getLivePrices($trade->asset);
 
-        $exitLong = $trade->entry_price_long + $priceMove;
-        $exitShort = $trade->entry_price_short - $priceMove;
+        $exitLong = $prices[strtolower($trade->long_exchange)];
+        $exitShort = $prices[strtolower($trade->short_exchange)];
+
+        if (!$exitLong || !$exitShort) {
+            return;
+        }
 
         $pricePnL = ($exitLong - $trade->entry_price_long)
-                  + ($trade->entry_price_short - $exitShort);
+            + ($trade->entry_price_short - $exitShort);
 
-        $longFundingProfit =
-            $trade->position_size
-            * $trade->entry_price_long
-            * $trade->funding_rate_long;
+        $lastFunding = $trade->last_funding_at ?? $trade->opened_at;
 
-        $shortFundingProfit =
-            $trade->position_size
-            * $trade->entry_price_short
-            * $trade->funding_rate_short;
+        if (now()->diffInHours($lastFunding) >= 8) {
 
-        // net funding (what you receive minus what you pay)
-        $fundingProfit = $longFundingProfit - $shortFundingProfit;
+            $longFundingProfit =
+                $trade->position_size * $trade->funding_rate_long;
+
+            $shortFundingProfit =
+                $trade->position_size * $trade->funding_rate_short;
+
+            $fundingProfit = $longFundingProfit - $shortFundingProfit;
+
+            $trade->last_funding_at = now();
+
+        } else {
+            $fundingProfit = $trade->funding_profit; // keep previous
+        }
 
         $total = $pricePnL + $fundingProfit - $trade->fees;
 
@@ -121,7 +198,8 @@ class TradeSimulatorService {
         }
     }
 
-    private function getFundingRate() {
+    private function getFundingRate()
+    {
         return rand(-10, 10) / 10000; // -0.001 to 0.001
     }
 }

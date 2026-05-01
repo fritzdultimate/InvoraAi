@@ -357,11 +357,11 @@
         }
 
         .green {
-            color: var(--profit);
+            color: var(--profit) !important;
         }
 
         .red {
-            color: var(--loss);
+            color: var(--loss) !important;
         }
 
         .neutral {
@@ -693,24 +693,24 @@
                             <!-- Price PnL -->
                             <td data-label="Price PnL" class="{{ $trade->price_pnl >= 0 ? 'green' : 'red' }}">
                                 <div class="value-cell">
-                                    <span class="value-symbol">$</span>
-                                    <span>{{ number_format(abs($trade->price_pnl), 2) }}</span>
+                                    <span class="value-symbol {{ $trade->price_pnl >= 0 ? 'green' : 'red' }}">$</span>
+                                    <span class="{{ $trade->price_pnl >= 0 ? 'green' : 'red' }}">{{ number_format(abs($trade->price_pnl), 2) }}</span>
                                 </div>
                             </td>
 
                             <!-- Funding -->
-                            <td data-label="Funding" class="{{ $trade->funding_profit >= 0 ? 'green' : ($trade->funding_profit < 0 ? 'red' : 'neutral') }}">
+                            <td data-label="Funding">
                                 <div class="value-cell">
-                                    <span class="value-symbol">$</span>
-                                    <span>{{ number_format(abs($trade->funding_profit), 2) }}</span>
+                                    <span class="value-symbol {{ $trade->funding_profit >= 0 ? 'green' : ($trade->funding_profit < 0 ? 'red' : 'neutral') }}">$</span>
+                                    <span class="{{ $trade->funding_profit >= 0 ? 'green' : ($trade->funding_profit < 0 ? 'red' : 'neutral') }}">{{ number_format(abs($trade->funding_profit), 2) }}</span>
                                 </div>
                             </td>
 
                             <!-- Fees -->
                             <td data-label="Fees" class="red">
                                 <div class="value-cell">
-                                    <span class="value-symbol">-$</span>
-                                    <span>{{ number_format($trade->fees, 2) }}</span>
+                                    <span class="value-symbol red">-$</span>
+                                    <span class="red">{{ number_format($trade->fees, 2) }}</span>
                                 </div>
                             </td>
 
@@ -718,7 +718,7 @@
                             <td data-label="Total" class="total-cell {{ $trade->total_net >= 0 ? 'green' : 'red' }}">
                                 <div class="value-cell">
                                     <span class="value-symbol">$</span>
-                                    <span>{{ number_format(abs($trade->total_net), 2) }}</span>
+                                    <span class="{{ $trade->total_net >= 0 ? 'green' : 'red' }}">{{ number_format(abs($trade->total_net), 2) }}</span>
                                 </div>
                             </td>
                         </tr>

@@ -9,7 +9,8 @@ use App\Models\TradingAsset;
 use App\Services\TradeSimulatorService;
 use Illuminate\Support\Facades\Http;
 
-class TradeController extends Controller {
+class TradeController extends Controller
+{
 
     public function getFundingRates($asset) {
         try {
@@ -19,12 +20,14 @@ class TradeController extends Controller {
             $response = Http::withHeaders([
                 'api_key' => config('services.coinalyze.key'),
             ])->get('https://api.coinalyze.net/v1/funding-rate', [
-                'symbols' => $symbols
-            ]);
+                        'symbols' => $symbols
+                    ]);
 
             if ($response->successful()) {
 
                 $data = collect($response->json());
+
+                // dd($data);
 
                 $fundingData = $this->formatFundingData($data);
 
@@ -40,7 +43,8 @@ class TradeController extends Controller {
         }
     }
 
-    public function formatFundingData($response) {
+    public function formatFundingData($response)
+    {
         $data = [
             'bybit' => 0,
             'binance' => 0,
@@ -64,7 +68,8 @@ class TradeController extends Controller {
         return $data;
     }
 
-    public function simulate() {
+    public function simulate()
+    {
         $simulator = new TradeSimulatorService();
 
         // Open new trades
@@ -78,7 +83,35 @@ class TradeController extends Controller {
         Trade::where('status', 'open')->each(function ($trade) use ($simulator) {
             $simulator->updateTrade($trade);
         });
+
+        Trade::where('status', 'closed')->each(function ($trade) use ($simulator) {
+            $funding = $this->getFundingRates($trade->asset);
+
+            if ($this->isGoodOpportunity($funding)) {
+                $simulator->openTrade($trade->asset, $funding);
+            }
+
+            
+        });
+
     }
 
-    
+    public function isGoodOpportunity($funding) {
+        $bybit = $funding['bybit'];
+        $binance = $funding['binance'];
+
+        // must be opposite direction
+        if (
+            !($bybit > 0 && $binance < 0) &&
+            !($bybit < 0 && $binance > 0)
+        ) {
+            return false;
+        }
+
+        $diff = abs($bybit - $binance);
+
+        return $diff > 0.002; // threshold
+    }
+
+
 }
