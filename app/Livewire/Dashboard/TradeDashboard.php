@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Dashboard;
 use App\Models\Trade;
+use Illuminate\Support\Facades\Cache;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
@@ -18,10 +19,14 @@ class TradeDashboard extends Component
 
     public function loadTrades()
     {
-        $this->trades = Trade::with('asset')
-            ->latest()
-            ->take(20)
-            ->get();
+        $this->trades = Cache::remember(
+            'live-trades',
+            2,
+            fn () => Trade::with('asset')
+                ->latest()
+                ->take(20)
+                ->get()
+        );
     }
 
     public function mount() {
