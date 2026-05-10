@@ -1,51 +1,49 @@
 @push('styles')
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 
         :root {
             /* Premium Dark Palette */
-            --bg-void: #050810;
-            --bg-canvas: #0d1117;
-            --bg-elevated: #161b22;
-            --bg-surface: #1c2128;
-            --bg-hover: #21262d;
+            --bg-void: #0a0e17;
+            --bg-canvas: #0f141f;
+            --bg-elevated: #151b28;
+            --bg-surface: #1a2030;
+            --bg-hover: #1f2638;
             
             /* Sophisticated Borders */
-            --border-subtle: rgba(99, 110, 123, 0.08);
-            --border-default: rgba(99, 110, 123, 0.12);
-            --border-strong: rgba(99, 110, 123, 0.2);
-            --border-accent: rgba(56, 189, 248, 0.3);
+            --border-subtle: rgba(99, 110, 123, 0.06);
+            --border-default: rgba(99, 110, 123, 0.1);
+            --border-strong: rgba(99, 110, 123, 0.18);
+            --border-accent: rgba(56, 189, 248, 0.25);
             
             /* Premium Text Hierarchy */
             --text-hero: #ffffff;
-            --text-primary: #e6edf3;
-            --text-secondary: #8b949e;
-            --text-tertiary: #636e7b;
+            --text-primary: #e8edf4;
+            --text-secondary: #9ba3af;
+            --text-tertiary: #6b7280;
+            --text-muted: #4b5563;
             
             /* Market Colors - Refined */
-            --profit: #3fb950;
-            --profit-bg: rgba(63, 185, 80, 0.08);
-            --profit-border: rgba(63, 185, 80, 0.2);
-            --profit-glow: rgba(63, 185, 80, 0.25);
+            --profit: #10b981;
+            --profit-bg: rgba(16, 185, 129, 0.08);
+            --profit-border: rgba(16, 185, 129, 0.2);
+            --profit-glow: rgba(16, 185, 129, 0.2);
             
-            --loss: #f85149;
-            --loss-bg: rgba(248, 81, 73, 0.08);
-            --loss-border: rgba(248, 81, 73, 0.2);
-            --loss-glow: rgba(248, 81, 73, 0.25);
+            --loss: #ef4444;
+            --loss-bg: rgba(239, 68, 68, 0.08);
+            --loss-border: rgba(239, 68, 68, 0.2);
+            --loss-glow: rgba(239, 68, 68, 0.2);
             
             /* Premium Accents */
-            --cyan: #38bdf8;
-            --cyan-glow: rgba(56, 189, 248, 0.2);
-            --amber: #fbbf24;
-            --amber-glow: rgba(251, 191, 36, 0.15);
-            --violet: #a78bfa;
-            --violet-glow: rgba(167, 139, 250, 0.15);
+            --cyan: #06b6d4;
+            --cyan-glow: rgba(6, 182, 212, 0.15);
+            --amber: #f59e0b;
+            --violet: #8b5cf6;
             
             /* Shadows */
-            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.4);
-            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.5);
-            --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.6);
-            --shadow-glow: 0 0 24px rgba(56, 189, 248, 0.15);
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+            --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
         }
 
         * {
@@ -56,23 +54,15 @@
 
         body {
             background: var(--bg-void);
+            overflow-x: hidden;
         }
 
         .dashboard {
             min-height: 100vh;
             background: var(--bg-void);
-            background-image: 
-                radial-gradient(ellipse at 10% 0%, rgba(56, 189, 248, 0.04) 0%, transparent 40%),
-                radial-gradient(ellipse at 90% 100%, rgba(167, 139, 250, 0.03) 0%, transparent 40%);
-            padding: clamp(16px, 3vw, 40px);
-            font-family: 'Hanken Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+            padding: clamp(12px, 2.5vw, 32px);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             color: var(--text-primary);
-            animation: fadeIn 0.6s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
         }
 
         /* Premium Header */
@@ -80,96 +70,76 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: clamp(24px, 4vw, 40px);
-            padding-bottom: clamp(16px, 3vw, 24px);
+            margin-bottom: clamp(20px, 3vw, 32px);
+            padding-bottom: clamp(12px, 2vw, 20px);
             border-bottom: 1px solid var(--border-default);
             flex-wrap: wrap;
-            gap: 16px;
+            gap: 12px;
         }
 
         .title-group {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 6px;
         }
 
         .title {
-            font-size: clamp(24px, 5vw, 36px);
+            font-size: clamp(20px, 4vw, 32px);
             font-weight: 800;
-            letter-spacing: -0.03em;
+            letter-spacing: -0.02em;
             background: linear-gradient(135deg, var(--text-hero) 0%, var(--cyan) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            line-height: 1.1;
+            line-height: 1.2;
         }
 
         .subtitle {
-            font-size: clamp(13px, 2vw, 15px);
+            font-size: clamp(12px, 1.8vw, 14px);
             color: var(--text-tertiary);
             font-weight: 500;
-            letter-spacing: 0.02em;
         }
 
         .header-actions {
             display: flex;
             align-items: center;
-            gap: 12px;
-            flex-wrap: wrap;
+            gap: 10px;
         }
 
         .live-indicator {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             background: var(--bg-elevated);
-            padding: 10px 18px;
-            border-radius: 12px;
+            padding: 8px 14px;
+            border-radius: 10px;
             border: 1px solid var(--border-strong);
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 600;
             box-shadow: var(--shadow-sm);
-            backdrop-filter: blur(12px);
         }
 
         .pulse-dot {
-            width: 10px;
-            height: 10px;
+            width: 8px;
+            height: 8px;
             background: var(--profit);
             border-radius: 50%;
-            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-            box-shadow: 0 0 16px var(--profit-glow), 0 0 4px var(--profit);
-            position: relative;
-        }
-
-        .pulse-dot::before {
-            content: '';
-            position: absolute;
-            inset: -4px;
-            border-radius: 50%;
-            background: var(--profit);
-            opacity: 0;
-            animation: pulseRing 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+            animation: pulse 2s ease-in-out infinite;
+            box-shadow: 0 0 12px var(--profit-glow);
         }
 
         @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(0.9); opacity: 0.8; }
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(0.85); }
         }
 
-        @keyframes pulseRing {
-            0% { transform: scale(0.8); opacity: 0.6; }
-            100% { transform: scale(1.4); opacity: 0; }
-        }
-
-        /* Desktop: Scrollable Table */
+        /* DESKTOP TABLE */
         .table-wrapper {
             background: var(--bg-canvas);
             border: 1px solid var(--border-default);
-            border-radius: 16px;
+            border-radius: 12px;
             overflow: hidden;
-            box-shadow: var(--shadow-lg), var(--shadow-glow);
-            backdrop-filter: blur(20px);
+            box-shadow: var(--shadow-lg);
         }
 
         .table-scroll {
@@ -179,94 +149,71 @@
 
         .trade-table {
             width: 100%;
-            min-width: 900px;
+            min-width: 1000px;
             border-collapse: separate;
             border-spacing: 0;
-            font-family: 'Space Mono', monospace;
+            font-family: 'JetBrains Mono', monospace;
         }
 
-        /* Premium Table Header */
         .trade-table thead {
             background: var(--bg-elevated);
             position: sticky;
             top: 0;
             z-index: 100;
-            box-shadow: 0 1px 0 var(--border-strong);
         }
 
         .trade-table th {
-            padding: 20px 16px;
+            padding: 14px 16px;
             text-align: left;
-            font-size: 11px;
+            font-size: 10px;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: var(--text-secondary);
+            letter-spacing: 0.08em;
+            color: var(--text-tertiary);
             white-space: nowrap;
-            background: var(--bg-elevated);
-            border-bottom: 2px solid var(--border-strong);
-            position: relative;
+            border-bottom: 1px solid var(--border-strong);
+            font-family: 'Inter', sans-serif;
         }
 
-        .trade-table th::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--cyan), transparent);
-            opacity: 0;
-            transition: opacity 0.3s ease;
+        .trade-table th:first-child {
+            padding-left: 20px;
         }
 
-        .trade-table th:hover::after {
-            opacity: 0.3;
+        .trade-table th:last-child {
+            padding-right: 20px;
         }
 
-        /* Premium Table Rows */
         .trade-table tbody tr {
             border-bottom: 1px solid var(--border-subtle);
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+            transition: all 0.2s ease;
             background: var(--bg-canvas);
         }
 
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .trade-table tbody tr:nth-child(1) { animation-delay: 0.05s; }
-        .trade-table tbody tr:nth-child(2) { animation-delay: 0.1s; }
-        .trade-table tbody tr:nth-child(3) { animation-delay: 0.15s; }
-        .trade-table tbody tr:nth-child(4) { animation-delay: 0.2s; }
-        .trade-table tbody tr:nth-child(5) { animation-delay: 0.25s; }
-        .trade-table tbody tr:nth-child(6) { animation-delay: 0.3s; }
-        .trade-table tbody tr:nth-child(7) { animation-delay: 0.35s; }
-        .trade-table tbody tr:nth-child(8) { animation-delay: 0.4s; }
-
         .trade-table tbody tr:hover {
             background: var(--bg-elevated);
-            box-shadow: inset 0 0 0 1px var(--border-accent);
-            transform: translateY(-1px);
+        }
+
+        .trade-table tbody tr:last-child {
+            border-bottom: none;
         }
 
         .trade-table td {
-            padding: 20px 16px;
-            font-size: 14px;
+            padding: 16px;
+            font-size: 13px;
             color: var(--text-primary);
             font-weight: 500;
             vertical-align: middle;
         }
 
-        /* Asset Cell - Premium Design */
+        .trade-table td:first-child {
+            padding-left: 20px;
+        }
+
+        .trade-table td:last-child {
+            padding-right: 20px;
+        }
+
+        /* Asset Cell */
         .asset-cell {
             display: flex;
             align-items: center;
@@ -274,74 +221,83 @@
         }
 
         .asset-icon {
-            width: 36px;
-            height: 36px;
+            width: 32px;
+            height: 32px;
             background: linear-gradient(135deg, var(--cyan), var(--violet));
-            border-radius: 10px;
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 700;
             flex-shrink: 0;
-            box-shadow: 0 4px 12px var(--cyan-glow);
+            color: white;
             letter-spacing: -0.02em;
-            color: var(--text-hero);
         }
 
         .asset-name {
             font-weight: 700;
-            font-size: 15px;
-            letter-spacing: -0.01em;
+            font-size: 14px;
             color: var(--text-hero);
+            letter-spacing: -0.01em;
         }
 
-        /* Time Column */
+        /* Time */
         .time-cell {
-            color: var(--text-tertiary);
-            font-size: 13px;
+            color: var(--text-secondary);
+            font-size: 12px;
             font-weight: 400;
         }
 
-        /* Exchange Badges - Premium */
+        /* Exchange Badges */
         .exchange-badge {
             display: inline-flex;
             align-items: center;
-            padding: 6px 12px;
-            border-radius: 8px;
-            font-size: 11px;
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-size: 10px;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.08em;
+            letter-spacing: 0.06em;
             white-space: nowrap;
-            transition: all 0.2s ease;
+            font-family: 'Inter', sans-serif;
         }
 
         .badge-long {
             background: var(--profit-bg);
             color: var(--profit);
             border: 1px solid var(--profit-border);
-            box-shadow: 0 2px 8px var(--profit-glow);
-        }
-
-        .badge-long:hover {
-            background: rgba(63, 185, 80, 0.12);
-            border-color: var(--profit);
         }
 
         .badge-short {
             background: var(--loss-bg);
             color: var(--loss);
             border: 1px solid var(--loss-border);
-            box-shadow: 0 2px 8px var(--loss-glow);
         }
 
-        .badge-short:hover {
-            background: rgba(248, 81, 73, 0.12);
-            border-color: var(--loss);
+        /* Funding Rate Badge */
+        .funding-rate {
+            font-size: 11px;
+            color: var(--text-secondary);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 4px;
         }
 
-        /* Value Cells - Premium Typography */
+        .funding-rate-value {
+            font-weight: 600;
+        }
+
+        .funding-rate-value.positive {
+            color: var(--profit);
+        }
+
+        .funding-rate-value.negative {
+            color: var(--loss);
+        }
+
+        /* Value Cells */
         .value-cell {
             font-variant-numeric: tabular-nums;
             display: flex;
@@ -351,9 +307,8 @@
         }
 
         .value-symbol {
-            font-size: 11px;
-            opacity: 0.5;
-            font-weight: 500;
+            font-size: 10px;
+            opacity: 0.6;
         }
 
         .green {
@@ -368,67 +323,85 @@
             color: var(--text-secondary);
         }
 
-        /* Total Column - Hero Treatment */
+        /* Total Column */
         .total-cell {
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 700;
-            letter-spacing: -0.01em;
-        }
-
-        .total-cell.green {
-            text-shadow: 0 0 20px var(--profit-glow);
-        }
-
-        .total-cell.red {
-            text-shadow: 0 0 20px var(--loss-glow);
         }
 
         /* Empty State */
         .empty-state {
             text-align: center;
-            padding: 80px 20px;
+            padding: 60px 20px;
             color: var(--text-tertiary);
         }
 
         .empty-state-icon {
-            font-size: 56px;
-            margin-bottom: 20px;
-            opacity: 0.2;
-            filter: grayscale(1);
+            font-size: 48px;
+            margin-bottom: 16px;
+            opacity: 0.3;
         }
 
         .empty-state-text {
-            font-size: 16px;
+            font-size: 14px;
             font-weight: 600;
         }
 
-        /* Custom Scrollbar */
+        /* Scrollbar */
         .table-scroll::-webkit-scrollbar {
-            height: 10px;
+            height: 8px;
         }
 
         .table-scroll::-webkit-scrollbar-track {
             background: var(--bg-void);
-            border-radius: 0 0 16px 16px;
         }
 
         .table-scroll::-webkit-scrollbar-thumb {
             background: var(--border-strong);
-            border-radius: 5px;
-            transition: background 0.2s ease;
+            border-radius: 4px;
         }
 
         .table-scroll::-webkit-scrollbar-thumb:hover {
             background: var(--cyan);
-            box-shadow: 0 0 12px var(--cyan-glow);
         }
 
-        /* Mobile: Card Layout */
+        /* Hide mobile structure on desktop */
+        .mobile-header,
+        .mobile-content {
+            display: none;
+        }
+
+        /* ========================================
+           MOBILE LAYOUT - COINALYZE INSPIRED
+        ======================================== */
         @media (max-width: 768px) {
+            .dashboard {
+                padding: 12px;
+            }
+
+            .dashboard-header {
+                margin-bottom: 16px;
+                padding-bottom: 12px;
+            }
+
+            .title {
+                font-size: 22px;
+            }
+
+            .subtitle {
+                font-size: 12px;
+            }
+
+            .live-indicator {
+                padding: 6px 12px;
+                font-size: 12px;
+            }
+
             .table-wrapper {
                 background: transparent;
                 border: none;
                 box-shadow: none;
+                border-radius: 0;
             }
 
             .table-scroll {
@@ -438,6 +411,7 @@
             .trade-table {
                 display: block;
                 min-width: 0;
+                width: 100%;
             }
 
             .trade-table thead {
@@ -449,178 +423,250 @@
             }
 
             .trade-table tbody tr {
-                display: grid;
-                grid-template-columns: 1fr 1fr;
-                gap: 16px;
+                display: block;
                 background: var(--bg-elevated);
                 border: 1px solid var(--border-default);
-                border-radius: 16px;
-                padding: 20px;
-                margin-bottom: 16px;
+                border-radius: 12px;
+                padding: 0;
+                margin-bottom: 12px;
                 box-shadow: var(--shadow-md);
+                overflow: hidden;
             }
 
             .trade-table tbody tr:hover {
-                transform: translateY(0);
-                box-shadow: var(--shadow-md), inset 0 0 0 1px var(--border-accent);
+                background: var(--bg-elevated);
             }
 
             .trade-table td {
-                display: flex;
-                flex-direction: column;
-                gap: 6px;
+                display: block;
                 padding: 0;
-                grid-column: span 1;
+                border: none;
             }
 
-            .trade-table td::before {
-                content: attr(data-label);
+            /* Show mobile structure on mobile */
+            .mobile-header,
+            .mobile-content {
+                display: block;
+            }
+
+            .mobile-header {
+                display: flex;
+            }
+
+            /* Mobile Header Row - Asset + Time + Total */
+            .mobile-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 14px 16px;
+                border-bottom: 1px solid var(--border-subtle);
+                background: var(--bg-surface);
+            }
+
+            .mobile-header .asset-cell {
+                flex: 1;
+                min-width: 0;
+            }
+
+            .mobile-header .asset-icon {
+                width: 36px;
+                height: 36px;
+                font-size: 13px;
+            }
+
+            .mobile-header .asset-name {
+                font-size: 16px;
+            }
+
+            .mobile-header-right {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-end;
+                gap: 4px;
+            }
+
+            .mobile-time {
+                font-size: 11px;
+                color: var(--text-tertiary);
+                font-weight: 500;
+                font-family: 'JetBrains Mono', monospace;
+            }
+
+            .mobile-total {
+                font-size: 18px;
+                font-weight: 700;
+                font-family: 'JetBrains Mono', monospace;
+            }
+
+            /* Mobile Content Grid */
+            .mobile-content {
+                padding: 16px;
+            }
+
+            /* Exchanges Row */
+            .mobile-row {
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-start;
+                margin-bottom: 16px;
+                padding-bottom: 16px;
+                border-bottom: 1px solid var(--border-subtle);
+            }
+
+            .mobile-row:last-child {
+                margin-bottom: 0;
+                padding-bottom: 0;
+                border-bottom: none;
+            }
+
+            .mobile-column {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .mobile-divider {
+                width: 1px;
+                background: var(--border-subtle);
+                margin: 0 16px;
+                align-self: stretch;
+            }
+
+            .mobile-label {
                 font-size: 10px;
                 font-weight: 700;
                 text-transform: uppercase;
-                letter-spacing: 0.1em;
-                color: var(--text-tertiary);
-                font-family: 'Hanken Grotesk', sans-serif;
+                letter-spacing: 0.08em;
+                color: var(--text-muted);
+                font-family: 'Inter', sans-serif;
+                margin-bottom: 2px;
             }
 
-            /* Mobile: Asset spans full width */
-            .trade-table td:nth-child(1) {
-                grid-column: span 2;
+            .mobile-value {
+                font-size: 13px;
+                font-weight: 600;
+                color: var(--text-primary);
+                font-family: 'JetBrains Mono', monospace;
             }
 
-            /* Mobile: Total spans full width */
-            .trade-table td:nth-child(8) {
-                grid-column: span 2;
-                padding-top: 16px;
-                border-top: 1px solid var(--border-subtle);
+            /* Exchange badges in mobile */
+            .mobile-column .exchange-badge {
+                width: fit-content;
             }
 
-            .asset-cell {
-                gap: 14px;
+            /* Funding rates in mobile */
+            .mobile-column .funding-rate {
+                font-size: 11px;
             }
 
-            .asset-icon {
-                width: 44px;
-                height: 44px;
-                font-size: 15px;
+            /* PnL Grid - 3 columns */
+            .mobile-pnl-grid {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 12px;
+                padding: 16px;
+                background: var(--bg-canvas);
+                border-radius: 8px;
+                margin-top: 16px;
             }
 
-            .asset-name {
-                font-size: 18px;
+            .mobile-pnl-item {
+                display: flex;
+                flex-direction: column;
+                gap: 6px;
+                align-items: center;
+                text-align: center;
             }
 
-            .value-cell {
-                font-size: 15px;
+            .mobile-pnl-label {
+                font-size: 9px;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 0.08em;
+                color: var(--text-muted);
+                font-family: 'Inter', sans-serif;
             }
 
-            .total-cell {
-                font-size: 20px;
+            .mobile-pnl-value {
+                font-size: 14px;
+                font-weight: 700;
+                font-family: 'JetBrains Mono', monospace;
             }
 
-            .empty-state {
-                padding: 60px 20px;
+            /* Hide desktop-only columns on mobile */
+            .trade-table td:nth-child(2),
+            .trade-table td:nth-child(3),
+            .trade-table td:nth-child(4),
+            .trade-table td:nth-child(5),
+            .trade-table td:nth-child(6),
+            .trade-table td:nth-child(7),
+            .trade-table td:nth-child(8),
+            .trade-table td:nth-child(9),
+            .trade-table td:nth-child(10) {
+                display: none;
+            }
+
+            /* Hide the standalone desktop asset cell (last one) on mobile */
+            .trade-table td:first-child > .asset-cell:last-child {
+                display: none !important;
+            }
+
+            /* Show mobile structure */
+            .trade-table td:first-child {
+                display: block;
+                padding: 0;
             }
         }
 
         /* Tablet Adjustments */
         @media (min-width: 769px) and (max-width: 1024px) {
             .trade-table {
-                min-width: 800px;
+                min-width: 900px;
             }
 
             .trade-table th,
             .trade-table td {
-                padding: 16px 12px;
-            }
-
-            .asset-icon {
-                width: 32px;
-                height: 32px;
+                padding: 14px 12px;
                 font-size: 12px;
-            }
-        }
-
-        /* Ultra-wide screens */
-        @media (min-width: 1920px) {
-            .dashboard {
-                max-width: 1800px;
-                margin: 0 auto;
-            }
-
-            .trade-table th,
-            .trade-table td {
-                padding: 24px 20px;
-            }
-
-            .trade-table th {
-                font-size: 12px;
-            }
-
-            .trade-table td {
-                font-size: 15px;
-            }
-
-            .total-cell {
-                font-size: 18px;
             }
         }
 
         /* Small mobile */
         @media (max-width: 400px) {
             .dashboard {
+                padding: 10px;
+            }
+
+            .mobile-header {
                 padding: 12px;
             }
 
-            .dashboard-header {
-                margin-bottom: 20px;
+            .mobile-header .asset-icon {
+                width: 32px;
+                height: 32px;
+                font-size: 12px;
             }
 
-            .title {
-                font-size: 22px;
+            .mobile-header .asset-name {
+                font-size: 15px;
             }
 
-            .live-indicator {
-                padding: 8px 14px;
+            .mobile-total {
+                font-size: 16px;
+            }
+
+            .mobile-content {
+                padding: 12px;
+            }
+
+            .mobile-pnl-grid {
+                gap: 8px;
+                padding: 12px;
+            }
+
+            .mobile-pnl-value {
                 font-size: 13px;
-            }
-
-            .trade-table tbody tr {
-                padding: 16px;
-                gap: 12px;
-            }
-        }
-
-        /* Print Styles */
-        @media print {
-            .dashboard {
-                background: white;
-                color: black;
-            }
-
-            .live-indicator {
-                display: none;
-            }
-
-            .trade-table tbody tr:hover {
-                background: transparent;
-            }
-        }
-
-        /* Dark mode enhancement */
-        @media (prefers-color-scheme: dark) {
-            .dashboard {
-                color-scheme: dark;
-            }
-        }
-
-        /* Reduced motion */
-        @media (prefers-reduced-motion: reduce) {
-            *,
-            *::before,
-            *::after {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
             }
         }
     </style>
@@ -650,7 +696,9 @@
                         <th>Asset</th>
                         <th>Time</th>
                         <th>Long</th>
+                        <th>Long Rate</th>
                         <th>Short</th>
+                        <th>Short Rate</th>
                         <th>Price PnL</th>
                         <th>Funding</th>
                         <th>Fees</th>
@@ -661,8 +709,83 @@
                 <tbody>
                     @forelse($trades as $trade)
                         <tr>
+                            <!-- DESKTOP VIEW -->
                             <!-- Asset -->
-                            <td data-label="Asset">
+                            <td>
+                                <!-- Mobile Header Structure -->
+                                <div class="mobile-header">
+                                    <div class="asset-cell">
+                                        <div class="asset-icon">
+                                            {{ substr($trade->asset->symbol, 0, 2) }}
+                                        </div>
+                                        <span class="asset-name">{{ $trade->asset->symbol }}</span>
+                                    </div>
+                                    <div class="mobile-header-right">
+                                        <span class="mobile-time">{{ $trade->opened_at->format('H:i:s') }}</span>
+                                        <div class="mobile-total value-cell {{ $trade->total_net >= 0 ? 'green' : 'red' }}">
+                                            <span class="value-symbol">$</span>
+                                            <span>{{ number_format(abs($trade->total_net), 2) }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Mobile Content Structure -->
+                                <div class="mobile-content">
+                                    <!-- Exchanges Row -->
+                                    <div class="mobile-row">
+                                        <div class="mobile-column">
+                                            <div class="mobile-label">Long Exchange</div>
+                                            <span class="exchange-badge badge-long">
+                                                {{ $trade->long_exchange }}
+                                            </span>
+                                            <div class="funding-rate">
+                                                <span>Rate:</span>
+                                                <span class="funding-rate-value {{ $trade->funding_rate_long >= 0 ? 'positive' : 'negative' }}">
+                                                    {{ number_format($trade->funding_rate_long * 100, 4) }}%
+                                                </span>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="mobile-divider"></div>
+                                        
+                                        <div class="mobile-column">
+                                            <div class="mobile-label">Short Exchange</div>
+                                            <span class="exchange-badge badge-short">
+                                                {{ $trade->short_exchange }}
+                                            </span>
+                                            <div class="funding-rate">
+                                                <span>Rate:</span>
+                                                <span class="funding-rate-value {{ $trade->funding_rate_short >= 0 ? 'positive' : 'negative' }}">
+                                                    {{ number_format($trade->funding_rate_short * 100, 4) }}%
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- PnL Grid -->
+                                    <div class="mobile-pnl-grid">
+                                        <div class="mobile-pnl-item">
+                                            <div class="mobile-pnl-label">Price PnL</div>
+                                            <div class="mobile-pnl-value {{ $trade->price_pnl >= 0 ? 'green' : 'red' }}">
+                                                ${{ number_format(abs($trade->price_pnl), 2) }}
+                                            </div>
+                                        </div>
+                                        <div class="mobile-pnl-item">
+                                            <div class="mobile-pnl-label">Funding</div>
+                                            <div class="mobile-pnl-value {{ $trade->funding_profit >= 0 ? 'green' : ($trade->funding_profit < 0 ? 'red' : 'neutral') }}">
+                                                ${{ number_format(abs($trade->funding_profit), 2) }}
+                                            </div>
+                                        </div>
+                                        <div class="mobile-pnl-item">
+                                            <div class="mobile-pnl-label">Fees</div>
+                                            <div class="mobile-pnl-value red">
+                                                -${{ number_format($trade->fees, 2) }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Desktop Asset (hidden on mobile) -->
                                 <div class="asset-cell">
                                     <div class="asset-icon">
                                         {{ substr($trade->asset->symbol, 0, 2) }}
@@ -671,51 +794,69 @@
                                 </div>
                             </td>
 
-                            <!-- Time -->
-                            <td data-label="Time" class="time-cell">
+                            <!-- Time (Desktop only) -->
+                            <td class="time-cell">
                                 {{ $trade->opened_at->format('H:i:s') }}
                             </td>
 
-                            <!-- Long Exchange -->
-                            <td data-label="Long">
+                            <!-- Long Exchange (Desktop only) -->
+                            <td>
                                 <span class="exchange-badge badge-long">
                                     {{ $trade->long_exchange }}
                                 </span>
                             </td>
 
-                            <!-- Short Exchange -->
-                            <td data-label="Short">
+                            <!-- Long Funding Rate (Desktop only) -->
+                            <td>
+                                <div class="funding-rate">
+                                    <span class="funding-rate-value {{ $trade->long_funding_rate >= 0 ? 'positive' : 'negative' }}">
+                                        {{ number_format($trade->funding_rate_long * 100, 4) }}%
+                                    </span>
+                                </div>
+                            </td>
+
+                            <!-- Short Exchange (Desktop only) -->
+                            <td>
                                 <span class="exchange-badge badge-short">
                                     {{ $trade->short_exchange }}
                                 </span>
                             </td>
 
-                            <!-- Price PnL -->
-                            <td data-label="Price PnL" class="{{ $trade->price_pnl >= 0 ? 'green' : 'red' }}">
+                            <!-- Short Funding Rate (Desktop only) -->
+                            <td>
+                                <div class="funding-rate">
+                                    <span class="funding-rate-value {{ $trade->short_funding_rate >= 0 ? 'positive' : 'negative' }}">
+                                        {{ number_format($trade->funding_rate_short * 100, 4) }}%
+                                    </span>
+                                </div>
+                            </td>
+
+                            <!-- Price PnL (Desktop only) -->
+                            <td class="{{ $trade->price_pnl >= 0 ? 'green' : 'red' }}">
                                 <div class="value-cell">
                                     <span class="value-symbol {{ $trade->price_pnl >= 0 ? 'green' : 'red' }}">$</span>
                                     <span class="{{ $trade->price_pnl >= 0 ? 'green' : 'red' }}">{{ number_format(abs($trade->price_pnl), 2) }}</span>
                                 </div>
                             </td>
 
-                            <!-- Funding -->
-                            <td data-label="Funding">
+                            <!-- Funding (Desktop only) -->
+                            <td>
                                 <div class="value-cell">
                                     <span class="value-symbol {{ $trade->funding_profit >= 0 ? 'green' : ($trade->funding_profit < 0 ? 'red' : 'neutral') }}">$</span>
                                     <span class="{{ $trade->funding_profit >= 0 ? 'green' : ($trade->funding_profit < 0 ? 'red' : 'neutral') }}">{{ number_format(abs($trade->funding_profit), 2) }}</span>
                                 </div>
                             </td>
 
-                            <!-- Fees -->
-                            <td data-label="Fees" class="red">
+                            <!-- Fees (Desktop only) -->
+                            <td class="red">
                                 <div class="value-cell">
                                     <span class="value-symbol red">-$</span>
                                     <span class="red">{{ number_format($trade->fees, 2) }}</span>
                                 </div>
                             </td>
 
-                            <!-- Total Net -->
-                            <td data-label="Total" class="total-cell {{ $trade->total_net >= 0 ? 'green' : 'red' }}">
+                            <!-- Total Net (Desktop only) -->
+                            <td class="total-cell {{ $trade->total_net >= 0 ? 'green' : 'red' }}">
                                 <div class="value-cell">
                                     <span class="value-symbol">$</span>
                                     <span class="{{ $trade->total_net >= 0 ? 'green' : 'red' }}">{{ number_format(abs($trade->total_net), 2) }}</span>
@@ -724,7 +865,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="8">
+                            <td colspan="10">
                                 <div class="empty-state">
                                     <div class="empty-state-icon">📊</div>
                                     <div class="empty-state-text">No active trades</div>

@@ -140,7 +140,7 @@ class TradeSimulatorService
             'funding_rate_long' => $longFunding,
             'funding_rate_short' => $shortFunding,
 
-            'funding_rate' => $this->getFundingRate(),
+            // 'funding_rate' => $this->getFundingRate(),
             'fees' => $fees,
 
             'opened_at' => now(),
@@ -167,13 +167,19 @@ class TradeSimulatorService
 
         if (now()->diffInMinutes($lastFunding, true) >= 5) {
 
-            $longFundingProfit =
-                $trade->position_size * $trade->funding_rate_long;
+            $longFunding = $this->calculateFunding(
+                $trade->position_size,
+                $trade->funding_rate_long,
+                'long'
+            );
 
-            $shortFundingProfit =
-                $trade->position_size * $trade->funding_rate_short;
+            $shortFunding = $this->calculateFunding(
+                $trade->position_size,
+                $trade->funding_rate_short,
+                'short'
+            );
 
-            $fundingProfit = $longFundingProfit - $shortFundingProfit;
+            $fundingProfit = $longFunding + $shortFunding;
 
             $trade->last_funding_at = now();
             $trade->save();
@@ -201,8 +207,35 @@ class TradeSimulatorService
         }
     }
 
-    private function getFundingRate()
-    {
-        return rand(-10, 10) / 10000; // -0.001 to 0.001
+    public function calculateFunding($positionSize, $fundingRate, $side) {
+        $amount = $positionSize * (abs($fundingRate) / 100);
+
+        // Positive funding:
+        // longs pay, shorts receive
+        if ($fundingRate > 0) {
+
+            if ($side === 'long') {
+                return -$amount;
+            }
+
+            if ($side === 'short') {
+                return +$amount;
+            }
+        }
+
+        // Negative funding:
+        // shorts pay, longs receive
+        if ($fundingRate < 0) {
+
+            if ($side === 'long') {
+                return +$amount;
+            }
+
+            if ($side === 'short') {
+                return -$amount;
+            }
+        }
+
+        return 0;
     }
 }
