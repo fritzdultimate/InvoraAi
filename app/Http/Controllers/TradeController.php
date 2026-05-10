@@ -79,15 +79,20 @@ class TradeController extends Controller
             $simulator->openTrade($asset, $funding);
         });
 
-        Trade::where('status', 'open')
-            ->inRandomOrder()
-            ->take(rand(1, 3))
-            ->get()
-            ->each(function ($trade) use ($simulator) {
+        // Update open trades
+        Trade::where('status', 'open')->each(function ($trade) use ($simulator) {
+            $simulator->updateTrade($trade);
+        });
 
-                $simulator->updateTrade($trade);
+        // Trade::where('status', 'open')
+        //     ->inRandomOrder()
+        //     ->take(rand(1, 3))
+        //     ->get()
+        //     ->each(function ($trade) use ($simulator) {
 
-            });
+        //         $simulator->updateTrade($trade);
+
+        //     });
 
         Trade::where('status', 'closed')->each(function ($trade) use ($simulator) {
             $funding = $this->getFundingRates($trade->asset);
