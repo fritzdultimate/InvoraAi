@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Dashboard;
 use App\Models\Trade;
+use App\Services\TradeSimulatorService;
 use Illuminate\Support\Facades\Cache;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
@@ -34,6 +35,17 @@ class TradeDashboard extends Component
     }
 
     public function refreshTrades() {
+        $simulator = new TradeSimulatorService();
+        Trade::where('status', 'open')
+            ->inRandomOrder()
+            ->take(rand(1, 4))
+            ->get()
+            ->each(function ($trade) use ($simulator) {
+
+                $simulator->updateTrade($trade);
+
+                usleep(300000);
+            });
         $this->loadTrades();
     }
 
