@@ -9,37 +9,37 @@
             --bg-elevated: #151b28;
             --bg-surface: #1a2030;
             --bg-hover: #1f2638;
-            
+
             /* Sophisticated Borders */
             --border-subtle: rgba(99, 110, 123, 0.06);
             --border-default: rgba(99, 110, 123, 0.1);
             --border-strong: rgba(99, 110, 123, 0.18);
             --border-accent: rgba(56, 189, 248, 0.25);
-            
+
             /* Premium Text Hierarchy */
             --text-hero: #ffffff;
             --text-primary: #e8edf4;
             --text-secondary: #9ba3af;
             --text-tertiary: #6b7280;
             --text-muted: #4b5563;
-            
+
             /* Market Colors - Refined */
             --profit: #10b981;
             --profit-bg: rgba(16, 185, 129, 0.08);
             --profit-border: rgba(16, 185, 129, 0.2);
             --profit-glow: rgba(16, 185, 129, 0.2);
-            
+
             --loss: #ef4444;
             --loss-bg: rgba(239, 68, 68, 0.08);
             --loss-border: rgba(239, 68, 68, 0.2);
             --loss-glow: rgba(239, 68, 68, 0.2);
-            
+
             /* Premium Accents */
             --cyan: #06b6d4;
             --cyan-glow: rgba(6, 182, 212, 0.15);
             --amber: #f59e0b;
             --violet: #8b5cf6;
-            
+
             /* Shadows */
             --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
             --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
@@ -129,8 +129,17 @@
         }
 
         @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.7; transform: scale(0.85); }
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.7;
+                transform: scale(0.85);
+            }
         }
 
         /* DESKTOP TABLE */
@@ -372,8 +381,8 @@
         }
 
         /* ========================================
-           MOBILE LAYOUT - COINALYZE INSPIRED
-        ======================================== */
+               MOBILE LAYOUT - COINALYZE INSPIRED
+            ======================================== */
         @media (max-width: 768px) {
             .dashboard {
                 padding: 12px;
@@ -608,7 +617,7 @@
             }
 
             /* Hide the standalone desktop asset cell (last one) on mobile */
-            .trade-table td:first-child > .asset-cell:last-child {
+            .trade-table td:first-child>.asset-cell:last-child {
                 display: none !important;
             }
 
@@ -670,9 +679,119 @@
             }
         }
     </style>
+
+    <style>
+        /* ========================================
+            LIVE VALUE UPDATE ANIMATIONS
+        ======================================== */
+
+        .live-value {
+            position: relative;
+            transition:
+                color 0.35s ease,
+                transform 0.25s ease,
+                opacity 0.25s ease;
+            will-change: transform;
+        }
+
+        /* Value increased */
+        .flash-green {
+            animation: flashGreen 1s ease;
+        }
+
+        /* Value decreased */
+        .flash-red {
+            animation: flashRed 1s ease;
+        }
+
+        /* Row updated */
+        .row-updated {
+            animation: rowPulse 1.2s ease;
+        }
+
+        /* Number pop */
+        .value-pop {
+            animation: valuePop 0.4s ease;
+        }
+
+        /* Glow effect */
+        .glow-green {
+            box-shadow:
+                0 0 0px rgba(16, 185, 129, 0),
+                0 0 18px rgba(16, 185, 129, 0.25);
+        }
+
+        .glow-red {
+            box-shadow:
+                0 0 0px rgba(239, 68, 68, 0),
+                0 0 18px rgba(239, 68, 68, 0.25);
+        }
+
+        @keyframes flashGreen {
+            0% {
+                background: rgba(16, 185, 129, 0);
+                transform: scale(1);
+            }
+
+            30% {
+                background: rgba(16, 185, 129, 0.18);
+                transform: scale(1.04);
+            }
+
+            100% {
+                background: rgba(16, 185, 129, 0);
+                transform: scale(1);
+            }
+        }
+
+        @keyframes flashRed {
+            0% {
+                background: rgba(239, 68, 68, 0);
+                transform: scale(1);
+            }
+
+            30% {
+                background: rgba(239, 68, 68, 0.18);
+                transform: scale(1.04);
+            }
+
+            100% {
+                background: rgba(239, 68, 68, 0);
+                transform: scale(1);
+            }
+        }
+
+        @keyframes rowPulse {
+            0% {
+                background: rgba(6, 182, 212, 0);
+            }
+
+            30% {
+                background: rgba(6, 182, 212, 0.05);
+            }
+
+            100% {
+                background: rgba(6, 182, 212, 0);
+            }
+        }
+
+        @keyframes valuePop {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.08);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+    </style>
 @endpush
 
-<div class="dashboard">
+<div class="dashboard" wire:poll.2s="refreshTrades">
     <!-- Premium Header -->
     <div class="dashboard-header">
         <div class="title-group">
@@ -708,7 +827,7 @@
 
                 <tbody>
                     @forelse($trades as $trade)
-                        <tr>
+                        <tr id="trade-{{ $trade->id }}">
                             <!-- DESKTOP VIEW -->
                             <!-- Asset -->
                             <td>
@@ -740,14 +859,15 @@
                                             </span>
                                             <div class="funding-rate">
                                                 <span>Rate:</span>
-                                                <span class="funding-rate-value {{ $trade->funding_rate_long >= 0 ? 'positive' : 'negative' }}">
+                                                <span
+                                                    class="funding-rate-value {{ $trade->funding_rate_long >= 0 ? 'positive' : 'negative' }}">
                                                     {{ number_format($trade->funding_rate_long * 100, 4) }}%
                                                 </span>
                                             </div>
                                         </div>
-                                        
+
                                         <div class="mobile-divider"></div>
-                                        
+
                                         <div class="mobile-column">
                                             <div class="mobile-label">Short Exchange</div>
                                             <span class="exchange-badge badge-short">
@@ -755,7 +875,8 @@
                                             </span>
                                             <div class="funding-rate">
                                                 <span>Rate:</span>
-                                                <span class="funding-rate-value {{ $trade->funding_rate_short >= 0 ? 'positive' : 'negative' }}">
+                                                <span
+                                                    class="funding-rate-value {{ $trade->funding_rate_short >= 0 ? 'positive' : 'negative' }}">
                                                     {{ number_format($trade->funding_rate_short * 100, 4) }}%
                                                 </span>
                                             </div>
@@ -772,7 +893,8 @@
                                         </div>
                                         <div class="mobile-pnl-item">
                                             <div class="mobile-pnl-label">Funding</div>
-                                            <div class="mobile-pnl-value {{ $trade->funding_profit >= 0 ? 'green' : ($trade->funding_profit < 0 ? 'red' : 'neutral') }}">
+                                            <div
+                                                class="mobile-pnl-value {{ $trade->funding_profit >= 0 ? 'green' : ($trade->funding_profit < 0 ? 'red' : 'neutral') }}">
                                                 ${{ number_format(abs($trade->funding_profit), 2) }}
                                             </div>
                                         </div>
@@ -809,7 +931,11 @@
                             <!-- Long Funding Rate (Desktop only) -->
                             <td>
                                 <div class="funding-rate">
-                                    <span class="funding-rate-value {{ $trade->long_funding_rate >= 0 ? 'positive' : 'negative' }}">
+                                    <span
+                                        class="live-value funding-rate-value {{ $trade->long_funding_rate >= 0 ? 'positive' : 'negative' }}"
+                                        data-value="{{ $trade->long_funding_rate }}"
+                                        data-field="long_funding_rate"
+                                    >
                                         {{ number_format($trade->funding_rate_long * 100, 4) }}%
                                     </span>
                                 </div>
@@ -825,25 +951,42 @@
                             <!-- Short Funding Rate (Desktop only) -->
                             <td>
                                 <div class="funding-rate">
-                                    <span class="funding-rate-value {{ $trade->short_funding_rate >= 0 ? 'positive' : 'negative' }}">
+                                    <span
+                                        class="live-value funding-rate-value {{ $trade->short_funding_rate >= 0 ? 'positive' : 'negative' }}"
+                                        data-value="{{ $trade->short_funding_rate }}"
+                                        data-field="short_funding_rate"
+                                    >
                                         {{ number_format($trade->funding_rate_short * 100, 4) }}%
                                     </span>
                                 </div>
                             </td>
 
                             <!-- Price PnL (Desktop only) -->
-                            <td class="{{ $trade->price_pnl >= 0 ? 'green' : 'red' }}">
+                            <td class="">
                                 <div class="value-cell">
                                     <span class="value-symbol {{ $trade->price_pnl >= 0 ? 'green' : 'red' }}">$</span>
-                                    <span class="{{ $trade->price_pnl >= 0 ? 'green' : 'red' }}">{{ number_format(abs($trade->price_pnl), 2) }}</span>
+                                    <span 
+                                        class="live-value {{ $trade->price_pnl >= 0 ? 'green' : 'red' }}"
+                                        data-value="{{ $trade->price_pnl }}"
+                                        data-field="price_pnl"
+                                    >
+                                        {{ number_format(abs($trade->price_pnl), 2) }}
+                                    </span>
                                 </div>
                             </td>
 
                             <!-- Funding (Desktop only) -->
                             <td>
                                 <div class="value-cell">
-                                    <span class="value-symbol {{ $trade->funding_profit >= 0 ? 'green' : ($trade->funding_profit < 0 ? 'red' : 'neutral') }}">$</span>
-                                    <span class="{{ $trade->funding_profit >= 0 ? 'green' : ($trade->funding_profit < 0 ? 'red' : 'neutral') }}">{{ number_format(abs($trade->funding_profit), 2) }}</span>
+                                    <span
+                                        class="value-symbol {{ $trade->funding_profit >= 0 ? 'green' : ($trade->funding_profit < 0 ? 'red' : 'neutral') }}">$</span>
+                                    <span
+                                        class="live-value {{ $trade->funding_profit >= 0 ? 'green' : ($trade->funding_profit < 0 ? 'red' : 'neutral') }}"
+                                        data-value="{{ $trade->funding_profit }}"
+                                        data-field="funding_profit"
+                                    >
+                                        {{ number_format(abs($trade->funding_profit), 2) }}
+                                    </span>
                                 </div>
                             </td>
 
@@ -859,7 +1002,13 @@
                             <td class="total-cell {{ $trade->total_net >= 0 ? 'green' : 'red' }}">
                                 <div class="value-cell">
                                     <span class="value-symbol">$</span>
-                                    <span class="{{ $trade->total_net >= 0 ? 'green' : 'red' }}">{{ number_format(abs($trade->total_net), 2) }}</span>
+                                    <span
+                                        class="live-value {{ $trade->total_net >= 0 ? 'green' : 'red' }}"
+                                        data-value="{{ $trade->total_net }}"
+                                        data-field="total_net"
+                                    >
+                                        {{ number_format(abs($trade->total_net), 2) }}
+                                    </span>
                                 </div>
                             </td>
                         </tr>
@@ -878,3 +1027,82 @@
         </div>
     </div>
 </div>
+
+@push('scripts')
+    <script>
+        const previousValues = {};
+
+        function animateValueChanges() {
+
+            document.querySelectorAll('.live-value').forEach(el => {
+
+                const current = parseFloat(el.dataset.value || 0);
+
+                const rowId = el.closest('tr')?.id || '';
+
+                const field = el.dataset.field || '';
+
+                const key = rowId + '-' + field;
+
+                // first load
+                if (!(key in previousValues)) {
+                    previousValues[key] = current;
+                    return;
+                }
+
+                const previous = previousValues[key];
+
+                if (current !== previous) {
+
+                    el.classList.remove(
+                        'flash-green',
+                        'flash-red',
+                        'value-pop',
+                        'glow-green',
+                        'glow-red'
+                    );
+
+                    void el.offsetWidth;
+
+                    if (current > previous) {
+
+                        el.classList.add(
+                            'flash-green',
+                            'value-pop',
+                            'glow-green'
+                        );
+
+                    } else {
+
+                        el.classList.add(
+                            'flash-red',
+                            'value-pop',
+                            'glow-red'
+                        );
+                    }
+
+                    const row = el.closest('tr');
+
+                    if (row) {
+
+                        row.classList.remove('row-updated');
+
+                        void row.offsetWidth;
+
+                        row.classList.add('row-updated');
+                    }
+
+                    previousValues[key] = current;
+                }
+            });
+        }
+
+        document.addEventListener('livewire:init', () => {
+
+            Livewire.hook('morphed', () => {
+                animateValueChanges();
+            });
+
+        });
+    </script>
+@endpush

@@ -28,9 +28,11 @@ class TradeDashboard extends Component
         $this->loadTrades();
     }
 
-    public function render()
-    {
+    public function refreshTrades() {
         $this->loadTrades();
+    }
+
+    public function render() {
         return view('livewire.dashboard.trade-dashboard');
     }
 
