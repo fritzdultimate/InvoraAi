@@ -87,7 +87,7 @@ class TradeController extends Controller
         for ($i = 0; $i < 30; $i++) {
             Trade::where('status', 'open')
                 ->inRandomOrder()
-                ->take(rand(1, 4))
+                ->take(rand(1, 8))
                 ->get()
                 ->each(function ($trade) use ($simulator) {
 
