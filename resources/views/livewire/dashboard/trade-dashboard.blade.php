@@ -381,8 +381,8 @@
         }
 
         /* ========================================
-                   MOBILE LAYOUT - COINALYZE INSPIRED
-                ======================================== */
+                           MOBILE LAYOUT - COINALYZE INSPIRED
+                        ======================================== */
         @media (max-width: 768px) {
             .dashboard {
                 padding: 12px;
@@ -682,8 +682,8 @@
 
     <style>
         /* ========================================
-                LIVE VALUE UPDATE ANIMATIONS
-            ======================================== */
+                        LIVE VALUE UPDATE ANIMATIONS
+                    ======================================== */
 
         .live-value {
             position: relative;
@@ -810,6 +810,56 @@
 
             100% {
                 background: rgba(6, 182, 212, 0);
+            }
+        }
+    </style>
+
+    <style>
+        .micro-tick-up {
+            animation: microTickUp 1.8s ease;
+        }
+
+        .micro-tick-down {
+            animation: microTickDown 1.8s ease;
+        }
+
+        @keyframes microTickUp {
+
+            0% {
+                opacity: 1;
+                text-shadow: 0 0 0 rgba(16, 185, 129, 0);
+            }
+
+            30% {
+                opacity: 0.9;
+                text-shadow: 0 0 14px rgba(16, 185, 129, 0.45);
+                transform: translateY(-1px);
+            }
+
+            100% {
+                opacity: 1;
+                text-shadow: 0 0 0 rgba(16, 185, 129, 0);
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes microTickDown {
+
+            0% {
+                opacity: 1;
+                text-shadow: 0 0 0 rgba(239, 68, 68, 0);
+            }
+
+            30% {
+                opacity: 0.9;
+                text-shadow: 0 0 14px rgba(239, 68, 68, 0.45);
+                transform: translateY(1px);
+            }
+
+            100% {
+                opacity: 1;
+                text-shadow: 0 0 0 rgba(239, 68, 68, 0);
+                transform: translateY(0);
             }
         }
     </style>
@@ -1116,5 +1166,47 @@
             });
 
         });
+    </script>
+
+    <script>
+
+        function microAnimateRandomCells() {
+
+            const cells = document.querySelectorAll('.live-value');
+
+            if (!cells.length) return;
+
+            // randomly choose 1-3 cells
+            const count = Math.floor(Math.random() * 3) + 1;
+
+            for (let i = 0; i < count; i++) {
+
+                const randomCell =
+                    cells[Math.floor(Math.random() * cells.length)];
+
+                if (!randomCell) continue;
+
+                const up = Math.random() > 0.5;
+
+                randomCell.classList.remove(
+                    'micro-tick-up',
+                    'micro-tick-down'
+                );
+
+                void randomCell.offsetWidth;
+
+                randomCell.classList.add(
+                    up ? 'micro-tick-up' : 'micro-tick-down'
+                );
+            }
+        }
+
+        // every 2.5 seconds
+        setInterval(() => {
+
+            microAnimateRandomCells();
+
+        }, 2500);
+
     </script>
 @endpush
