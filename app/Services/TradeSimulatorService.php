@@ -157,9 +157,20 @@ class TradeSimulatorService
             return;
         }
 
+        $longPnl = (
+            ($exitLong - $trade->entry_price_long)
+            / $trade->entry_price_long
+        ) * $trade->position_size;
 
-        $pricePnL = ($exitLong - $trade->entry_price_long)
-            + ($trade->entry_price_short - $exitShort);
+        $shortPnl = (
+            ($trade->entry_price_short - $exitShort)
+            / $trade->entry_price_short
+        ) * $trade->position_size;
+
+        $pricePnL = $longPnl + $shortPnl;
+
+
+        // $pricePnL = ($exitLong - $trade->entry_price_long) + ($trade->entry_price_short - $exitShort);
 
         $lastFunding = $trade->last_funding_at ?? $trade->opened_at;
 
