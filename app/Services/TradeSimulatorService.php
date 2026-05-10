@@ -187,7 +187,7 @@ class TradeSimulatorService
 
         // dd(now()->diffInMinutes($lastFunding, true));
 
-        if (now()->diffInSeconds($lastFunding, true) >= 1.5) {
+        if (now()->diffInMinutes($lastFunding, true) >= 5) {
 
             $longFunding = $this->calculateFunding(
                 $trade->position_size,
