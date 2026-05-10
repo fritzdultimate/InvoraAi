@@ -97,20 +97,19 @@ class TradeController extends Controller
     }
 
     public function isGoodOpportunity($funding) {
-        $bybit = $funding['bybit'];
-        $binance = $funding['binance'];
+        $bybit = (float) $funding['bybit'];
+        $binance = (float) $funding['binance'];
 
-        // must be opposite direction
-        if (
-            !($bybit > 0 && $binance < 0) &&
-            !($bybit < 0 && $binance > 0)
-        ) {
-            return false;
-        }
 
         $diff = abs($bybit - $binance);
 
-        return $diff > 0.002; // threshold
+        $minSpread = 0.001; // 0.1%
+
+        if ($diff < $minSpread) {
+            return false;
+        }
+
+        return true;
     }
 
 

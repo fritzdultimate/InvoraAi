@@ -179,7 +179,7 @@ class TradeSimulatorService
                 'short'
             );
 
-            $fundingProfit = $longFunding + $shortFunding;
+            $fundingProfit = $trade->funding_profit + $longFunding + $shortFunding;
 
             $trade->last_funding_at = now();
             $trade->save();
