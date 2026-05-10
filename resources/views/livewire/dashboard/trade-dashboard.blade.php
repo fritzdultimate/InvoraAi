@@ -381,8 +381,8 @@
         }
 
         /* ========================================
-               MOBILE LAYOUT - COINALYZE INSPIRED
-            ======================================== */
+                   MOBILE LAYOUT - COINALYZE INSPIRED
+                ======================================== */
         @media (max-width: 768px) {
             .dashboard {
                 padding: 12px;
@@ -682,8 +682,8 @@
 
     <style>
         /* ========================================
-            LIVE VALUE UPDATE ANIMATIONS
-        ======================================== */
+                LIVE VALUE UPDATE ANIMATIONS
+            ======================================== */
 
         .live-value {
             position: relative;
@@ -696,12 +696,12 @@
 
         /* Value increased */
         .flash-green {
-            animation: flashGreen 1s ease;
+            animation: flashGreen 2.8s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
         /* Value decreased */
         .flash-red {
-            animation: flashRed 1s ease;
+            animation: flashRed 2.8s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
         /* Row updated */
@@ -711,7 +711,7 @@
 
         /* Number pop */
         .value-pop {
-            animation: valuePop 0.4s ease;
+            animation: valuePop 1.4s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
         /* Glow effect */
@@ -728,35 +728,70 @@
         }
 
         @keyframes flashGreen {
+
             0% {
                 background: rgba(16, 185, 129, 0);
                 transform: scale(1);
+                box-shadow: 0 0 0 rgba(16, 185, 129, 0);
             }
 
-            30% {
-                background: rgba(16, 185, 129, 0.18);
-                transform: scale(1.04);
+            15% {
+                background: rgba(16, 185, 129, 0.22);
+                transform: scale(1.03);
+                box-shadow: 0 0 24px rgba(16, 185, 129, 0.35);
+            }
+
+            55% {
+                background: rgba(16, 185, 129, 0.12);
+                transform: scale(1.015);
+                box-shadow: 0 0 18px rgba(16, 185, 129, 0.22);
             }
 
             100% {
                 background: rgba(16, 185, 129, 0);
                 transform: scale(1);
+                box-shadow: 0 0 0 rgba(16, 185, 129, 0);
             }
         }
 
         @keyframes flashRed {
+
             0% {
                 background: rgba(239, 68, 68, 0);
                 transform: scale(1);
+                box-shadow: 0 0 0 rgba(239, 68, 68, 0);
             }
 
-            30% {
-                background: rgba(239, 68, 68, 0.18);
-                transform: scale(1.04);
+            15% {
+                background: rgba(239, 68, 68, 0.22);
+                transform: scale(1.03);
+                box-shadow: 0 0 24px rgba(239, 68, 68, 0.35);
+            }
+
+            55% {
+                background: rgba(239, 68, 68, 0.12);
+                transform: scale(1.015);
+                box-shadow: 0 0 18px rgba(239, 68, 68, 0.22);
             }
 
             100% {
                 background: rgba(239, 68, 68, 0);
+                transform: scale(1);
+                box-shadow: 0 0 0 rgba(239, 68, 68, 0);
+            }
+        }
+
+        @keyframes valuePop {
+
+            0% {
+                transform: scale(1);
+            }
+
+            35% {
+                transform: scale(1.09);
+            }
+
+            100% {
                 transform: scale(1);
             }
         }
@@ -772,20 +807,6 @@
 
             100% {
                 background: rgba(6, 182, 212, 0);
-            }
-        }
-
-        @keyframes valuePop {
-            0% {
-                transform: scale(1);
-            }
-
-            50% {
-                transform: scale(1.08);
-            }
-
-            100% {
-                transform: scale(1);
             }
         }
     </style>
@@ -933,9 +954,7 @@
                                 <div class="funding-rate">
                                     <span
                                         class="live-value funding-rate-value {{ $trade->long_funding_rate >= 0 ? 'positive' : 'negative' }}"
-                                        data-value="{{ $trade->long_funding_rate }}"
-                                        data-field="long_funding_rate"
-                                    >
+                                        data-value="{{ $trade->long_funding_rate }}" data-field="long_funding_rate">
                                         {{ number_format($trade->funding_rate_long * 100, 4) }}%
                                     </span>
                                 </div>
@@ -953,9 +972,7 @@
                                 <div class="funding-rate">
                                     <span
                                         class="live-value funding-rate-value {{ $trade->short_funding_rate >= 0 ? 'positive' : 'negative' }}"
-                                        data-value="{{ $trade->short_funding_rate }}"
-                                        data-field="short_funding_rate"
-                                    >
+                                        data-value="{{ $trade->short_funding_rate }}" data-field="short_funding_rate">
                                         {{ number_format($trade->funding_rate_short * 100, 4) }}%
                                     </span>
                                 </div>
@@ -965,11 +982,8 @@
                             <td class="">
                                 <div class="value-cell">
                                     <span class="value-symbol {{ $trade->price_pnl >= 0 ? 'green' : 'red' }}">$</span>
-                                    <span 
-                                        class="live-value {{ $trade->price_pnl >= 0 ? 'green' : 'red' }}"
-                                        data-value="{{ $trade->price_pnl }}"
-                                        data-field="price_pnl"
-                                    >
+                                    <span class="live-value {{ $trade->price_pnl >= 0 ? 'green' : 'red' }}"
+                                        data-value="{{ $trade->price_pnl }}" data-field="price_pnl">
                                         {{ number_format(abs($trade->price_pnl), 2) }}
                                     </span>
                                 </div>
@@ -982,9 +996,7 @@
                                         class="value-symbol {{ $trade->funding_profit >= 0 ? 'green' : ($trade->funding_profit < 0 ? 'red' : 'neutral') }}">$</span>
                                     <span
                                         class="live-value {{ $trade->funding_profit >= 0 ? 'green' : ($trade->funding_profit < 0 ? 'red' : 'neutral') }}"
-                                        data-value="{{ $trade->funding_profit }}"
-                                        data-field="funding_profit"
-                                    >
+                                        data-value="{{ $trade->funding_profit }}" data-field="funding_profit">
                                         {{ number_format(abs($trade->funding_profit), 2) }}
                                     </span>
                                 </div>
@@ -1002,11 +1014,8 @@
                             <td class="total-cell {{ $trade->total_net >= 0 ? 'green' : 'red' }}">
                                 <div class="value-cell">
                                     <span class="value-symbol">$</span>
-                                    <span
-                                        class="live-value {{ $trade->total_net >= 0 ? 'green' : 'red' }}"
-                                        data-value="{{ $trade->total_net }}"
-                                        data-field="total_net"
-                                    >
+                                    <span class="live-value {{ $trade->total_net >= 0 ? 'green' : 'red' }}"
+                                        data-value="{{ $trade->total_net }}" data-field="total_net">
                                         {{ number_format(abs($trade->total_net), 2) }}
                                     </span>
                                 </div>
