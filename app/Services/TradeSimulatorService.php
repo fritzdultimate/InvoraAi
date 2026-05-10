@@ -212,6 +212,10 @@ class TradeSimulatorService
 
         $total = $pricePnL + $fundingProfit - $trade->fees;
 
+        if ($total > $trade->peak_profit) {
+            $trade->peak_profit = $total;
+        }
+
         $trade->update([
             'exit_price_long' => $exitLong,
             'exit_price_short' => $exitShort,
@@ -223,11 +227,30 @@ class TradeSimulatorService
         $stopLoss = $trade->position_size * 0.01; // 1%
         $takeProfit = $trade->position_size * 0.03; // 3%
 
-        if ($total <= -$stopLoss || $total >= $takeProfit) {
+        $drawdown = $trade->peak_profit - $total;
+        $trailStop = $trade->peak_profit * 0.25;
+
+        $shouldClose = false;
+
+        if ($total <= -$stopLoss) {
+            $shouldClose = true;
+        }
+
+        if ($total >= $takeProfit) {
+            $shouldClose = true;
+        }
+
+        if ( $trade->peak_profit > 10 && $drawdown >= $trailStop ) {
+            $shouldClose = true;
+        }
+
+        if ($shouldClose) {
+
             $trade->update([
                 'status' => 'closed',
                 'closed_at' => now()
             ]);
+
         }
 
         // Auto close if threshold hit
