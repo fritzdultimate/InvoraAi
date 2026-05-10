@@ -84,7 +84,6 @@ class TradeController extends Controller
         //     $simulator->updateTrade($trade);
         // });
 
-        for ($i = 0; $i < 30; $i++) {
             Trade::where('status', 'open')
                 ->inRandomOrder()
                 ->take(rand(1, 8))
@@ -95,9 +94,6 @@ class TradeController extends Controller
 
                     usleep(300000);
                 });
-
-            sleep(2);
-        }
 
         Trade::where('status', 'closed')->each(function ($trade) use ($simulator) {
             $funding = $this->getFundingRates($trade->asset);
