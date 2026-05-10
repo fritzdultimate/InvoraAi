@@ -157,6 +157,17 @@ class TradeSimulatorService
             return;
         }
 
+        $spread = abs(
+            ($exitLong - $exitShort)
+            /
+            (($exitLong + $exitShort) / 2)
+        );
+
+        if ($spread > 0.01) {
+            // spread too wide
+            return;
+        }
+
         $longPnl = (
             ($exitLong - $trade->entry_price_long)
             / $trade->entry_price_long
@@ -209,13 +220,23 @@ class TradeSimulatorService
             'total_net' => $total,
         ]);
 
-        // Auto close if threshold hit
-        if ($total < -10 || $total > 20) {
+        $stopLoss = $trade->position_size * 0.01; // 1%
+        $takeProfit = $trade->position_size * 0.03; // 3%
+
+        if ($total <= -$stopLoss || $total >= $takeProfit) {
             $trade->update([
                 'status' => 'closed',
                 'closed_at' => now()
             ]);
         }
+
+        // Auto close if threshold hit
+        // if ($total < -10 || $total > 20) {
+        //     $trade->update([
+        //         'status' => 'closed',
+        //         'closed_at' => now()
+        //     ]);
+        // }
     }
 
     public function calculateFunding($positionSize, $fundingRate, $side) {
