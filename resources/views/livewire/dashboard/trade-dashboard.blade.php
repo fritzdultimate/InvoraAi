@@ -692,6 +692,9 @@
                 transform 0.25s ease,
                 opacity 0.25s ease;
             will-change: transform;
+
+            backface-visibility: hidden;
+            transform: translateZ(0);
         }
 
         /* Value increased */
