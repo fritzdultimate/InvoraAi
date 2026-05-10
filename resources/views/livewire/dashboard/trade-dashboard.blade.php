@@ -1206,7 +1206,7 @@
 
             microAnimateRandomCells();
 
-        }, 2500);
+        }, 1500);
 
     </script>
 @endpush
