@@ -43,8 +43,6 @@ class TradeDashboard extends Component
             ->each(function ($trade) use ($simulator) {
 
                 $simulator->updateTrade($trade);
-
-                usleep(300000);
             });
         $this->loadTrades();
     }
