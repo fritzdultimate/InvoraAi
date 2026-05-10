@@ -791,7 +791,7 @@
     </style>
 @endpush
 
-<div class="dashboard" wire:poll.2s="refreshTrades">
+<div class="dashboard" wire:poll.1500ms="refreshTrades">
     <!-- Premium Header -->
     <div class="dashboard-header">
         <div class="title-group">
