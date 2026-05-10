@@ -92,6 +92,7 @@ class TradeController extends Controller
 
                 $simulator->updateTrade($trade);
 
+                usleep(300000);
             });
 
         Trade::where('status', 'closed')->each(function ($trade) use ($simulator) {
