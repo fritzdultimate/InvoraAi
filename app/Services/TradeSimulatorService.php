@@ -183,9 +183,11 @@ class TradeSimulatorService
 
         $pricePnL = ($exitLong - $trade->entry_price_long) + ($trade->entry_price_short - $exitShort);
 
+        $pricePnL += rand(-9, 9) / 1000;
+
         $lastFunding = $trade->last_funding_at ?? $trade->opened_at;
 
-        // dd(now()->diffInMinutes($lastFunding, true));
+        // dd(now()->diffInMinutes($lastFunding, true) >= 5);
 
         if (now()->diffInMinutes($lastFunding, true) >= 5) {
 
