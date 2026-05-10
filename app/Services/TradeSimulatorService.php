@@ -122,7 +122,7 @@ class TradeSimulatorService
         }
 
         $positionSize = $capital * $risk;
-        $feeRate = 0.0006;
+        $feeRate = 0.00006;
         $fees = $positionSize * $feeRate;
 
         return Trade::create([
