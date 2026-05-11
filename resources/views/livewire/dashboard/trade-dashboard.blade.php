@@ -70,8 +70,8 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: clamp(20px, 3vw, 32px);
-            padding-bottom: clamp(12px, 2vw, 20px);
+            margin-bottom: clamp(20px, 3vw, 24px);
+            padding-bottom: clamp(12px, 2vw, 16px);
             border-bottom: 1px solid var(--border-default);
             flex-wrap: wrap;
             gap: 12px;
@@ -129,17 +129,192 @@
         }
 
         @keyframes pulse {
-
-            0%,
-            100% {
+            0%, 100% {
                 opacity: 1;
                 transform: scale(1);
             }
-
             50% {
                 opacity: 0.7;
                 transform: scale(0.85);
             }
+        }
+
+        /* ========================================
+           PREMIUM FILTER BAR
+        ======================================== */
+        .filter-bar {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-default);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow-md);
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            flex: 1;
+            min-width: 180px;
+        }
+
+        .filter-label {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-muted);
+        }
+
+        /* Segmented Control (Status Filter) */
+        .segmented-control {
+            display: flex;
+            background: var(--bg-canvas);
+            border: 1px solid var(--border-default);
+            border-radius: 8px;
+            padding: 3px;
+            gap: 3px;
+        }
+
+        .segment-option {
+            flex: 1;
+            padding: 8px 12px;
+            font-size: 12px;
+            font-weight: 600;
+            text-align: center;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: var(--text-secondary);
+            background: transparent;
+            border: none;
+            white-space: nowrap;
+        }
+
+        .segment-option:hover {
+            color: var(--text-primary);
+            background: var(--bg-hover);
+        }
+
+        .segment-option.active {
+            background: var(--cyan); /* use a better bg color, removing this bg is even better than the color you choose */
+            color: white;
+            box-shadow: 0 2px 8px rgba(6, 182, 212, 0.3);
+        }
+
+        .segment-option.profit {
+            color: var(--profit);
+        }
+
+        .segment-option.profit.active {
+            background: var(--profit);
+            color: white;
+        }
+
+        .segment-option.loss {
+            color: var(--loss);
+        }
+
+        .segment-option.loss.active {
+            background: var(--loss);
+            color: white;
+        }
+
+        /* Premium Select Dropdown */
+        .custom-select {
+            position: relative;
+            width: 100%;
+        }
+
+        .custom-select select {
+            width: 100%;
+            padding: 10px 40px 10px 14px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-primary);
+            background: var(--bg-canvas);
+            border: 1px solid var(--border-default);
+            border-radius: 8px;
+            cursor: pointer;
+            appearance: none;
+            transition: all 0.2s ease;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .custom-select select:hover {
+            border-color: var(--border-strong);
+            background: var(--bg-surface);
+        }
+
+        .custom-select select:focus {
+            outline: none;
+            border-color: var(--cyan);
+            box-shadow: 0 0 0 3px var(--cyan-glow);
+        }
+
+        .custom-select::after {
+            content: '▼';
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 10px;
+            color: var(--text-tertiary);
+            pointer-events: none;
+        }
+
+        /* Filter Stats Badge */
+        .filter-stats {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 16px;
+            background: var(--bg-canvas);
+            border: 1px solid var(--border-default);
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .filter-stats-label {
+            color: var(--text-tertiary);
+            font-weight: 500;
+        }
+
+        .filter-stats-value {
+            color: var(--cyan);
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        /* Clear Filters Button */
+        .clear-filters-btn {
+            padding: 10px 18px;
+            background: transparent;
+            border: 1px solid var(--border-default);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .clear-filters-btn:hover {
+            background: var(--bg-hover);
+            border-color: var(--border-strong);
+            color: var(--text-primary);
+        }
+
+        .clear-filters-btn:active {
+            transform: scale(0.98);
         }
 
         /* DESKTOP TABLE */
@@ -284,6 +459,44 @@
             border: 1px solid var(--loss-border);
         }
 
+        /* Status Badge */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            white-space: nowrap;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .status-open {
+            background: rgba(6, 182, 212, 0.1);
+            color: var(--cyan);
+            border: 1px solid rgba(6, 182, 212, 0.2);
+        }
+
+        .status-closed {
+            background: rgba(107, 114, 128, 0.1);
+            color: var(--text-tertiary);
+            border: 1px solid rgba(107, 114, 128, 0.2);
+        }
+
+        .status-profit {
+            background: var(--profit-bg);
+            color: var(--profit);
+            border: 1px solid var(--profit-border);
+        }
+
+        .status-loss {
+            background: var(--loss-bg);
+            color: var(--loss);
+            border: 1px solid var(--loss-border);
+        }
+
         /* Funding Rate Badge */
         .funding-rate {
             font-size: 11px;
@@ -381,8 +594,8 @@
         }
 
         /* ========================================
-                           MOBILE LAYOUT - COINALYZE INSPIRED
-                        ======================================== */
+           MOBILE LAYOUT
+        ======================================== */
         @media (max-width: 768px) {
             .dashboard {
                 padding: 12px;
@@ -404,6 +617,34 @@
             .live-indicator {
                 padding: 6px 12px;
                 font-size: 12px;
+            }
+
+            /* Mobile Filter Bar */
+            .filter-bar {
+                padding: 12px;
+                gap: 12px;
+            }
+
+            .filter-group {
+                min-width: 100%;
+            }
+
+            .segmented-control {
+                flex-wrap: wrap;
+            }
+
+            .segment-option {
+                font-size: 11px;
+                padding: 7px 10px;
+            }
+
+            .filter-stats {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .clear-filters-btn {
+                width: 100%;
             }
 
             .table-wrapper {
@@ -452,7 +693,6 @@
                 border: none;
             }
 
-            /* Show mobile structure on mobile */
             .mobile-header,
             .mobile-content {
                 display: block;
@@ -462,7 +702,6 @@
                 display: flex;
             }
 
-            /* Mobile Header Row - Asset + Time + Total */
             .mobile-header {
                 display: flex;
                 justify-content: space-between;
@@ -507,12 +746,10 @@
                 font-family: 'JetBrains Mono', monospace;
             }
 
-            /* Mobile Content Grid */
             .mobile-content {
                 padding: 16px;
             }
 
-            /* Exchanges Row */
             .mobile-row {
                 display: flex;
                 justify-content: space-between;
@@ -559,17 +796,14 @@
                 font-family: 'JetBrains Mono', monospace;
             }
 
-            /* Exchange badges in mobile */
             .mobile-column .exchange-badge {
                 width: fit-content;
             }
 
-            /* Funding rates in mobile */
             .mobile-column .funding-rate {
                 font-size: 11px;
             }
 
-            /* PnL Grid - 3 columns */
             .mobile-pnl-grid {
                 display: grid;
                 grid-template-columns: repeat(3, 1fr);
@@ -603,7 +837,6 @@
                 font-family: 'JetBrains Mono', monospace;
             }
 
-            /* Hide desktop-only columns on mobile */
             .trade-table td:nth-child(2),
             .trade-table td:nth-child(3),
             .trade-table td:nth-child(4),
@@ -612,188 +845,85 @@
             .trade-table td:nth-child(7),
             .trade-table td:nth-child(8),
             .trade-table td:nth-child(9),
-            .trade-table td:nth-child(10) {
+            .trade-table td:nth-child(10),
+            .trade-table td:nth-child(11) {
                 display: none;
             }
 
-            /* Hide the standalone desktop asset cell (last one) on mobile */
             .trade-table td:first-child>.asset-cell:last-child {
                 display: none !important;
             }
 
-            /* Show mobile structure */
             .trade-table td:first-child {
                 display: block;
                 padding: 0;
             }
         }
 
-        /* Tablet Adjustments */
-        @media (min-width: 769px) and (max-width: 1024px) {
-            .trade-table {
-                min-width: 900px;
-            }
-
-            .trade-table th,
-            .trade-table td {
-                padding: 14px 12px;
-                font-size: 12px;
-            }
-        }
-
-        /* Small mobile */
-        @media (max-width: 400px) {
-            .dashboard {
-                padding: 10px;
-            }
-
-            .mobile-header {
-                padding: 12px;
-            }
-
-            .mobile-header .asset-icon {
-                width: 32px;
-                height: 32px;
-                font-size: 12px;
-            }
-
-            .mobile-header .asset-name {
-                font-size: 15px;
-            }
-
-            .mobile-total {
-                font-size: 16px;
-            }
-
-            .mobile-content {
-                padding: 12px;
-            }
-
-            .mobile-pnl-grid {
-                gap: 8px;
-                padding: 12px;
-            }
-
-            .mobile-pnl-value {
-                font-size: 13px;
-            }
-        }
-    </style>
-
-    <style>
         /* ========================================
-                        LIVE VALUE UPDATE ANIMATIONS
-                    ======================================== */
-
+           LIVE VALUE UPDATE ANIMATIONS
+        ======================================== */
         .live-value {
             position: relative;
-            transition:
-                color 0.35s ease,
-                transform 0.25s ease,
-                opacity 0.25s ease;
+            transition: color 0.35s ease, transform 0.25s ease, opacity 0.25s ease;
             will-change: transform;
-
             backface-visibility: hidden;
             transform: translateZ(0);
         }
 
-        /* Value increased */
         .flash-green {
             animation: flashGreen 2.8s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
-        /* Value decreased */
         .flash-red {
             animation: flashRed 2.8s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
-        /* Row updated */
         .row-updated {
             animation: rowPulse 1.2s ease;
         }
 
-        /* Number pop */
         .value-pop {
             animation: valuePop 1.4s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
-        /* Glow effect */
-        .glow-green {
-            box-shadow:
-                0 0 0px rgba(16, 185, 129, 0),
-                0 0 18px rgba(16, 185, 129, 0.25);
-        }
-
-        .glow-red {
-            box-shadow:
-                0 0 0px rgba(239, 68, 68, 0),
-                0 0 18px rgba(239, 68, 68, 0.25);
-        }
-
         @keyframes flashGreen {
-
             0% {
                 background: rgba(16, 185, 129, 0);
                 transform: scale(1);
-                box-shadow: 0 0 0 rgba(16, 185, 129, 0);
             }
-
             15% {
                 background: rgba(16, 185, 129, 0.22);
                 transform: scale(1.03);
-                box-shadow: 0 0 24px rgba(16, 185, 129, 0.35);
             }
-
-            55% {
-                background: rgba(16, 185, 129, 0.12);
-                transform: scale(1.015);
-                box-shadow: 0 0 18px rgba(16, 185, 129, 0.22);
-            }
-
             100% {
                 background: rgba(16, 185, 129, 0);
                 transform: scale(1);
-                box-shadow: 0 0 0 rgba(16, 185, 129, 0);
             }
         }
 
         @keyframes flashRed {
-
             0% {
                 background: rgba(239, 68, 68, 0);
                 transform: scale(1);
-                box-shadow: 0 0 0 rgba(239, 68, 68, 0);
             }
-
             15% {
                 background: rgba(239, 68, 68, 0.22);
                 transform: scale(1.03);
-                box-shadow: 0 0 24px rgba(239, 68, 68, 0.35);
             }
-
-            55% {
-                background: rgba(239, 68, 68, 0.12);
-                transform: scale(1.015);
-                box-shadow: 0 0 18px rgba(239, 68, 68, 0.22);
-            }
-
             100% {
                 background: rgba(239, 68, 68, 0);
                 transform: scale(1);
-                box-shadow: 0 0 0 rgba(239, 68, 68, 0);
             }
         }
 
         @keyframes valuePop {
-
             0% {
                 transform: scale(1);
             }
-
             35% {
                 transform: scale(1.09);
             }
-
             100% {
                 transform: scale(1);
             }
@@ -803,63 +933,11 @@
             0% {
                 background: rgba(6, 182, 212, 0);
             }
-
             30% {
                 background: rgba(6, 182, 212, 0.05);
             }
-
             100% {
                 background: rgba(6, 182, 212, 0);
-            }
-        }
-    </style>
-
-    <style>
-        .micro-tick-up {
-            animation: microTickUp 1.8s ease;
-        }
-
-        .micro-tick-down {
-            animation: microTickDown 1.8s ease;
-        }
-
-        @keyframes microTickUp {
-
-            0% {
-                opacity: 1;
-                text-shadow: 0 0 0 rgba(16, 185, 129, 0);
-            }
-
-            30% {
-                opacity: 0.9;
-                text-shadow: 0 0 14px rgba(16, 185, 129, 0.45);
-                transform: translateY(-1px);
-            }
-
-            100% {
-                opacity: 1;
-                text-shadow: 0 0 0 rgba(16, 185, 129, 0);
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes microTickDown {
-
-            0% {
-                opacity: 1;
-                text-shadow: 0 0 0 rgba(239, 68, 68, 0);
-            }
-
-            30% {
-                opacity: 0.9;
-                text-shadow: 0 0 14px rgba(239, 68, 68, 0.45);
-                transform: translateY(1px);
-            }
-
-            100% {
-                opacity: 1;
-                text-shadow: 0 0 0 rgba(239, 68, 68, 0);
-                transform: translateY(0);
             }
         }
     </style>
@@ -880,6 +958,83 @@
         </div>
     </div>
 
+    <!-- Premium Filter Bar -->
+    <div class="filter-bar">
+        <!-- Status Filter -->
+        <div class="filter-group">
+            <label class="filter-label">Status</label>
+            <div class="segmented-control">
+                <button 
+                    wire:click="$set('statusFilter', 'all')" 
+                    class="segment-option {{ $statusFilter === 'all' ? 'active' : '' }}">
+                    All
+                </button>
+                <button 
+                    wire:click="$set('statusFilter', 'open')" 
+                    class="segment-option {{ $statusFilter === 'open' ? 'active' : '' }}">
+                    Open
+                </button>
+                <button 
+                    wire:click="$set('statusFilter', 'closed')" 
+                    class="segment-option {{ $statusFilter === 'closed' ? 'active' : '' }}">
+                    Closed
+                </button>
+                <button 
+                    wire:click="$set('statusFilter', 'profit')" 
+                    class="segment-option profit {{ $statusFilter === 'profit' ? 'active' : '' }}">
+                    Profit
+                </button>
+                <button 
+                    wire:click="$set('statusFilter', 'loss')" 
+                    class="segment-option loss {{ $statusFilter === 'loss' ? 'active' : '' }}">
+                    Loss
+                </button>
+            </div>
+        </div>
+
+        <!-- Asset Filter -->
+        <div class="filter-group">
+            <label class="filter-label">Asset</label>
+            <div class="custom-select">
+                <select wire:model.live="assetFilter">
+                    <option value="all">All Assets</option>
+                    @foreach($availableAssets as $asset)
+                        <option value="{{ $asset }}">{{ $asset }}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+
+        <!-- Sort By -->
+        <div class="filter-group">
+            <label class="filter-label">Sort By</label>
+            <div class="custom-select">
+                <select wire:model.live="sortBy">
+                    <option value="latest">Latest First</option>
+                    <option value="oldest">Oldest First</option>
+                    <option value="highest_profit">Highest Profit</option>
+                    <option value="highest_loss">Highest Loss</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Filter Stats -->
+        <div class="filter-stats">
+            <span class="filter-stats-label">Showing</span>
+            <span class="filter-stats-value">{{ count($trades) }}</span>
+            <span class="filter-stats-label">trades</span>
+        </div>
+
+        <!-- Clear Filters -->
+        @if($statusFilter !== 'all' || $assetFilter !== 'all' || $sortBy !== 'latest')
+            <button 
+                wire:click="$set('statusFilter', 'all'); $set('assetFilter', 'all'); $set('sortBy', 'latest')" 
+                class="clear-filters-btn">
+                Clear Filters
+            </button>
+        @endif
+    </div>
+
     <!-- Responsive Table -->
     <div class="table-wrapper">
         <div class="table-scroll">
@@ -888,6 +1043,7 @@
                     <tr>
                         <th>Asset</th>
                         <th>Time</th>
+                        <th>Status</th>
                         <th>Long</th>
                         <th>Long Rate</th>
                         <th>Short</th>
@@ -902,10 +1058,9 @@
                 <tbody>
                     @forelse($trades as $trade)
                         <tr id="trade-{{ $trade->id }}">
-                            <!-- DESKTOP VIEW -->
-                            <!-- Asset -->
+                            <!-- MOBILE + DESKTOP STRUCTURE -->
                             <td>
-                                <!-- Mobile Header Structure -->
+                                <!-- Mobile Header -->
                                 <div class="mobile-header">
                                     <div class="asset-cell">
                                         <div class="asset-icon">
@@ -922,9 +1077,17 @@
                                     </div>
                                 </div>
 
-                                <!-- Mobile Content Structure -->
+                                <!-- Mobile Content -->
                                 <div class="mobile-content">
-                                    <!-- Exchanges Row -->
+                                    <div class="mobile-row">
+                                        <div class="mobile-column">
+                                            <div class="mobile-label">Status</div>
+                                            <span class="status-badge status-{{ $trade->status }}">
+                                                {{ ucfirst($trade->status) }}
+                                            </span>
+                                        </div>
+                                    </div>
+
                                     <div class="mobile-row">
                                         <div class="mobile-column">
                                             <div class="mobile-label">Long Exchange</div>
@@ -933,15 +1096,12 @@
                                             </span>
                                             <div class="funding-rate">
                                                 <span>Rate:</span>
-                                                <span
-                                                    class="funding-rate-value {{ $trade->funding_rate_long >= 0 ? 'positive' : 'negative' }}">
+                                                <span class="funding-rate-value {{ $trade->funding_rate_long >= 0 ? 'positive' : 'negative' }}">
                                                     {{ number_format($trade->funding_rate_long * 100, 4) }}%
                                                 </span>
                                             </div>
                                         </div>
-
                                         <div class="mobile-divider"></div>
-
                                         <div class="mobile-column">
                                             <div class="mobile-label">Short Exchange</div>
                                             <span class="exchange-badge badge-short">
@@ -949,15 +1109,13 @@
                                             </span>
                                             <div class="funding-rate">
                                                 <span>Rate:</span>
-                                                <span
-                                                    class="funding-rate-value {{ $trade->funding_rate_short >= 0 ? 'positive' : 'negative' }}">
+                                                <span class="funding-rate-value {{ $trade->funding_rate_short >= 0 ? 'positive' : 'negative' }}">
                                                     {{ number_format($trade->funding_rate_short * 100, 4) }}%
                                                 </span>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <!-- PnL Grid -->
                                     <div class="mobile-pnl-grid">
                                         <div class="mobile-pnl-item">
                                             <div class="mobile-pnl-label">Price PnL</div>
@@ -967,8 +1125,7 @@
                                         </div>
                                         <div class="mobile-pnl-item">
                                             <div class="mobile-pnl-label">Funding</div>
-                                            <div
-                                                class="mobile-pnl-value {{ $trade->funding_profit >= 0 ? 'green' : ($trade->funding_profit < 0 ? 'red' : 'neutral') }}">
+                                            <div class="mobile-pnl-value {{ $trade->funding_profit >= 0 ? 'green' : ($trade->funding_profit < 0 ? 'red' : 'neutral') }}">
                                                 ${{ number_format(abs($trade->funding_profit), 2) }}
                                             </div>
                                         </div>
@@ -981,7 +1138,7 @@
                                     </div>
                                 </div>
 
-                                <!-- Desktop Asset (hidden on mobile) -->
+                                <!-- Desktop Asset -->
                                 <div class="asset-cell">
                                     <div class="asset-icon">
                                         {{ substr($trade->asset->symbol, 0, 2) }}
@@ -990,49 +1147,42 @@
                                 </div>
                             </td>
 
-                            <!-- Time (Desktop only) -->
-                            <td class="time-cell">
-                                {{ $trade->opened_at->format('H:i:s') }}
-                            </td>
-
-                            <!-- Long Exchange (Desktop only) -->
+                            <!-- Desktop Columns -->
+                            <td class="time-cell">{{ $trade->opened_at->format('H:i:s') }}</td>
+                            
                             <td>
-                                <span class="exchange-badge badge-long">
-                                    {{ $trade->long_exchange }}
+                                <span class="status-badge status-{{ $trade->status }}">
+                                    {{ ucfirst($trade->status) }}
                                 </span>
                             </td>
 
-                            <!-- Long Funding Rate (Desktop only) -->
+                            <td>
+                                <span class="exchange-badge badge-long">{{ $trade->long_exchange }}</span>
+                            </td>
+
                             <td>
                                 <div class="funding-rate">
-                                    <span
-                                        class="live-value funding-rate-value {{ $trade->long_funding_rate >= 0 ? 'positive' : 'negative' }}"
-                                        data-value="{{ $trade->long_funding_rate }}" data-field="long_funding_rate">
+                                    <span class="live-value funding-rate-value {{ $trade->funding_rate_long >= 0 ? 'positive' : 'negative' }}"
+                                        data-value="{{ $trade->funding_rate_long }}" data-field="long_funding_rate">
                                         {{ number_format($trade->funding_rate_long * 100, 4) }}%
                                     </span>
                                 </div>
                             </td>
 
-                            <!-- Short Exchange (Desktop only) -->
                             <td>
-                                <span class="exchange-badge badge-short">
-                                    {{ $trade->short_exchange }}
-                                </span>
+                                <span class="exchange-badge badge-short">{{ $trade->short_exchange }}</span>
                             </td>
 
-                            <!-- Short Funding Rate (Desktop only) -->
                             <td>
                                 <div class="funding-rate">
-                                    <span
-                                        class="live-value funding-rate-value {{ $trade->short_funding_rate >= 0 ? 'positive' : 'negative' }}"
-                                        data-value="{{ $trade->short_funding_rate }}" data-field="short_funding_rate">
+                                    <span class="live-value funding-rate-value {{ $trade->funding_rate_short >= 0 ? 'positive' : 'negative' }}"
+                                        data-value="{{ $trade->funding_rate_short }}" data-field="short_funding_rate">
                                         {{ number_format($trade->funding_rate_short * 100, 4) }}%
                                     </span>
                                 </div>
                             </td>
 
-                            <!-- Price PnL (Desktop only) -->
-                            <td class="">
+                            <td>
                                 <div class="value-cell">
                                     <span class="value-symbol {{ $trade->price_pnl >= 0 ? 'green' : 'red' }}">$</span>
                                     <span class="live-value {{ $trade->price_pnl >= 0 ? 'green' : 'red' }}"
@@ -1042,20 +1192,16 @@
                                 </div>
                             </td>
 
-                            <!-- Funding (Desktop only) -->
                             <td>
                                 <div class="value-cell">
-                                    <span
-                                        class="value-symbol {{ $trade->funding_profit >= 0 ? 'green' : ($trade->funding_profit < 0 ? 'red' : 'neutral') }}">$</span>
-                                    <span
-                                        class="live-value {{ $trade->funding_profit >= 0 ? 'green' : ($trade->funding_profit < 0 ? 'red' : 'neutral') }}"
+                                    <span class="value-symbol {{ $trade->funding_profit >= 0 ? 'green' : ($trade->funding_profit < 0 ? 'red' : 'neutral') }}">$</span>
+                                    <span class="live-value {{ $trade->funding_profit >= 0 ? 'green' : ($trade->funding_profit < 0 ? 'red' : 'neutral') }}"
                                         data-value="{{ $trade->funding_profit }}" data-field="funding_profit">
                                         {{ number_format(abs($trade->funding_profit), 2) }}
                                     </span>
                                 </div>
                             </td>
 
-                            <!-- Fees (Desktop only) -->
                             <td class="red">
                                 <div class="value-cell">
                                     <span class="value-symbol red">-$</span>
@@ -1063,7 +1209,6 @@
                                 </div>
                             </td>
 
-                            <!-- Total Net (Desktop only) -->
                             <td class="total-cell {{ $trade->total_net >= 0 ? 'green' : 'red' }}">
                                 <div class="value-cell">
                                     <span class="value-symbol">$</span>
@@ -1076,10 +1221,10 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="10">
+                            <td colspan="11">
                                 <div class="empty-state">
                                     <div class="empty-state-icon">📊</div>
-                                    <div class="empty-state-text">No active trades</div>
+                                    <div class="empty-state-text">No trades match your filters</div>
                                 </div>
                             </td>
                         </tr>
@@ -1095,18 +1240,12 @@
         const previousValues = {};
 
         function animateValueChanges() {
-
             document.querySelectorAll('.live-value').forEach(el => {
-
                 const current = parseFloat(el.dataset.value || 0);
-
                 const rowId = el.closest('tr')?.id || '';
-
                 const field = el.dataset.field || '';
-
                 const key = rowId + '-' + field;
 
-                // first load
                 if (!(key in previousValues)) {
                     previousValues[key] = current;
                     return;
@@ -1115,42 +1254,19 @@
                 const previous = previousValues[key];
 
                 if (current !== previous) {
-
-                    el.classList.remove(
-                        'flash-green',
-                        'flash-red',
-                        'value-pop',
-                        'glow-green',
-                        'glow-red'
-                    );
-
+                    el.classList.remove('flash-green', 'flash-red', 'value-pop');
                     void el.offsetWidth;
 
                     if (current > previous) {
-
-                        el.classList.add(
-                            'flash-green',
-                            'value-pop',
-                            'glow-green'
-                        );
-
+                        el.classList.add('flash-green', 'value-pop');
                     } else {
-
-                        el.classList.add(
-                            'flash-red',
-                            'value-pop',
-                            'glow-red'
-                        );
+                        el.classList.add('flash-red', 'value-pop');
                     }
 
                     const row = el.closest('tr');
-
                     if (row) {
-
                         row.classList.remove('row-updated');
-
                         void row.offsetWidth;
-
                         row.classList.add('row-updated');
                     }
 
@@ -1160,53 +1276,9 @@
         }
 
         document.addEventListener('livewire:init', () => {
-
             Livewire.hook('morphed', () => {
                 animateValueChanges();
             });
-
         });
-    </script>
-
-    <script>
-
-        function microAnimateRandomCells() {
-
-            const cells = document.querySelectorAll('.live-value');
-
-            if (!cells.length) return;
-
-            // randomly choose 1-3 cells
-            const count = Math.floor(Math.random() * 3) + 1;
-
-            for (let i = 0; i < count; i++) {
-
-                const randomCell =
-                    cells[Math.floor(Math.random() * cells.length)];
-
-                if (!randomCell) continue;
-
-                const up = Math.random() > 0.5;
-
-                randomCell.classList.remove(
-                    'micro-tick-up',
-                    'micro-tick-down'
-                );
-
-                void randomCell.offsetWidth;
-
-                randomCell.classList.add(
-                    up ? 'micro-tick-up' : 'micro-tick-down'
-                );
-            }
-        }
-
-        // every 2.5 seconds
-        setInterval(() => {
-
-            microAnimateRandomCells();
-
-        }, 1500);
-
     </script>
 @endpush

@@ -8,7 +8,6 @@ class Trade extends Model {
     protected $guarded = [];
 
     protected $casts = [
-        'status' => 'boolean',
         'opened_at' => 'datetime',
         'closed_at' => 'datetime',
         'last_funding_at' => 'datetime'
