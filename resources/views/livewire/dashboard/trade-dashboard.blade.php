@@ -151,7 +151,7 @@
             box-shadow: var(--shadow-md);
             display: flex;
             gap: 16px;
-            align-items: center;
+            align-items: end;
             flex-wrap: wrap;
         }
 
