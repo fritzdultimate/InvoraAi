@@ -870,7 +870,7 @@
     <div class="dashboard-header">
         <div class="title-group">
             <h2 class="title">Live Trading</h2>
-            <p class="subtitle">Real-time arbitrage execution monitor</p>
+            <p class="subtitle">Real-time execution monitor</p>
         </div>
         <div class="header-actions">
             <div class="live-indicator">
