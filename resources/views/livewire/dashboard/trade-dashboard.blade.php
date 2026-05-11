@@ -202,9 +202,10 @@
         }
 
         .segment-option.active {
-            background: var(--cyan); /* use a better bg color, removing this bg is even better than the color you choose */
-            color: white;
-            box-shadow: 0 2px 8px rgba(6, 182, 212, 0.3);
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.15), rgba(6, 182, 212, 0.08));
+            color: var(--cyan);
+            border: 1px solid rgba(6, 182, 212, 0.3);
+            box-shadow: 0 2px 12px rgba(6, 182, 212, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.05);
         }
 
         .segment-option.profit {
@@ -212,8 +213,10 @@
         }
 
         .segment-option.profit.active {
-            background: var(--profit);
-            color: white;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(16, 185, 129, 0.08));
+            color: var(--profit);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            box-shadow: 0 2px 12px rgba(16, 185, 129, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.05);
         }
 
         .segment-option.loss {
@@ -221,8 +224,10 @@
         }
 
         .segment-option.loss.active {
-            background: var(--loss);
-            color: white;
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.15), rgba(239, 68, 68, 0.08));
+            color: var(--loss);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            box-shadow: 0 2px 12px rgba(239, 68, 68, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.05);
         }
 
         /* Premium Select Dropdown */
@@ -959,34 +964,44 @@
     </div>
 
     <!-- Premium Filter Bar -->
-    <div class="filter-bar">
+    <div class="filter-bar" 
+         x-data="{ 
+             statusFilter: @entangle('statusFilter').live, 
+             assetFilter: @entangle('assetFilter').live, 
+             sortBy: @entangle('sortBy').live 
+         }">
         <!-- Status Filter -->
         <div class="filter-group">
             <label class="filter-label">Status</label>
             <div class="segmented-control">
                 <button 
-                    wire:click="$set('statusFilter', 'all')" 
-                    class="segment-option {{ $statusFilter === 'all' ? 'active' : '' }}">
+                    @click="statusFilter = 'all'" 
+                    :class="{ 'active': statusFilter === 'all' }"
+                    class="segment-option">
                     All
                 </button>
                 <button 
-                    wire:click="$set('statusFilter', 'open')" 
-                    class="segment-option {{ $statusFilter === 'open' ? 'active' : '' }}">
+                    @click="statusFilter = 'open'" 
+                    :class="{ 'active': statusFilter === 'open' }"
+                    class="segment-option">
                     Open
                 </button>
                 <button 
-                    wire:click="$set('statusFilter', 'closed')" 
-                    class="segment-option {{ $statusFilter === 'closed' ? 'active' : '' }}">
+                    @click="statusFilter = 'closed'" 
+                    :class="{ 'active': statusFilter === 'closed' }"
+                    class="segment-option">
                     Closed
                 </button>
                 <button 
-                    wire:click="$set('statusFilter', 'profit')" 
-                    class="segment-option profit {{ $statusFilter === 'profit' ? 'active' : '' }}">
+                    @click="statusFilter = 'profit'" 
+                    :class="{ 'active': statusFilter === 'profit' }"
+                    class="segment-option profit">
                     Profit
                 </button>
                 <button 
-                    wire:click="$set('statusFilter', 'loss')" 
-                    class="segment-option loss {{ $statusFilter === 'loss' ? 'active' : '' }}">
+                    @click="statusFilter = 'loss'" 
+                    :class="{ 'active': statusFilter === 'loss' }"
+                    class="segment-option loss">
                     Loss
                 </button>
             </div>
@@ -996,7 +1011,7 @@
         <div class="filter-group">
             <label class="filter-label">Asset</label>
             <div class="custom-select">
-                <select wire:model.live="assetFilter">
+                <select x-model="assetFilter">
                     <option value="all">All Assets</option>
                     @foreach($availableAssets as $asset)
                         <option value="{{ $asset }}">{{ $asset }}</option>
@@ -1009,7 +1024,7 @@
         <div class="filter-group">
             <label class="filter-label">Sort By</label>
             <div class="custom-select">
-                <select wire:model.live="sortBy">
+                <select x-model="sortBy">
                     <option value="latest">Latest First</option>
                     <option value="oldest">Oldest First</option>
                     <option value="highest_profit">Highest Profit</option>
@@ -1026,13 +1041,13 @@
         </div>
 
         <!-- Clear Filters -->
-        @if($statusFilter !== 'all' || $assetFilter !== 'all' || $sortBy !== 'latest')
+        <template x-if="statusFilter !== 'all' || assetFilter !== 'all' || sortBy !== 'latest'">
             <button 
-                wire:click="$set('statusFilter', 'all'); $set('assetFilter', 'all'); $set('sortBy', 'latest')" 
+                @click="statusFilter = 'all'; assetFilter = 'all'; sortBy = 'latest'" 
                 class="clear-filters-btn">
                 Clear Filters
             </button>
-        @endif
+        </template>
     </div>
 
     <!-- Responsive Table -->
