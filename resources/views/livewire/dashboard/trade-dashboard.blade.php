@@ -1304,6 +1304,8 @@
                                             <span class="value-symbol">$</span>
                                             <span 
                                                 class="live-value {{ $trade->total_net >= 0 ? 'green' : 'red' }}"
+                                                data-value="{{ $trade->total_net }}" 
+                                                data-field="total_net"
                                             >
                                                 {{ number_format(abs($trade->total_net), 2) }}
                                             </span>
