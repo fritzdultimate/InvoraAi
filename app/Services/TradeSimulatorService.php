@@ -368,7 +368,7 @@ class TradeSimulatorService {
         }
 
         // 5. Time-based: Close 2-5 minutes BEFORE next funding
-        Log::info('Trade updates completed', [
+        Log::info('Testing', [
             'time-based-log' => 'testing',
             'now' => $now,
             'next_funding' => $trade->next_funding_at,
