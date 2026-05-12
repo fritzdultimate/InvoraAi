@@ -71,15 +71,6 @@ class TradeDashboard extends Component
     }
 
     public function refreshTrades() {
-        $simulator = new TradeSimulatorService();
-        Trade::where('status', 'open')
-            ->inRandomOrder()
-            ->take(rand(1, 4))
-            ->get()
-            ->each(function ($trade) use ($simulator) {
-
-                $simulator->updateTrade($trade);
-            });
         $this->loadTrades();
     }
 

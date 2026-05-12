@@ -13,3 +13,6 @@ Route::get('/cron/assign-rank', [RankController::class, 'assignRank'])->name('ra
 Route::get('/cron/deposit/mark/expire', [DepositController::class, 'markAsExpired'])->name('deposit.expire');
 Route::get('/cron/live-trading-simulate',  [TradeController::class, 'simulate']);
 
+Route::get('/cron/trading/execute-cycle', [TradeController::class, 'executeTradingCycle'])
+    ->name('trading.execute');
+

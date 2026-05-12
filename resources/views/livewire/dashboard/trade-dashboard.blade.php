@@ -1111,7 +1111,11 @@
                                             </span>
                                             <div class="funding-rate">
                                                 <span>Rate:</span>
-                                                <span class="funding-rate-value {{ $trade->funding_rate_long >= 0 ? 'positive' : 'negative' }}">
+                                                <span 
+                                                    class="live value funding-rate-value {{ $trade->funding_rate_long >= 0 ? 'positive' : 'negative' }}"
+                                                    data-value="{{ $trade->funding_rate_long }}" 
+                                                    data-field="long_funding_rate"
+                                                >
                                                     {{ number_format($trade->funding_rate_long * 100, 4) }}%
                                                 </span>
                                             </div>
@@ -1124,7 +1128,11 @@
                                             </span>
                                             <div class="funding-rate">
                                                 <span>Rate:</span>
-                                                <span class="funding-rate-value {{ $trade->funding_rate_short >= 0 ? 'positive' : 'negative' }}">
+                                                <span 
+                                                    class="live-value funding-rate-value {{ $trade->funding_rate_short >= 0 ? 'positive' : 'negative' }}"
+                                                    data-value="{{ $trade->funding_rate_short }}" 
+                                                    data-field="short_funding_rate"
+                                                >
                                                     {{ number_format($trade->funding_rate_short * 100, 4) }}%
                                                 </span>
                                             </div>
@@ -1134,13 +1142,21 @@
                                     <div class="mobile-pnl-grid">
                                         <div class="mobile-pnl-item">
                                             <div class="mobile-pnl-label">Price PnL</div>
-                                            <div class="mobile-pnl-value {{ $trade->price_pnl >= 0 ? 'green' : 'red' }}">
+                                            <div 
+                                                class="live-value mobile-pnl-value {{ $trade->price_pnl >= 0 ? 'green' : 'red' }}"
+                                                data-value="{{ $trade->price_pnl }}" 
+                                                data-field="price_pnl"
+                                            >
                                                 ${{ number_format(abs($trade->price_pnl), 2) }}
                                             </div>
                                         </div>
                                         <div class="mobile-pnl-item">
                                             <div class="mobile-pnl-label">Funding</div>
-                                            <div class="mobile-pnl-value {{ $trade->funding_profit >= 0 ? 'green' : ($trade->funding_profit < 0 ? 'red' : 'neutral') }}">
+                                            <div 
+                                                class="live-value mobile-pnl-value {{ $trade->funding_profit >= 0 ? 'green' : ($trade->funding_profit < 0 ? 'red' : 'neutral') }}"
+                                                data-value="{{ $trade->funding_profit }}" 
+                                                data-field="funding_profit"
+                                            >
                                                 ${{ number_format(abs($trade->funding_profit), 2) }}
                                             </div>
                                         </div>
