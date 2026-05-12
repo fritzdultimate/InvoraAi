@@ -31,7 +31,7 @@ class TradeSimulatorMultiexchangeService
      */
     public function getLivePrices($asset)
     {
-        $symbol = strtoupper($asset->symbol) . 'USDT';
+        $symbol = strtoupper($asset->symbol);
 
         return Cache::remember("prices_{$symbol}", 0.0002, function () use ($symbol) {
             $prices = [];
@@ -94,8 +94,8 @@ class TradeSimulatorMultiexchangeService
     /**
      * Binance price fetcher
      */
-    protected function getBinancePrice(string $symbol): ?float
-    {
+    protected function getBinancePrice(string $symbol): ?float {
+        $symbol = strtoupper($symbol) . 'USDT';
         $response = Http::timeout(5)->get(
             "https://api.binance.com/api/v3/ticker/price",
             ['symbol' => $symbol]
@@ -111,8 +111,8 @@ class TradeSimulatorMultiexchangeService
     /**
      * Bybit price fetcher
      */
-    protected function getBybitPrice(string $symbol): ?float
-    {
+    protected function getBybitPrice(string $symbol): ?float {
+        $symbol = strtoupper($symbol) . 'USDT';
         $response = Http::timeout(5)->get(
             "https://api.bybit.com/v5/market/tickers",
             [
@@ -149,12 +149,12 @@ class TradeSimulatorMultiexchangeService
         $response = Http::timeout(5)->get(
             "https://www.bitmex.com/api/v1/instrument",
             [
-                'symbol' => $symbol
+                'symbol' => $bitmexSymbol
             ]
         );
 
         if ($response->successful()) {
-            return (float) $response['lastPrice'];
+            return (float) $response[0]['lastPrice'];
         }
 
         return null;
@@ -187,15 +187,17 @@ class TradeSimulatorMultiexchangeService
      * BingX price fetcher
      */
     protected function getHuobiPrice(string $symbol): ?float {
-        
         $response = Http::timeout(5)->get(
             "https://api.huobi.pro/market/detail/merged",
-            ['symbol' => strtolower($symbol)]
+            ['symbol' => strtolower($symbol) . 'usdt']
         );
 
+        // dd($response->successful());
+
         if ($response->successful()) {
-            $data = $response['data'] ?? null;
-            if ($data && isset($data['tick'])) {
+            $data = $response->json();
+
+            if (isset($data['tick']['close'])) {
                 return (float) $data['tick']['close'];
             }
         }
@@ -371,7 +373,7 @@ class TradeSimulatorMultiexchangeService
         // Get prices from selected exchanges
         $prices = $this->getLivePrices($asset);
 
-        dd($prices);
+        // dd($prices);
 
         $longExchange = $bestPair['long_exchange'];
         $shortExchange = $bestPair['short_exchange'];
