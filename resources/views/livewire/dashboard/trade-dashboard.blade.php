@@ -1084,7 +1084,7 @@
                                         <span class="asset-name">{{ $trade->asset->symbol }}</span>
                                     </div>
                                     <div class="mobile-header-right">
-                                        <span class="mobile-time">{{ $trade->opened_at->format('H:i:s') }}</span>
+                                        <span class="mobile-time">{{ $trade->opened_at->format('h:i:s A') }}</span>
                                         <div class="mobile-total value-cell {{ $trade->total_net >= 0 ? 'green' : 'red' }}">
                                             <span class="value-symbol">$</span>
                                             <span>{{ number_format(abs($trade->total_net), 2) }}</span>
@@ -1179,7 +1179,7 @@
                             </td>
 
                             <!-- Desktop Columns -->
-                            <td class="time-cell">{{ $trade->opened_at->format('H:i:s') }}</td>
+                            <td class="time-cell">{{ $trade->opened_at->format('h:i:s A') }}</td>
                             
                             <td>
                                 <span class="status-badge status-{{ $trade->status }}">
