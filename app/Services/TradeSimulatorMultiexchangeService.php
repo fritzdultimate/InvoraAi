@@ -349,9 +349,9 @@ class TradeSimulatorMultiexchangeService
         }
 
         // Check if we're in optimal entry window
-        // if (!$this->isOptimalEntryWindow()) {
-        //     return null;
-        // }
+        if (!$this->isOptimalEntryWindow()) {
+            return null;
+        }
 
         // Check if trade already exists
         $existing = Trade::where('trading_asset_id', $asset->id)
