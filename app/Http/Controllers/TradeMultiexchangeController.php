@@ -7,7 +7,6 @@ use App\Models\TradingAsset;
 use App\Services\TradeSimulatorMultiexchangeService;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
-use Carbon\Carbon;
 
 class TradeMultiexchangeController extends Controller {
     protected $simulator;
