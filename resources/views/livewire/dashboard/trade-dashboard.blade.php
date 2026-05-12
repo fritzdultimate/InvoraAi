@@ -129,10 +129,13 @@
         }
 
         @keyframes pulse {
-            0%, 100% {
+
+            0%,
+            100% {
                 opacity: 1;
                 transform: scale(1);
             }
+
             50% {
                 opacity: 0.7;
                 transform: scale(0.85);
@@ -140,8 +143,8 @@
         }
 
         /* ========================================
-           PREMIUM FILTER BAR
-        ======================================== */
+               PREMIUM FILTER BAR
+            ======================================== */
         .filter-bar {
             background: var(--bg-elevated);
             border: 1px solid var(--border-default);
@@ -599,8 +602,8 @@
         }
 
         /* ========================================
-           MOBILE LAYOUT
-        ======================================== */
+               MOBILE LAYOUT
+            ======================================== */
         @media (max-width: 768px) {
             .dashboard {
                 padding: 12px;
@@ -866,8 +869,8 @@
         }
 
         /* ========================================
-           LIVE VALUE UPDATE ANIMATIONS
-        ======================================== */
+               LIVE VALUE UPDATE ANIMATIONS
+            ======================================== */
         .live-value {
             position: relative;
             transition: color 0.35s ease, transform 0.25s ease, opacity 0.25s ease;
@@ -897,10 +900,12 @@
                 background: rgba(16, 185, 129, 0);
                 transform: scale(1);
             }
+
             15% {
                 background: rgba(16, 185, 129, 0.22);
                 transform: scale(1.03);
             }
+
             100% {
                 background: rgba(16, 185, 129, 0);
                 transform: scale(1);
@@ -912,10 +917,12 @@
                 background: rgba(239, 68, 68, 0);
                 transform: scale(1);
             }
+
             15% {
                 background: rgba(239, 68, 68, 0.22);
                 transform: scale(1.03);
             }
+
             100% {
                 background: rgba(239, 68, 68, 0);
                 transform: scale(1);
@@ -926,9 +933,11 @@
             0% {
                 transform: scale(1);
             }
+
             35% {
                 transform: scale(1.09);
             }
+
             100% {
                 transform: scale(1);
             }
@@ -938,12 +947,229 @@
             0% {
                 background: rgba(6, 182, 212, 0);
             }
+
             30% {
                 background: rgba(6, 182, 212, 0.05);
             }
+
             100% {
                 background: rgba(6, 182, 212, 0);
             }
+        }
+    </style>
+
+    <style>
+        .pagination-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 24px;
+            padding: 20px 24px;
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-default);
+            border-radius: 12px;
+            box-shadow: var(--shadow-md);
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .pagination-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .pagination-text {
+            font-size: 13px;
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .pagination-text strong {
+            color: var(--text-primary);
+            font-weight: 700;
+        }
+
+        .pagination-controls {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .per-page-selector {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .per-page-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-tertiary);
+            white-space: nowrap;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .pagination-select {
+            width: 80px;
+        }
+
+        .pagination-select select {
+            padding: 8px 32px 8px 12px;
+            font-size: 12px;
+        }
+
+        .pagination-buttons {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .pagination-btn {
+            min-width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 12px;
+            background: var(--bg-canvas);
+            border: 1px solid var(--border-default);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 13px;
+            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .pagination-btn:hover:not(.pagination-btn-disabled):not(.pagination-btn-active) {
+            background: var(--bg-surface);
+            border-color: var(--border-strong);
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .pagination-btn:active:not(.pagination-btn-disabled):not(.pagination-btn-active) {
+            transform: translateY(0);
+        }
+
+        .pagination-btn-active {
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.2), rgba(6, 182, 212, 0.1));
+            color: var(--cyan);
+            border: 1px solid rgba(6, 182, 212, 0.4);
+            box-shadow: 0 0 20px rgba(6, 182, 212, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            cursor: default;
+            font-weight: 700;
+        }
+
+        .pagination-btn-arrow {
+            padding: 0;
+            width: 36px;
+        }
+
+        .pagination-btn-arrow svg {
+            transition: transform 0.2s ease;
+        }
+
+        .pagination-btn-arrow:hover:not(.pagination-btn-disabled) svg {
+            transform: scale(1.15);
+        }
+
+        .pagination-btn-disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            background: var(--bg-canvas);
+        }
+
+        .pagination-ellipsis {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            color: var(--text-tertiary);
+            font-weight: 600;
+            font-size: 14px;
+            user-select: none;
+        }
+
+        /* Mobile Pagination */
+        @media (max-width: 768px) {
+            .pagination-wrapper {
+                flex-direction: column;
+                padding: 16px;
+                gap: 16px;
+            }
+
+            .pagination-info {
+                width: 100%;
+                justify-content: center;
+                text-align: center;
+            }
+
+            .pagination-text {
+                font-size: 12px;
+            }
+
+            .pagination-controls {
+                width: 100%;
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            .per-page-selector {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .pagination-buttons {
+                width: 100%;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .pagination-btn {
+                min-width: 32px;
+                height: 32px;
+                font-size: 12px;
+            }
+
+            .pagination-btn-arrow {
+                width: 32px;
+            }
+
+            .pagination-ellipsis {
+                width: 32px;
+                height: 32px;
+            }
+
+            /* Hide some page numbers on very small screens */
+            @media (max-width: 400px) {
+                .pagination-buttons {
+                    gap: 4px;
+                }
+
+                .pagination-btn {
+                    min-width: 28px;
+                    height: 28px;
+                    padding: 0 8px;
+                    font-size: 11px;
+                }
+            }
+        }
+
+        /* Loading state for pagination */
+        .pagination-btn[wire\:loading] {
+            opacity: 0.6;
+            cursor: wait;
+        }
+
+        .pagination-wrapper[wire\:loading] {
+            opacity: 0.8;
+            pointer-events: none;
         }
     </style>
 @endpush
@@ -964,8 +1190,7 @@
     </div>
 
     <!-- Premium Filter Bar -->
-    <div class="filter-bar" 
-         x-data="{ 
+    <div class="filter-bar" x-data="{ 
              statusFilter: @entangle('statusFilter').live, 
              assetFilter: @entangle('assetFilter').live, 
              sortBy: @entangle('sortBy').live 
@@ -974,33 +1199,23 @@
         <div class="filter-group">
             <label class="filter-label">Status</label>
             <div class="segmented-control">
-                <button 
-                    @click="statusFilter = 'all'" 
-                    :class="{ 'active': statusFilter === 'all' }"
+                <button @click="statusFilter = 'all'" :class="{ 'active': statusFilter === 'all' }"
                     class="segment-option">
                     All
                 </button>
-                <button 
-                    @click="statusFilter = 'open'" 
-                    :class="{ 'active': statusFilter === 'open' }"
+                <button @click="statusFilter = 'open'" :class="{ 'active': statusFilter === 'open' }"
                     class="segment-option">
                     Open
                 </button>
-                <button 
-                    @click="statusFilter = 'closed'" 
-                    :class="{ 'active': statusFilter === 'closed' }"
+                <button @click="statusFilter = 'closed'" :class="{ 'active': statusFilter === 'closed' }"
                     class="segment-option">
                     Closed
                 </button>
-                <button 
-                    @click="statusFilter = 'profit'" 
-                    :class="{ 'active': statusFilter === 'profit' }"
+                <button @click="statusFilter = 'profit'" :class="{ 'active': statusFilter === 'profit' }"
                     class="segment-option profit">
                     Profit
                 </button>
-                <button 
-                    @click="statusFilter = 'loss'" 
-                    :class="{ 'active': statusFilter === 'loss' }"
+                <button @click="statusFilter = 'loss'" :class="{ 'active': statusFilter === 'loss' }"
                     class="segment-option loss">
                     Loss
                 </button>
@@ -1042,9 +1257,7 @@
 
         <!-- Clear Filters -->
         <template x-if="statusFilter !== 'all' || assetFilter !== 'all' || sortBy !== 'latest'">
-            <button 
-                @click="statusFilter = 'all'; assetFilter = 'all'; sortBy = 'latest'" 
-                class="clear-filters-btn">
+            <button @click="statusFilter = 'all'; assetFilter = 'all'; sortBy = 'latest'" class="clear-filters-btn">
                 Clear Filters
             </button>
         </template>
@@ -1111,11 +1324,10 @@
                                             </span>
                                             <div class="funding-rate">
                                                 <span>Rate:</span>
-                                                <span 
+                                                <span
                                                     class="live value funding-rate-value {{ $trade->funding_rate_long >= 0 ? 'positive' : 'negative' }}"
-                                                    data-value="{{ $trade->funding_rate_long }}" 
-                                                    data-field="long_funding_rate"
-                                                >
+                                                    data-value="{{ $trade->funding_rate_long }}"
+                                                    data-field="long_funding_rate">
                                                     {{ number_format($trade->funding_rate_long * 100, 4) }}%
                                                 </span>
                                             </div>
@@ -1128,11 +1340,10 @@
                                             </span>
                                             <div class="funding-rate">
                                                 <span>Rate:</span>
-                                                <span 
+                                                <span
                                                     class="live-value funding-rate-value {{ $trade->funding_rate_short >= 0 ? 'positive' : 'negative' }}"
-                                                    data-value="{{ $trade->funding_rate_short }}" 
-                                                    data-field="short_funding_rate"
-                                                >
+                                                    data-value="{{ $trade->funding_rate_short }}"
+                                                    data-field="short_funding_rate">
                                                     {{ number_format($trade->funding_rate_short * 100, 4) }}%
                                                 </span>
                                             </div>
@@ -1142,21 +1353,15 @@
                                     <div class="mobile-pnl-grid">
                                         <div class="mobile-pnl-item">
                                             <div class="mobile-pnl-label">Price PnL</div>
-                                            <div 
-                                                class="live-value mobile-pnl-value {{ $trade->price_pnl >= 0 ? 'green' : 'red' }}"
-                                                data-value="{{ $trade->price_pnl }}" 
-                                                data-field="price_pnl"
-                                            >
+                                            <div class="live-value mobile-pnl-value {{ $trade->price_pnl >= 0 ? 'green' : 'red' }}"
+                                                data-value="{{ $trade->price_pnl }}" data-field="price_pnl">
                                                 ${{ number_format(abs($trade->price_pnl), 2) }}
                                             </div>
                                         </div>
                                         <div class="mobile-pnl-item">
                                             <div class="mobile-pnl-label">Funding</div>
-                                            <div 
-                                                class="live-value mobile-pnl-value {{ $trade->funding_profit >= 0 ? 'green' : ($trade->funding_profit < 0 ? 'red' : 'neutral') }}"
-                                                data-value="{{ $trade->funding_profit }}" 
-                                                data-field="funding_profit"
-                                            >
+                                            <div class="live-value mobile-pnl-value {{ $trade->funding_profit >= 0 ? 'green' : ($trade->funding_profit < 0 ? 'red' : 'neutral') }}"
+                                                data-value="{{ $trade->funding_profit }}" data-field="funding_profit">
                                                 ${{ number_format(abs($trade->funding_profit), 2) }}
                                             </div>
                                         </div>
@@ -1180,7 +1385,7 @@
 
                             <!-- Desktop Columns -->
                             <td class="time-cell">{{ $trade->opened_at->format('h:i:s A') }}</td>
-                            
+
                             <td>
                                 <span class="status-badge status-{{ $trade->status }}">
                                     {{ ucfirst($trade->status) }}
@@ -1193,7 +1398,8 @@
 
                             <td>
                                 <div class="funding-rate">
-                                    <span class="live-value funding-rate-value {{ $trade->funding_rate_long >= 0 ? 'positive' : 'negative' }}"
+                                    <span
+                                        class="live-value funding-rate-value {{ $trade->funding_rate_long >= 0 ? 'positive' : 'negative' }}"
                                         data-value="{{ $trade->funding_rate_long }}" data-field="long_funding_rate">
                                         {{ number_format($trade->funding_rate_long * 100, 4) }}%
                                     </span>
@@ -1206,7 +1412,8 @@
 
                             <td>
                                 <div class="funding-rate">
-                                    <span class="live-value funding-rate-value {{ $trade->funding_rate_short >= 0 ? 'positive' : 'negative' }}"
+                                    <span
+                                        class="live-value funding-rate-value {{ $trade->funding_rate_short >= 0 ? 'positive' : 'negative' }}"
                                         data-value="{{ $trade->funding_rate_short }}" data-field="short_funding_rate">
                                         {{ number_format($trade->funding_rate_short * 100, 4) }}%
                                     </span>
@@ -1225,8 +1432,10 @@
 
                             <td>
                                 <div class="value-cell">
-                                    <span class="value-symbol {{ $trade->funding_profit >= 0 ? 'green' : ($trade->funding_profit < 0 ? 'red' : 'neutral') }}">$</span>
-                                    <span class="live-value {{ $trade->funding_profit >= 0 ? 'green' : ($trade->funding_profit < 0 ? 'red' : 'neutral') }}"
+                                    <span
+                                        class="value-symbol {{ $trade->funding_profit >= 0 ? 'green' : ($trade->funding_profit < 0 ? 'red' : 'neutral') }}">$</span>
+                                    <span
+                                        class="live-value {{ $trade->funding_profit >= 0 ? 'green' : ($trade->funding_profit < 0 ? 'red' : 'neutral') }}"
                                         data-value="{{ $trade->funding_profit }}" data-field="funding_profit">
                                         {{ number_format(abs($trade->funding_profit), 2) }}
                                     </span>
@@ -1264,6 +1473,87 @@
             </table>
         </div>
     </div>
+
+
+    <!-- Premium Pagination -->
+    @if($trades->hasPages())
+        <div class="pagination-wrapper">
+            <div class="pagination-info">
+                <span class="pagination-text">
+                    Showing <strong>{{ $trades->firstItem() }}</strong> to <strong>{{ $trades->lastItem() }}</strong> of
+                    <strong>{{ $trades->total() }}</strong> trades
+                </span>
+            </div>
+
+            <div class="pagination-controls">
+                <!-- Per Page Selector -->
+                <div class="per-page-selector">
+                    <label class="per-page-label">Per page:</label>
+                    <div class="custom-select pagination-select">
+                        <select wire:model.live="perPage">
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Page Numbers -->
+                <div class="pagination-buttons">
+                    {{-- Previous Button --}}
+                    @if ($trades->onFirstPage())
+                        <button class="pagination-btn pagination-btn-disabled" disabled>
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M10 12L6 8L10 4" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+                        </button>
+                    @else
+                        <button wire:click="previousPage" class="pagination-btn pagination-btn-arrow">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M10 12L6 8L10 4" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+                        </button>
+                    @endif
+
+                    {{-- Page Numbers --}}
+                    @foreach ($trades->getUrlRange(1, $trades->lastPage()) as $page => $url)
+                        @if ($page == $trades->currentPage())
+                            <button class="pagination-btn pagination-btn-active">
+                                {{ $page }}
+                            </button>
+                        @elseif ($page == 1 || $page == $trades->lastPage() || abs($page - $trades->currentPage()) < 2)
+                            <button wire:click="gotoPage({{ $page }})" class="pagination-btn">
+                                {{ $page }}
+                            </button>
+                        @elseif (abs($page - $trades->currentPage()) == 2)
+                            <span class="pagination-ellipsis">...</span>
+                        @endif
+                    @endforeach
+
+                    {{-- Next Button --}}
+                    @if ($trades->hasMorePages())
+                        <button wire:click="nextPage" class="pagination-btn pagination-btn-arrow">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M6 4L10 8L6 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+                        </button>
+                    @else
+                        <button class="pagination-btn pagination-btn-disabled" disabled>
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M6 4L10 8L6 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+                        </button>
+                    @endif
+                </div>
+            </div>
+        </div>
+    @endif
+
 </div>
 
 @push('scripts')

@@ -33,7 +33,7 @@ class TradeSimulatorMultiexchangeService
     {
         $symbol = strtoupper($asset->symbol);
 
-        return Cache::remember("prices_{$symbol}", 0.0002, function () use ($symbol) {
+        return Cache::remember("prices_{$symbol}", 5, function () use ($symbol) {
             $prices = [];
 
             foreach (self::SUPPORTED_EXCHANGES as $exchange) {
