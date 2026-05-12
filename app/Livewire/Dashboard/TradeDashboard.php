@@ -21,20 +21,15 @@ class TradeDashboard extends Component
 
     protected $listeners = ['refreshTrades' => '$refresh'];
 
-    public function loadTrades()
-    {
-        // $this->trades = Cache::remember(
-        //     'live-trades',
-        //     2,
-        //     fn () => Trade::with('asset')
-        //         ->latest()
-        //         ->take(20)
-        //         ->get()
-        // );
-
+    public function loadTrades() {
         $query = Trade::with('asset');
- 
-        if ($this->statusFilter !== 'all') {
+
+        if ($this->statusFilter === 'profit') {
+            $query->where('total_net', '>', 0);
+        } elseif ($this->statusFilter === 'loss') {
+            $query->where('total_net', '<', 0);
+        } elseif ($this->statusFilter !== 'all') {
+            // Normal status filtering
             $query->where('status', $this->statusFilter);
         }
  
