@@ -1298,9 +1298,15 @@
                                     </div>
                                     <div class="mobile-header-right">
                                         <span class="mobile-time">{{ $trade->opened_at->format('h:i:s A') }}</span>
-                                        <div class="mobile-total value-cell {{ $trade->total_net >= 0 ? 'green' : 'red' }}">
+                                        <div 
+                                            class="mobile-total value-cell {{ $trade->total_net >= 0 ? 'green' : 'red' }}"
+                                        >
                                             <span class="value-symbol">$</span>
-                                            <span>{{ number_format(abs($trade->total_net), 2) }}</span>
+                                            <span 
+                                                class="live-value {{ $trade->total_net >= 0 ? 'green' : 'red' }}"
+                                            >
+                                                {{ number_format(abs($trade->total_net), 2) }}
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
