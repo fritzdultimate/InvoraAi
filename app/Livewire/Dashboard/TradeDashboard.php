@@ -28,46 +28,6 @@ class TradeDashboard extends Component {
 
     protected $listeners = ['refreshTrades' => '$refresh'];
 
-    public function loadTrades() {
-        $query = Trade::with('asset');
-
-        if ($this->statusFilter === 'profit') {
-            $query->where('total_net', '>', 0);
-        } elseif ($this->statusFilter === 'loss') {
-            $query->where('total_net', '<', 0);
-        } elseif ($this->statusFilter !== 'all') {
-            // Normal status filtering
-            $query->where('status', $this->statusFilter);
-        }
- 
-        if ($this->assetFilter !== 'all') {
-            $query->whereHas('asset', function ($q) {
-                $q->where('symbol', $this->assetFilter);
-            });
-        }
-
-        switch ($this->sortBy) {
-            case 'latest':
-                $query->latest();
-                break;
-            case 'oldest':
-                $query->oldest();
-                break;
-            case 'highest_profit':
-                $query->orderBy('total_net', 'desc');
-                break;
-            case 'highest_loss':
-                $query->orderBy('total_net', 'asc');
-                break;
-        }
-
-        $this->trades = Cache::remember(
-            'live-trades-' . $this->statusFilter . '-' . $this->assetFilter . '-' . $this->sortBy,
-            2,
-            fn() => $query->take(20)->get()
-        );
-    }
-
     public function getTrades() {
         $query = Trade::with('asset');
 
@@ -103,9 +63,6 @@ class TradeDashboard extends Component {
         return $query->paginate($this->perPage);
     }
 
-    public function mount() {
-        $this->loadTrades();
-    }
 
     public function refreshTrades() {
         $this->dispatch('$refresh');
