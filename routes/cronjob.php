@@ -11,7 +11,6 @@ Route::get('cron/investment/profit/distribute', [ProfitController::class, 'distr
 Route::get('/cron/assign-rank', [RankController::class, 'assignRank'])->name('rank.assign');
 
 Route::get('/cron/deposit/mark/expire', [DepositController::class, 'markAsExpired'])->name('deposit.expire');
-Route::get('/cron/live-trading-simulate',  [TradeController::class, 'simulate']);
 
 Route::get('/cron/trading/execute-cycle', [TradeController::class, 'executeTradingCycle'])
     ->name('trading.execute');

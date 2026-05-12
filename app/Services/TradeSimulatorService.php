@@ -6,6 +6,7 @@ use App\Models\Trade;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class TradeSimulatorService {
     // Funding happens at: 00:00, 08:00, 16:00 UTC
@@ -367,6 +368,12 @@ class TradeSimulatorService {
         }
 
         // 5. Time-based: Close 2-5 minutes BEFORE next funding
+        Log::info('Trade updates completed', [
+            'time-based-log' => 'testing',
+            'now' => $now,
+            'next_funding' => $trade->next_funding_at,
+            'minutesUntilFunding' => $now->diffInMinutes($trade->next_funding_at, false)
+        ]);
         if ($trade->next_funding_at) {
             $minutesUntilFunding = $now->diffInMinutes($trade->next_funding_at, false);
             

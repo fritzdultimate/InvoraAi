@@ -10,7 +10,8 @@ class Trade extends Model {
     protected $casts = [
         'opened_at' => 'datetime',
         'closed_at' => 'datetime',
-        'last_funding_at' => 'datetime'
+        'last_funding_at' => 'datetime',
+        'next_funding_at' => 'datetime',
     ];
 
     public function asset() {
