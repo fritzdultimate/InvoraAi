@@ -14,7 +14,7 @@ class TradeDashboard extends Component {
     public $fundingRates = [];
     public $loading = false;
     public $error = null;
-    public $statusFilter = 'all';
+    public $statusFilter = 'open';
     public $assetFilter = 'all';
     public $sortBy = 'latest';
     public $perPage = 20;
