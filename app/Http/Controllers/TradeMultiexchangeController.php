@@ -36,7 +36,7 @@ class TradeMultiexchangeController extends Controller {
             ]);
 
 
-            $canOpenTrades = true;//$this->simulator->isOptimalEntryWindow();
+            $canOpenTrades = $this->simulator->isOptimalEntryWindow();
             
             if ($canOpenTrades) {
                 $this->scanAndOpenTrades();

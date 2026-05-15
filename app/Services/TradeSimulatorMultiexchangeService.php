@@ -515,12 +515,11 @@ class TradeSimulatorMultiexchangeService
     /**
      * Calculate accumulated funding profit
      */
-    private function calculateAccumulatedFunding($trade): float
-    {
+    private function calculateAccumulatedFunding($trade): float {
         $now = now()->timezone('UTC');
         $openedAt = $trade->opened_at->timezone('UTC');
         
-        $hoursOpen = $now->diffInHours($openedAt);
+        $hoursOpen = $openedAt->diffInHours($now);
         $fundingsPassed = floor($hoursOpen / 8);
 
         if ($fundingsPassed < 1) {
@@ -533,6 +532,17 @@ class TradeSimulatorMultiexchangeService
         $totalFunding = $fundingPerPeriod * $fundingsPassed;
 
         $variance = $totalFunding * (rand(-10, 10) / 100);
+
+        // dd([
+        //     'now' => $now,
+        //     'openedAt' => $openedAt,
+        //     'hoursOpen' => $hoursOpen,
+        //     'fundingsPassed' => $fundingsPassed,
+        //     'fundingRateDiff' => $fundingRateDiff,
+        //     'fundingPerPeriod' => $fundingPerPeriod,
+        //     'totalFunding' => $totalFunding,
+        //     'variance' => $variance
+        // ]);
         
         return $totalFunding + $variance;
     }
