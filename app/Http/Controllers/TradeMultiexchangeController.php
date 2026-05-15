@@ -440,8 +440,6 @@ class TradeMultiexchangeController extends Controller {
     public function scanAndCloseTrades() {
         $trades = Trade::with('asset')->where('status', 'open')->get();
 
-        dd($trades);
-
         foreach ($trades as $trade) {
             try {
 
