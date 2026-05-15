@@ -518,9 +518,30 @@ class TradeSimulatorMultiexchangeService
     private function calculateAccumulatedFunding($trade): float {
         $now = now()->timezone('UTC');
         $openedAt = $trade->opened_at->timezone('UTC');
+
+        $fundingHours = [0, 8, 16];
         
-        $hoursOpen = $openedAt->diffInHours($now);
-        $fundingsPassed = floor($hoursOpen / 8);
+        // $hoursOpen = $openedAt->diffInHours($now);
+
+        $fundingsPassed = 0;
+
+        $cursor = $openedAt->copy()->startOfDay();
+
+        while ($cursor <= $now) {
+
+            foreach ($fundingHours as $hour) {
+
+                $fundingTime = $cursor->copy()->setHour($hour);
+
+                // funding occurred after opening
+                // and before now
+                if ($fundingTime > $openedAt && $fundingTime <= $now) {
+                    $fundingsPassed++;
+                }
+            }
+
+            $cursor->addDay();
+        }
 
         if ($fundingsPassed < 1) {
             return 0;
