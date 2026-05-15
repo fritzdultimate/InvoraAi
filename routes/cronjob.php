@@ -16,5 +16,8 @@ Route::get('/cron/deposit/mark/expire', [DepositController::class, 'markAsExpire
 Route::get('/cron/trading/execute-cycle', [TradeMultiexchangeController::class, 'executeTradingCycle'])
     ->name('trading.execute');
 
+Route::get('/cron/trading/close-trades', [TradeMultiexchangeController::class, 'scanAndCloseTrades'])
+    ->name('trading.close');
+
 // Route::get('/trading/test-funding-window/{symbol}', [TradeMultiexchangeController::class, 'testFundingRates'])->name('trading.funding-window');
 

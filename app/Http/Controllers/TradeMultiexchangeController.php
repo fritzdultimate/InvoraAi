@@ -107,7 +107,6 @@ class TradeMultiexchangeController extends Controller {
                     continue;
                 }
 
-                // The simulator will automatically pick the best pair
                 $trade = $this->simulator->openTrade($asset, $fundingRates);
 
                 if ($trade) {
@@ -436,5 +435,26 @@ class TradeMultiexchangeController extends Controller {
                 "No profitable spread found",
             'timestamp' => now()->toDateTimeString()
         ]);
+    }
+
+    public function scanAndCloseTrades() {
+        $trades = Trade::with('asset')->where('status', 'open')->get();
+
+        dd($trades);
+
+        foreach ($trades as $trade) {
+            try {
+
+                $this->simulator->evaluateTradeClosure($trade);
+
+                usleep(200000); // 200ms delay
+
+            } catch (\Exception $e) {
+                Log::error("Error closing tade:  {$trade->asset->symbol}", [
+                    'error' => $e->getMessage()
+                ]);
+            }
+        }
+
     }
 }

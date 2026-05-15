@@ -468,11 +468,6 @@ class TradeSimulatorMultiexchangeService
         $exitLong = $prices[$longExchange];
         $exitShort = $prices[$shortExchange];
 
-        // Check spread - close if arbitrage is breaking down
-        $spread = abs(
-            ($exitLong - $exitShort) / (($exitLong + $exitShort) / 2)
-        );
-
         // Calculate price PnL
         $longPnL = (($exitLong - $trade->entry_price_long) / $trade->entry_price_long) * ($trade->position_size / 2);
         $shortPnL = (($trade->entry_price_short - $exitShort) / $trade->entry_price_short) * ($trade->position_size / 2);
@@ -500,16 +495,6 @@ class TradeSimulatorMultiexchangeService
             'funding_profit' => $fundingProfit,
             'total_net' => $total,
         ]);
-
-        // Check if should close
-        $shouldClose = $this->shouldCloseTrade($trade, $spread);
-
-        if ($shouldClose) {
-            $trade->update([
-                'status' => 'closed',
-                'closed_at' => now()
-            ]);
-        }
     }
 
     /**
@@ -638,5 +623,27 @@ class TradeSimulatorMultiexchangeService
         }
 
         return 0;
+    }
+
+    public function closeTrade($trade) {
+        $trade->update([
+            'status' => 'closed',
+            'closed_at' => now(),
+        ]);
+    }
+
+    public function evaluateTradeClosure($trade) {
+        $exitLong = $trade->exit_price_long;
+        $exitShort = $trade->exit_price_short;
+
+        $spread = abs(
+            ($exitLong - $exitShort) / (($exitLong + $exitShort) / 2)
+        );
+
+        if (!$this->shouldCloseTrade($trade, $spread)) {
+            return;
+        }
+
+        $this->closeTrade($trade);
     }
 }
