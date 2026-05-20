@@ -22,14 +22,17 @@ class Deposit extends Model {
         'address',
         'reference',
         'updated_at',
-        'created_at'
+        'created_at',
+        'receipt_path',
+        'receipt_uploaded_at'
     ];
 
     protected $casts = [
         'meta' => 'array',
         'status' => DepositStatus::class,
         'created_at' => 'datetime',
-        'received_at' => 'datetime'
+        'received_at' => 'datetime',
+        'receipt_uploaded_at' => 'datetime'
     ];
 
     public function markFinished(): self {
