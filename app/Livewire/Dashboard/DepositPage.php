@@ -71,7 +71,7 @@ class DepositPage extends Component {
         try {
             DB::transaction(function() {
                  // Store receipt
-                $path = $this->receipt->store('receipts', 'public');
+                $path = $this->receipt->store('receipts', 'local');
                 
                 // Update deposit with receipt info
                 $this->deposit->update([
