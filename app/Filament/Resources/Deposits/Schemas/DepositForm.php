@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Deposits\Schemas;
 
 use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Schemas\Schema;
@@ -42,6 +43,11 @@ class DepositForm
                 TextInput::make('nowpayments_invoice_id'),
                 TextInput::make('tx_id'),
                 DateTimePicker::make('processed_at'),
+                FileUpload::make('receipt_path')
+                    ->disabled()
+                    ->image()
+                    ->disk('local')
+                    ->downloadable(),
             ]);
     }
 }
