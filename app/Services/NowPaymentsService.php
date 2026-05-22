@@ -97,7 +97,7 @@ class NowPaymentsService {
     }
 
     public function getCurrencies() {
-        return Cache::remember('nowpayments_currencies', now()->addHours(1), function () {
+        return Cache::remember('nowpayments_currencies', now()->addHours(2), function () {
             $response = Http::withHeaders([
                 'x-api-key' => config('services.nowpayments.api_key'),
             ])->get('https://api.nowpayments.io/v1/merchant/coins');
