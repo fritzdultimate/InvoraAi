@@ -428,8 +428,32 @@ class UsersTable
                                     ->send();
                             })
                             ->modalHeading('Revoke Admin Access')
-                            ->modalDescription('This will remove all admin privileges from this user.')
+                            ->modalDescription('This will remove all admin privileges from this user.'),
                             // ->visible(fn ($record) => auth()->user()->hasRole('admin'))
+
+                            // Unsuspending user action
+                        Action::make('approveKyc')
+                            ->label('Approve KYC')
+                            ->icon('heroicon-o-check-circle')
+                            ->color('success')
+                            ->requiresConfirmation()
+                            ->visible(fn ($record) => $record->kyc_status === 'pending' || $record->kyc_status === 'unsubmitted')
+                            ->action(function ($record) {
+
+                                abort_unless($record->kyc_status !== 'approved', 403);
+
+                                $record->update([
+                                    'kyc_status' => 'approved',
+                                ]);
+
+                                Notification::make()
+                                    ->title('KYC Approved')
+                                    ->body('This user now has full access to the full platform access.')
+                                    ->success()
+                                    ->send();
+                            })
+                            ->modalHeading('Approve KYC')
+                            ->modalDescription('Are you sure you want to user\'s KYC?'),
                     // ])
 
 
