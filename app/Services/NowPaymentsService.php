@@ -115,7 +115,7 @@ class NowPaymentsService {
             'TRX'  => 'TRON',
             'USDT' => 'Tether',
             'USDC' => 'USD Coin',
-            // 'SOL' => 'Solana'
+            'SOL' => 'Solana'
         ];
 
         
