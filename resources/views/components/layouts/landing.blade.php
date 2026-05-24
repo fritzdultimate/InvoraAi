@@ -149,7 +149,6 @@
     @include('components.layouts.landing.footer-scripts')
     @include('components.layouts.live-chat')
 
-
     @include('components.layouts.landing.translator')
     <script>
         (function () {

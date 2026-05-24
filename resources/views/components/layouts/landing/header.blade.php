@@ -57,7 +57,7 @@
                                         </ul>
                                     </li> -->
                                     <li class="header-lang" id="invorLangSwitcher" style="position:relative;">
-                                        <div class="invora-lang-trigger" id="invorLangTrigger">
+                                        <div class="invora-lang-trigger" id="invorLangTrigger" style="display: none">
                                             <span class="invora-lang-flag" id="invorLangFlag">🇬🇧</span>
                                             <span class="invora-lang-code" id="invorLangCode">ENG</span>
                                             <svg class="invora-lang-chevron" viewBox="0 0 16 16" fill="none">
@@ -65,7 +65,7 @@
                                                     stroke-linecap="round" stroke-linejoin="round" />
                                             </svg>
                                         </div>
-                                        <div class="invora-lang-dropdown" id="invorLangDropdown">
+                                        <div class="invora-lang-dropdown" id="invorLangDropdown" style="display: none">
                                             <div class="invora-lang-dropdown-header">Select Language</div>
                                             <div class="invora-lang-option active" data-flag="🇬🇧" data-code="ENG"
                                                 data-gt="en">
@@ -118,7 +118,7 @@
                                             </div>
                                         </div>
                                         <!-- Hidden Google Translate element -->
-                                        <div id="google_translate_element" style="display:none;"></div>
+                                        <div id="google_translate_element"></div>
                                     </li>
                                     <li class="header-btn"><a href="{{ route('login') }}" class="btn">Login</a></li>
                                 </ul>
@@ -142,7 +142,7 @@
                             <div style="padding: 0px 10px; margin-top: 20px;">
                                 <ul>
                                     <li class="header-lang" id="invorLangSwitcherMobile" style="position:relative;">
-                                        <div class="invora-lang-trigger" id="invorLangTriggerMobile">
+                                        <div class="invora-lang-trigger" id="invorLangTriggerMobile" style="display: none">
                                             <span class="invora-lang-flag" id="invorLangFlag">🇬🇧</span>
                                             <span class="invora-lang-code" id="invorLangCode">ENG</span>
                                             <svg class="invora-lang-chevron" viewBox="0 0 16 16" fill="none">
@@ -150,7 +150,7 @@
                                                     stroke-linecap="round" stroke-linejoin="round" />
                                             </svg>
                                         </div>
-                                        <div class="invora-lang-dropdown" id="invorLangDropdownMobile">
+                                        <div class="invora-lang-dropdown" id="invorLangDropdownMobile" style="display: none">
                                             <div class="invora-lang-dropdown-header">Select Language</div>
                                             <div class="invora-lang-option active" data-flag="🇬🇧" data-code="ENG"
                                                 data-gt="en">
@@ -203,7 +203,7 @@
                                             </div>
                                         </div>
                                         <!-- Hidden Google Translate element -->
-                                        <div id="google_translate_element" style="display:none;"></div>
+                                        <div id="google_translate_element"></div>
                                     </li>
                                 </ul>
                             </div>
