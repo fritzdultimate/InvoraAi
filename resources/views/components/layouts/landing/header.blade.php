@@ -203,7 +203,7 @@
                                             </div>
                                         </div>
                                         <!-- Hidden Google Translate element -->
-                                        <div id="google_translate_element"></div>
+                                        <div id="google_translate_element_mobile"></div>
                                     </li>
                                 </ul>
                             </div>
