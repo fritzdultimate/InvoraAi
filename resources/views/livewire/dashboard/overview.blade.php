@@ -246,7 +246,7 @@
                     </a>
                 @endif
 
-                <a href="{{ route('live-trading') }}" class="invora-license-btn live-trading-btn">
+                <a href="{{ route('live-trading-track') }}" class="invora-license-btn live-trading-btn">
                     <iconify-icon icon="mdi:finance"></iconify-icon>
                     Live Trading
                 </a>
