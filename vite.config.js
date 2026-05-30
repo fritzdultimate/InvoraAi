@@ -21,6 +21,7 @@ export default defineConfig({
                 'resources/css/referral-direct.css',
                 'resources/css/tickets.css',
                 'resources/css/bot.css',
+                'resources/css/leaderboard.css',
             ],
             refresh: true,
         }),

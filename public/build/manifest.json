@@ -1,6 +1,6 @@
 {
   "resources/css/app.css": {
-    "file": "assets/app-Ay6Ccw2J.css",
+    "file": "assets/app-DX5oY4Pn.css",
     "src": "resources/css/app.css",
     "isEntry": true,
     "name": "app",
@@ -51,6 +51,15 @@
     "name": "invora-ui",
     "names": [
       "invora-ui.css"
+    ]
+  },
+  "resources/css/leaderboard.css": {
+    "file": "assets/leaderboard-CkHfBD-e.css",
+    "src": "resources/css/leaderboard.css",
+    "isEntry": true,
+    "name": "leaderboard",
+    "names": [
+      "leaderboard.css"
     ]
   },
   "resources/css/profile.css": {

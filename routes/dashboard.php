@@ -9,6 +9,7 @@ use App\Livewire\Dashboard\DepositPage;
 use App\Livewire\Dashboard\Investment;
 use App\Livewire\Dashboard\InvestmentCalculator;
 use App\Livewire\Dashboard\InvestmentItem;
+use App\Livewire\Dashboard\LeaderboardWidget;
 use App\Livewire\Dashboard\LiveTrading;
 use App\Livewire\Dashboard\Overview;
 use App\Livewire\Dashboard\Profile;
@@ -70,6 +71,10 @@ Route::middleware(['auth'])->prefix('dashboard')->group(function () {
         Route::get('/', Tickets::class)->name('support.index');
         Route::get('/create', CreateTicket::class)->name('support.create');
         Route::get('/{ticket}', ViewTicket::class)->name('support.view');
+    });
+
+    Route::prefix('leaderboard')->group(function() {
+        Route::get('/', LeaderboardWidget::class)->name('leaderboard');
     });
 
 

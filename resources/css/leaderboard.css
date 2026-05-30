@@ -1,0 +1,741 @@
+/* ============================================================
+   LEADERBOARD — resources/css/leaderboard.css
+   Inherits all Invora CSS variables from your existing stylesheet.
+   Every value that touches colour, radius, or spacing uses a
+   variable so a single-line override cascades everywhere.
+   ============================================================ */
+
+/* ── Local tokens (override here, nowhere else) ─────────────── */
+:root {
+    --lb-gold:    #f59e0b;
+    --lb-silver:  #94a3b8;
+    --lb-bronze:  #cd7f32;
+
+    --lb-gold-glow:   rgba(245,158,11,0.2);
+    --lb-silver-glow: rgba(148,163,184,0.12);
+    --lb-bronze-glow: rgba(205,127,50,0.12);
+
+    --lb-gap:   16px;
+    --lb-p:     20px;
+}
+
+/* ── Wrapper ─────────────────────────────────────────────────── */
+.lb-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: var(--lb-gap);
+}
+
+/* ── Shared card base (extends .invora-card) ─────────────────── */
+.lb-card {
+    background: linear-gradient(145deg, rgba(39,49,66,.95), rgba(20,25,40,.95));
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: 0 10px 30px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.03);
+    overflow: hidden;
+    position: relative;
+}
+
+/* ── Section header (icon + title + subtitle) ────────────────── */
+.lb-section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: var(--lb-p);
+    border-bottom: 1px solid var(--border-soft);
+    flex-wrap: wrap;
+}
+
+.lb-section-header h3 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.lb-section-header span {
+    font-size: 12px;
+    color: var(--text-secondary);
+    display: block;
+    margin-top: 2px;
+}
+
+.lb-section-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    background: rgba(99,102,241,.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    color: var(--accent);
+    flex-shrink: 0;
+}
+
+.lb-section-icon--gold  { background: var(--lb-gold-glow);   color: var(--lb-gold);   }
+.lb-section-icon--green { background: rgba(34,197,94,.15);   color: var(--green);     }
+
+/* ═══════════════════════════════════════════════════════════════
+   HERO BANNER
+═══════════════════════════════════════════════════════════════ */
+.lb-hero {
+    background:
+        radial-gradient(circle at 80% 20%, rgba(99,102,241,.18), transparent 55%),
+        radial-gradient(circle at 10% 80%, rgba(34,197,94,.10), transparent 50%),
+        linear-gradient(145deg, rgba(39,49,66,.98), rgba(15,20,35,.98));
+    border-color: rgba(99,102,241,.2);
+}
+
+/* Animated shimmer stripe */
+.lb-hero-shimmer {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(105deg, transparent 30%, rgba(255,255,255,.03) 50%, transparent 70%);
+    animation: lb-shine 4s infinite;
+    pointer-events: none;
+}
+
+@keyframes lb-shine {
+    0%   { transform: translateX(-100%); }
+    100% { transform: translateX(100%);  }
+}
+
+.lb-hero-body {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: var(--lb-p);
+    flex-wrap: wrap;
+}
+
+.lb-hero-copy { flex: 1; min-width: 220px; }
+
+.lb-hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 10px;
+}
+
+.lb-live-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--green);
+    animation: lb-pulse 1.6s ease-in-out infinite;
+    display: inline-block;
+}
+
+@keyframes lb-pulse {
+    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(34,197,94,.4); }
+    50%       { opacity: .7; box-shadow: 0 0 0 6px rgba(34,197,94,0); }
+}
+
+.lb-hero-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0 0 8px;
+    line-height: 1.25;
+}
+
+.lb-hero-sub {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.65;
+    max-width: 480px;
+    margin: 0 0 14px;
+}
+
+.lb-hero-sub strong { color: var(--text-primary); }
+
+.lb-hero-meta {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.lb-hero-meta span {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.lb-hero-countdown-wrap { flex-shrink: 0; }
+
+/* ═══════════════════════════════════════════════════════════════
+   COUNTDOWN TIMER
+═══════════════════════════════════════════════════════════════ */
+.lb-countdown {
+    padding: 16px 20px;
+    border-radius: 14px;
+    background: rgba(255,255,255,.03);
+    border: 1px solid var(--border-soft);
+    text-align: center;
+    min-width: 220px;
+}
+
+.lb-countdown-title {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    margin-bottom: 10px;
+}
+
+.lb-countdown-grid {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+}
+
+.lb-countdown-unit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    min-width: 44px;
+}
+
+.lb-countdown-val {
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--text-primary);
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+}
+
+.lb-countdown-lbl {
+    font-size: 9px;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+}
+
+.lb-countdown-sep {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 14px;
+    line-height: 1;
+}
+
+@keyframes lb-sec-pulse {
+    0%  { opacity: 1; }
+    50% { opacity: .5; }
+    100%{ opacity: 1; }
+}
+
+.lb-countdown-pulse { animation: lb-sec-pulse .4s ease; }
+
+.lb-countdown--expired .lb-countdown-val { color: var(--red); }
+
+/* ═══════════════════════════════════════════════════════════════
+   MY PROGRESS CARD
+═══════════════════════════════════════════════════════════════ */
+.lb-my-progress .lb-section-header { border-bottom: none; padding-bottom: 0; }
+.lb-my-progress .lb-progress-wrap  { padding: var(--lb-p); padding-top: 14px; }
+
+.lb-my-rank-badge {
+    margin-left: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--lb-gold-glow);
+    border: 1px solid rgba(245,158,11,.25);
+    color: var(--lb-gold);
+    padding: 5px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+/* Progress bar */
+.lb-progress-wrap { display: flex; flex-direction: column; gap: 10px; }
+
+.lb-progress-labels {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.lb-progress-current {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.lb-progress-pct {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--accent);
+}
+
+.lb-progress-pct--done { color: var(--green); }
+
+.lb-progress-track {
+    position: relative;
+    height: 10px;
+    background: rgba(255,255,255,.06);
+    border-radius: 999px;
+    overflow: visible;
+}
+
+.lb-progress-fill {
+    height: 100%;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--accent), #22d3ee);
+    position: relative;
+    transition: width .6s ease;
+    overflow: hidden;
+}
+
+.lb-progress-fill--done {
+    background: linear-gradient(90deg, var(--green), #22d3ee);
+}
+
+.lb-progress-shimmer {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,.25) 50%, transparent 100%);
+    animation: lb-shine 2s infinite;
+}
+
+.lb-progress-marker {
+    position: absolute;
+    top: -4px;
+    transform: translateX(-50%);
+}
+
+.lb-progress-marker span {
+    font-size: 9px;
+    color: var(--text-secondary);
+    background: var(--bg-card);
+    padding: 1px 4px;
+    border-radius: 4px;
+    border: 1px solid var(--border-soft);
+    white-space: nowrap;
+}
+
+.lb-progress-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.lb-progress-remaining,
+.lb-progress-done {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.lb-progress-done { color: var(--green); font-weight: 600; }
+
+.lb-progress-target {
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PRIZES ROW
+═══════════════════════════════════════════════════════════════ */
+.lb-prizes-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--lb-gap);
+}
+
+.lb-prize-chip {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 16px 12px;
+    border-radius: var(--radius);
+    background: linear-gradient(145deg, rgba(39,49,66,.95), rgba(20,25,40,.95));
+    border: 1px solid var(--border);
+    text-align: center;
+    transition: transform .2s ease;
+}
+
+.lb-prize-chip:hover { transform: translateY(-2px); }
+
+.lb-prize-1 { border-color: rgba(245,158,11,.3); background: linear-gradient(145deg, rgba(245,158,11,.06), rgba(20,25,40,.95)); }
+.lb-prize-2 { border-color: rgba(148,163,184,.2); }
+.lb-prize-3 { border-color: rgba(205,127,50,.2);  }
+
+.lb-prize-pos  { font-size: 20px; line-height: 1; }
+
+.lb-prize-amount {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.lb-prize-1 .lb-prize-amount { color: var(--lb-gold);   }
+.lb-prize-2 .lb-prize-amount { color: var(--lb-silver); }
+.lb-prize-3 .lb-prize-amount { color: var(--lb-bronze); }
+
+.lb-prize-perk {
+    font-size: 10px;
+    color: var(--text-secondary);
+    line-height: 1.4;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   GLOBAL LEADERBOARD BOARD
+═══════════════════════════════════════════════════════════════ */
+.lb-board-list {
+    display: flex;
+    flex-direction: column;
+}
+
+/* ── Individual rank card ─────────────────────────────────────── */
+.lb-rank-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px var(--lb-p);
+    border-top: 1px solid var(--border-soft);
+    position: relative;
+    transition: background .2s ease;
+}
+
+.lb-rank-card:hover { background: var(--bg-hover); }
+
+/* Gold accent on rank 1 */
+.lb-rank-card.lb-rank-1 { background: linear-gradient(90deg, rgba(245,158,11,.04), transparent 70%); }
+.lb-rank-card.lb-rank-1:hover { background: rgba(245,158,11,.07); }
+
+/* "You" highlight */
+.lb-rank-card--me {
+    background: rgba(99,102,241,.05) !important;
+    border-left: 3px solid var(--accent);
+}
+
+/* Qualified pulse */
+.lb-rank-card--done { border-left: 3px solid var(--green); }
+
+/* Open slot */
+.lb-rank-card--open {
+    opacity: .55;
+}
+
+/* Medal / position */
+.lb-rank-pos {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+}
+
+.lb-rank-pos--1 { color: var(--lb-gold);   background: var(--lb-gold-glow);   }
+.lb-rank-pos--2 { color: var(--lb-silver); background: var(--lb-silver-glow); }
+.lb-rank-pos--3 { color: var(--lb-bronze); background: var(--lb-bronze-glow); }
+
+/* Avatar */
+.lb-avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), #22d3ee);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 700;
+    color: #fff;
+    flex-shrink: 0;
+    position: relative;
+    overflow: visible;
+}
+
+.lb-avatar img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.lb-avatar--ghost {
+    background: rgba(255,255,255,.04);
+    border: 1px dashed var(--border);
+    color: var(--text-secondary);
+    font-size: 20px;
+}
+
+.lb-avatar-crown {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 14px;
+    color: var(--lb-gold);
+    filter: drop-shadow(0 0 6px rgba(245,158,11,.6));
+}
+
+/* Info */
+.lb-rank-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    min-width: 0;
+}
+
+.lb-rank-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.lb-you-tag {
+    font-size: 10px;
+    font-weight: 500;
+    background: rgba(99,102,241,.2);
+    color: var(--accent);
+    padding: 1px 6px;
+    border-radius: 999px;
+    flex-shrink: 0;
+}
+
+/* Mini progress bar inside rank card */
+.lb-rank-mini-bar {
+    height: 4px;
+    background: rgba(255,255,255,.06);
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.lb-rank-mini-fill {
+    height: 100%;
+    border-radius: 999px;
+    transition: width .6s ease;
+}
+
+.lb-rank-fill--1 { background: linear-gradient(90deg, var(--lb-gold),   #fbbf24); }
+.lb-rank-fill--2 { background: linear-gradient(90deg, var(--lb-silver), #cbd5e1); }
+.lb-rank-fill--3 { background: linear-gradient(90deg, var(--lb-bronze), #d97706); }
+
+.lb-rank-sub {
+    font-size: 11px;
+    color: var(--text-secondary);
+}
+
+.lb-rank-sub-sep { margin: 0 2px; opacity: .4; }
+
+.lb-rank-pct {
+    font-size: 10px;
+    color: var(--accent);
+    margin-left: 3px;
+}
+
+/* Right side */
+.lb-rank-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 5px;
+    flex-shrink: 0;
+}
+
+.lb-prize-tag {
+    font-size: 12px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 999px;
+    white-space: nowrap;
+}
+
+.lb-prize-tag--1 { background: var(--lb-gold-glow);   color: var(--lb-gold);   border: 1px solid rgba(245,158,11,.25); }
+.lb-prize-tag--2 { background: var(--lb-silver-glow); color: var(--lb-silver); border: 1px solid rgba(148,163,184,.2);  }
+.lb-prize-tag--3 { background: var(--lb-bronze-glow); color: var(--lb-bronze); border: 1px solid rgba(205,127,50,.2);   }
+
+.lb-rank-move {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    font-size: 10px;
+    font-weight: 600;
+}
+
+.lb-rank-move--up      { color: var(--green); }
+.lb-rank-move--down    { color: var(--red);   }
+.lb-rank-move--neutral { color: var(--text-secondary); }
+
+.lb-qualified-ribbon {
+    position: absolute;
+    top: 10px;
+    right: var(--lb-p);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--green);
+    background: rgba(34,197,94,.1);
+    border: 1px solid rgba(34,197,94,.2);
+    padding: 2px 8px;
+    border-radius: 999px;
+}
+
+.lb-open-tag {
+    font-size: 10px;
+    color: var(--text-secondary);
+    background: rgba(255,255,255,.04);
+    border: 1px solid var(--border-soft);
+    padding: 3px 8px;
+    border-radius: 999px;
+}
+
+/* Empty state */
+.lb-empty-sub {
+    text-align: center;
+    font-size: 12px;
+    color: var(--text-secondary);
+    padding: 12px var(--lb-p);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SKELETON LOADING
+═══════════════════════════════════════════════════════════════ */
+.lb-skeleton-block {
+    background: rgba(255,255,255,.05);
+    animation: lb-skeleton 1.4s ease-in-out infinite;
+}
+
+@keyframes lb-skeleton {
+    0%, 100% { opacity: .4; }
+    50%       { opacity: .8; }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   COMMISSION BOOSTER
+═══════════════════════════════════════════════════════════════ */
+.lb-booster-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 10px;
+    padding: var(--lb-p);
+}
+
+.lb-booster-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    background: rgba(255,255,255,.02);
+    border: 1px solid var(--border-soft);
+    transition: all .2s ease;
+}
+
+.lb-booster-row:hover {
+    background: rgba(255,255,255,.04);
+    transform: translateY(-1px);
+}
+
+.lb-booster-level {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--accent);
+    width: 22px;
+    flex-shrink: 0;
+}
+
+.lb-booster-std {
+    font-size: 12px;
+    color: var(--text-secondary);
+    text-decoration: line-through;
+    flex: 1;
+}
+
+.lb-booster-arrow {
+    font-size: 12px;
+    color: var(--text-secondary);
+    flex-shrink: 0;
+}
+
+.lb-booster-boosted {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--green);
+    flex-shrink: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   EMPTY STATE (no active challenge)
+═══════════════════════════════════════════════════════════════ */
+.lb-empty-state {
+    padding: 48px var(--lb-p);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.lb-empty-icon {
+    font-size: 48px;
+    color: var(--text-secondary);
+    opacity: .4;
+}
+
+.lb-empty-state h4 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.lb-empty-state p {
+    font-size: 13px;
+    color: var(--text-secondary);
+    max-width: 300px;
+    margin: 0;
+    line-height: 1.6;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════════════════════════ */
+@media (max-width: 640px) {
+    .lb-hero-body         { flex-direction: column; }
+    .lb-hero-countdown-wrap { width: 100%; }
+    .lb-countdown         { min-width: unset; }
+
+    .lb-prizes-row        { grid-template-columns: 1fr; }
+
+    .lb-rank-card         { gap: 10px; padding: 14px; }
+    .lb-rank-name         { font-size: 13px; }
+    .lb-qualified-ribbon  { display: none; }   /* too cramped on mobile */
+
+    .lb-booster-grid      { grid-template-columns: repeat(2, 1fr); }
+}
