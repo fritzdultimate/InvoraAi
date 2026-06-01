@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DepositController;
+use App\Http\Controllers\LeaderBoardController;
 use App\Http\Controllers\ProfitController;
 use App\Http\Controllers\RankController;
 use App\Http\Controllers\TradeController;
@@ -19,6 +20,9 @@ Route::get('/cron/trading/execute-cycle', [TradeMultiexchangeController::class, 
 
 Route::get('/cron/trading/close-trades', [TradeMultiexchangeController::class, 'scanAndCloseTrades'])
     ->name('trading.close');
+
+Route::get('/cron/leaderboard/score', [LeaderBoardController::class, 'leaderBoardEntry'])
+    ->name('leaderboard');
 
 Route::get('migrate/now/djjd', function() {
     try {

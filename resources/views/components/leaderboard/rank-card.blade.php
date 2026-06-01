@@ -26,7 +26,7 @@
 ])
 
 @php
-    $pct       = $target > 0 ? min(100, round(($score / $target) * 100, 1)) : 0;
+    $pct = $target > 0 ? min(100, round(($score / $target) * 100, 1)) : 0;
     $medalIcon = match((int)$rank) {
         1 => 'mdi:medal',
         2 => 'mdi:medal-outline',

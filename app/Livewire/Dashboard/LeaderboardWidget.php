@@ -43,8 +43,7 @@ class LeaderboardWidget extends Component
     // ─── Public actions ───────────────────────────────────────────────
 
     /** Called by Livewire polling or manually to refresh data */
-    public function refresh(): void
-    {
+    public function refresh(): void {
         $this->loadChallenge();
     }
 
@@ -78,11 +77,11 @@ class LeaderboardWidget extends Component
         $this->pvTarget = data_get($rewards, 'target', 10000);
 
         // Top 3 ranked entries with user relationship
-        $this->topEntries = ChallengeEntry::with('user:id,name,profile_photo_path')
+        $this->topEntries = ChallengeEntry::with('user:id,name')
             ->where('challenge_category_id', $this->category->id)
             ->whereNotNull('rank')
-            ->orderBy('rank')
-            ->limit(3)
+            ->orderBy('score', 'desc')
+            ->limit(20)
             ->get()
             ->map(fn ($e) => [
                 'rank'       => $e->rank,

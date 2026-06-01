@@ -9,21 +9,30 @@ use App\Models\User;
 class LeaderboardEngineService
 {
     public function calculate(ChallengeCategory $category) {
-        // $users = User::query()->select('id')->get();
+        $target = data_get($category->rewards, 'target', 10000);
 
-        User::chunk(200, function ($users) use ($category) {
+        User::chunk(200, function ($users) use ($category, $target) {
             foreach ($users as $user) {
                 $score = $this->resolveScore($user->id, $category);
+
+                $existing = ChallengeEntry::where([
+                    'user_id' => $user->id,
+                    'challenge_category_id' => $category->id,
+                    'challenge_id' => $category->challenge_id,
+                ])->first();
 
                 ChallengeEntry::updateOrCreate(
                     [
                         'user_id' => $user->id,
                         'challenge_category_id' => $category->id,
                         'challenge_id' => $category->challenge_id,
-                        'phase' => 2
+                        // 'phase' => 1
                     ],
                     [
                         'score' => $score,
+                        'completed_at' => $score >= $target && is_null($existing?->completed_at)
+                                          ? now()
+                                          : $existing?->completed_at
                     ]
                 );
             }
