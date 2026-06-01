@@ -34,6 +34,7 @@ class LeaderboardWidget extends Component
 
     /** Total number of participants (entries with score > 0) */
     public int $totalParticipants = 0;
+    public ?array $myOutsideTop = null;
 
     public function mount(): void
     {
@@ -90,8 +91,30 @@ class LeaderboardWidget extends Component
                 'score'      => (float) $e->score,
                 'rank_change'=> (int) $e->rank_change,
                 'completed'  => ! is_null($e->completed_at),
+                'is_me'       => $e->user_id === auth()->id(),
             ])
             ->toArray();
+
+        $myInTop = collect($this->topEntries)->contains('is_me', true);
+
+        if (! $myInTop) {
+            $myRow = ChallengeEntry::with('user:id,name')
+                ->where('challenge_category_id', $this->category->id)
+                ->where('user_id', auth()->id())
+                ->first();
+
+            if ($myRow) {
+                $this->myOutsideTop = [
+                    'rank'        => $myRow->rank,
+                    'name'        => $myRow->user->name ?? 'Unknown',
+                    'avatar'      => $myRow->user->profile_photo_path,
+                    'score'       => (float) $myRow->score,
+                    'rank_change' => (int) $myRow->rank_change,
+                    'completed'   => ! is_null($myRow->completed_at),
+                    'is_me'       => true,
+                ];
+            }
+        }
 
         // Authenticated user data
         $userId = auth()->id();

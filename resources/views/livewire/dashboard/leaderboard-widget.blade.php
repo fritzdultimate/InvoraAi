@@ -162,6 +162,30 @@
                     <p class="lb-empty-sub">No leaders yet — be the first to qualify!</p>
                 @endforelse
 
+                @if($myOutsideTop)
+                    {{-- Separator --}}
+                    <div class="lb-rank-card" style="justify-content:center;padding:8px 20px;border-top:1px solid rgba(255,255,255,.05)">
+                        <div style="display:flex;flex-direction:column;gap:3px;align-items:center">
+                            <span style="width:3px;height:3px;border-radius:50%;background:rgba(255,255,255,.2);display:block"></span>
+                            <span style="width:3px;height:3px;border-radius:50%;background:rgba(255,255,255,.2);display:block"></span>
+                            <span style="width:3px;height:3px;border-radius:50%;background:rgba(255,255,255,.2);display:block"></span>
+                        </div>
+                    </div>
+
+                    {{-- Auth user's row outside top 20 --}}
+                    <x-leaderboard.rank-card
+                        :rank="$myOutsideTop['rank']"
+                        :name="$myOutsideTop['name']"
+                        :avatar="$myOutsideTop['avatar']"
+                        :score="$myOutsideTop['score']"
+                        :target="$pvTarget"
+                        :rankChange="$myOutsideTop['rank_change']"
+                        :completed="$myOutsideTop['completed']"
+                        :prize="null"
+                        :isCurrentUser="true"
+                    />
+                @endif
+
                 {{-- Pad to 3 slots if fewer winners exist --}}
                 @for($i = count($topEntries) + 1; $i <= 3; $i++)
                     <div class="lb-rank-card lb-rank-card--open">
