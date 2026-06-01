@@ -5,7 +5,7 @@ use App\Models\ChallengeCategory;
 use App\Services\Sprint\LeaderboardEngineService;
 
 
-class LeaderBoardController extends Controller {
+class LeaderboardController extends Controller {
 
     public function leaderBoardEntry() {
         $categories = ChallengeCategory::where('phase', 1)->whereHas('challenge', function ($q) {

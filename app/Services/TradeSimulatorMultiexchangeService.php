@@ -132,6 +132,7 @@ class TradeSimulatorMultiexchangeService
     }
 
     function bitmexSymbol($symbol) {
+        $symbol = strtoupper($symbol);
         $map = [
             'BTC' => 'XBT',
         ];
