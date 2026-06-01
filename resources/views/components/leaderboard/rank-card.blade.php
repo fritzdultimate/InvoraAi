@@ -61,7 +61,7 @@
     {{-- Info --}}
     <div class="lb-rank-info">
         <span class="lb-rank-name">
-            {{ $name }}
+            {{ mask($name) }}
             @if($isCurrentUser)
                 <span class="lb-you-tag">You</span>
             @endif
