@@ -81,7 +81,7 @@ class LeaderboardWidget extends Component
             ->where('challenge_category_id', $this->category->id)
             ->whereNotNull('rank')
             ->orderBy('score', 'desc')
-            ->limit(20)
+            ->limit(10)
             ->get()
             ->map(fn ($e) => [
                 'rank'       => $e->rank,
@@ -117,7 +117,7 @@ class LeaderboardWidget extends Component
         }
 
         $this->totalParticipants = ChallengeEntry::where('challenge_category_id', $this->category->id)
-            ->where('score', '>', 0)
+            // ->where('score', '>', 0)
             ->count();
     }
 
