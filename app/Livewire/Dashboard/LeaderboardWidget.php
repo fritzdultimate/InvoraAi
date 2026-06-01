@@ -81,7 +81,7 @@ class LeaderboardWidget extends Component
         $this->topEntries = ChallengeEntry::with('user:id,name')
             ->where('challenge_category_id', $this->category->id)
             ->whereNotNull('rank')
-            ->orderBy('score', 'desc')
+            ->orderBy('rank', 'desc')
             ->limit(10)
             ->get()
             ->map(fn ($e) => [
