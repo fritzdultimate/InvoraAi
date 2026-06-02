@@ -5,6 +5,7 @@ namespace App\Services\Sprint;
 use App\Models\ChallengeCategory;
 use App\Models\ChallengeEntry;
 use App\Models\User;
+use App\Services\MilestoneCheckerService;
 
 class LeaderboardEngineService
 {
@@ -14,6 +15,8 @@ class LeaderboardEngineService
         User::chunk(200, function ($users) use ($category, $target) {
             foreach ($users as $user) {
                 $score = $this->resolveScore($user->id, $category);
+
+                app(MilestoneCheckerService::class)->check($category->challenge, $score, $user, $score);
 
                 $existing = ChallengeEntry::where([
                     'user_id' => $user->id,
@@ -51,6 +54,7 @@ class LeaderboardEngineService
             'personal_volume' => $service->getPersonalVolume($userId, $start, $end),
             default => 0
         };
+
     }
 
     private function rank($category) {

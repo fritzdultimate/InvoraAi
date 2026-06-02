@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Dashboard;
 
+use App\Http\Controllers\LeaderboardController;
 use App\Models\Challenge;
 use App\Models\ChallengeCategory;
 use App\Models\ChallengeEntry;
@@ -36,8 +37,13 @@ class LeaderboardWidget extends Component
     public int $totalParticipants = 0;
     public ?array $myOutsideTop = null;
 
-    public function mount(): void
-    {
+    public function mount(): void {
+        try {
+            app(LeaderboardController::class)->leaderBoardEntry();
+        } catch (\Throwable $e) {
+            logger()->error('Leaderboard cron failed: ' . $e->getMessage());
+        }
+
         $this->loadChallenge();
     }
 
