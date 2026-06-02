@@ -739,3 +739,10 @@
 
     .lb-booster-grid      { grid-template-columns: repeat(2, 1fr); }
 }
+
+/* Prevent mobile zoom-on-load */
+@media (max-width: 768px) {
+    .lb-wrapper {
+        touch-action: manipulation;
+    }
+}
