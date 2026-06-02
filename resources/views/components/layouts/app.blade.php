@@ -261,7 +261,7 @@
         @include('components.layouts.live-chat')
 
 
-        <livewire:milestone-popup />
+        <!-- <livewire:milestone-popup /> -->
 
     </body>
 </html>
