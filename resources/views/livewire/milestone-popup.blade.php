@@ -46,7 +46,7 @@
                         </div>
                         <div style="font-size: 10px; color: var(--text-secondary); margin-top: 1px;">
                             <span class="lb-live-dot" style="width: 5px; height: 5px; margin-right: 4px;"></span>
-                            {{ $isTeam ? 'Team achievement' : 'Personal achievement' }}
+                            {{ $isTeam ? 'Activity in your challenge' : 'Personal achievement' }}
                         </div>
                     </div>
                 </div>
