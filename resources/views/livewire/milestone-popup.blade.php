@@ -73,7 +73,7 @@
                 {{-- Amount --}}
                 <div style="margin-bottom: 14px;">
                     <div style="font-size: 11px; color: var(--text-secondary); margin-bottom: 4px;">
-                        {{ $isTeam ? 'Your team has reached' : 'You have reached' }}
+                        {{ $isTeam ? $currentAlert->challenge->name . ' — a participant has reached' : 'You have reached' }}
                     </div>
                     <div style="display: flex; align-items: baseline; gap: 8px;">
                         <span style="font-size: 28px; font-weight: 700; color: var(--green); line-height: 1;">
