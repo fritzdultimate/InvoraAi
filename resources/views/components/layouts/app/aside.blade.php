@@ -79,6 +79,13 @@
 			</li>
 
 			<li>
+				<a href="{{ route('leaderboard') }}">
+					<iconify-icon icon="solar:cup-star-bold" class="menu-icon"></iconify-icon>
+					<span>Leaderboard</span>
+				</a>
+			</li>
+
+			<li>
 				<a href="{{ route('calc') }}">
 					<iconify-icon icon="mdi:calculator-variant-outline" class="menu-icon"></iconify-icon>
 					<span>Investment Calculator</span>
