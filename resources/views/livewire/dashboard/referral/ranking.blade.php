@@ -191,7 +191,7 @@
 
                                 <div class="text">
                                     Your account is currently <strong>unranked</strong> because you haven’t met the required
-                                    <strong>team volume</strong> and <strong>direct referral volume</strong>.
+                                    <strong>team volume</strong>.
                                 </div>
 
                                 <div class="text" style="margin-top:8px;">
@@ -210,16 +210,10 @@
                                         <span>1</span>
                                         Build your team volume
                                     </div>
-
-                                    <div class="step">
-                                        <span>2</span>
-                                        Meet direct referral volume requirements
-                                    </div>
                                 </div>
 
                                 <div class="rank-legend">
                                     <span><strong>TV</strong> = Team Volume</span>
-                                    <span><strong>DV</strong> = Direct Referral Volume</span>
                                 </div>
 
                                 <div class="rank-ladder">
@@ -228,7 +222,6 @@
                                         <div class="rank-name">Amateur</div>
                                         <div class="rank-meta">
                                             <span>TV: $4,999</span>
-                                            <span>DV: $1,499</span>
                                         </div>
                                     </div>
 
@@ -236,7 +229,6 @@
                                         <div class="rank-name">Bronze</div>
                                         <div class="rank-meta">
                                             <span>TV: $9,999</span>
-                                            <span>DV: $2,499</span>
                                         </div>
                                     </div>
 
@@ -244,7 +236,6 @@
                                         <div class="rank-name">Achiever</div>
                                         <div class="rank-meta">
                                             <span>TV: $19,999</span>
-                                            <span>DV: $4,999</span>
                                         </div>
                                     </div>
 
@@ -252,7 +243,6 @@
                                         <div class="rank-name">Silver</div>
                                         <div class="rank-meta">
                                             <span>TV: $49,999</span>
-                                            <span>DV: $7,499</span>
                                         </div>
                                     </div>
 
@@ -369,30 +359,7 @@
                 </div>
 
 
-                <!-- DIRECT VOLUME -->
-                <div class="stat-card">
-                    <div class="stat-top">
-                        <span class="stat-title">Direct Volume</span>
-                        <span class="stat-badge {{ $directVolume >= $nextRank->direct_referrals_volume ? 'done' : '' }}">
-                            {{ $directVolume >= $nextRank->direct_referrals_volume ? '✓' : '...' }}
-                        </span>
-                    </div>
-
-                    <div class="stat-main">
-                        ${{ number_format($directVolume) }}
-                    </div>
-
-                    <div class="stat-sub">
-                        of ${{ number_format($nextRank->direct_referrals_volume) }}
-                    </div>
-
-                    <div class="mini-bar">
-                        <div 
-                            class="mini-fill"
-                            style="width: {{ min(100, ($directVolume / $nextRank->direct_referrals_volume) * 100) }}%"
-                        ></div>
-                    </div>
-                </div>
+                
 
             </div>
 
@@ -407,10 +374,6 @@
 
         <div class="check-item {{ $teamVolume >= $nextRank->required_volume ? 'done' : '' }}">
             ✔ Team Volume Requirement
-        </div>
-
-        <div class="check-item {{ $directVolume >= $nextRank->direct_referrals_volume ? 'done' : '' }}">
-            ✔ Direct Referral Volume
         </div>
 
     </div>
@@ -563,10 +526,6 @@
 
                         <div class="{{ $teamVolume >= $rank->required_volume ? 'ok' : '' }}">
                             Team: ${{ number_format($rank->required_volume) }}
-                        </div>
-
-                        <div class="{{ $directVolume >= $rank->direct_referrals_volume ? 'ok' : '' }}">
-                            Direct: ${{ number_format($rank->direct_referrals_volume) }}
                         </div>
 
                         <div class="{{ $maxBonus >= $rank->one_time_bonus ? 'ok' : '' }} hidden">

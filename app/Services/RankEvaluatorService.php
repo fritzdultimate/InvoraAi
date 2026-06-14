@@ -25,13 +25,12 @@ class RankEvaluatorService {
             ->orderBy('level')
             ->get();
 
-        DB::transaction(function () use ($user, $ranks, $volume, $directReferralVolume) {
+        DB::transaction(function () use ($user, $ranks, $volume) {
             $isActive = true;//$user->isActive();
             foreach ($ranks as $rank) {
                 
                 $qualified =
-                    $volume >= $rank->required_volume &&
-                    $directReferralVolume >= $rank->direct_referrals_volume;
+                    $volume >= $rank->required_volume;
 
                 if (!$qualified || !$isActive) {
                     return;
