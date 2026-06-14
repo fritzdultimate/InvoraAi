@@ -58,6 +58,8 @@ class  Deposit extends Component {
     public function selectWallet($wallet) {
         $this->selectedWallet = $wallet;
 
+        // dd($this->selectedWallet);
+
         if (!empty($wallet['networks'])) {
             $this->network = $wallet['networks'][0]['raw'];
         }

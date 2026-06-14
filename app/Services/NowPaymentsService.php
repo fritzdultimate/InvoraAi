@@ -97,13 +97,13 @@ class NowPaymentsService {
     }
 
     public function getCurrencies() {
-        return Cache::remember('nowpayments_currencies', now()->addHours(2), function () {
+        // return Cache::remember('nowpayments_currencies', now()->addHours(2), function () {
             $response = Http::withHeaders([
                 'x-api-key' => config('services.nowpayments.api_key'),
             ])->get('https://api.nowpayments.io/v1/merchant/coins');
 
             return $this->mapSelectedCurrencies($response->json());
-        });
+        // });
     }
 
 
@@ -114,17 +114,32 @@ class NowPaymentsService {
             'LTC'  => 'Litecoin',
             'TRX'  => 'TRON',
             'USDT' => 'Tether',
+            'USDTBSC' => 'Tether',
             'USDC' => 'USD Coin',
             'SOL' => 'Solana'
         ];
 
         
-        $networkSuffixes = ['ERC20','TRC20','BEP20','BEP2','OMNI','SPL','POLYGON','MATIC'];
+        $networkSuffixes = ['ERC20','TRC20','BEP20','BEP2','OMNI','SPL','POLYGON','MATIC', 'BSC'];
+
+        $networkLabels = [
+            'ERC20'   => 'ERC20',
+            'TRC20'   => 'TRC20',
+            'BEP20'   => 'BEP20',
+            'BEP2'    => 'BEP2',
+            'OMNI'    => 'OMNI',
+            'SPL'     => 'SPL',
+            'POLYGON' => 'Polygon',
+            'MATIC'   => 'Polygon',
+            'BSC'     => 'BEP20 (BSC)',  // or just 'BSC'
+        ];
 
         $out = [];
 
         foreach ($selectedCurrencies["selectedCurrencies"] as $raw) {
             $rawU = strtoupper(trim($raw));
+
+            // dd($rawU);
 
             
             $foundNetwork = null;
@@ -137,6 +152,7 @@ class NowPaymentsService {
                     break;
                 }
             }
+
 
             
             $symbol = trim($symbol);
@@ -162,8 +178,8 @@ class NowPaymentsService {
             $out[$symbol]['raw_entries'][] = $rawU;
 
             $networkObj = [
-                'network'            => $foundNetwork,
-                'label'              => $foundNetwork ? $foundNetwork : 'mainnet',
+                'network'            => $foundNetwork ? ($networkLabels[$foundNetwork] ?? $foundNetwork) : 'mainnet',
+                'label'              => $foundNetwork ? ($networkLabels[$foundNetwork] ?? $foundNetwork) : 'mainnet',
                 'raw'                => $rawU,
                 'min_amount'         => null,
                 'max_amount'         => null,
