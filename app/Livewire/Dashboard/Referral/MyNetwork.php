@@ -14,6 +14,7 @@ class MyNetwork extends Component
     use WithPagination;
 
     public $depth = 1;
+    public $refDepth = 10;
 
     protected $paginationTheme = 'tailwind';
 

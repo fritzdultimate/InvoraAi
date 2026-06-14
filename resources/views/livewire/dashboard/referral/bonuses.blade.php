@@ -7,7 +7,7 @@
                 Referral Bonuses
             </div>
             <div class="invora-profile-meta">
-                Every commission earned across your 7-level network
+                Every commission earned across your 10-level network
             </div>
         </div>
     </div>
@@ -53,7 +53,7 @@
             <label>Level</label>
             <select wire:model.live="level">
                 <option value="">All</option>
-                @for($i=1;$i<=7;$i++)
+                @for($i=1;$i<=$refDepth;$i++)
                     <option value="{{ $i }}">Level {{ $i }}</option>
                 @endfor
             </select>

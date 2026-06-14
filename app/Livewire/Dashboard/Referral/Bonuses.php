@@ -12,12 +12,13 @@ use App\Models\ReferralBonus;
 use Illuminate\Support\Facades\DB;
 
 #[Layout('components.layouts.app', params: ['title' => 'Referral Bonus'])]
-class Bonuses extends Component
-{
+class Bonuses extends Component {
     use WithPagination;
 
     public $status = '';
     public $level = '';
+
+    public $refDepth = 10;
 
     protected $paginationTheme = 'tailwind';
 
@@ -70,4 +71,4 @@ class Bonuses extends Component
             'total' => $query->sum('amount')
         ]);
     }
-}
+} 
