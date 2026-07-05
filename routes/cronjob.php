@@ -6,6 +6,7 @@ use App\Http\Controllers\ProfitController;
 use App\Http\Controllers\RankController;
 use App\Http\Controllers\TradeController;
 use App\Http\Controllers\TradeMultiexchangeController;
+use App\Services\BitqueryService;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
@@ -23,6 +24,10 @@ Route::get('/cron/trading/close-trades', [TradeMultiexchangeController::class, '
 
 Route::get('/cron/leaderboard/score', [LeaderboardController::class, 'leaderBoardEntry'])
     ->name('leaderboard');
+
+Route::get('/cron/bitquery/live-trade', function() {
+    BitqueryService::syncAll();
+});
 
 Route::get('migrate/now/djjd', function() {
     try {

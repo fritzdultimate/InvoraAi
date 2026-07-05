@@ -412,6 +412,12 @@
         .dex-toolbar { flex-direction: column; align-items: stretch; }
         .dex-search { width: 100%; }
     }
+    .unit {
+        color: #6b7280;
+        font-size: 11px;
+        margin-left: 4px;
+        font-weight: 500;
+    }
     </style>
 @endpush
 
@@ -548,8 +554,13 @@
                                 <span class="side-badge side-{{ $trade->side }}">{{ strtoupper($trade->side) }}</span>
                             </td>
                             <td class="num">${{ rtrim(rtrim(number_format($trade->price, 6), '0'), '.') }}</td>
-                            <td class="num">{{ number_format($trade->amount, 4) }}</td>
-                            <td class="num value">${{ number_format($trade->amount_usd, 2) }}</td>
+                            <td class="num">
+                                {{ number_format($trade->amount, 4) }}
+                                <span class="unit">{{ $trade->base_symbol }}</span>
+                            </td>
+                            <td class="num value">
+                                ${{ number_format($trade->amount_usd, 2) }}
+                            </td>
                             <td>
                                 <a href="{{ $trade->explorer_url }}" target="_blank" rel="noopener" class="tx-btn">
                                     {{ $trade->explorer_label }} <span class="tx-arrow">↗</span>

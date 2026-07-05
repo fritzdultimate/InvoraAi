@@ -54,6 +54,8 @@ class BitqueryService {
             return;
         }
 
+        // dd('here');
+
         $query = <<<'GRAPHQL'
         query LatestTrades($network: evm_network!, $protocols: [String!], $quotes: [String!]) {
           EVM(network: $network, dataset: realtime) {
@@ -89,8 +91,20 @@ class BitqueryService {
         }
         GRAPHQL;
 
-        $response = Http::withToken(config('services.bitquery.key'))
-            ->post('https://streaming.bitquery.io/graphql', [
+        // $response = Http::withToken(config('services.bitquery.key'))
+        //     ->post('https://streaming.bitquery.io/graphql', [
+        //         'query' => $query,
+        //         'variables' => [
+        //             'network' => $network,
+        //             'protocols' => $config['protocols'],
+        //             'quotes' => $config['quotes'],
+        //         ],
+        //     ]);
+
+        $response = Http::withHeaders([
+            'X-API-KEY' => config('services.bitquery.key'),
+            // 'Authorization' => 'Bearer ' . config('services.bitquery.key'),
+        ])->post('https://streaming.bitquery.io/graphql', [
                 'query' => $query,
                 'variables' => [
                     'network' => $network,
@@ -100,9 +114,12 @@ class BitqueryService {
             ]);
 
         if (! $response->successful()) {
+            dd($response->body());
             report(new \Exception("Bitquery sync failed for {$network}: {$response->body()}"));
             return;
         }
+
+        dd('here 2');
 
         $trades = data_get($response->json(), 'data.EVM.DEXTradeByTokens', []);
 
