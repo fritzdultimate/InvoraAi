@@ -102,8 +102,8 @@ class BitqueryService {
         //     ]);
 
         $response = Http::withHeaders([
-            'X-API-KEY' => config('services.bitquery.key'),
-            // 'Authorization' => 'Bearer ' . config('services.bitquery.key'),
+            // 'X-API-KEY' => config('services.bitquery.key'),
+            'Authorization' => 'Bearer ' . config('services.bitquery.key'),
         ])->post('https://streaming.bitquery.io/graphql', [
                 'query' => $query,
                 'variables' => [
@@ -119,7 +119,7 @@ class BitqueryService {
             return;
         }
 
-        dd('here 2');
+        // dd('here 2');
 
         $trades = data_get($response->json(), 'data.EVM.DEXTradeByTokens', []);
 
