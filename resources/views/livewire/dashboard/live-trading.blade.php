@@ -292,7 +292,7 @@
 
     .dex-pill.active {
         background: #22c55e;
-        color: #06210f;
+        color: black !important;
         font-weight: 600;
     }
 

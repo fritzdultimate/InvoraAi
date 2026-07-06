@@ -40,20 +40,51 @@ class LiveTrading extends Component {
         // cache()->remember('dex_trades', 10, fn () => $this->getTrades());
     }
 
+    // public function render() {
+    //     $trades = LiveTrade::query()
+    //         ->when($this->network !== 'all', fn ($q) => $q->where('network', $this->network))
+    //         ->when($this->dex !== 'all', fn ($q) => $q->where('dex', $this->dex))
+    //         ->when($this->search, fn ($q) => $q->where(fn ($q2) =>
+    //             $q2->where('pair', 'like', "%{$this->search}%")
+    //                ->orWhere('tx_hash', 'like', "%{$this->search}%")
+    //         ))
+    //         ->latest('block_time')
+    //         ->paginate($this->perPage);
+
+    //     return view('livewire.dashboard.live-trading', [
+    //         'trades' => $trades,
+    //         'dexOptions' => LiveTrade::query()->distinct()->pluck('dex')->filter(),
+    //     ]);
+    // }
+
     public function render() {
         $trades = LiveTrade::query()
+            ->whereNotNull('pair')
+            ->where('pair', '!=', '')
+            ->whereNotNull('dex')
+            ->where('dex', '!=', '')
+            ->whereNotNull('side')
+            ->where('side', '!=', '')
+            ->where('price', '>', 0)
+            ->where('amount', '>', 0)
+            ->where('amount_usd', '>', 0)
             ->when($this->network !== 'all', fn ($q) => $q->where('network', $this->network))
             ->when($this->dex !== 'all', fn ($q) => $q->where('dex', $this->dex))
             ->when($this->search, fn ($q) => $q->where(fn ($q2) =>
                 $q2->where('pair', 'like', "%{$this->search}%")
-                   ->orWhere('tx_hash', 'like', "%{$this->search}%")
+                ->orWhere('tx_hash', 'like', "%{$this->search}%")
             ))
             ->latest('block_time')
             ->paginate($this->perPage);
 
         return view('livewire.dashboard.live-trading', [
             'trades' => $trades,
-            'dexOptions' => LiveTrade::query()->distinct()->pluck('dex')->filter(),
+            'dexOptions' => LiveTrade::query()
+                ->whereNotNull('dex')
+                ->where('dex', '!=', '')
+                ->distinct()
+                ->pluck('dex')
+                ->filter(),
         ]);
     }
 
