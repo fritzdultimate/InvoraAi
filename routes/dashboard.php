@@ -6,6 +6,7 @@ use App\Livewire\Dashboard\Bot;
 use App\Livewire\Dashboard\Deposit;
 use App\Livewire\Dashboard\DepositDetails;
 use App\Livewire\Dashboard\DepositPage;
+use App\Livewire\Dashboard\FundingRatesPage;
 use App\Livewire\Dashboard\Investment;
 use App\Livewire\Dashboard\InvestmentCalculator;
 use App\Livewire\Dashboard\InvestmentItem;
@@ -52,6 +53,7 @@ Route::middleware(['auth'])->prefix('dashboard')->group(function () {
     Route::get('/live-trading',  LiveTrading::class)->name('dex.live-trading');
 
     Route::get('/live-trading-track',  TradeDashboard::class)->name('cex.live-trading');
+Route::get('/account/funding-rates', FundingRatesPage::class)->name('funding.live-trading');    
 
     Route::get('/market-hub',  MarketHub::class)->name('market-hub');
 

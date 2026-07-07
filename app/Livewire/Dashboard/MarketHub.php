@@ -13,6 +13,10 @@ class MarketHub extends Component {
         return redirect()->route('dex.live-trading');
     }
 
+    public function goToFunding() {
+        return redirect()->route('funding.live-trading');
+    }
+
     public function render()
     {
         return view('livewire.dashboard.market-hub');

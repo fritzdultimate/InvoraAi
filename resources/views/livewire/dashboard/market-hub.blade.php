@@ -206,7 +206,7 @@
             </div>
         </div>
 
-        <div class="hub-card disabled">
+        <div class="hub-card" wire:click="goToFunding">
             <div class="hub-icon">
                 <iconify-icon icon="mdi:percent-outline"></iconify-icon>
             </div>
@@ -215,7 +215,8 @@
                 Track perpetual futures funding rates across exchanges to spot arbitrage opportunities.
             </div>
             <div class="hub-card-footer">
-                <span class="hub-status status-soon">Coming Soon</span>
+                <!-- <span class="hub-status status-soon">Coming Soon</span> -->
+                <span class="hub-status status-live">● Live</span>
                 <span class="hub-arrow">→</span>
             </div>
         </div>
