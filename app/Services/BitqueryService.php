@@ -61,7 +61,7 @@ class BitqueryService {
           EVM(network: $network, dataset: realtime) {
             DEXTradeByTokens(
               orderBy: {descending: Block_Time}
-              limit: {count: 50}
+              limit: {count: 5}
               where: {
                 TransactionStatus: {Success: true}
                 Trade: {
@@ -114,7 +114,7 @@ class BitqueryService {
             ]);
 
         if (! $response->successful()) {
-            dd($response->body());
+            // dd($response->body());
             report(new \Exception("Bitquery sync failed for {$network}: {$response->body()}"));
             return;
         }
@@ -125,12 +125,16 @@ class BitqueryService {
 
         foreach ($trades as $row) {
             $hash = data_get($row, 'Transaction.Hash');
-            if (! $hash) {
-                continue;
-            }
-
             $baseSymbol = data_get($row, 'Trade.Currency.Symbol');
             $quoteSymbol = data_get($row, 'Trade.Side.Currency.Symbol');
+            $side = data_get($row, 'Trade.Side.Type');
+            $amount = data_get($row, 'Trade.Amount');
+            $amountUsd = data_get($row, 'Trade.AmountInUSD');
+            $blockTime = data_get($row, 'Block.Time');
+
+            if (! $hash || ! $baseSymbol || ! $quoteSymbol || ! $side || ! $amount || ! $amountUsd || ! $blockTime) {
+                continue;
+            }
 
             LiveTrade::updateOrCreate(
                 [
@@ -149,7 +153,7 @@ class BitqueryService {
                     'price_usd' => data_get($row, 'Trade.PriceInUSD'),
                     'amount' => data_get($row, 'Trade.Amount'),
                     'amount_usd' => data_get($row, 'Trade.AmountInUSD'),
-                    'block_time' => Carbon::parse(data_get($row, 'Block.Time')),
+                    'block_time' => Carbon::parse($blockTime),
                 ]
             );
         }

@@ -528,7 +528,7 @@
             </div>
         </div>
 
-        <div class="dex-table-scroll" wire:poll.5s>
+        <div class="dex-table-scroll" wire:poll.10s="poll">
             <table class="dex-table">
                 <thead>
                     <tr>
@@ -546,7 +546,7 @@
                 <tbody>
                     @forelse($trades as $trade)
                         <tr wire:key="trade-{{ $trade->id }}">
-                            <td class="muted">{{ $trade->block_time?->diffForHumans(null, true) }} ago</td>
+                            <td class="muted">{{ $trade->created_at?->diffForHumans(null, true) }} ago</td>
                             <td><span class="net-badge net-{{ $trade->network }}">{{ strtoupper($trade->network) }}</span></td>
                             <td class="muted">{{ $trade->dex }}</td>
                             <td class="pair">{{ $trade->pair }}</td>
