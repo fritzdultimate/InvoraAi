@@ -190,7 +190,7 @@
                                             {{ number_format($rate->funding_rate, 4) }}%
                                         </div>
                                         <div class="fr-daily {{ $rate->daily_rate >= 0 ? 'positive' : 'negative' }}">
-                                            {{ number_format($rate->daily_rate, 4) }}% / day
+                                            {{ number_format($rate->daily_rate, 4) }}%
                                         </div>
                                     @else
                                         <span class="fr-na">—</span>
