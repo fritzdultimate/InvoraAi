@@ -528,7 +528,7 @@
             </div>
         </div>
 
-        <div class="dex-table-scroll" wire:poll.10s="poll">
+        <div class="dex-table-scroll" wire:poll.5s="poll">
             <table class="dex-table">
                 <thead>
                     <tr>
