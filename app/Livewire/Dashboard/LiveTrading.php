@@ -70,7 +70,7 @@ class LiveTrading extends Component {
             ->where('price', '>', 0)
             ->where('amount', '>', 0)
             ->where('amount_usd', '>', 0)
-            ->where('created_at', '>=', $this->visitedAt)
+            // ->where('created_at', '>=', $this->visitedAt)
             ->when($this->network !== 'all', fn ($q) => $q->where('network', $this->network))
             ->when($this->dex !== 'all', fn ($q) => $q->where('dex', $this->dex))
             ->when($this->search, fn ($q) => $q->where(fn ($q2) =>
