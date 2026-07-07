@@ -22,17 +22,20 @@
         }
 
         .hub-title {
-            font-size: 30px;
-            font-weight: 700;
+            font-size: 32px;
+            font-weight: 600;
+            letter-spacing: -0.02em;
             color: #f9fafb;
+            line-height: 1.2;
         }
 
         .hub-sub {
-            font-size: 14px;
+            font-size: 15px;
             color: #9ca3af;
-            margin-top: 10px;
-            max-width: 480px;
+            margin-top: 14px;
+            max-width: 460px;
             margin-inline: auto;
+            line-height: 1.6;
         }
 
         .hub-grid {
@@ -136,16 +139,40 @@
             .hub-grid { grid-template-columns: 1fr; }
             .hub-title { font-size: 24px; }
         }
+
+        .hub-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: #6ee7a8;
+            margin-bottom: 20px;
+        }
+
+        .hub-eyebrow-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #22c55e;
+            box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.15);
+            animation: pulse 1.8s infinite;
+        }
     </style>
 @endpush
 
 <div class="hub-wrapper">
 
     <div class="hub-header">
-        <div class="hub-badge">⚡ Choose Your Market</div>
-        <h1 class="hub-title">Where do you want to trade?</h1>
+        <div class="hub-eyebrow">
+            <span class="hub-eyebrow-dot"></span>
+            Live Market Intelligence
+        </div>
+        <h1 class="hub-title">Explore live trading activity</h1>
         <p class="hub-sub">
-            Pick a market to view live, real-time trade activity streamed straight from the chain and exchanges.
+            Real-time trade data streamed directly from exchanges and the blockchain — pick a market to start watching.
         </p>
     </div>
 
