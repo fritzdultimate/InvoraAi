@@ -61,7 +61,7 @@ class BitqueryService {
           EVM(network: $network, dataset: realtime) {
             DEXTradeByTokens(
               orderBy: {descending: Block_Time}
-              limit: {count: 5}
+              limit: {count: 2}
               where: {
                 TransactionStatus: {Success: true}
                 Trade: {
@@ -91,16 +91,6 @@ class BitqueryService {
         }
         GRAPHQL;
 
-        // $response = Http::withToken(config('services.bitquery.key'))
-        //     ->post('https://streaming.bitquery.io/graphql', [
-        //         'query' => $query,
-        //         'variables' => [
-        //             'network' => $network,
-        //             'protocols' => $config['protocols'],
-        //             'quotes' => $config['quotes'],
-        //         ],
-        //     ]);
-
         $response = Http::withHeaders([
             // 'X-API-KEY' => config('services.bitquery.key'),
             'Authorization' => 'Bearer ' . config('services.bitquery.key'),
@@ -114,7 +104,6 @@ class BitqueryService {
             ]);
 
         if (! $response->successful()) {
-            // dd($response->body());
             report(new \Exception("Bitquery sync failed for {$network}: {$response->body()}"));
             return;
         }
