@@ -11,6 +11,7 @@ use App\Livewire\Dashboard\InvestmentCalculator;
 use App\Livewire\Dashboard\InvestmentItem;
 use App\Livewire\Dashboard\LeaderboardWidget;
 use App\Livewire\Dashboard\LiveTrading;
+use App\Livewire\Dashboard\MarketHub;
 use App\Livewire\Dashboard\Overview;
 use App\Livewire\Dashboard\Profile;
 use App\Livewire\Dashboard\Referral\DirectReferrals;
@@ -48,9 +49,11 @@ Route::middleware(['auth'])->prefix('dashboard')->group(function () {
     Route::get('/investment-calculator',  InvestmentCalculator::class)->name('calc');
     Route::get('/app/coming-soon',  AppComingSoon::class)->name('app-coming-soon');
 
-    Route::get('/live-trading',  LiveTrading::class)->name('live-trading');
+    Route::get('/live-trading',  LiveTrading::class)->name('dex.live-trading');
 
-    Route::get('/live-trading-track',  TradeDashboard::class)->name('live-trading-track');
+    Route::get('/live-trading-track',  TradeDashboard::class)->name('cex.live-trading');
+
+    Route::get('/market-hub',  MarketHub::class)->name('market-hub');
 
 
     Route::get('/profile',  Profile::class)->name('profile');
