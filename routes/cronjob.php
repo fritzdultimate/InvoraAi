@@ -7,6 +7,7 @@ use App\Http\Controllers\RankController;
 use App\Http\Controllers\TradeController;
 use App\Http\Controllers\TradeMultiexchangeController;
 use App\Services\BitqueryService;
+use App\Services\HyperliquidService;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
@@ -27,6 +28,10 @@ Route::get('/cron/leaderboard/score', [LeaderboardController::class, 'leaderBoar
 
 Route::get('/cron/bitquery/live-trade', function() {
     BitqueryService::syncAll();
+});
+
+Route::get('/cron/hyperliquid/live-trade', function() {
+    HyperliquidService::syncAll();
 });
 
 Route::get('migrate/now/djjd', function() {

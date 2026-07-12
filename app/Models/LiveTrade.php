@@ -24,17 +24,21 @@ class LiveTrade extends Model {
 
     public function getExplorerUrlAttribute(): string {
         return match ($this->network) {
+            'hyperliquid' => "https://app.hyperliquid.xyz/explorer/tx/{$this->tx_hash}",
+            'eth' => "https://etherscan.io/tx/{$this->tx_hash}",
             'bsc' => "https://bscscan.com/tx/{$this->tx_hash}",
             'arbitrum' => "https://arbiscan.io/tx/{$this->tx_hash}",
-            default => "https://etherscan.io/tx/{$this->tx_hash}",
+            default => '#',
         };
     }
 
     public function getExplorerLabelAttribute(): string {
         return match ($this->network) {
+            'hyperliquid' => 'Hyperliquid',
+            'eth' => 'Etherscan',
             'bsc' => 'BscScan',
             'arbitrum' => 'Arbiscan',
-            default => 'Etherscan',
+            default => 'Explorer',
         };
     }
 }

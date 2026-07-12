@@ -1,4 +1,4 @@
-
+<!-- view/livewire/dashboard/live-trading.blade.php -->
 
 @push('styles')
     <style>
@@ -33,6 +33,7 @@
             background: rgba(255,255,255,0.03);
             padding: 4px;
             border-radius: 10px;
+            flex-wrap: wrap;
         }
 
         .dex-pill {
@@ -50,7 +51,7 @@
             font-weight: 600;
         }
 
-        .dex-select, .dex-search {
+        .dex-search {
             background: rgba(255,255,255,0.04);
             border: 1px solid rgba(255,255,255,0.08);
             color: #e5e7eb;
@@ -117,15 +118,22 @@
         .dex-table td.muted { color: #9ca3af; }
         .dex-table td.pair { font-weight: 600; }
 
-        .net-badge {
+        .coin-badge {
             font-size: 10px;
             padding: 3px 8px;
             border-radius: 6px;
             font-weight: 600;
+            background: rgba(255,255,255,0.06);
+            color: #d1d5db;
         }
-        .net-eth { background: rgba(99,102,241,0.15); color: #a5b4fc; }
-        .net-bsc { background: rgba(245,158,11,0.15); color: #fcd34d; }
-        .net-arbitrum { background: rgba(56,189,248,0.15); color: #7dd3fc; }
+        .coin-btc { background: rgba(247,147,26,0.15); color: #fbb454; }
+        .coin-eth { background: rgba(99,102,241,0.15); color: #a5b4fc; }
+        .coin-sol { background: rgba(20,241,149,0.15); color: #6ee7b7; }
+        .coin-arb { background: rgba(56,189,248,0.15); color: #7dd3fc; }
+        .coin-avax { background: rgba(232,65,66,0.15); color: #f87171; }
+        .coin-doge { background: rgba(186,166,84,0.15); color: #d4c887; }
+        .coin-link { background: rgba(42,98,224,0.15); color: #93c5fd; }
+        .coin-op { background: rgba(255,4,32,0.15); color: #fca5a5; }
 
         .side-badge {
             font-size: 11px;
@@ -192,25 +200,18 @@
         <div class="dex-toolbar">
             <div class="dex-toolbar-left">
                 <div class="dex-pills">
-                    <button wire:click="$set('network', 'all')" class="dex-pill {{ $network === 'all' ? 'active' : '' }}">All</button>
-                    <button wire:click="$set('network', 'eth')" class="dex-pill {{ $network === 'eth' ? 'active' : '' }}">Ethereum</button>
-                    <button wire:click="$set('network', 'bsc')" class="dex-pill {{ $network === 'bsc' ? 'active' : '' }}">BSC</button>
-                    <button wire:click="$set('network', 'arbitrum')" class="dex-pill {{ $network === 'arbitrum' ? 'active' : '' }}">Arbitrum</button>
-                </div>
-
-                <select wire:model.live="dex" class="dex-select">
-                    <option value="all">All DEXs</option>
-                    @foreach($dexOptions as $option)
-                        <option value="{{ $option }}">{{ $option }}</option>
+                    <button wire:click="$set('coin', 'all')" class="dex-pill {{ $coin === 'all' ? 'active' : '' }}">All</button>
+                    @foreach($coinOptions as $option)
+                        <button wire:click="$set('coin', '{{ $option }}')" class="dex-pill {{ $coin === $option ? 'active' : '' }}">{{ $option }}</button>
                     @endforeach
-                </select>
+                </div>
             </div>
 
             <div class="dex-toolbar-right">
                 <div class="dex-live-badge">
                     <span class="dex-live-dot"></span> Live
                 </div>
-                <input type="text" wire:model.live.debounce.400ms="search" placeholder="Search pair or tx hash..." class="dex-search">
+                <input type="text" wire:model.live.debounce.400ms="search" placeholder="Search coin or tx hash..." class="dex-search">
             </div>
         </div>
 
@@ -219,9 +220,7 @@
                 <thead>
                     <tr>
                         <th>Time</th>
-                        <th>Network</th>
-                        <th>DEX</th>
-                        <th>Pair</th>
+                        <th>Market</th>
                         <th>Side</th>
                         <th class="num">Price</th>
                         <th class="num">Amount</th>
@@ -236,9 +235,10 @@
                             class="{{ $trade->created_at->greaterThan($visitedAt) ? 'trade-row-new' : '' }}"
                         >
                             <td class="muted">{{ $trade->created_at?->diffForHumans(null, true) }} ago</td>
-                            <td><span class="net-badge net-{{ $trade->network }}">{{ strtoupper($trade->network) }}</span></td>
-                            <td class="muted">{{ $trade->dex }}</td>
-                            <td class="pair">{{ $trade->pair }}</td>
+                            <td>
+                                <span class="coin-badge coin-{{ strtolower($trade->coin ?? $trade->base_symbol) }}">{{ strtoupper($trade->coin ?? $trade->base_symbol) }}</span>
+                                <span class="pair">{{ $trade->pair }}</span>
+                            </td>
                             <td>
                                 <span class="side-badge side-{{ $trade->side }}">{{ strtoupper($trade->side) }}</span>
                             </td>
@@ -258,7 +258,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="9" class="empty-row">No trades match your filters yet.</td>
+                            <td colspan="7" class="empty-row">No trades match your filters yet.</td>
                         </tr>
                     @endforelse
                 </tbody>
