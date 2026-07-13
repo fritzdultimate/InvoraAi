@@ -22,25 +22,25 @@ class LiveTrade extends Model {
         'amount_usd' => 'decimal:2',
     ];
 
-    public function getExplorerUrlAttribute(): string {
+    public function getExplorerUrlAttribute(): string|null {
         return match ($this->network) {
             'hyperliquid' => "https://app.hyperliquid.xyz/explorer/tx/{$this->tx_hash}",
             'eth' => "https://etherscan.io/tx/{$this->tx_hash}",
             'bsc' => "https://bscscan.com/tx/{$this->tx_hash}",
             'arbitrum' => "https://arbiscan.io/tx/{$this->tx_hash}",
             'gmx' => "https://arbiscan.io/tx/{$this->tx_hash}",
-            // default => '#',
+            default => null,
         };
     }
 
-    public function getExplorerLabelAttribute(): string {
+    public function getExplorerLabelAttribute(): string|null {
         return match ($this->network) {
             'hyperliquid' => 'Hyperliquid',
             'eth' => 'Etherscan',
             'bsc' => 'BscScan',
             'arbitrum' => 'Arbiscan',
             'gmx' => 'GMX',
-            // default => 'Explorer',
+            default => null,
         };
     }
 }
