@@ -32,7 +32,10 @@ class HyperliquidService {
             return;
         }
 
-        $trades = $response->json() ?? [];
+
+        $trades = collect($response->json())
+            ->sortByDesc('time')
+            ->take(5);
 
         // dd($trades);
 

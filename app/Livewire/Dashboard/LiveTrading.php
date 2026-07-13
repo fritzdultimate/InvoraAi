@@ -3,6 +3,8 @@
 namespace App\Livewire\Dashboard;
 use App\Models\LiveTrade;
 use App\Models\Waitlist;
+use App\Services\DydxService;
+use App\Services\GmxService;
 use App\Services\HyperliquidService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
@@ -32,6 +34,8 @@ class LiveTrading extends Component {
             }
 
             HyperliquidService::syncAll();
+            GmxService::syncAll();
+            DydxService::syncAll();
 
             Cache::put('hyperliquid-last-synced', now(), now()->addSeconds(60));
         });
