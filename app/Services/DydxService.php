@@ -99,6 +99,8 @@ class DydxService {
         $trades = data_get($response->json(), 'trades', []);
         $coin = str($market)->before('-USD')->toString();
 
+        dd($trades);
+
         foreach ($trades as $row) {
             $id = data_get($row, 'id');
             $side = data_get($row, 'side'); // expect BUY | SELL

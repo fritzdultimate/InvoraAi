@@ -251,9 +251,13 @@
                                 ${{ number_format($trade->amount_usd, 2) }}
                             </td>
                             <td>
-                                <a href="{{ $trade->explorer_url }}" target="_blank" rel="noopener" class="tx-btn">
-                                    {{ $trade->explorer_label }} <span class="tx-arrow">↗</span>
-                                </a>
+                                @if($trade->explorer_url)
+                                    <a href="{{ $trade->explorer_url }}" target="_blank" rel="noopener" class="tx-btn">
+                                        {{ $trade->explorer_label }} <span class="tx-arrow">↗</span>
+                                    </a>
+                                @else
+                                    <span class="muted">—</span>
+                                @endif
                             </td>
                         </tr>
                     @empty

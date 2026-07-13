@@ -33,7 +33,7 @@ Route::get('/cron/bitquery/live-trade', function() {
 });
 
 Route::get('/cron/hyperliquid/live-trade', function() {
-    GmxService::syncAll();
+    DydxService::syncAll();
 });
 
 Route::get('migrate/now/djjd', function() {

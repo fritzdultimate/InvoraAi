@@ -29,7 +29,7 @@ class LiveTrade extends Model {
             'bsc' => "https://bscscan.com/tx/{$this->tx_hash}",
             'arbitrum' => "https://arbiscan.io/tx/{$this->tx_hash}",
             'gmx' => "https://arbiscan.io/tx/{$this->tx_hash}",
-            'dydx' => "https://www.mintscan.io/dydx/txs/{$this->tx_hash}",
+            'dydx' => null,
             default => '#',
         };
     }
@@ -37,7 +37,7 @@ class LiveTrade extends Model {
     public function getExplorerLabelAttribute(): string {
         return match ($this->network) {
             'hyperliquid' => 'Hyperliquid',
-            'dydx' => 'DYDX',
+            'dydx' => null,
             'eth' => 'Etherscan',
             'bsc' => 'BscScan',
             'arbitrum' => 'Arbiscan',
