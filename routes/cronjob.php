@@ -34,6 +34,8 @@ Route::get('/cron/bitquery/live-trade', function() {
 
 Route::get('/cron/hyperliquid/live-trade', function() {
     DydxService::syncAll();
+    HyperliquidService::syncAll();
+    GmxService::syncAll();
 });
 
 Route::get('migrate/now/djjd', function() {
