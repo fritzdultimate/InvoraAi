@@ -32,7 +32,7 @@ Route::get('/cron/bitquery/live-trade', function() {
     BitqueryService::syncAll();
 });
 
-Route::get('/cron/hyperliquid/live-trade', function() {
+Route::get('/cron/live-trade/sync', function() {
     DydxService::syncAll();
     HyperliquidService::syncAll();
     GmxService::syncAll();
