@@ -22,7 +22,9 @@ class BotInvestment extends Model {
         'is_early_terminated',
         'next_cycle_at',
         'uuid',
-        'code'
+        'code',
+        'locked_until',
+        'meta'
     ];
 
     protected $casts = [
@@ -32,6 +34,7 @@ class BotInvestment extends Model {
         'matures_at' => 'datetime',
         'is_early_terminated' => 'boolean',
         'status' => BotInvestmentStatus::class,
+        'meta' => 'array',
     ];
 
     protected static function booted() {
@@ -59,5 +62,9 @@ class BotInvestment extends Model {
 
     public function isMatured(): bool {
         return now()->greaterThanOrEqualTo($this->matures_at);
+    }
+
+    public function botLicense() {
+        return $this->belongsTo(BotLicense::class);
     }
 }

@@ -9,12 +9,11 @@ use App\Models\BotProfitCycle;
 use App\Services\Wallet\WalletService;
 use Illuminate\Support\Facades\DB;
 
-class BotProfitService
-{
+class BotProfitService {
     public static function run() {
         
 
-            BotInvestment::with('bot', 'user')
+            BotInvestment::with('bot', 'user', 'botLicense')
                 ->whereIn('status', ['active', 'termination_requested'])
                 ->where('next_cycle_at', '<=', now())
                 ->chunkById(100, function($investments) {
@@ -22,6 +21,10 @@ class BotProfitService
 
                     foreach ($investments as $investment) {
                         if ($investment->is_early_terminated) continue;
+
+                        if (!$investment->botLicense || !$investment->botLicense->isActive()) {
+                            continue;
+                        }
 
                         $bot = $investment->bot;
                         $user = $investment->user;
