@@ -23,8 +23,6 @@ class BotInvestment extends Model {
         'next_cycle_at',
         'uuid',
         'code',
-        'locked_until',
-        'meta'
     ];
 
     protected $casts = [
@@ -34,7 +32,6 @@ class BotInvestment extends Model {
         'matures_at' => 'datetime',
         'is_early_terminated' => 'boolean',
         'status' => BotInvestmentStatus::class,
-        'meta' => 'array',
     ];
 
     protected static function booted() {

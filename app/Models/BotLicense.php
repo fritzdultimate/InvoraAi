@@ -11,13 +11,15 @@ class BotLicense extends Model {
         'bot_id',
         'starts_at',
         'expires_at',
-        'status'
+        'status',
+        'meta'
     ];
 
     protected $casts = [
         'starts_at' => 'datetime',
         'expires_at' => 'datetime',
         'status' => BotLicenseStatus::class,
+        'meta' => 'array',
     ];
 
     public function user() {
