@@ -1,5 +1,5 @@
 <div
-    class="tfa-recovery-card"
+    class="tfa-recovery-card mt-5"
     wire:cloak
     x-data="{
         showRecoveryCodes: false,
@@ -118,7 +118,7 @@
             icon="eye"
             icon:variant="outline"
             variant="primary"
-            class="tfa-btn-primary"
+            class="tfa-btn-primary px-4"
             @click="showRecoveryCodes = true;"
             aria-expanded="false"
             aria-controls="recovery-codes-section"

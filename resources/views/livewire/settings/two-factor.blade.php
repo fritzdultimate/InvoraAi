@@ -317,13 +317,37 @@
             border-color: var(--tfa-border) !important;
         }
         .tfa-scope [data-flux-button].tfa-btn-outline:hover { border-color: var(--tfa-accent) !important; }
+
+        /* The enable-2FA modal's own dialog element (rendered by the Flux
+           modal component, OUTSIDE this file's .tfa-scope wrapper —
+           .tfa-scope only wraps the slot content INSIDE the dialog, so none
+           of the .tfa-scope-scoped rules above can ever reach the dialog
+           itself) was showing as a plain white box instead of the app's dark
+           theme. Flux gives the dialog "bg-white" and "dark:bg-zinc-800",
+           both real (layered) Tailwind utility classes that DO compile and
+           DO include the dark variant — but public/assets/css/style.css
+           ships its own leftover, un-layered "bg-white" background rule
+           (confirmed via a live browser check of which rule actually wins).
+           Per the CSS cascade-layers spec, an un-layered rule always beats a
+           layered one no matter the source order or the dark-mode variant,
+           so that legacy rule was silently painting the dialog white — the
+           exact same class of bug already fixed above for this page's
+           buttons. Fixed the same way: a plain, un-layered, !important rule
+           targeting the dialog via a marker class added to the Flux modal
+           component's own class attribute below. */
+        dialog.tfa-dialog {
+            background: var(--bg-card, rgb(39, 49, 66)) !important;
+            border-color: var(--border, rgba(255, 255, 255, .08)) !important;
+            color: var(--text-primary, #e6edf3) !important;
+            box-shadow: 0 24px 70px -12px rgba(0, 0, 0, .55) !important;
+        }
     </style>
 
     <x-settings.layout
         :heading="__('Two Factor Authentication')"
-        :subheading="__('Verify every login with your authenticator app, the same way apps like Google, GitHub and your bank do it')"
+        :subheading="__('Verify every login with your authenticator app, the same way apps like Google and your bank do it')"
     >
-        <div class="tfa-scope" wire:cloak>
+        <div class="tfa-scope" wire:cloak style="">
             <div class="tfa-hero">
                 <div class="tfa-hero-icon-wrap" data-on="{{ $twoFactorEnabled ? 'true' : 'false' }}">
                     @if ($twoFactorEnabled)
@@ -368,7 +392,7 @@
                             wire:click="disable"
                             wire:loading.attr="disabled"
                             wire:target="disable"
-                            class="w-full sm:w-auto tfa-btn-danger"
+                            class="w-full sm:w-auto tfa-btn-danger px-4"
                         >
                             <span wire:loading.remove wire:target="disable">{{ __('Turn off') }}</span>
                             <span wire:loading wire:target="disable">{{ __('Turning off…') }}</span>
@@ -381,7 +405,7 @@
                             wire:click="enable"
                             wire:loading.attr="disabled"
                             wire:target="enable"
-                            class="w-full sm:w-auto tfa-btn-primary"
+                            class="w-full sm:w-auto tfa-btn-primary px-4"
                         >
                             <span wire:loading.remove wire:target="enable">{{ __('Enable 2FA') }}</span>
                             <span wire:loading wire:target="enable">{{ __('Preparing…') }}</span>
@@ -391,7 +415,7 @@
             </div>
 
             @if ($twoFactorEnabled)
-                <div class="tfa-info-grid">
+                <div class="tfa-info-grid" class="mb-5">
                     <div class="tfa-info-card">
                         <flux:icon.device-phone-mobile variant="outline" class="size-5 tfa-info-icon" />
                         <div>
@@ -446,7 +470,7 @@
 
     <flux:modal
         name="two-factor-setup-modal"
-        class="max-w-md md:min-w-md"
+        class="max-w-md md:min-w-md tfa-dialog"
         @close="closeModal"
         wire:model="showModal"
     >
@@ -507,7 +531,7 @@
                     <div class="flex items-center space-x-3">
                         <flux:button
                             variant="outline"
-                            class="flex-1 tfa-btn-outline"
+                            class="flex-1 tfa-btn-outline mr-3"
                             wire:click="resetVerification"
                         >
                             {{ __('Back') }}
@@ -611,10 +635,10 @@
                         :disabled="$errors->has('setupData')"
                         variant="primary"
                         class="w-full tfa-btn-primary"
+                        style="display: flex!important;"
                         wire:click="showVerificationIfNecessary"
                     >
-                        {{ $this->modalConfig['buttonText'] }}
-                        <flux:icon.chevron-right variant="outline" class="size-4" />
+                        {{ $this->modalConfig['buttonText'] }} <flux:icon.chevron-right variant="outline" class="size-4" />
                     </flux:button>
                 </div>
             @endif
