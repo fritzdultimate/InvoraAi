@@ -528,7 +528,7 @@
                         <flux:callout variant="danger" icon="x-circle" heading="{{ $message }}" />
                     @enderror
 
-                    <div class="flex items-center space-x-3">
+                    <div class="flex items-center space-x-3 gap-3">
                         <flux:button
                             variant="outline"
                             class="flex-1 tfa-btn-outline"
