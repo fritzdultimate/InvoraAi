@@ -105,6 +105,20 @@ class BotInvestmentService {
         });
     }
 
+    public static function deny(BotTermination $termination) { 
+
+        $investment = $termination->botInvestment;
+
+        if ($investment->status !== BotInvestmentStatus::TERMINATIONREQUEST) {
+            throw new \Exception('Investment cannot be terminated. Investment is ' . $investment->status->value);
+        }
+
+        return DB::transaction(function () use ($investment, $termination) {
+
+
+        });
+    }
+
     public static function adminTerminate(BotInvestment $investment) {
 
         if ($investment->status === BotInvestmentStatus::COMPLETED) {
