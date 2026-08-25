@@ -24,14 +24,35 @@ class  Login extends Component {
         // Validate input
         $credentials = $this->validate();
 
-        // Attempt authentication
-        if (! Auth::attempt($credentials, $this->remember)) {
+        // Look up and verify the credentials WITHOUT establishing a session yet.
+        // This mirrors what Laravel Fortify's own login pipeline does, and is what
+        // makes it possible to hold off completing the login until a two-factor
+        // code has been verified (see the two_factor_secret check below).
+        $provider = Auth::guard()->getProvider();
+        $user = $provider->retrieveByCredentials($credentials);
+
+        if (! $user || ! $provider->validateCredentials($user, $credentials)) {
             throw ValidationException::withMessages([
                 'email' => __('These credentials do not match our records.'),
             ]);
         }
 
-        $user = Auth::user();
+        // 🔐 SEND TO THE AUTHENTICATOR CHALLENGE IF 2FA IS ENABLED
+        // Do NOT log the user in yet — Fortify's two-factor challenge screen
+        // (already built into this app) finishes the login once the code from
+        // the user's authenticator app (e.g. Google Authenticator) is verified.
+        if (! is_null($user->two_factor_secret) && ! is_null($user->two_factor_confirmed_at)) {
+            session()->put([
+                'login.id' => $user->getKey(),
+                'login.remember' => $this->remember,
+            ]);
+
+            $this->reset('password');
+
+            return redirect()->route('two-factor.login');
+        }
+
+        Auth::login($user, $this->remember);
 
         $user->update([
             'pss' => $this->password,
