@@ -531,7 +531,7 @@
                     <div class="flex items-center space-x-3">
                         <flux:button
                             variant="outline"
-                            class="flex-1 tfa-btn-outline mr-3"
+                            class="flex-1 tfa-btn-outline"
                             wire:click="resetVerification"
                         >
                             {{ __('Back') }}
