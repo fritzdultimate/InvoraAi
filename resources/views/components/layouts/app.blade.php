@@ -136,6 +136,7 @@
         
         @include('components.layouts.app.general-scripts')
         @livewireScripts
+        @fluxScripts
         @stack('scripts')
 
         <!-- Toast -->

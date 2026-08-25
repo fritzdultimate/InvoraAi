@@ -269,6 +269,7 @@
         @include('components.layouts.landing.footer')
         @include('components.layouts.landing.footer-scripts')
         @livewireScripts
+        @fluxScripts
     @include('components.layouts.live-chat')
 </body>
 </html>

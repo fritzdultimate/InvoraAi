@@ -76,14 +76,14 @@ Route::middleware(['auth'])->group(function () {
     Route::get('settings/appearance', Appearance::class)->name('appearance.edit');
 
     Route::get('settings/two-factor', TwoFactor::class)
-        ->middleware(
-            when(
-                Features::canManageTwoFactorAuthentication()
-                && Features::optionEnabled(Features::twoFactorAuthentication(), 'confirmPassword'),
-                ['password.confirm'],
-                [],
-            ),
-        )
+        // ->middleware(
+        //     when(
+        //         Features::canManageTwoFactorAuthentication()
+        //         && Features::optionEnabled(Features::twoFactorAuthentication(), 'confirmPassword'),
+        //         ['password.confirm'],
+        //         [],
+        //     ),
+        // )
         ->name('two-factor.show');
 });
 

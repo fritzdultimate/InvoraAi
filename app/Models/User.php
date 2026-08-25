@@ -91,6 +91,11 @@ class User extends Authenticatable implements FilamentUser{
             'password' => 'hashed',
             'suspended_at' => 'datetime',
             'dob' => 'date',
+            // Fortify's TwoFactorAuthenticatable trait writes this column as a
+            // timestamp but this model never cast it, so it came back from the
+            // database as a plain string — breaking any ->format() call on it
+            // (e.g. the "Enabled on :date" line on Settings > Two-Factor).
+            'two_factor_confirmed_at' => 'datetime',
             'two_factor_enable' => 'boolean',
             'notify_login_attempts' => 'boolean',
             'notify_email_notifications' => 'boolean',
