@@ -96,7 +96,7 @@ class ReferralBonusService {
 
         $eligibleAmount = $inv->referral_eligible_amount ?? $inv->capital; // fallback for pre-migration rows
         if (bccomp((string) $eligibleAmount, '0', 8) <= 0) {
-            return; // investment was fully funded by bonus money — no referral payout
+            return;
         }
 
         $levels = ReferralLevel::where('is_active', true)
