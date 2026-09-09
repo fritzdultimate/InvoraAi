@@ -171,8 +171,11 @@ class Investment extends Component
         ]);
 
         try {
+            $realFundedAmount = $this->amount;
             if($this->asset === 'deposit') {
-                DepositService::debitForInvestment(auth()->user(), $this->amount);
+                $breakdown = DepositService::debitForInvestment(auth()->user(), $this->amount);
+                $realFundedAmount = $breakdown['from_deposit'];
+                // DepositService::debitForInvestment(auth()->user(), $this->amount);
             } else {
                 WalletService::debit(
                     auth()->user(), 
@@ -190,6 +193,7 @@ class Investment extends Component
                 'bot_license_id' => $this->selectedLicense->id,
                 'amount' => $this->amount,
                 'capital' => $this->amount,
+                'referral_eligible_amount' => $realFundedAmount,
                 'started_at' => now(),
                 'locked_until' => now()->addDays($this->selectedLicense->bot->lock_days),
                 'matures_at' => now()->addDays($this->selectedLicense->bot->lock_days),

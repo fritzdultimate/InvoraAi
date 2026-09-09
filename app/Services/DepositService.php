@@ -18,6 +18,37 @@ use Illuminate\Support\Facades\Mail;
 
 
 class DepositService {
+    public static function matchingDepositBonus($deposit) {
+        $matchingEnable = (boolean) CustomSetting::get('enabled_matching_bonus', false);
+        if (!$matchingEnable) return;
+
+        // idempotency guard in case this runs twice for the same deposit
+        $alreadyMatched = WalletLedger::where('reference_type', LedgerReference::MATCHINGDEPOSITBONUS)
+            ->where('reference_id', $deposit->id)
+            ->exists();
+        if ($alreadyMatched) return;
+
+        $pct = $deposit->actually_paid > 500 ? 100 : 50;
+
+        $bonus = (float) bcmul((string) $deposit->actually_paid, bcdiv((string) $pct, '100', 8), 8);
+        if ($bonus <= 0) return;
+
+        WalletService::credit(
+            $deposit->user,
+            $bonus,
+            LedgerReference::MATCHINGDEPOSITBONUS,
+            $deposit->id,
+            "matching deposit bonus ({$pct}%)",
+            LedgerAsset::DEPOSITBONUSBALANCE
+        );
+
+        NotificationService::createForUser($deposit->user, [
+            'title' => 'Matching Deposit Bonus Received 🎉',
+            'message' => "You received a {$pct}% matching bonus on your deposit!",
+        ]);
+
+        return $bonus;
+    }
     public static function depositBonus($deposit) {
         $hasReceivedBonus = WalletLedger::where('user_id', $deposit->user_id)
             ->where('reference_type', LedgerReference::DEPOSITBONUS)
@@ -95,7 +126,51 @@ class DepositService {
         });
     }
 
-    public static function debitForInvestment(User $user, float $amount): void {
+    public static function debitForInvestment(User $user, float $amount): array {
+        return DB::transaction(function () use ($user, $amount) {
+            $remaining = $amount;
+            $fromBonus = 0.0;
+
+            $bonusBalance = $user->getBalance(LedgerAsset::DEPOSITBONUSBALANCE);
+
+            if ($bonusBalance > 0) {
+                $fromBonus = min($bonusBalance, $remaining);
+
+                WalletService::debit(
+                    $user,
+                    $fromBonus,
+                    LedgerReference::BOT_INVESTMENT,
+                    null,
+                    'investment debit (bonus balance)',
+                    LedgerAsset::DEPOSITBONUSBALANCE
+                );
+
+                $remaining -= $fromBonus;
+            }
+
+            if ($remaining > 0) {
+                $depositBalance = $user->getBalance(LedgerAsset::DEPOSIT);
+
+                if ($depositBalance < $remaining) {
+                    throw new \Exception('Insufficient balance.');
+                }
+
+                WalletService::debit(
+                    $user,
+                    $remaining,
+                    LedgerReference::BOT_INVESTMENT,
+                    null,
+                    'investment debit (main balance)',
+                    LedgerAsset::DEPOSIT
+                );
+            }
+
+            return [
+                'from_bonus' => $fromBonus,
+                'from_deposit' => $remaining, // real money
+            ];
+        });
+
         DB::transaction(function () use ($user, $amount) {
 
             $remaining = $amount;

@@ -23,10 +23,12 @@ class BotInvestment extends Model {
         'next_cycle_at',
         'uuid',
         'code',
+        'referral_eligible_amount'
     ];
 
     protected $casts = [
         'amount' => 'decimal:8',
+        'referral_eligible_amount' => 'decimal:8',
         'total_profit' => 'decimal:8',
         'started_at' => 'datetime',
         'matures_at' => 'datetime',
