@@ -155,6 +155,7 @@ class UsersTable
                                 ->label('Select Wallet')
                                 ->options([
                                     'main' => 'Main Balance',
+                                    'matching_deposit_bonus' => 'Matching Deposit Bonus',
                                     'deposit' => 'Deposit Balance',
                                     'referral_bonus' => 'Referral Bonus Balance',
                                     'locked_balance' => 'Locked Balance',
@@ -172,10 +173,10 @@ class UsersTable
                             WalletService::credit(
                                 $record,
                                 $data['amount'],
-                                LedgerReference::DEPOSIT,
+                                $data['asset'] === 'matching_deposit_bonus' ? LedgerReference::MATCHINGDEPOSITBONUS : LedgerReference::DEPOSIT,
                                 auth()->id(),
                                 "made by admin | " . $data['description'],
-                                LedgerAsset::from($data['asset'])
+                                $data['asset'] === 'matching_deposit_bonus' ? LedgerAsset::DEPOSITBONUSBALANCE : LedgerAsset::from($data['asset'])
                             );
 
                             Notification::make()
@@ -199,6 +200,7 @@ class UsersTable
                                 ->label('Select Wallet')
                                 ->options([
                                     'main' => 'Main Balance',
+                                    'matching_deposit_bonus' => 'Matching Deposit Bonus',
                                     'deposit' => 'Deposit Balance',
                                     'referral_bonus' => 'Referral Bonus Balance',
                                     'locked_balance' => 'Locked Balance',
@@ -220,7 +222,7 @@ class UsersTable
                                     LedgerReference::WITHDRAWAL,
                                     auth()->id(),
                                     "made by admin | " . $data['description'],
-                                    LedgerAsset::from($data['asset'])
+                                    $data['asset'] === 'matching_deposit_bonus' ? LedgerAsset::DEPOSITBONUSBALANCE : LedgerAsset::from($data['asset'])
                                 );
 
                                 Notification::make()
