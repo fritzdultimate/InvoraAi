@@ -114,6 +114,8 @@ class DepositService {
             );
 
             $bonus = self::depositBonus($deposit);
+            DepositService::matchingDepositBonus($deposit);
+
 
             Mail::to($deposit->user->email)->send(new DepositApprovedMail(
                 $deposit->amount,
