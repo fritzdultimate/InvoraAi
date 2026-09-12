@@ -67,7 +67,7 @@
                             <div class="footer-link">
                                 <ul>
                                     <li>
-                                        <a href="{{ asset('new_assets/docs/INVORA DOCUMENTATION .pdf') }}" target="_blank" rel="noopener">Invora AI overview</a>
+                                        <a href="{{ asset('new_assets/docs/invoraai.pdf') }}" target="_blank" rel="noopener">Invora AI overview</a>
                                     </li>
                                 </ul>
                             </div>

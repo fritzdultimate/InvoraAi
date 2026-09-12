@@ -141,7 +141,7 @@
                             <h1 class="legal-title">Guidelines overview</h1>
                             <p class="legal-lead mb-0">
                                 The accordion below summarizes how {{ config('app.public_name') }} approaches delta-neutral funding yield, regulation, transparency, membership tiers, and withdrawal rules. This is a readable overview, not a legal contract—always follow the
-                                <a href="{{ asset('new_assets/docs/INVORA DOCUMENTATION .pdf') }}" target="_blank" rel="noopener">full Invora AI overview</a>,
+                                <a href="{{ asset('new_assets/docs/invoraai.pdf') }}" target="_blank" rel="noopener">full Invora AI overview</a>,
                                 in-app settings, and our
                                 <a href="{{ route('terms') }}">terms</a>
                                 /
@@ -171,7 +171,7 @@
 
                             <div class="invora-legal-related">
                                 Related:
-                                <a href="{{ asset('new_assets/docs/INVORA DOCUMENTATION .pdf') }}" target="_blank" rel="noopener">Full Invora AI overview</a>
+                                <a href="{{ asset('new_assets/docs/invoraai.pdf') }}" target="_blank" rel="noopener">Full Invora AI overview</a>
                                 <span class="mx-2">·</span>
                                 <a href="{{ route('trading-execution') }}">Trading execution</a>
                                 <span class="mx-2">·</span>

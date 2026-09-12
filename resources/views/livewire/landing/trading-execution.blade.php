@@ -102,7 +102,7 @@
                             <h1 class="legal-title">Key execution factors</h1>
                             <p class="legal-lead mb-0">
                                 The points below reflect how {{ config('app.public_name') }} frames execution: a <strong>delta-neutral</strong>, <strong>funding-yield</strong> approach on <strong>perpetual futures</strong>—infrastructure-level and <strong>risk-first</strong>, not a return-chasing bot. This is general information only, not personalized advice. For more detail, read the
-                                <a href="{{ asset('new_assets/docs/INVORA DOCUMENTATION .pdf') }}" target="_blank" rel="noopener">full Invora AI overview</a>.
+                                <a href="{{ asset('new_assets/docs/invoraai.pdf') }}" target="_blank" rel="noopener">full Invora AI overview</a>.
                             </p>
 
                             <div class="invora-exec-accordion">
@@ -125,7 +125,7 @@
 
                             <div class="invora-legal-related">
                                 Related:
-                                <a href="{{ asset('new_assets/docs/INVORA DOCUMENTATION .pdf') }}" target="_blank" rel="noopener">Full Invora AI overview</a>
+                                <a href="{{ asset('new_assets/docs/invoraai.pdf') }}" target="_blank" rel="noopener">Full Invora AI overview</a>
                                 <span class="mx-2">·</span>
                                 <a href="{{ route('how-it-works') }}">How it works</a>
                                 <span class="mx-2">·</span>

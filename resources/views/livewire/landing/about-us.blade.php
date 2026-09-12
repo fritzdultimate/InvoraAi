@@ -33,7 +33,7 @@
                                 Get Started
                             </a>
 
-                            <a href="{{ asset('new_assets/docs/INVORA DOCUMENTATION .pdf') }}" class="btn btn-outline-light ms-2 mt-2" target="_blank" rel="noopener">
+                            <a href="{{ asset('new_assets/docs/invoraai.pdf') }}" class="btn btn-outline-light ms-2 mt-2" target="_blank" rel="noopener">
                                 Read Documentation / Roadmap
                             </a>
                         </div>
