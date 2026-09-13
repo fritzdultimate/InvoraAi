@@ -46,6 +46,8 @@
 
     @include('components.landing.about-invora-ai')
 
+    @include('components.landing.company-registration')
+
     @include('components.landing.meet-the-ceo')
 
     @include('components.landing.features')
