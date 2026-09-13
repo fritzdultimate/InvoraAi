@@ -30,6 +30,8 @@ class Investment extends Component
     public $upgradedBotId;
     public $depositBalance = 0;
 
+    public $renewMode = false;
+
     // //////////////////////////
     public $showConfirm = false;
     public $title;
@@ -71,9 +73,23 @@ class Investment extends Component
 
     public function openModal($licenseId) {
         $this->upgradeMode = false;
+        $this->renewMode = false;
         $this->upgradedBotId = null;
 
         $this->selectedLicense = BotLicense::with('bot')->findOrFail($licenseId);
+        $this->amount = null;
+        $this->showModal = true;
+    }
+
+    public function openRenewModal($licenseId) {
+        $this->upgradeMode = false;
+        $this->renewMode = true;
+        $this->upgradedBotId = null;
+
+        $this->selectedLicense = BotLicense::with('bot')
+            ->where('user_id', auth()->id())
+            ->findOrFail($licenseId);
+
         $this->amount = null;
         $this->showModal = true;
     }
@@ -150,6 +166,21 @@ class Investment extends Component
         $this->message = 'Current bot will be upgraded to selected bot.';
         $this->confirmText = 'Proceed';
         $this->action = 'upgradeLicense';
+
+        $this->showConfirm = true;
+    }
+
+    public function prepareRenew() {
+        if (!$this->selectedLicense) return;
+
+        $bot = $this->selectedLicense->bot;
+
+        $this->type = 'success';
+        $this->title = 'Renew License';
+        $this->message = 'This will renew your ' . $bot->name . ' license for ' . $bot->license_duration_days
+            . ' days at $' . number_format($bot->price, 2) . '.';
+        $this->confirmText = 'Proceed';
+        $this->action = 'renewLicense';
 
         $this->showConfirm = true;
     }
@@ -234,6 +265,7 @@ class Investment extends Component
         $this->selectedLicense = BotLicense::with('bot')->findOrFail($licenseId);
 
         $this->upgradeMode = true;
+        $this->renewMode = false;
         $this->availableUpgradeBots = Bot::where('price', '>', $this->selectedLicense->bot->price)
             ->whereDoesntHave('licenses', function ($q) {
                 $q->where('user_id', $this->selectedLicense->user_id);
@@ -284,6 +316,70 @@ class Investment extends Component
             $this->dispatch('success', message: 'Bot upgraded successfully!');
         } catch(\Throwable $e) {
             $this->dispatch('error', message: $e->getMessage() ?: 'Upgrade failed. Please try again.');
+        }
+    }
+
+    public function renewLicense() {
+        if (auth()->user()->suspended_at) {
+            $this->dispatch('error', message: 'Your account has been suspended.');
+            return;
+        }
+
+        if (!$this->selectedLicense) return;
+
+        // Re-fetch fresh from the DB rather than trust the in-memory
+        // $selectedLicense — it was loaded when the modal opened and we're
+        // about to charge money against it, so re-verify ownership and
+        // expiry state right before debiting.
+        $license = BotLicense::with('bot')
+            ->where('user_id', auth()->id())
+            ->find($this->selectedLicense->id);
+
+        if (!$license) {
+            $this->dispatch('error', message: 'License not found.');
+            return;
+        }
+
+        if ($license->isActive()) {
+            $this->dispatch('error', message: 'This license is still active.');
+            return;
+        }
+
+        $bot = $license->bot;
+
+        try {
+            $assetEnum = $this->asset === 'deposit'
+                ? LedgerAsset::DEPOSIT
+                : LedgerAsset::MAIN;
+
+            DB::transaction(function () use ($license, $bot, $assetEnum) {
+                WalletService::debit(
+                    auth()->user(),
+                    $bot->price,
+                    LedgerReference::LICENSE_PURCHASE,
+                    $bot->id,
+                    'license renewal',
+                    $assetEnum
+                );
+
+                $license->update([
+                    'status' => 'active',
+                    'starts_at' => now(),
+                    'expires_at' => now()->addDays($bot->license_duration_days),
+                    'meta' => array_merge($license->meta ?? [], [
+                        'price' => $bot->price,
+                        'asset_used' => $this->asset,
+                        'renewed_at' => now()->toIso8601String(),
+                    ]),
+                ]);
+            });
+
+            $this->showModal = false;
+            $this->renewMode = false;
+
+            $this->dispatch('success', message: 'License renewed successfully!');
+        } catch (\Throwable $e) {
+            $this->dispatch('error', message: $e->getMessage() ?: 'Renewal failed. Please try again.');
         }
     }
 }

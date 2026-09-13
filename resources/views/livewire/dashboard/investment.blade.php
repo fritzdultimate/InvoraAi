@@ -90,7 +90,19 @@
 
                             </button>
                         @else
-                            <button class="btn-disabled">Expired</button>
+                            <button
+                                wire:click="openRenewModal({{ $license->id }})"
+                                wire:loading.attr="disabled"
+                                wire:target="openRenewModal"
+                                class="btn-invest">
+
+                                <span wire:loading.remove wire:target="openRenewModal">
+                                    Renew License · ${{ number_format($license->bot->price, 2) }}
+                                </span>
+
+                                <span wire:loading wire:target="openRenewModal" class="spinner"></span>
+
+                            </button>
                         @endif
 
                         @if($canUpgrade)
@@ -123,13 +135,33 @@
                     {{-- Header --}}
                     <div class="modal-header flex justify-between items-center modal-info-title">
                         <span>
-                            {{ $upgradeMode ? 'Upgrade License' : 'Deploy Capital' }}
+                            {{ $renewMode ? 'Renew License' : ($upgradeMode ? 'Upgrade License' : 'Deploy Capital') }}
                         </span>
                         <button class="modal-close" wire:click="$set('showModal', false)" aria-label="Close modal">✕</button>
                     </div>
 
                     {{-- Info --}}
-                    @if($upgradeMode)
+                    @if($renewMode)
+
+                        <p class="modal-info-desc">
+                            Your <span class="bot-name">{{ $selectedLicense->bot->name }}</span> license expired on
+                            {{ $selectedLicense->expires_at->format('M d, Y') }}. Renewing restarts it for another
+                            {{ $selectedLicense->bot->license_duration_days }} days.
+                        </p>
+
+                        <div class="modal-limits">
+                            <div class="limit-item">
+                                <span class="limit-label">Renewal Price</span>
+                                <span class="limit-value">${{ number_format($selectedLicense->bot->price, 2) }}</span>
+                            </div>
+
+                            <div class="limit-item">
+                                <span class="limit-label">New Duration</span>
+                                <span class="limit-value">{{ $selectedLicense->bot->license_duration_days }} Days</span>
+                            </div>
+                        </div>
+
+                    @elseif($upgradeMode)
 
                         <div class="license-upgrade-preview">
 
@@ -197,6 +229,15 @@
                             <option value="deposit">Deposit Balance - (${{ number_format($depositBalance) }})</option>
                         </select>
                     </div>
+                @elseif($renewMode)
+                    {{-- Asset Selector --}}
+                    <div class="asset-selector">
+                        <label>Pay Renewal With</label>
+                        <select class="input" wire:model.live="asset">
+                            <option value="main">Main Balance - (${{ number_format(auth()->user()->main_balance) }})</option>
+                            <option value="deposit">Deposit Balance - (${{ number_format($depositBalance) }})</option>
+                        </select>
+                    </div>
                 @else
                     {{-- Asset Selector --}}
                     <div class="asset-selector">
@@ -223,20 +264,24 @@
                 @endif
 
                 {{-- Button --}}
-                <button 
-                    wire:click="{{ $upgradeMode ? 'prepareUpgrade' : 'prepareInvesment' }}" 
-                    wire:loading.attr="disabled" 
+                @php
+                    $submitAction = $renewMode ? 'prepareRenew' : ($upgradeMode ? 'prepareUpgrade' : 'prepareInvesment');
+                    $submitLabel = $renewMode ? 'Confirm Renewal' : ($upgradeMode ? 'Confirm Upgrade' : 'Deploy');
+                @endphp
+                <button
+                    wire:click="{{ $submitAction }}"
+                    wire:loading.attr="disabled"
                     class="btn-modal"
                 >
-                    <span 
-                        wire:loading.remove 
-                        wire:target="{{ $upgradeMode ? 'prepareUpgrade' : 'prepareInvesment' }}"
+                    <span
+                        wire:loading.remove
+                        wire:target="{{ $submitAction }}"
                     >
-                        {{ $upgradeMode ? 'Confirm Upgrade' : 'Deploy' }}
+                        {{ $submitLabel }}
                     </span>
-                    <span 
-                        wire:loading 
-                        wire:target="{{ $upgradeMode ? 'prepareUpgrade' : 'prepareInvesment' }}"
+                    <span
+                        wire:loading
+                        wire:target="{{ $submitAction }}"
                     >
                         Processing...
                     </span>
