@@ -21,6 +21,7 @@ class NowPaymentsController extends Controller {
         $signature = $req->header('x-nowpayments-sig');
 
         if (!$signature) {
+            \Log::info('Invalid signature');
             return response('Invalid signature', 400);
         }
 
