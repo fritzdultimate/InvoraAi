@@ -34,7 +34,7 @@ class NowPaymentsController extends Controller {
         $data = $req->json()->all();
         $orderId = $data['order_id'] ?? null;
 
-        \Log::info("orderId" . $orderId);
+        // \Log::info("orderId" . $orderId);
 
         if (! isset($data['payment_id'])) {
             return response('Invalid payload', 400);
@@ -44,8 +44,8 @@ class NowPaymentsController extends Controller {
 
         DB::transaction(function() use ($orderId, $data) {
             $deposit = Deposit::where('nowpayments_invoice_id', $data['payment_id'])->lockForUpdate()->first();
-            \Log::info("I got the data" . json_encode($data));
-            return;
+            // \Log::info("I got the data" . json_encode($data));
+            // return;
             if (!$deposit) return;
 
             // \Log::info("I got the data" . json_encode($deposit));
