@@ -21,30 +21,12 @@ use Illuminate\Support\Facades\Mail;
 
 class DepositService {
 
-    /**
-     * Statuses that mean money has actually landed and the deposit is
-     * eligible to be credited: a full payment ("finished") or a payment
-     * that came in short but that NOWPayments has stopped waiting on
-     * ("partially_paid").
-     */
     private const SETTLED_STATUSES = [
         DepositStatus::FINISHED,
         DepositStatus::PARTIALLYPAID,
     ];
 
-    /**
-     * Apply a NOWPayments IPN update to a deposit: sync its status and raw
-     * payload, then — the first time (and only the first time) money
-     * actually lands — credit the user for what was received, run the
-     * deposit/matching bonuses, and notify the user and admins.
-     *
-     * This is the single place that turns a NOWPayments payment_status into
-     * a wallet credit, used by the IPN webhook. (The admin "Approve" button
-     * has its own entry point, markAsFinished(), for manually confirming a
-     * deposit NOWPayments never reported — both funnel into
-     * creditAndNotify() so the crediting/bonus/notification logic itself
-     * only lives in one place.)
-     */
+    
     public static function applyPaymentUpdate(Deposit $deposit, array $data): void {
         $newStatus = DepositStatus::tryFrom($data['payment_status'] ?? '');
 
@@ -94,12 +76,12 @@ class DepositService {
 
   
     private static function receivedUsdFromPayload(array $data, Deposit $deposit): float {
-        $outcomeAmount = (float) ($data['outcome_amount'] ?? 0);
-        $outcomeCurrency = (string) ($data['outcome_currency'] ?? '');
+        // $outcomeAmount = (float) ($data['outcome_amount'] ?? 0);
+        // $outcomeCurrency = (string) ($data['outcome_currency'] ?? '');
 
-        if ($outcomeAmount > 0) {
-            return $outcomeAmount;
-        }
+        // if ($outcomeAmount > 0) {
+        //     return $outcomeAmount;
+        // }
 
         return self::receivedUsdFromRatio($data, $deposit);
     }
@@ -133,7 +115,7 @@ class DepositService {
 
         $fulfilledRatio = $actuallyPaidCrypto / $payAmountCrypto; // 1.0008296056
 
-        return round($priceAmountUsd * $fulfilledRatio, 2); //515.42724687
+        return $priceAmountUsd * $fulfilledRatio; //515.42724687
     }
 
     /**
