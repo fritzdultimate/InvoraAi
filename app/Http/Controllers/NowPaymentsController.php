@@ -34,10 +34,10 @@ class NowPaymentsController extends Controller
 
         $data = $request->json()->all();
 
-        // Log::info('NOWPayments returned data for audit.', [
-        //     'payload' => $data,
-        // ]);
-        // return;
+        Log::info('NOWPayments returned data for audit.', [
+            'payload' => $data,
+        ]);
+        return;
 
         if (! isset($data['payment_id'], $data['payment_status'])) {
             Log::warning('NOWPayments webhook: rejected, missing payment_id/payment_status.', [

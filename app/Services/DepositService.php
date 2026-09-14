@@ -187,8 +187,7 @@ class DepositService {
      *
      * @return float The deposit bonus credited alongside this deposit, if any.
      */
-    public static function creditAndNotify(Deposit $deposit, float $usdAmount, bool $isPartial = false): float
-    {
+    public static function creditAndNotify(Deposit $deposit, float $usdAmount, bool $isPartial = false): float {
         $user = $deposit->user()->lockForUpdate()->first();
 
         WalletService::credit(
