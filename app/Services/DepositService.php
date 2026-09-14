@@ -190,7 +190,7 @@ class DepositService {
             ctaLabel: 'View Deposit'
         ));
 
-        return $bonus;
+        return 0.0;
     }
 
     public static function matchingDepositBonus($deposit) {
