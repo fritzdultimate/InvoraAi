@@ -92,29 +92,7 @@ class DepositService {
         self::creditAndNotify($deposit, $receivedUsd, $isPartial);
     }
 
-    /**
-     * The USD amount to credit for a settled deposit.
-     *
-     * Prefers NOWPayments' own `outcome_amount` — the net amount it
-     * actually settles, in `outcome_currency`, after its deposit/service
-     * fees (see the `fee` object on the payload). That makes it a more
-     * accurate "what did we actually receive" figure than reconstructing
-     * one from `actually_paid`, since it already accounts for NOWPayments'
-     * cut. It's only trustworthy as a USD figure when `outcome_currency`
-     * is itself a USD-pegged stablecoin, so that's checked before using it.
-     *
-     * Real example (partially_paid, $120 invoice paid in BTC):
-     *   price_amount: 120, pay_amount: 0.00156403 BTC, actually_paid: 0.00156295 BTC
-     *   outcome_amount: 113.016416, outcome_currency: usdttrc20
-     *   -> ratio formula: 120 * (0.00156295 / 0.00156403) ≈ $119.92 (ignores NOWPayments' fees)
-     *   -> outcome_amount: $113.02 (NOWPayments' own fee-adjusted net settlement — what we use)
-     *
-     * Falls back to the old actually_paid/pay_amount ratio against
-     * price_amount when outcome_amount/outcome_currency are missing (older
-     * IPN payloads) or the payout currency isn't a recognized USD-pegged
-     * stablecoin — in that case outcome_amount isn't a USD figure and
-     * trusting it as one would silently credit the wrong amount.
-     */
+  
     private static function receivedUsdFromPayload(array $data, Deposit $deposit): float {
         $outcomeAmount = (float) ($data['outcome_amount'] ?? 0);
         $outcomeCurrency = (string) ($data['outcome_currency'] ?? '');
@@ -126,12 +104,7 @@ class DepositService {
         return self::receivedUsdFromRatio($data, $deposit);
     }
 
-    /**
-     * True for USD-pegged stablecoins (optionally with a network suffix,
-     * e.g. "usdttrc20", "usdcerc20") — the only currencies whose
-     * `outcome_amount` can be trusted as a USD figure. Extend as
-     * NOWPayments payout options grow.
-     */
+    
     private static function isUsdPeggedCurrency(string $currency): bool {
         $normalized = strtolower(preg_replace('/[^a-z0-9]/i', '', $currency));
 
@@ -148,22 +121,7 @@ class DepositService {
         return false;
     }
 
-    /**
-     * Fallback conversion: NOWPayments' `actually_paid` — reported in the
-     * *paid currency's own units* (e.g. BTC), never USD — turned into a USD
-     * amount via the fraction of the invoice that was fulfilled.
-     *
-     * NOWPayments' own invoice was created with `price_amount` (the USD
-     * amount, same as $deposit->amount) and `pay_currency` (the crypto the
-     * user chose); the IPN payload echoes `price_amount` back plus
-     * `pay_amount` (the crypto amount that was expected) and `actually_paid`
-     * (the crypto amount that arrived) — both in the same pay_currency
-     * units, so their ratio is the fraction of the invoice that was
-     * fulfilled. Applying that ratio to price_amount gives the USD value,
-     * regardless of which coin was used. Only used when outcome_amount
-     * isn't usable (see receivedUsdFromPayload) — it doesn't account for
-     * NOWPayments' own fees the way outcome_amount does.
-     */
+   
     private static function receivedUsdFromRatio(array $data, Deposit $deposit): float {
         $priceAmountUsd = (float) ($data['price_amount'] ?? $deposit->amount); //515
         $payAmountCrypto = (float) ($data['pay_amount'] ?? 0); //0.00670198
