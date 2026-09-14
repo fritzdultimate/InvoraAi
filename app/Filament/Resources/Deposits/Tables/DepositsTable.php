@@ -11,6 +11,7 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Filament\Support\Exceptions\Halt;
 use Filament\Tables\Columns\TextColumn;
@@ -44,7 +45,7 @@ class DepositsTable
                     ->searchable(),
                 TextColumn::make('status')
                     ->badge()
-                    ->color(fn (DepositStatus  $state): string => $state->color())      
+                    ->color(fn (DepositStatus  $state): string => $state->color())
                     ->searchable(),
                 TextColumn::make('created_at')
                     ->dateTime()
@@ -87,13 +88,29 @@ class DepositsTable
                         ->label('Approve')
                         ->color('success')
                         ->icon('heroicon-o-check')
-                        ->requiresConfirmation()
+                        ->modalHeading('Approve Deposit')
+                        ->modalDescription('Confirm how much to credit the user. If they paid less than requested, enter the amount actually received — it can never exceed what was requested.')
+                        ->modalSubmitActionLabel('Approve & Credit')
+                        ->schema([
+                            TextInput::make('amount')
+                                ->label('Amount to Credit')
+                                ->numeric()
+                                ->required()
+                                ->prefix('$')
+                                ->step(0.01)
+                                ->default(fn (Deposit $record) => (float) $record->amount)
+                                ->minValue(0.01)
+                                ->maxValue(fn (Deposit $record) => (float) $record->amount)
+                                ->helperText(fn (Deposit $record) =>
+                                    'Requested: $' . number_format((float) $record->amount, 2) . '. Lower this if the user underpaid — the deposit will be marked "partially paid" and the user credited exactly this amount.'
+                                ),
+                        ])
                         ->visible(fn (Deposit $record) =>
                             $record->status !== DepositStatus::FINISHED && $record->status !== DepositStatus::CANCELLED && $record->status !== DepositStatus::FAILED && $record->status !== DepositStatus::EXPIRED
                         )
-                        ->action(function (Deposit $record) {
+                        ->action(function (array $data, Deposit $record) {
                             try {
-                                DepositService::markAsFinished($record);
+                                DepositService::markAsFinished($record, (float) $data['amount']);
 
                                 Notification::make()
                                     ->title('Deposit approved successfully')
