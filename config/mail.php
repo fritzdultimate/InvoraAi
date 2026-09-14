@@ -115,4 +115,19 @@ return [
         'name' => env('MAIL_FROM_NAME', 'Example'),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Admin Alert Fallback Address
+    |--------------------------------------------------------------------------
+    |
+    | Where money-moving alerts (deposit approved, withdrawal requested /
+    | approved / rejected, etc — see App\Services\AdminNotifier) go when no
+    | user currently holds the "admin" role. Primary delivery is always the
+    | admin-role users' own emails; this is only a safety net so alerts are
+    | never silently dropped.
+    |
+    */
+
+    'admin_alert_email' => env('ADMIN_ALERT_EMAIL'),
+
 ];

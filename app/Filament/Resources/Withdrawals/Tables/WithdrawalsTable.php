@@ -11,6 +11,7 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Forms\Components\Textarea;
 use Filament\Notifications\Notification;
 use Filament\Tables\Columns\BadgeColumn;
 use Filament\Tables\Columns\TextColumn;
@@ -116,21 +117,41 @@ class WithdrawalsTable
                         }),
 
                     Action::make('fail')
-                        ->label('Fail')
+                        ->label('Reject')
                         ->color('danger')
                         ->icon('heroicon-o-exclamation-triangle')
                         ->requiresConfirmation()
-                        ->modalHeading('Fail Withdrawal')
-                        ->modalDescription('This withdrawal will be marked as failed.')
+                        ->modalHeading('Reject Withdrawal')
+                        ->modalDescription('This withdrawal will be marked as failed and the user notified by email with the reason below. No balance is debited.')
+                        ->schema([
+                            Textarea::make('reason')
+                                ->label('Reason (shown to the user)')
+                                ->required()
+                                ->maxLength(500)
+                                ->rows(3),
+                        ])
                         ->visible(fn (Withdrawal $record) =>
                             $record->status !== WithdrawalStatus::COMPLETED && $record->status !== WithdrawalStatus::CANCELLED && $record->status !== WithdrawalStatus::FAILED
                         )
-                        ->action(function (Withdrawal $record) {
-                            WithdrawalService::markAsFailed($record);
+                        ->action(function (array $data, Withdrawal $record) {
+                            try {
+                                WithdrawalService::markAsFailed($record, $data['reason']);
+
+                                Notification::make()
+                                    ->title('Withdrawal rejected')
+                                    ->success()
+                                    ->send();
+                            } catch (\Throwable $e) {
+                                Notification::make()
+                                    ->title('Could not reject withdrawal')
+                                    ->body($e->getMessage())
+                                    ->danger()
+                                    ->send();
+                            }
                     }),
 
                     Action::make('approve')
-                        ->label('Aprrove') 
+                        ->label('Approve')
                         ->color('success')
                         ->icon('heroicon-o-check-circle')
                         ->modalHeading('Approve Withdrawal?')

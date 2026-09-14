@@ -2,110 +2,61 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\DepositStatus;
-use App\Enums\LedgerAsset;
-use App\Enums\LedgerReference;
-use App\Mail\DepositApprovedMail;
-use App\Mail\OtpNotification;
 use App\Models\Deposit;
 use App\Services\DepositService;
 use App\Services\NowPaymentsService;
-use App\Services\Wallet\WalletService;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log;
 
-class NowPaymentsController extends Controller {
-    public function webhook(Request $req) {
-        $payload = $req->getContent();
-        $signature = $req->header('x-nowpayments-sig');
+class NowPaymentsController extends Controller
+{
+    /**
+     * Handle a NOWPayments IPN (Instant Payment Notification) callback.
+     *
+     * NOWPayments POSTs here every time a payment's status changes
+     * (waiting -> confirming -> finished, or partially_paid/failed/expired
+     * along the way). We verify the signature, find the matching deposit
+     * by invoice id, and hand off to DepositService::applyPaymentUpdate()
+     * for the actual status/crediting logic — this controller's only job
+     * is authenticating and routing the webhook.
+     */
+    public function webhook(Request $request): Response
+    {
+        $rawPayload = $request->getContent();
+        $signature = $request->header('x-nowpayments-sig');
 
-        if (!$signature) {
-            \Log::info('Invalid signature');
+        if (! $signature || ! NowPaymentsService::verifySignature($rawPayload, $signature)) {
+            Log::warning('NOWPayments webhook: rejected, missing or invalid signature.');
+
             return response('Invalid signature', 400);
         }
 
-        if (!NowPaymentsService::verifySignature($payload, $signature)) {
-            \Log::info('Invalid signature');
-            return response('Invalid signature', 400);
-            
-        }
+        $data = $request->json()->all();
 
-        $data = $req->json()->all();
-        $orderId = $data['order_id'] ?? null;
+        if (! isset($data['payment_id'], $data['payment_status'])) {
+            Log::warning('NOWPayments webhook: rejected, missing payment_id/payment_status.', [
+                'payload' => $data,
+            ]);
 
-        // \Log::info("orderId" . $orderId);
-
-        if (! isset($data['payment_id'])) {
             return response('Invalid payload', 400);
         }
 
+        DB::transaction(function () use ($data) {
+            $deposit = Deposit::where('nowpayments_invoice_id', $data['payment_id'])
+                ->lockForUpdate()
+                ->first();
 
+            if (! $deposit) {
+                Log::warning('NOWPayments webhook: no matching deposit for payment_id.', [
+                    'payment_id' => $data['payment_id'],
+                ]);
 
-        DB::transaction(function() use ($orderId, $data) {
-            $deposit = Deposit::where('nowpayments_invoice_id', $data['payment_id'])->lockForUpdate()->first();
-            // \Log::info("I got the data" . json_encode($data));
-            // return;
-            if (!$deposit) return;
-
-            // \Log::info("I got the data" . json_encode($deposit));
-            
-
-            $allowedStatuses = [
-                DepositStatus::PENDING->value => ['waiting', 'confirming'],
-                DepositStatus::CONFIRMED->value => ['finished'],
-            ];
-            $status = $data['payment_status'];
-            $currentStatus = $deposit->status->value;
-
-            // if (isset($allowedStatuses[$currentStatus]) && ! in_array($status, $allowedStatuses[$currentStatus])) {
-            //     return;
-            // }
-            
-            $deposit->status = $status;
-            $deposit->meta = $data;
-            $deposit->save();
-
-            if ($deposit->received_at) {
                 return;
             }
 
-            if ($deposit->status === DepositStatus::FINISHED) {
-                $paidAmount = (float) ($data['actually_paid'] ?? 0);
-
-                $deposit->update([
-                    'received_at' => now(),
-                    'actually_paid' => $paidAmount
-                ]);
-
-                
-                if ($paidAmount > 0) {
-                    $user = $deposit->user()->lockForUpdate()->first();
-
-                    WalletService::credit(
-                        $user,
-                        $paidAmount,
-                        LedgerReference::DEPOSIT,
-                        $deposit->id,
-                        null,
-                        LedgerAsset::DEPOSIT
-                    );
-
-                    $bonus = DepositService::depositBonus($deposit);
-                    
-                    DepositService::matchingDepositBonus($deposit);
-
-                    Mail::to($deposit->user->email)->send(new DepositApprovedMail(
-                        $deposit->amount,
-                        $deposit->reference,
-                        $deposit->currency,
-                        now()->format('l, d F Y • h:i A'),
-                        'https://invora.ai/dashboard',
-                        $bonus
-                    ));
-                }
-
-            }
+            DepositService::applyPaymentUpdate($deposit, $data);
         });
 
         return response('OK', 200);

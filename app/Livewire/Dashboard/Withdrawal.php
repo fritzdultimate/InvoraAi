@@ -2,13 +2,16 @@
 
 namespace App\Livewire\Dashboard;
 
+use App\Domain\Withdrawal\WithdrawalAddressValidator;
 use App\Domain\Withdrawal\WithdrawalRules;
 use App\Enums\LedgerAsset;
 use App\Enums\LedgerReference;
 use App\Models\CustomSetting;
 use App\Models\WithdrawalCurrency;
+use App\Models\WithdrawalNetwork;
 use App\Services\NotificationService;
 use App\Services\Wallet\WalletService;
+use App\Services\WithdrawalService;
 use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Layout;
@@ -53,15 +56,28 @@ class Withdrawal extends Component {
         return [
             'amount' => 'required|numeric|min:' . $this->minimumWithdrawalAmount,
             'selectedWallet' => 'required',
-            'address' => 'string|max:120',
+            'address' => ['required', 'string', 'max:120', function ($attribute, $value, $fail) {
+                // Catches "picked ETH, pasted a BTC address" before it becomes
+                // an irreversible on-chain mistake. Network (e.g. TRC20 vs
+                // ERC20) takes priority over the bare currency code, since for
+                // multi-chain tokens like USDT the network is what actually
+                // determines the address format — see WithdrawalAddressValidator.
+                $currencyCode = $this->selectedWallet?->code ?? null;
+                $networkName = $this->network ? WithdrawalNetwork::find($this->network)?->name : null;
+
+                if (! WithdrawalAddressValidator::isValid((string) $value, $currencyCode, $networkName)) {
+                    $label = WithdrawalAddressValidator::expectedLabel($currencyCode, $networkName);
+                    $fail("This doesn't look like a valid {$label} address. Double-check it matches the currency/network you selected.");
+                }
+            }],
         ];
     }
 
-    protected function messages() { 
+    protected function messages() {
         return  [
             'amount.min' => "Amount must be at least $" . $this->minimumWithdrawalAmount,
             'selectedWallet.required' => "Please choose a currency.",
-            'address' => 'Enter correct address to proceed'
+            'address.required' => 'Enter your wallet address to proceed.',
         ];
     }
 
@@ -100,23 +116,25 @@ class Withdrawal extends Component {
         //     return;
         // }
 
-        $withdrawal = DB::transaction(function () {
-            $q = \App\Models\Withdrawal::create([
-                'user_id' => auth()->id(),
+        // Creation, and the user/admin notification emails that go with it,
+        // live in WithdrawalService so both this form and any other entry
+        // point (e.g. a future API) behave identically. The service
+        // independently re-checks the address against the chosen
+        // currency/network — the same rule the field validator above
+        // already enforces, kept here too so this can never be bypassed by
+        // skipping client-side validation.
+        try {
+            $withdrawal = WithdrawalService::create(auth()->user(), [
                 'amount' => $this->amount,
                 'address' => $this->address,
-                'asset' => 'main',
                 'withdrawal_currency_id' => $this->selectedWallet->id,
                 'withdrawal_network_id' => $this->network,
-                'meta' => [
-                    'total_to_debit' => $this->amount,
-                    'fee' => $this->fee
-                ],
-                'reference' => generate_withdrawal_reference()
+                'fee' => $this->fee,
             ]);
-
-            return $q;
-        });
+        } catch (\DomainException $e) {
+            $this->addError('address', $e->getMessage());
+            return;
+        }
 
         return redirect()->route('withdrawal.page', ['withdrawal' => $withdrawal->id]);
     }

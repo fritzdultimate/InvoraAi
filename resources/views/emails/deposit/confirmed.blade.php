@@ -1,25 +1,43 @@
 @extends('emails.layouts.app')
 
+@php
+    $isPartial = isset($requestedAmount) && $requestedAmount !== null && (float) $requestedAmount > (float) $amount;
+@endphp
+
 @section('content')
 <tr>
 <td align="center" style="padding:20px 10px;background:#020617;">
     <!-- MAIN CONTAINER -->
     <table width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:600px;margin:0 auto;background:#0f172a;border-radius:14px;border:1px solid rgba(255,255,255,0.05);">
-        
+
         <!-- HEADER -->
         <tr>
             <td style="padding:24px 20px;text-align:center;">
-                <span style="display:inline-block;background:rgba(34,197,94,0.12);color:#22c55e;font-size:11px;padding:6px 12px;border-radius:999px;font-weight:600;letter-spacing:0.6px;">
-                    DEPOSIT CONFIRMED
-                </span>
+                @if($isPartial)
+                    <span style="display:inline-block;background:rgba(245,158,11,0.12);color:#f59e0b;font-size:11px;padding:6px 12px;border-radius:999px;font-weight:600;letter-spacing:0.6px;">
+                        PARTIAL PAYMENT RECEIVED
+                    </span>
 
-                <h1 style="color:#ffffff;font-size:24px;font-weight:700;margin:16px 0 8px;line-height:1.3;">
-                    Funds Successfully Added
-                </h1>
+                    <h1 style="color:#ffffff;font-size:24px;font-weight:700;margin:16px 0 8px;line-height:1.3;">
+                        We Credited What We Received
+                    </h1>
 
-                <p style="color:#94a3b8;font-size:14px;line-height:1.6;margin:0 auto;max-width:460px;">
-                    Your deposit has been securely received and credited to your InvoraAI account. The funds are now ready for allocation into active strategies.
-                </p>
+                    <p style="color:#94a3b8;font-size:14px;line-height:1.6;margin:0 auto;max-width:460px;">
+                        Your deposit came in under the amount requested. We've credited your account with exactly what was received — if this wasn't intentional, you can send the remaining balance and contact support to have it applied.
+                    </p>
+                @else
+                    <span style="display:inline-block;background:rgba(34,197,94,0.12);color:#22c55e;font-size:11px;padding:6px 12px;border-radius:999px;font-weight:600;letter-spacing:0.6px;">
+                        DEPOSIT CONFIRMED
+                    </span>
+
+                    <h1 style="color:#ffffff;font-size:24px;font-weight:700;margin:16px 0 8px;line-height:1.3;">
+                        Funds Successfully Added
+                    </h1>
+
+                    <p style="color:#94a3b8;font-size:14px;line-height:1.6;margin:0 auto;max-width:460px;">
+                        Your deposit has been securely received and credited to your InvoraAI account. The funds are now ready for allocation into active strategies.
+                    </p>
+                @endif
             </td>
         </tr>
 
@@ -29,10 +47,13 @@
                 <table cellpadding="0" cellspacing="0" border="0" style="background:#020617;border:1px solid rgba(255,255,255,0.05);border-radius:16px;width:90%;max-width:320px;margin:auto;">
                     <tr>
                         <td style="padding:20px;text-align:center;">
-                            <div style="color:#64748b;font-size:12px;letter-spacing:1px;">DEPOSIT AMOUNT</div>
-                            <div style="color:#22c55e;font-size:32px;font-weight:800;margin-top:6px;font-family:monospace;">
+                            <div style="color:#64748b;font-size:12px;letter-spacing:1px;">{{ $isPartial ? 'AMOUNT CREDITED' : 'DEPOSIT AMOUNT' }}</div>
+                            <div style="color:{{ $isPartial ? '#f59e0b' : '#22c55e' }};font-size:32px;font-weight:800;margin-top:6px;font-family:monospace;">
                                 ${{ number_format($amount,2) }}
                             </div>
+                            @if($isPartial)
+                                <div style="color:#64748b;font-size:12px;margin-top:6px;">of ${{ number_format($requestedAmount,2) }} requested</div>
+                            @endif
                         </td>
                     </tr>
                 </table>
@@ -41,6 +62,7 @@
 
         <!-- DEPOSIT BONUS (Conditional) -->
         @isset($bonus)
+        @if($bonus > 0)
         <tr>
             <td align="center" style="padding:10px 0 20px;">
                 <table cellpadding="0" cellspacing="0" border="0" style="background:#020617;border:1px solid rgba(34,197,94,0.4);border-radius:16px;width:90%;max-width:320px;margin:auto;">
@@ -55,6 +77,7 @@
                 </table>
             </td>
         </tr>
+        @endif
         @endisset
 
         <!-- TRANSACTION DETAILS -->
@@ -69,13 +92,13 @@
                                         'Transaction ID' => $trx,
                                         'Payment Method' => $method,
                                         'Date' => $date,
-                                        'Status' => 'Completed'
+                                        'Status' => $isPartial ? 'Partially Paid' : 'Completed'
                                     ];
                                 @endphp
                                 @foreach($details as $label => $value)
                                     <tr>
                                         <td style="color:#64748b;font-size:12px;padding:6px 0;">{{ $label }}</td>
-                                        <td align="right" style="color:{{ $label=='Status'?'#22c55e':'#e2e8f0' }};font-size:10px;font-weight:{{ $label=='Status'?'600':'400' }};">
+                                        <td align="right" style="color:{{ $label=='Status'?($isPartial?'#f59e0b':'#22c55e'):'#e2e8f0' }};font-size:10px;font-weight:{{ $label=='Status'?'600':'400' }};">
                                             {{ $label=='Payment Method' ? strtoupper($value) : $value }}
                                         </td>
                                     </tr>
