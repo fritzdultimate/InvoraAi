@@ -6,7 +6,6 @@ use App\Models\Trade;
 use App\Models\TradingAsset;
 use App\Services\TradeSimulatorMultiexchangeService;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
 
 class TradeMultiexchangeController extends Controller {
     protected $simulator;
@@ -30,10 +29,7 @@ class TradeMultiexchangeController extends Controller {
      */
     public function executeTradingCycle() {
         try {
-            Log::info('Multi-exchange trading cycle started', [
-                'time' => now()->toDateTimeString(),
-                'exchanges' => TradeSimulatorMultiexchangeService::SUPPORTED_EXCHANGES
-            ]);
+            
 
 
             $canOpenTrades = $this->simulator->isOptimalEntryWindow();
@@ -41,15 +37,11 @@ class TradeMultiexchangeController extends Controller {
             if ($canOpenTrades) {
                 $this->scanAndOpenTrades();
             } else {
-                Log::info('Outside entry window', [
-                    'next_funding' => $this->simulator->getNextFundingTime()->toDateTimeString()
-                ]);
             }
 
             $this->updateOpenTrades();
             $this->checkReentryOpportunities();
 
-            Log::info('Trading cycle completed');
 
             return response()->json([
                 'success' => true,
@@ -59,10 +51,6 @@ class TradeMultiexchangeController extends Controller {
             ]);
 
         } catch (\Exception $e) {
-            Log::error('Trading cycle failed', [
-                'error' => $e->getMessage(),
-                'trace' => $e->getTraceAsString()
-            ]);
 
             return response()->json([
                 'success' => false,
@@ -77,10 +65,7 @@ class TradeMultiexchangeController extends Controller {
     protected function scanAndOpenTrades() {
         $activeAssets = TradingAsset::where('active', true)->get();
         
-        Log::info('Scanning for opportunities across multiple exchanges', [
-            'asset_count' => $activeAssets->count(),
-            'exchanges' => TradeSimulatorMultiexchangeService::SUPPORTED_EXCHANGES
-        ]);
+        
 
         $opened = 0;
         $skipped = 0;
@@ -93,7 +78,6 @@ class TradeMultiexchangeController extends Controller {
                     ->first();
 
                 if ($existingTrade) {
-                    Log::info("{$asset->symbol} already has open trade #{$existingTrade->id}");
                     $skipped++;
                     continue;
                 }
@@ -102,7 +86,6 @@ class TradeMultiexchangeController extends Controller {
                 $fundingRates = $this->getFundingRatesAllExchanges($asset);
 
                 if (empty($fundingRates)) {
-                    Log::warning("No funding rates available for {$asset->symbol}");
                     $skipped++;
                     continue;
                 }
@@ -111,14 +94,6 @@ class TradeMultiexchangeController extends Controller {
 
                 if ($trade) {
                     $opened++;
-                    Log::info("✅ Trade opened", [
-                        'trade_id' => $trade->id,
-                        'asset' => $asset->symbol,
-                        'long' => $trade->long_exchange,
-                        'short' => $trade->short_exchange,
-                        'position' => number_format($trade->position_size),
-                        'spread' => number_format(abs($trade->funding_rate_short - $trade->funding_rate_long) * 100, 3) . '%'
-                    ]);
                 } else {
                     $skipped++;
                 }
@@ -126,17 +101,11 @@ class TradeMultiexchangeController extends Controller {
                 usleep(200000); // 200ms delay
 
             } catch (\Exception $e) {
-                Log::error("Error processing {$asset->symbol}", [
-                    'error' => $e->getMessage()
-                ]);
                 $skipped++;
             }
         }
 
-        Log::info('Scan complete', [
-            'opened' => $opened,
-            'skipped' => $skipped
-        ]);
+        
     }
 
     /**
@@ -149,7 +118,6 @@ class TradeMultiexchangeController extends Controller {
             return;
         }
 
-        Log::info('Updating open trades', ['count' => $openTrades->count()]);
 
         $updated = 0;
         $closed = 0;
@@ -166,12 +134,7 @@ class TradeMultiexchangeController extends Controller {
                 
                 if ($trade->status === 'closed' && $statusBefore === 'open') {
                     $closed++;
-                    Log::info("Trade closed", [
-                        'trade_id' => $trade->id,
-                        'asset' => $trade->asset->symbol,
-                        'pnl' => number_format($trade->total_net, 2),
-                        'duration' => $trade->opened_at->diffForHumans($trade->closed_at, true)
-                    ]);
+                    
                 } else {
                     $updated++;
                 }
@@ -179,16 +142,11 @@ class TradeMultiexchangeController extends Controller {
                 usleep(100000);
 
             } catch (\Exception $e) {
-                Log::error("Error updating trade #{$trade->id}", [
-                    'error' => $e->getMessage()
-                ]);
+                
             }
         }
 
-        Log::info('Updates complete', [
-            'updated' => $updated,
-            'closed' => $closed
-        ]);
+        
     }
 
     /**
@@ -227,19 +185,16 @@ class TradeMultiexchangeController extends Controller {
                     
                     if ($newTrade) {
                         $reentered++;
-                        Log::info("Re-entered {$trade->asset->symbol}");
                     }
                 }
 
                 usleep(200000);
 
             } catch (\Exception $e) {
-                Log::error("Re-entry error", ['error' => $e->getMessage()]);
             }
         }
 
         if ($reentered > 0) {
-            Log::info("Re-entered {$reentered} positions");
         }
     }
 
@@ -317,23 +272,15 @@ class TradeMultiexchangeController extends Controller {
                     }
                 }
 
-                Log::info("Fetched funding rates for {$asset->symbol}", [
-                    'exchanges' => array_keys($fundingRates),
-                    'rates' => $fundingRates
-                ]);
+                
 
                 return $fundingRates;
             }
 
-            Log::warning("Funding API failed for {$asset->symbol}", [
-                'status' => $response->status()
-            ]);
+            
 
         } catch (\Exception $e) {
-            Log::error("Exception fetching funding rates", [
-                'asset' => $asset->symbol,
-                'error' => $e->getMessage()
-            ]);
+            
         }
 
         return [];
@@ -448,9 +395,7 @@ class TradeMultiexchangeController extends Controller {
                 usleep(200000); // 200ms delay
 
             } catch (\Exception $e) {
-                Log::error("Error closing tade:  {$trade->asset->symbol}", [
-                    'error' => $e->getMessage()
-                ]);
+                
             }
         }
 
