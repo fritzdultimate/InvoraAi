@@ -22,7 +22,7 @@ class NowPaymentsController extends Controller
      * for the actual status/crediting logic — this controller's only job
      * is authenticating and routing the webhook.
      */
-    public function webhook(Request $request): Response {
+    public function webhook(Request $request) {
         $rawPayload = $request->getContent();
         $signature = $request->header('x-nowpayments-sig');
 
@@ -37,6 +37,7 @@ class NowPaymentsController extends Controller
         Log::info('NOWPayments returned data for audit.', [
             'payload' => $data,
         ]);
+        return;
 
         if (! isset($data['payment_id'], $data['payment_status'])) {
             Log::warning('NOWPayments webhook: rejected, missing payment_id/payment_status.', [
