@@ -5,7 +5,6 @@ namespace App\Services;
 use App\Models\Trade;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
 
 class TradeSimulatorMultiexchangeService
@@ -43,10 +42,7 @@ class TradeSimulatorMultiexchangeService
             // Filter out null prices
             $prices = array_filter($prices, fn($price) => $price !== null);
 
-            Log::info("Fetched prices for {$symbol}", [
-                'exchanges' => array_keys($prices),
-                'prices' => $prices
-            ]);
+            
 
             return $prices;
         });
@@ -79,14 +75,11 @@ class TradeSimulatorMultiexchangeService
                 //     return $this->getKrakenPrice($symbol);
                 
                 default:
-                    Log::warning("Unsupported exchange: {$exchange}");
+                    
                     return null;
             }
         } catch (\Exception $e) {
-            Log::error("Failed to fetch price from {$exchange}", [
-                'symbol' => $symbol,
-                'error' => $e->getMessage()
-            ]);
+            
             return null;
         }
     }
@@ -215,7 +208,6 @@ class TradeSimulatorMultiexchangeService
         $validRates = array_filter($fundingRates, fn($rate) => $rate !== null);
 
         if (count($validRates) < 2) {
-            Log::info('Need at least 2 exchanges with valid funding rates');
             return null;
         }
 
@@ -236,21 +228,11 @@ class TradeSimulatorMultiexchangeService
 
         // Validate spread is meaningful
         if ($spread < 0.0005) { // 0.05% minimum
-            Log::info('Spread too low across all exchanges', [
-                'spread' => $spread,
-                'long_exchange' => $longExchange,
-                'short_exchange' => $shortExchange
-            ]);
+            
             return null;
         }
 
-        Log::info('Best trading pair found', [
-            'long_exchange' => $longExchange,
-            'long_rate' => $longRate,
-            'short_exchange' => $shortExchange,
-            'short_rate' => $shortRate,
-            'spread' => $spread
-        ]);
+        
 
         return [
             'long_exchange' => $longExchange,
@@ -258,7 +240,7 @@ class TradeSimulatorMultiexchangeService
             'short_exchange' => $shortExchange,
             'short_rate' => $shortRate,
             'spread' => $spread,
-            'all_rates' => $validRates // For logging/analysis
+            'all_rates' => $validRates // 
         ];
     }
 
@@ -380,11 +362,7 @@ class TradeSimulatorMultiexchangeService
         $shortExchange = $bestPair['short_exchange'];
 
         if (!isset($prices[$longExchange]) || !isset($prices[$shortExchange])) {
-            Log::warning('Missing prices for selected exchanges', [
-                'long' => $longExchange,
-                'short' => $shortExchange,
-                'available' => array_keys($prices)
-            ]);
+            
             return null;
         }
 
@@ -435,15 +413,7 @@ class TradeSimulatorMultiexchangeService
             'next_funding_at' => $this->getNextFundingTime(),
         ]);
 
-        Log::info('Trade opened with multi-exchange selection', [
-            'trade_id' => $trade->id,
-            'asset' => $asset->symbol,
-            'long' => $longExchange,
-            'short' => $shortExchange,
-            'spread' => $bestPair['spread'],
-            'position' => $positionSize,
-            'all_rates' => $bestPair['all_rates']
-        ]);
+        
 
         return $trade;
     }
@@ -458,11 +428,7 @@ class TradeSimulatorMultiexchangeService
         $shortExchange = strtolower($trade->short_exchange);
 
         if (!isset($prices[$longExchange]) || !isset($prices[$shortExchange])) {
-            Log::warning('Cannot update trade - missing exchange prices', [
-                'trade_id' => $trade->id,
-                'needed' => [$longExchange, $shortExchange],
-                'available' => array_keys($prices)
-            ]);
+            
             return;
         }
 
