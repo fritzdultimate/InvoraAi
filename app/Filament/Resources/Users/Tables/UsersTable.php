@@ -5,7 +5,9 @@ namespace App\Filament\Resources\Users\Tables;
 use App\Enums\BotLicenseStatus;
 use App\Enums\LedgerAsset;
 use App\Enums\LedgerReference;
+use App\Models\User;
 use App\Services\BalanceService;
+use App\Services\ReferralReassignmentService;
 use App\Services\Wallet\WalletService;
 use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
@@ -14,6 +16,7 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Forms\Components\CheckboxList;
+use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -23,7 +26,9 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
+use Filament\Schemas\Components\Utilities\Get;
 use Filament\Support\Exceptions\Halt;
+use InvalidArgumentException;
 
 class UsersTable
 {
@@ -98,9 +103,9 @@ class UsersTable
                     ->getStateUsing(function ($record) {
                         return $record->rank?->rank?->name ?? 'Unranked';
                     })
-                    ->description(fn ($record) => 
-                        $record->rank?->rank 
-                            ? 'Level ' . $record->rank->rank->level 
+                    ->description(fn ($record) =>
+                        $record->rank?->rank
+                            ? 'Level ' . $record->rank->rank->level
                             : 'No level yet'
                     )
                     ->icon('heroicon-o-trophy')
@@ -140,7 +145,7 @@ class UsersTable
                         }),
 
 
-                    
+
                     Action::make('topup')
                         ->label('Top Up')
                         ->icon('heroicon-o-plus-circle')
@@ -238,6 +243,102 @@ class UsersTable
                         }),
                     // ->visible(fn () => auth()->user()->hasRole(['super-admin'])),
 
+                    // Assign an existing user as a downline of this user
+                    Action::make('assignDownline')
+                        ->label('Assign Downline')
+                        ->icon('heroicon-o-user-plus')
+                        ->color('info')
+                        ->modalHeading(fn ($record) => "Assign a downline to {$record->name}")
+                        ->modalDescription('Pick an existing user to place directly under this user in the referral tree — no database editing required.')
+                        ->modalSubmitActionLabel('Assign')
+                        ->form([
+                            Select::make('downline_user_id')
+                                ->label('User to add as downline')
+                                ->helperText('Search by name or email.')
+                                ->searchable()
+                                ->live()
+                                ->getSearchResultsUsing(function (string $search, $record) {
+                                    return User::query()
+                                        ->where('id', '!=', $record->id)
+                                        ->where(function (Builder $q) use ($search) {
+                                            $q->where('name', 'like', "%{$search}%")
+                                                ->orWhere('email', 'like', "%{$search}%");
+                                        })
+                                        ->limit(20)
+                                        ->get()
+                                        ->mapWithKeys(fn ($u) => [$u->id => "{$u->name} ({$u->email})"])
+                                        ->toArray();
+                                })
+                                ->getOptionLabelUsing(function ($value) {
+                                    $u = User::find($value);
+
+                                    return $u ? "{$u->name} ({$u->email})" : null;
+                                })
+                                ->required(),
+
+                            Placeholder::make('impact_notice')
+                                ->label('Before you proceed')
+                                ->content(function (Get $get, $record) {
+                                    $target = User::find($get('downline_user_id'));
+
+                                    if (! $target) {
+                                        return '';
+                                    }
+
+                                    if (ReferralReassignmentService::wouldCreateCycle($target, $record)) {
+                                        return "⚠ {$record->name} is already downstream of {$target->name} — this assignment would create a circular referral chain and cannot proceed.";
+                                    }
+
+                                    $info = ReferralReassignmentService::inspect($target);
+                                    $lines = [];
+
+                                    if ($info['downline_count'] > 0) {
+                                        $lines[] = "{$target->name} already has {$info['downline_count']} user(s) in their existing downline. All of that subtree's ancestor data will be recalculated to reflect the new upline.";
+                                    }
+
+                                    if ($info['has_upline']) {
+                                        $lines[] = "Destructive: {$target->name} already has a sponsor" . ($info['current_upline'] ? " ({$info['current_upline']->name})" : '') . '. Proceeding will permanently replace it. Referral bonuses already paid out are not affected.';
+                                    }
+
+                                    if (empty($lines)) {
+                                        $lines[] = "{$target->name} has no existing upline or downline — this is a simple assignment.";
+                                    }
+
+                                    return implode(' ', $lines);
+                                })
+                                ->visible(fn (Get $get) => filled($get('downline_user_id'))),
+                        ])
+                        ->requiresConfirmation()
+                        ->action(function (array $data, $record) {
+                            $target = User::find($data['downline_user_id']);
+
+                            if (! $target) {
+                                Notification::make()
+                                    ->title('User not found')
+                                    ->danger()
+                                    ->send();
+
+                                return;
+                            }
+
+                            try {
+                                ReferralReassignmentService::reassign($target, $record);
+
+                                Notification::make()
+                                    ->title('Downline assigned')
+                                    ->body("{$target->name} is now a downline of {$record->name}.")
+                                    ->success()
+                                    ->send();
+                            } catch (InvalidArgumentException $e) {
+                                Notification::make()
+                                    ->title('Could not assign')
+                                    ->body($e->getMessage())
+                                    ->danger()
+                                    ->send();
+                            }
+                        }),
+                    // end assign downline
+
 
                     // Make Leader
                     Action::make('makeLeader')
@@ -258,13 +359,13 @@ class UsersTable
                                 ])
                                 ->descriptions([
                                     'receive_referral' => 'User earns money when people they invited join or invest.',
-                                    
+
                                     'distribute_referral' => 'User is allowed to allocate referral bonuses to uplines.',
-                                    
+
                                     'receive_rank' => 'User earns rewards when they reach certain levels or milestones in the system.',
-                                    
+
                                     'receive_residual_bonus' => 'User earns small daily income based on activity in their network or system performance.',
-                                    
+
                                     'none' => 'User cannot receive or manage any bonuses.',
                                 ])
                                 ->columns(1)
@@ -461,8 +562,8 @@ class UsersTable
 
 
                 ]),
-                
-                
+
+
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
