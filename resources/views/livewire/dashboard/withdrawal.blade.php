@@ -365,15 +365,78 @@
 
         </div>
 
-        <x-action-message 
-            :showConfirm="$showConfirm" 
-            :type="$type" 
-            :title="$title" 
-            :message="$text" 
+        <x-action-message
+            :showConfirm="$showConfirm"
+            :type="$type"
+            :title="$title"
+            :message="$text"
             :warning="$warning"
             :icon="$icon"
         />
 
+        <!-- Google Authenticator step — shown after "Yes, Withdraw" is
+             confirmed above, and required before makeWithdrawal() will
+             actually run (see Withdrawal::verifyTwoFactorAndWithdraw). -->
+        @if($showTwoFactorModal)
+            <div class="invora-modal-overlay">
+                <div class="invora-modal-card">
+
+                    <div class="invora-modal-header">
+                        <h3>Verify It's You</h3>
+                        <button wire:click="cancelTwoFactor" type="button">✕</button>
+                    </div>
+
+                    <div class="invora-modal-body">
+                        <p class="text-sm text-gray-400 mb-4">
+                            Enter the 6-digit code from your Google Authenticator app to confirm this withdrawal.
+                        </p>
+
+                        <div class="invora-field">
+                            <label>Authentication Code</label>
+
+                            <div class="invora-input-pro">
+                                <input
+                                    type="text"
+                                    wire:model="twoFactorCode"
+                                    wire:keydown.enter="verifyTwoFactorAndWithdraw"
+                                    inputmode="numeric"
+                                    autocomplete="one-time-code"
+                                    maxlength="6"
+                                    placeholder="000000"
+                                    autofocus
+                                >
+                            </div>
+
+                            @error('twoFactorCode')
+                                <span class="invora-error">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div class="gap-2 mt-4" style="display: flex; align-items:center;">
+                            <button class="invora-btn-secondary" style="flex:1" wire:click="cancelTwoFactor" type="button">
+                                Cancel
+                            </button>
+
+                            <button
+                                class="invora-btn-pro"
+                                style="flex:1"
+                                wire:click="verifyTwoFactorAndWithdraw"
+                                wire:loading.attr="disabled"
+                                wire:target="verifyTwoFactorAndWithdraw"
+                            >
+                                <span wire:loading.remove wire:target="verifyTwoFactorAndWithdraw">
+                                    Verify &amp; Withdraw
+                                </span>
+                                <span wire:loading wire:target="verifyTwoFactorAndWithdraw">
+                                    Verifying...
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        @endif
 
     </div>
 

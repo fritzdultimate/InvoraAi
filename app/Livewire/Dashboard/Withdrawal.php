@@ -13,8 +13,10 @@ use App\Services\NotificationService;
 use App\Services\Wallet\WalletService;
 use App\Services\WithdrawalService;
 use Illuminate\Support\Facades\DB;
+use Laravel\Fortify\TwoFactorAuthenticationProvider;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Layout;
+use Livewire\Attributes\Locked;
 use Livewire\Component;
 
 #[Layout('components.layouts.app')]
@@ -36,6 +38,19 @@ class Withdrawal extends Component {
     public $confirmText = 'Confirm';
     public $icon = '⚠️';
     public $action;
+
+    // //////////////// Withdrawal 2FA (Google Authenticator) ////////////////
+    // A withdrawal must never leave makeWithdrawal() without this having
+    // been set true by verifyTwoFactorAndWithdraw() first. #[Locked] stops
+    // the client from setting it directly — Livewire will reject any
+    // request that tries to change a locked property from the frontend, so
+    // calling wire:click="makeWithdrawal" straight from devtools without
+    // going through verification still lands on a false flag.
+    #[Locked]
+    public bool $twoFactorVerified = false;
+
+    public bool $showTwoFactorModal = false;
+    public string $twoFactorCode = '';
 
     #[Computed]
     public function minimumWithdrawalAmount() {
@@ -97,6 +112,15 @@ class Withdrawal extends Component {
 
 
     public function makeWithdrawal() {
+        if (! $this->twoFactorVerified) {
+            $this->dispatch('error', message: 'Two-factor verification is required before withdrawing.');
+            return;
+        }
+
+        // Consume it immediately so this flag can never cover a second
+        // withdrawal — every attempt needs its own fresh code.
+        $this->twoFactorVerified = false;
+
         if(auth()->user()->suspended_at) {
             $this->dispatch('error', message: 'Your account has been suspended.');
             return;
@@ -149,6 +173,11 @@ class Withdrawal extends Component {
             return;
         }
 
+        if (! auth()->user()->hasEnabledTwoFactorAuthentication()) {
+            $this->dispatch('error', message: 'Please enable Two-Factor Authentication in Settings before making a withdrawal.');
+            return;
+        }
+
         $this->amount = str_replace(',', '', $this->amount);
         $this->validate();
 
@@ -159,7 +188,56 @@ class Withdrawal extends Component {
         $this->warning = 'Ensure the wallet address and network are correct. Transactions cannot be reversed once processed.';
         $this->confirmText = 'Yes, Withdraw';
         $this->icon = '💸';
-        $this->action = 'makeWithdrawal';
+        // Routed through the 2FA step rather than straight to makeWithdrawal
+        // — see openTwoFactorStep()/verifyTwoFactorAndWithdraw() below.
+        $this->action = 'openTwoFactorStep';
+    }
+
+    /**
+     * Called by the generic confirm modal's "Yes, Withdraw" button. Swaps
+     * that modal for the Google Authenticator code prompt — the actual
+     * withdrawal doesn't happen until verifyTwoFactorAndWithdraw() succeeds.
+     */
+    public function openTwoFactorStep() {
+        $this->showConfirm = false;
+        $this->showTwoFactorModal = true;
+        $this->resetErrorBag();
+    }
+
+    public function cancelTwoFactor() {
+        $this->reset('showTwoFactorModal', 'twoFactorCode');
+        $this->resetErrorBag();
+    }
+
+    /**
+     * Verify the 6-digit code from the user's authenticator app using the
+     * same Fortify provider the login challenge and Settings > Two-Factor
+     * confirmation already use, then let the withdrawal proceed.
+     */
+    public function verifyTwoFactorAndWithdraw(TwoFactorAuthenticationProvider $provider) {
+        $this->validate(['twoFactorCode' => 'required|string|size:6'], [], ['twoFactorCode' => 'code']);
+
+        $user = auth()->user();
+
+        if (! $user->hasEnabledTwoFactorAuthentication()) {
+            // Covers the edge case where 2FA got disabled in another tab
+            // between opening the withdrawal form and this step.
+            $this->cancelTwoFactor();
+            $this->dispatch('error', message: 'Two-Factor Authentication is no longer enabled on your account.');
+            return;
+        }
+
+        $valid = $provider->verify(decrypt($user->two_factor_secret), $this->twoFactorCode);
+
+        if (! $valid) {
+            $this->addError('twoFactorCode', 'That code is invalid or has expired. Please try again.');
+            return;
+        }
+
+        $this->reset('showTwoFactorModal', 'twoFactorCode');
+        $this->twoFactorVerified = true;
+
+        $this->makeWithdrawal();
     }
 
     public function confirmAction() {
