@@ -418,6 +418,10 @@ class TradeSimulatorMultiexchangeService
         return $trade;
     }
 
+    private function pctPnL(float $entry, float $exit, float $size): float {
+        return $entry > 0 ? (($exit - $entry) / $entry) * $size : 0;
+    }
+
     /**
      * Update trade using prices from the specific exchanges
      */
@@ -436,8 +440,9 @@ class TradeSimulatorMultiexchangeService
         $exitShort = $prices[$shortExchange];
 
         // Calculate price PnL
-        $longPnL = (($exitLong - $trade->entry_price_long) / $trade->entry_price_long) * ($trade->position_size / 2);
-        $shortPnL = (($trade->entry_price_short - $exitShort) / $trade->entry_price_short) * ($trade->position_size / 2);
+        $longPnL  = $this->pctPnL($trade->entry_price_long, $exitLong, $trade->position_size / 2);
+        $shortPnL = $this->pctPnL($trade->entry_price_short, $exitShort, $trade->position_size / 2);
+        
         $pricePnL = $longPnL + $shortPnL;
 
         // Add minor randomness
