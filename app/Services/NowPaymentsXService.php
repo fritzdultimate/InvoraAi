@@ -33,11 +33,11 @@ class NowPaymentsXService {
         ];
 
         $res = Http::withHeaders([
-            'x-api-key' => self::$apiKey,
+            'x-api-key' => env('NAK'),
         ])->post(self::$endpoint . '/payment', $payload);
 
         if (!$res->successful()) {
-            Log::info("API K = " . self::$apiKey);
+            Log::info("API K = " . env('NAK'));
             throw new \Exception("NOWPayments invoice error: " . $res->body());
         }
 
@@ -49,7 +49,7 @@ class NowPaymentsXService {
      */
     public static function checkInvoice($invoiceId) {
         $res = Http::withHeaders([
-            'x-api-key' => self::$apiKey,
+            'x-api-key' => env('NAK'),
         ])->get(self::$endpoint . "/invoice/{$invoiceId}");
 
         if (!$res->successful()) {
