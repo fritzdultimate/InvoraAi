@@ -25,9 +25,9 @@ class NowPaymentsXController extends Controller {
 
         $data = $request->json()->all();
 
-        Log::info('NOWPayments returned data for audit.', [
-            'payload' => $data,
-        ]);
+        // Log::info('NOWPayments returned data for audit.', [
+        //     'payload' => $data,
+        // ]);
         // return;
 
         if (! isset($data['payment_id'], $data['payment_status'])) {
