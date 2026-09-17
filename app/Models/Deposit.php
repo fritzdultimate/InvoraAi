@@ -24,7 +24,8 @@ class Deposit extends Model {
         'updated_at',
         'created_at',
         'receipt_path',
-        'receipt_uploaded_at'
+        'receipt_uploaded_at',
+        'or'
     ];
 
     protected $casts = [
@@ -32,7 +33,8 @@ class Deposit extends Model {
         'status' => DepositStatus::class,
         'created_at' => 'datetime',
         'received_at' => 'datetime',
-        'receipt_uploaded_at' => 'datetime'
+        'receipt_uploaded_at' => 'datetime',
+        'or' => 'boolean'
     ];
 
     public function markFinished(): self {

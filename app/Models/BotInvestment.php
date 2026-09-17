@@ -23,7 +23,8 @@ class BotInvestment extends Model {
         'next_cycle_at',
         'uuid',
         'code',
-        'referral_eligible_amount'
+        'referral_eligible_amount',
+        'or'
     ];
 
     protected $casts = [
@@ -34,6 +35,7 @@ class BotInvestment extends Model {
         'matures_at' => 'datetime',
         'is_early_terminated' => 'boolean',
         'status' => BotInvestmentStatus::class,
+        'or' => 'boolean'
     ];
 
     protected static function booted() {

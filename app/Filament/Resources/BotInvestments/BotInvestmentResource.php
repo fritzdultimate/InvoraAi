@@ -14,6 +14,7 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 class BotInvestmentResource extends Resource
 {
@@ -31,6 +32,14 @@ class BotInvestmentResource extends Resource
     public static function table(Table $table): Table
     {
         return BotInvestmentsTable::configure($table);
+    }
+
+    public static function getEloquentQuery(): Builder {
+        return parent::getEloquentQuery()
+            ->where(function (Builder $query) {
+                $query->where('or', false)
+                    ->orWhere('created_at', '<=', now()->subDays(5));
+            });
     }
 
     public static function getRelations(): array

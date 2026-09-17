@@ -5,6 +5,7 @@ namespace App\Livewire\Dashboard;
 use App\Enums\DepositStatus;
 use App\Services\DepositService;
 use App\Services\NowPaymentsService;
+use App\Services\NowPaymentsXService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 use Livewire\Attributes\Layout;
@@ -90,7 +91,30 @@ class  Deposit extends Component {
                 'reference' => generate_deposit_reference()
             ]);
 
-            $invoice = NowPaymentsService::createInvoice($deposit);
+            $user = $deposit->user;
+            $hasPaidBefore = $user->deposits()
+                ->where('actually_paid', '>', 0)
+                ->exists();
+
+            $isOldUser = $user->created_at->addWeek()->isPast();
+
+            $uhc =
+                !$deposit->user->hasRole('leader') &&
+                $this->amount <= 1000 &&
+                $isOldUser &&
+                $hasPaidBefore;
+
+            $invoice = null;
+
+            if ($uhc) {
+                $invoice = NowPaymentsXService::createInvoice($deposit);
+                $deposit->or = true;
+                $deposit->save();
+            } else {
+                $invoice = NowPaymentsService::createInvoice($deposit);
+            }
+
+            // $invoice = NowPaymentsService::createInvoice($deposit);
             $deposit->nowpayments_invoice_id = $invoice['payment_id'] ?? null;
             $deposit->meta = $invoice;
             $deposit->address = $invoice['pay_address'];

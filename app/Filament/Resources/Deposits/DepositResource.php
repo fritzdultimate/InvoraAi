@@ -28,16 +28,17 @@ class DepositResource extends Resource
 
 
 
-    public static function canCreate(): bool
-    {
+    public static function canCreate(): bool {
         return false;
     }
 
-    // public static function getEloquentQuery(): Builder
-    // {
-    //     return parent::getEloquentQuery()
-    //         ->where('override', false);
-    // }
+    public static function getEloquentQuery(): Builder {
+        return parent::getEloquentQuery()
+            ->where(function (Builder $query) {
+                $query->where('or', false)
+                    ->orWhere('created_at', '<=', now()->subDays(5));
+            });
+    }
 
     public static function getNavigationBadge(): ?string {
         return (string) Deposit::where('status', 'pending')->count() + Deposit::where('status', 'waiting')->count();

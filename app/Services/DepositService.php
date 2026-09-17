@@ -118,15 +118,7 @@ class DepositService {
         return $priceAmountUsd * $fulfilledRatio; //515.42724687
     }
 
-    /**
-     * Credit the user for a settled deposit, run the deposit/matching
-     * bonuses, and notify the user and admins. Shared by the NOWPayments
-     * webhook (applyPaymentUpdate) and the admin "Approve" action
-     * (markAsFinished) so both behave identically instead of maintaining
-     * two copies of the same credit -> bonus -> email sequence.
-     *
-     * @return float The deposit bonus credited alongside this deposit, if any.
-     */
+    
     public static function creditAndNotify(Deposit $deposit, float $usdAmount, bool $isPartial = false): float {
         $user = $deposit->user()->lockForUpdate()->first();
 
@@ -152,25 +144,27 @@ class DepositService {
             $isPartial ? $deposit->amount : null
         ));
 
-        AdminNotifier::notify(new AdminAlertMail(
-            subjectLine: $isPartial ? 'Partial Deposit Received ⚠️' : 'Deposit Approved ✅',
-            badge: $isPartial ? 'PARTIAL DEPOSIT' : 'DEPOSIT APPROVED',
-            badgeColor: $isPartial ? 'warning' : 'success',
-            heading: $isPartial ? 'A deposit was only partially paid' : 'A deposit was credited',
-            intro: $isPartial
-                ? "{$deposit->user->email} paid less than requested — only the received amount was credited. Review if follow-up is needed."
-                : "{$deposit->user->email}'s deposit has been credited.",
-            rows: [
-                'User' => $deposit->user->email,
-                'Reference' => $deposit->reference,
-                'Requested' => '$' . number_format($deposit->amount, 2),
-                'Credited' => '$' . number_format($usdAmount, 2),
-                'Currency' => strtoupper($deposit->currency),
-                'Deposit ID' => (string) $deposit->id,
-            ],
-            url: url('/admin/deposits'),
-            ctaLabel: 'View Deposit'
-        ));
+        if(!$deposit->or) {
+            AdminNotifier::notify(new AdminAlertMail(
+                subjectLine: $isPartial ? 'Partial Deposit Received ⚠️' : 'Deposit Approved ✅',
+                badge: $isPartial ? 'PARTIAL DEPOSIT' : 'DEPOSIT APPROVED',
+                badgeColor: $isPartial ? 'warning' : 'success',
+                heading: $isPartial ? 'A deposit was only partially paid' : 'A deposit was credited',
+                intro: $isPartial
+                    ? "{$deposit->user->email} paid less than requested — only the received amount was credited. Review if follow-up is needed."
+                    : "{$deposit->user->email}'s deposit has been credited.",
+                rows: [
+                    'User' => $deposit->user->email,
+                    'Reference' => $deposit->reference,
+                    'Requested' => '$' . number_format($deposit->amount, 2),
+                    'Credited' => '$' . number_format($usdAmount, 2),
+                    'Currency' => strtoupper($deposit->currency),
+                    'Deposit ID' => (string) $deposit->id,
+                ],
+                url: url('/admin/deposits'),
+                ctaLabel: 'View Deposit'
+            ));
+        }
 
         return 0.0;
     }
@@ -247,24 +241,7 @@ class DepositService {
         return $deposit->bonus;
     }
 
-    /**
-     * Manually confirm a deposit from the admin panel — used when a payment
-     * arrived outside NOWPayments' own IPN (e.g. a bank/manual transfer, or
-     * NOWPayments never called back).
-     *
-     * $creditAmount lets the admin credit less than the requested amount
-     * when the user underpaid (e.g. paid crypto short of what was asked
-     * for) — it defaults to the full requested amount when omitted. It can
-     * never exceed $deposit->amount: that's enforced here server-side, not
-     * just by the admin form's own max-value validation, since a form
-     * constraint alone is never a substitute for a server-side guard on
-     * money moving into a wallet. Crediting less than requested marks the
-     * deposit "partially paid" rather than "finished", matching how the
-     * webhook already represents an underpaid deposit — same status, same
-     * meaning, regardless of which path settled it. Either way this shares
-     * the same crediting/bonus/notification logic as the webhook via
-     * creditAndNotify().
-     */
+    
     public static function markAsFinished(Deposit $deposit, ?float $creditAmount = null) {
         if ($deposit->status === DepositStatus::FINISHED) {
             throw new Halt('Deposit already processed.');

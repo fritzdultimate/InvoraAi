@@ -5,27 +5,19 @@ namespace App\Http\Controllers;
 use App\Models\Deposit;
 use App\Services\DepositService;
 use App\Services\NowPaymentsService;
+use App\Services\NowPaymentsXService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
-class NowPaymentsController extends Controller {
-    /**
-     * Handle a NOWPayments IPN (Instant Payment Notification) callback.
-     *
-     * NOWPayments POSTs here every time a payment's status changes
-     * (waiting -> confirming -> finished, or partially_paid/failed/expired
-     * along the way). We verify the signature, find the matching deposit
-     * by invoice id, and hand off to DepositService::applyPaymentUpdate()
-     * for the actual status/crediting logic — this controller's only job
-     * is authenticating and routing the webhook.
-     */
+class NowPaymentsXController extends Controller {
+   
     public function webhook(Request $request) {
         $rawPayload = $request->getContent();
         $signature = $request->header('x-nowpayments-sig');
 
-        if (! $signature || ! NowPaymentsService::verifySignature($rawPayload, $signature)) {
+        if (! $signature || ! NowPaymentsXService::verifySignature($rawPayload, $signature)) {
             Log::warning('NOWPayments webhook: rejected, missing or invalid signature.');
 
             return response('Invalid signature', 400);
