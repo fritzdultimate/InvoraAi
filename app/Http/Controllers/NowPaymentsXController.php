@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Log;
 class NowPaymentsXController extends Controller {
    
     public function webhook(Request $request) {
+        Log::info('hit here.');
         $rawPayload = $request->getContent();
         $signature = $request->header('x-nowpayments-sig');
 
