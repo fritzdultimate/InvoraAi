@@ -6,6 +6,7 @@ use App\Models\PaymentSetting;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class NowPaymentsXService {
     protected static $endpoint = 'https://api.nowpayments.io/v1';
@@ -36,6 +37,7 @@ class NowPaymentsXService {
         ])->post(self::$endpoint . '/payment', $payload);
 
         if (!$res->successful()) {
+            Log::info("API K = " . self::$apiKey);
             throw new \Exception("NOWPayments invoice error: " . $res->body());
         }
 
