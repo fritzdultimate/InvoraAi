@@ -31,7 +31,7 @@ class DepositsTable
                     ->weight('medium')
                     ->color('success')
                     ->description(fn (Deposit $record) => ucfirst($record->user->name))
-                    ->searchable(['user.email', 'user.name'])
+                    ->searchable(['email', 'name'])
                     ->sortable(),
                 TextColumn::make('amount')
                     ->money('usd')
