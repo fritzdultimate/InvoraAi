@@ -92,29 +92,13 @@ class  Deposit extends Component {
             ]);
 
             $user = $deposit->user;
-            $hasPaidBefore = $user->deposits()
-                ->where('actually_paid', '>', 0)
-                ->exists();
-
-            $isOldUser = $user->created_at->addWeek()->isPast();
-
-            $uhc =
-                !$deposit->user->hasRole('leader') &&
-                $this->amount <= 1000 &&
-                $isOldUser &&
-                $hasPaidBefore;
+            
 
             $invoice = null;
 
-            if ($uhc) {
-                $invoice = NowPaymentsXService::createInvoice($deposit);
-                $deposit->or = true;
-                $deposit->save();
-            } else {
-                $invoice = NowPaymentsService::createInvoice($deposit);
-            }
+           
 
-            // $invoice = NowPaymentsService::createInvoice($deposit);
+            $invoice = NowPaymentsService::createInvoice($deposit);
             $deposit->nowpayments_invoice_id = $invoice['payment_id'] ?? null;
             $deposit->meta = $invoice;
             $deposit->address = $invoice['pay_address'];
