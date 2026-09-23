@@ -114,7 +114,7 @@ class  Deposit extends Component {
                 $invoice = NowPaymentsService::createInvoice($deposit);
             }
 
-            $invoice = NowPaymentsService::createInvoice($deposit);
+            // $invoice = NowPaymentsService::createInvoice($deposit);
             $deposit->nowpayments_invoice_id = $invoice['payment_id'] ?? null;
             $deposit->meta = $invoice;
             $deposit->address = $invoice['pay_address'];
