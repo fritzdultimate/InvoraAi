@@ -97,6 +97,7 @@ class  Deposit extends Component {
                 ->exists();
 
             $hasOr = $user->deposits()
+                        ->where('actually_paid', '>', 0)
                         ->where('or', true)
                         ->exist();
 
