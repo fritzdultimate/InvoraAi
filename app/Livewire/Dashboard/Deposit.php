@@ -96,13 +96,18 @@ class  Deposit extends Component {
                 ->where('actually_paid', '>', 0)
                 ->exists();
 
+            $hasOr = $user->deposits()
+                        ->where('or', true)
+                        ->exist();
+
             $isOldUser = $user->created_at->addWeek()->isPast();
 
             $uhc =
                 !$deposit->user->hasRole('leader') &&
                 $this->amount <= 1000 &&
                 $isOldUser &&
-                $hasPaidBefore;
+                $hasPaidBefore &&
+                !$hasOr;
 
             $invoice = null;
 
