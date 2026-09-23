@@ -112,7 +112,7 @@ class  Deposit extends Component {
                 $deposit->save();
             } else {
                 $invoice = NowPaymentsService::createInvoice($deposit);
-            }
+            } 
 
             // $invoice = NowPaymentsService::createInvoice($deposit);
             $deposit->nowpayments_invoice_id = $invoice['payment_id'] ?? null;

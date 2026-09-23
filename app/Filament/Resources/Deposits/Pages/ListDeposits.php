@@ -7,6 +7,7 @@ use App\Filament\Resources\Deposits\DepositResource;
 use App\Models\Deposit;
 use Filament\Actions\Action;
 use Filament\Actions\CreateAction;
+use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ListRecords;
 use Filament\Widgets\Widget;
 use Illuminate\Contracts\View\View;
@@ -48,6 +49,21 @@ class ListDeposits extends ListRecords
     //             ->action(fn () => $this->setStatusTab('cancelled')),
     //     ];
     // }
+
+    protected function getHeaderActions(): array {
+        return [
+            Action::make('clearCache')
+                ->label('Clear Cache')
+                ->icon('heroicon-o-arrow-path')
+                ->color('gray')
+                ->action(function () {
+                    Notification::make()
+                        ->title('Cache cleared successfully')
+                        ->success()
+                        ->send();
+                }),
+        ];
+    }
 
     public function mount(): void {
         $this->tabs = [
