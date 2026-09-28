@@ -211,7 +211,7 @@
                 <li>Maximum per transaction: <strong>$1,000,000</strong></li>
                 <li>Withdrawals are processed within <strong>24 hours</strong></li>
                 <li>Only <strong>one withdrawal request per day</strong> is allowed</li>
-                <li>A <strong>2% processing fee</strong> applies to all withdrawals</li>
+                <li>A <strong>{{ rtrim(rtrim(number_format($this->feePercent, 2), '0'), '.') }}% processing fee</strong> applies to all withdrawals</li>
                 <li>Please <strong>double-check your wallet address</strong> before submitting</li>
             </ul>
 
@@ -282,7 +282,7 @@
                     <div class="invora-input-pro">
                         <span class="prefix">$</span>
                         <input 
-                            wire:model.live="amount" 
+                            wire:model="amount" 
                             type="text" 
                             placeholder="0.00"
                             inputmode="decimal"
@@ -323,30 +323,36 @@
                     @enderror
                 </div>
 
-                @if($amount > 0)
-                    <div class="invora-summary-box">
-                        <div class="invora-summary-row">
-                            <span>Amount</span>
-                            <span>${{ number_format((float)$amount ?: 0, 2) }}</span>
-                        </div>
-
-                        <div class="invora-summary-row fee">
-                            <span>Fee (2%)</span>
-                            <span>
-                                -${{ number_format(((float)$amount ?: 0) * 0.02, 2) }}
-                            </span>
-                        </div>
-
-                        <div class="invora-summary-divider"></div>
-
-                        <div class="invora-summary-row total">
-                            <span>You will receive</span>
-                            <span>
-                                ${{ number_format(((float)$this->netAmount ?: 0), 2) }}
-                            </span>
-                        </div>
+                {{-- Worked out in the browser as the user types — no server round trip per keystroke --}}
+                <div
+                    x-data="{
+                        feePercent: {{ $this->feePercent }},
+                        num(v) { const n = parseFloat(String(v ?? '').replace(/[^0-9.]/g, '')); return isNaN(n) ? 0 : n; },
+                        money(v) { return '$' + v.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); },
+                        get amt() { return this.num($wire.amount); },
+                        get fee() { return this.amt * this.feePercent / 100; },
+                    }"
+                    x-show="amt > 0"
+                    x-cloak
+                    class="invora-summary-box"
+                >
+                    <div class="invora-summary-row">
+                        <span>Amount</span>
+                        <span x-text="money(amt)"></span>
                     </div>
-                @endif
+
+                    <div class="invora-summary-row fee">
+                        <span>Fee ({{ rtrim(rtrim(number_format($this->feePercent, 2), '0'), '.') }}%)</span>
+                        <span x-text="'-' + money(fee)"></span>
+                    </div>
+
+                    <div class="invora-summary-divider"></div>
+
+                    <div class="invora-summary-row total">
+                        <span>You will receive</span>
+                        <span x-text="money(amt - fee)"></span>
+                    </div>
+                </div>
 
                 <!-- BUTTON -->
                 <button class="invora-btn-pro">

@@ -57,13 +57,26 @@ class Withdrawal extends Component {
         return CustomSetting::get('minimum_withdrawal') ?? 20;
     }
 
+    public function getFeePercentProperty(): float {
+        return $this->toNumber(CustomSetting::get('withdrawal_fee'));
+    }
+
     public function getFeeProperty() {
-        $fee = CustomSetting::get('withdrawal_fee');
-        return ($this->amount ?? 0) * ($fee * 0.01);
+        $fee = $this->toNumber(CustomSetting::get('withdrawal_fee'));
+
+        return $this->toNumber($this->amount) * ($fee * 0.01);
     }
 
     public function getNetAmountProperty() {
-        return ($this->amount ?? 0) - $this->fee;
+        return $this->toNumber($this->amount) - $this->fee;
+    }
+
+    // The amount comes straight from the input box while the user is typing
+    // ("", "1,000", "12.", "abc"), so never do maths on it directly.
+    private function toNumber($value): float {
+        $value = str_replace([',', '%', ' '], '', (string) $value);
+
+        return is_numeric($value) ? (float) $value : 0.0;
     }
 
 
