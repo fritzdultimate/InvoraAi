@@ -18,7 +18,7 @@
                         <li><strong>Date of incorporation:</strong> 17 March 2021</li>
                         <li><strong>Jurisdiction:</strong> British Virgin Islands</li>
                     </ul>
-                    <a href="{{ asset('assets/images/about/certificate-of-incorporation.png') }}" class="btn" target="_blank" rel="noopener">
+                    <a href="{{ asset('assets/images/about/certificate-of-incorporation_6281.jpeg') }}" class="btn" target="_blank" rel="noopener">
                         View Certificate of Incorporation
                     </a>
                 </div>
