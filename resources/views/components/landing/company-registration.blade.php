@@ -25,7 +25,7 @@
             </div>
             <div class="col-lg-6 order-lg-2 order-1">
                 <div class="about-img text-center wow fadeInRight" data-wow-delay=".2s">
-                    <a href="{{ asset('assets/images/about/certificate-of-incorporation_6281.JPG') }}" target="_blank" rel="noopener">
+                    <a href="{{ asset('assets/images/about/certificate-of-incorporation_6281.jpeg') }}" target="_blank" rel="noopener">
                         <img
                             src="{{ asset('assets/images/about/certificate-of-incorporation.png') }}"
                             alt="Certificate of Incorporation — Pharmalectin, Inc., BVI Company No. 2057427"
