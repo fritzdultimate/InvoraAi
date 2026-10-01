@@ -1,5 +1,5 @@
 <!-- company-registration — incorporation proof, split: content left, certificate right -->
-<section id="company-registration" class="about-area company-registration-area" style="padding-top: 40px; padding-bottom: 40px; display:none;">
+<section id="company-registration" class="about-area company-registration-area" style="padding-top: 40px; padding-bottom: 40px;">
     <div class="container">
         <div class="row align-items-center gy-4">
             <div class="col-lg-6 order-lg-1 order-2">
@@ -13,7 +13,7 @@
                         duly incorporated in the British Virgin Islands under the BVI Business Companies Act, 2004.
                     </p>
                     <ul class="list-unstyled company-registration-facts" style="line-height: 2;">
-                        <li><strong>Legal name:</strong> Pharmalectin, Inc.</li>
+                        <li><strong>Legal name:</strong> Invora Capital Ltd.</li>
                         <li><strong>BVI company number:</strong> 2057427</li>
                         <li><strong>Date of incorporation:</strong> 17 March 2021</li>
                         <li><strong>Jurisdiction:</strong> British Virgin Islands</li>
@@ -25,7 +25,7 @@
             </div>
             <div class="col-lg-6 order-lg-2 order-1">
                 <div class="about-img text-center wow fadeInRight" data-wow-delay=".2s">
-                    <a href="{{ asset('assets/images/about/certificate-of-incorporation.png') }}" target="_blank" rel="noopener">
+                    <a href="{{ asset('assets/images/about/certificate-of-incorporation_6281.JPG') }}" target="_blank" rel="noopener">
                         <img
                             src="{{ asset('assets/images/about/certificate-of-incorporation.png') }}"
                             alt="Certificate of Incorporation — Pharmalectin, Inc., BVI Company No. 2057427"
