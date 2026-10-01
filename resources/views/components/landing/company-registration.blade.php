@@ -1,5 +1,5 @@
 <!-- company-registration — incorporation proof, split: content left, certificate right -->
-<section id="company-registration" class="about-area company-registration-area" style="padding-top: 40px; padding-bottom: 40px;">
+<section id="company-registration" class="about-area company-registration-area" style="padding-top: 40px; padding-bottom: 40px;" style="display:none;">
     <div class="container">
         <div class="row align-items-center gy-4">
             <div class="col-lg-6 order-lg-1 order-2">
