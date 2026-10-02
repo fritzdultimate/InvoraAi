@@ -9,13 +9,13 @@
                         <h2 class="title">Registered &amp; <span>Incorporated</span></h2>
                     </div>
                     <p>
-                        {{ config('app.public_name') }} is operated by <strong>Pharmalectin, Inc.</strong>, a company
+                        {{ config('app.public_name') }} is operated by <strong>Invora Capital Ltd.</strong>, a company
                         duly incorporated in the British Virgin Islands under the BVI Business Companies Act, 2004.
                     </p>
                     <ul class="list-unstyled company-registration-facts" style="line-height: 2;">
                         <li><strong>Legal name:</strong> Invora Capital Ltd.</li>
-                        <li><strong>BVI company number:</strong> 2057427</li>
-                        <li><strong>Date of incorporation:</strong> 17 March 2021</li>
+                        <li><strong>BVI company number:</strong> 2161846</li>
+                        <li><strong>Date of incorporation:</strong> 04 November 2024</li>
                         <li><strong>Jurisdiction:</strong> British Virgin Islands</li>
                     </ul>
                     <a href="{{ asset('assets/images/about/certificate-of-incorporation_6281.jpeg') }}" class="btn" target="_blank" rel="noopener">
