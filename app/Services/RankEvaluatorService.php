@@ -87,7 +87,9 @@ class RankEvaluatorService {
             if (empty($ids)) continue;
 
             // $volume = BotInvestment::whereIn('user_id', $ids)->sum('amount');
-            $volume = Deposit::whereIn('user_id', $ids)->sum('amount');
+            $volume = Deposit::whereIn('user_id', $ids)
+                ->where('actually_paid', '>', 0)
+                ->sum('amount');
 
             $percentage = $percentages[$level] ?? 0;
 
