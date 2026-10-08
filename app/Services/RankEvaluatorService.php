@@ -5,6 +5,7 @@ use App\Enums\LedgerAsset;
 use App\Enums\LedgerReference;
 use App\Models\BotInvestment;
 use App\Models\DailyResidualBonus;
+use App\Models\Deposit;
 use App\Models\Rank;
 use App\Models\RankBonus;
 use App\Models\UnilevelPercentage;
@@ -85,7 +86,8 @@ class RankEvaluatorService {
 
             if (empty($ids)) continue;
 
-            $volume = BotInvestment::whereIn('user_id', $ids)->sum('amount');
+            // $volume = BotInvestment::whereIn('user_id', $ids)->sum('amount');
+            $volume = Deposit::whereIn('user_id', $ids)->sum('amount');
 
             $percentage = $percentages[$level] ?? 0;
 
