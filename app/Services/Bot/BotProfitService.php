@@ -6,6 +6,7 @@ use App\Enums\LedgerAsset;
 use App\Enums\LedgerReference;
 use App\Models\BotInvestment;
 use App\Models\BotProfitCycle;
+use App\Services\Promo\RoiPromoService;
 use App\Services\Wallet\WalletService;
 use Illuminate\Support\Facades\DB;
 
@@ -17,7 +18,9 @@ class BotProfitService {
                 ->whereIn('status', ['active', 'termination_requested'])
                 ->where('next_cycle_at', '<=', now())
                 ->chunkById(100, function($investments) {
-                DB::transaction(function () use($investments) {
+                $boostedPayouts = [];
+
+                DB::transaction(function () use($investments, &$boostedPayouts) {
 
                     foreach ($investments as $investment) {
                         if ($investment->is_early_terminated) continue;
@@ -89,15 +92,31 @@ class BotProfitService {
                             8
                         );
 
+                        // ROI promo: boosted positions get their payout multiplied
+                        $meta = ['market_factor' => $marketFactor];
+                        $multiplier = RoiPromoService::multiplierFor($investment);
+
+                        if (bccomp($multiplier, '1', 2) === 1) {
+                            $baseProfit = $profit;
+                            $profit = bcmul($profit, $multiplier, 8);
+                            $extra = bcsub($profit, $baseProfit, 8);
+
+                            $investment->roi_boost_earned = bcadd((string) $investment->roi_boost_earned, $extra, 8);
+
+                            $meta['base_profit'] = $baseProfit;
+                            $meta['roi_multiplier'] = $multiplier;
+                            $meta['roi_promo_id'] = $investment->roi_promo_id;
+
+                            $boostedPayouts[] = [$investment, $profit, $extra];
+                        }
+
                         BotProfitCycle::create([
                             'bot_investment_id' => $investment->id,
                             'user_id' => $user->id,
                             'profit_amount' => $profit,
                             'cycle_at' => now(),
                             'percent' => $intervalPercent,
-                            'meta' => json_encode([
-                                'market_factor' => $marketFactor,
-                            ])
+                            'meta' => json_encode($meta)
                         ]);
 
                         $investment->total_profit = bcadd(
@@ -129,6 +148,11 @@ class BotProfitService {
                         ]);
                     }
                 });
+
+                // emails go out after the payouts are saved, so a mail error never undoes a payout
+                foreach ($boostedPayouts as [$investment, $profit, $extra]) {
+                    RoiPromoService::sendRewardEmail($investment, $profit, $extra);
+                }
             });
     }
 }

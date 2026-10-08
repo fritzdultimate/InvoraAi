@@ -217,6 +217,9 @@
 
         </div>
     @endif
+
+    <livewire:dashboard.roi-promo-banner />
+
     <div class="grid grid-cols-1 xl:grid-cols-12 gap-6">
 
         <div class="invora-grid col-span-12 2xl:col-span-6">

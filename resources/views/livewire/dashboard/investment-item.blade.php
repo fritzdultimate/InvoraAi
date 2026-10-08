@@ -24,6 +24,30 @@
                 <div class="invora-hero-sub">
                     Investment #{{ $investment->id }}
                 </div>
+
+                @if($investment->roi_promo_id)
+                    <div class="roi-boost-badge {{ $investment->isRoiBoosted() ? '' : 'is-done' }}">
+                        <i class="ri-flashlight-fill"></i>
+                        {{ rtrim(rtrim(number_format((float) $investment->roi_multiplier, 2), '0'), '.') }}× ROI boost
+                        @if($investment->isRoiBoosted())
+                            · {{ $investment->roi_boost_ends_at ? 'until ' . $investment->roi_boost_ends_at->format('M d') : 'to maturity' }}
+                        @else
+                            · ended
+                        @endif
+                        @if($investment->roi_boost_earned > 0)
+                            <span>+${{ number_format($investment->roi_boost_earned, 2) }}</span>
+                        @endif
+                    </div>
+                    <style>
+                        .roi-boost-badge {
+                            display: inline-flex; align-items: center; gap: 6px; margin-top: 8px;
+                            padding: 5px 10px; border-radius: 999px; font-size: 11.5px; font-weight: 600;
+                            color: #22c55e; background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.28);
+                        }
+                        .roi-boost-badge.is-done { color: #94a3b8; background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.08); }
+                        .roi-boost-badge span { color: #e2e8f0; font-variant-numeric: tabular-nums; }
+                    </style>
+                @endif
             </div>
 
             <div class="invora-hero-right">

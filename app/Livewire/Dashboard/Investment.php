@@ -10,6 +10,7 @@ use App\Models\BotLicense;
 use App\Models\BotLicenseUpgrade;
 use App\Services\Bot\BotInvestmentService;
 use App\Services\DepositService;
+use App\Services\Promo\RoiPromoService;
 use App\Services\ReferralBonusService;
 use App\Services\Wallet\WalletService;
 use Illuminate\Support\Facades\DB;
@@ -247,6 +248,12 @@ class Investment extends Component
                 $investment->save();
             }
 
+            try {
+                RoiPromoService::tag($investment);
+            } catch (\Throwable $e) {
+                report($e);
+            }
+
             WalletService::credit(
                 auth()->user(), 
                 $this->amount, 
@@ -267,6 +274,23 @@ class Investment extends Component
         }
 
         
+    }
+
+    // ROI promo hint shown inside the deploy modal
+    public function getBoostProperty() {
+        if (! $this->selectedLicense || $this->upgradeMode || $this->renewMode) return null;
+
+        $promo = RoiPromoService::liveForBot($this->selectedLicense->bot_id)->first();
+        if (! $promo) return null;
+
+        $amount = is_numeric($this->amount) ? (float) $this->amount : (float) $this->selectedLicense->bot->min_amount;
+        $match = RoiPromoService::matchFor(auth()->user(), $this->selectedLicense, $amount);
+
+        return [
+            'promo' => $match ?? $promo,
+            'eligible' => (bool) $match,
+            'reason' => $match ? null : RoiPromoService::blockReason($promo, auth()->user(), $this->selectedLicense, $amount),
+        ];
     }
 
     public function viewInvestment($id) {

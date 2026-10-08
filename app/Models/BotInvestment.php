@@ -35,7 +35,11 @@ class BotInvestment extends Model {
         'matures_at' => 'datetime',
         'is_early_terminated' => 'boolean',
         'status' => BotInvestmentStatus::class,
-        'or' => 'boolean'
+        'or' => 'boolean',
+        'roi_multiplier' => 'decimal:2',
+        'roi_boost_ends_at' => 'datetime',
+        'roi_boost_earned' => 'decimal:8',
+        'roi_first_notified_at' => 'datetime',
     ];
 
     protected static function booted() {
@@ -63,6 +67,15 @@ class BotInvestment extends Model {
 
     public function isMatured(): bool {
         return now()->greaterThanOrEqualTo($this->matures_at);
+    }
+
+    public function roiPromo() {
+        return $this->belongsTo(RoiPromo::class);
+    }
+
+    public function isRoiBoosted(): bool {
+        return $this->roi_promo_id
+            && (! $this->roi_boost_ends_at || now()->lt($this->roi_boost_ends_at));
     }
 
     public function botLicense() {

@@ -248,11 +248,32 @@
                         </select>
                     </div>
 
+                    @php $boost = $this->boost; @endphp
+
+                    {{-- ROI promo hint --}}
+                    @if($boost)
+                        <div class="boost-hint {{ $boost['eligible'] ? 'is-on' : '' }}">
+                            <span class="boost-hint-x">{{ $boost['promo']->multiplierLabel() }}</span>
+                            <div>
+                                @if($boost['eligible'])
+                                    <strong>This deployment earns {{ $boost['promo']->multiplierLabel() }} ROI</strong>
+                                    <span>
+                                        {{ $boost['promo']->name }} ·
+                                        {{ $boost['promo']->boost_duration === 'days' && $boost['promo']->boost_days ? $boost['promo']->boost_days . '-day boost' : 'boosted until maturity' }}
+                                    </span>
+                                @else
+                                    <strong>{{ $boost['promo']->name }} is live</strong>
+                                    <span>{{ $boost['reason'] }}</span>
+                                @endif
+                            </div>
+                        </div>
+                    @endif
+
                     {{-- Amount Input --}}
                     <input 
                         type="number" 
                         class="input" 
-                        wire:model.defer="amount" 
+                        wire:model{{ $boost ? '.live.debounce.500ms' : '.defer' }}="amount" 
                         placeholder="Enter amount"
                         min="0"
                         step="0.01"
@@ -291,6 +312,21 @@
         </div>
 
         <style>
+            .boost-hint {
+                display: flex; align-items: center; gap: 12px;
+                margin-bottom: 12px; padding: 11px 13px; border-radius: 12px;
+                background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07);
+            }
+            .boost-hint.is-on { background: rgba(34,197,94,0.08); border-color: rgba(34,197,94,0.3); }
+            .boost-hint-x {
+                flex-shrink: 0; min-width: 42px; height: 42px; padding: 0 8px; border-radius: 10px;
+                display: grid; place-items: center;
+                font-weight: 800; font-size: 16px; color: #64748b; background: rgba(255,255,255,0.04);
+            }
+            .boost-hint.is-on .boost-hint-x { color: #04120c; background: linear-gradient(135deg, #22c55e, #009A76); }
+            .boost-hint strong { display: block; font-size: 13px; color: #e2e8f0; font-weight: 600; }
+            .boost-hint span { display: block; font-size: 12px; color: #94a3b8; margin-top: 2px; }
+
             .modal-overlay {
                 position: fixed;
                 inset: 0;
