@@ -12,7 +12,8 @@ use Illuminate\Support\Facades\DB;
 
 class BotProfitService {
     public static function run() {
-        
+        // Licenses that ran out stop their investments first, so they get no more profit.
+        app(BotLicenseService::class)->expireLicenses();
 
             BotInvestment::with('bot', 'user', 'botLicense')
                 ->whereIn('status', ['active', 'termination_requested'])
