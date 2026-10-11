@@ -14,7 +14,7 @@ use App\Services\HyperliquidService;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
-Route::get('cron/investment/profit/distribute', [ProfitController::class, 'distribute']);
+Route::get('cron/investment/profit/distribute', [ProfitController::class, 'distribute']); 
 
 Route::get('/cron/assign-rank', [RankController::class, 'assignRank'])->name('rank.assign');
 
