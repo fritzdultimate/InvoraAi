@@ -251,10 +251,10 @@ class BotInvestmentService {
                     'status' => 'completed'
                 ]);
 
-                // debit investment capital from locked balance
+                // debit the investment from locked balance: amount, which includes any reinvested profit
                 WalletService::debit(
                     $license->user,
-                    $inv->capital,
+                    $inv->amount,
                     LedgerReference::BOT_INVESTMENT_COMPLETED,
                     $inv->id,
                     'license upgrade - investment completed',
@@ -262,10 +262,10 @@ class BotInvestmentService {
 
                 );
 
-                // credit investment capital to main balance
+                // credit it to main balance
                 WalletService::credit(
                     $license->user,
-                    $inv->capital,
+                    $inv->amount,
                     LedgerReference::BOT_INVESTMENT_COMPLETED,
                     $inv->id,
                     'license upgrade - investment completed',
