@@ -22,6 +22,8 @@
     background: linear-gradient(145deg, rgba(30,35,55,0.8), rgba(15,20,35,0.95));
     border: 1px solid var(--border);
     transition: 0.3s ease;
+    flex-wrap: wrap;
+    row-gap: 14px;
 }
 
 .direct-card:hover {
@@ -167,4 +169,28 @@
 
 .tree-user.child {
     font-size: 12px;
+}
+
+/* 🔥 DEPOSIT VOLUME */
+.direct-volume {
+    order: 3;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 10px;
+    padding-top: 12px;
+    border-top: 1px dashed var(--border);
+}
+
+.direct-volume__amount {
+    font-size: 16px;
+    font-weight: 700;
+    color: #22c55e;
+}
+
+.direct-volume__label {
+    font-size: 11px;
+    color: var(--text-secondary);
+    text-align: right;
 }

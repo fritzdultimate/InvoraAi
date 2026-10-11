@@ -40,6 +40,20 @@
             </div>
         </div>
 
+        <div class="summary-box">
+            <div class="summary-label">Deposit Volume in Level {{ $depth }}</div>
+            <div class="summary-value">
+                ${{ number_format($levelVolume, 2) }}
+            </div>
+        </div>
+
+        <div class="summary-box">
+            <div class="summary-label">Counts to Your Team Volume ({{ rtrim(rtrim(number_format($percentage, 2), '0'), '.') }}%)</div>
+            <div class="summary-value glow">
+                ${{ number_format($levelTeamVolume, 2) }}
+            </div>
+        </div>
+
     </div>
 
     <!-- 🔥 USER CARDS -->
@@ -63,6 +77,14 @@
                         <div class="direct-meta">
                             Joined {{ $user->created_at->format('M d, Y') }}
                         </div>
+                    </div>
+                </div>
+
+                @php $volume = (float) ($volumes[$ref->user_id] ?? 0); @endphp
+                <div class="direct-volume">
+                    <div class="direct-volume__amount">${{ number_format($volume, 2) }}</div>
+                    <div class="direct-volume__label">
+                        Deposits · {{ rtrim(rtrim(number_format($percentage, 2), '0'), '.') }}% = ${{ number_format($volume * $percentage / 100, 2) }} to your volume
                     </div>
                 </div>
 
