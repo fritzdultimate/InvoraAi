@@ -80,11 +80,20 @@
                     </div>
                 </div>
 
-                @php $volume = (float) ($volumes[$ref->user_id] ?? 0); @endphp
+                @php
+                    $volume = (float) ($volumes[$ref->user_id] ?? 0);
+                    $earned = (float) ($userEarnings[$ref->user_id] ?? 0);
+                @endphp
                 <div class="direct-volume">
-                    <div class="direct-volume__amount">${{ number_format($volume, 2) }}</div>
-                    <div class="direct-volume__label">
-                        Deposits · {{ rtrim(rtrim(number_format($percentage, 2), '0'), '.') }}% = ${{ number_format($volume * $percentage / 100, 2) }} to your volume
+                    <div>
+                        <div class="direct-volume__amount">${{ number_format($volume, 2) }}</div>
+                        <div class="direct-volume__label">
+                            Deposits · {{ rtrim(rtrim(number_format($percentage, 2), '0'), '.') }}% = ${{ number_format($volume * $percentage / 100, 2) }} to your volume
+                        </div>
+                    </div>
+                    <div class="direct-volume__earned">
+                        <div class="direct-volume__amount">${{ number_format($earned, 2) }}</div>
+                        <div class="direct-volume__label">You earned</div>
                     </div>
                 </div>
 

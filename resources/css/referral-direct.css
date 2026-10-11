@@ -177,7 +177,7 @@
     width: 100%;
     display: flex;
     justify-content: space-between;
-    align-items: baseline;
+    align-items: flex-start;
     gap: 10px;
     padding-top: 12px;
     border-top: 1px dashed var(--border);
@@ -192,5 +192,13 @@
 .direct-volume__label {
     font-size: 11px;
     color: var(--text-secondary);
+}
+
+.direct-volume__earned {
     text-align: right;
+    flex-shrink: 0;
+}
+
+.direct-volume__earned .direct-volume__amount {
+    color: #facc15;
 }

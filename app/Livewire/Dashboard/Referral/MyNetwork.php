@@ -47,6 +47,13 @@ class MyNetwork extends Component
             ->selectRaw('user_id, SUM(amount) as volume')
             ->pluck('volume', 'user_id');
 
+        $userEarnings = ReferralBonus::where('user_id', auth()->id())
+            ->where('level', $this->depth)
+            ->whereIn('from_user_id', $network->pluck('user_id'))
+            ->groupBy('from_user_id')
+            ->selectRaw('from_user_id, SUM(amount) as total')
+            ->pluck('total', 'from_user_id');
+
         $levelVolume = Deposit::whereIn('user_id', Referral::where($column, auth()->id())->select('user_id'))
             ->where('actually_paid', '>', 0)
             ->sum('amount');
@@ -56,6 +63,7 @@ class MyNetwork extends Component
             'earnings' => $earnings,
             'percentage' => $percentage,
             'volumes' => $volumes,
+            'userEarnings' => $userEarnings,
             'levelVolume' => $levelVolume,
             'levelTeamVolume' => $levelVolume * $percentage / 100,
         ]);
