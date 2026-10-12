@@ -2,17 +2,20 @@
 
 namespace App\Services\Bot;
 
+use App\Enums\BotInvestmentStatus;
 use App\Enums\LedgerAsset;
 use App\Enums\LedgerReference;
 use App\Models\BotInvestment;
 use App\Models\BotProfitCycle;
+use App\Models\BotTermination;
 use App\Services\Promo\RoiPromoService;
 use App\Services\Wallet\WalletService;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class BotProfitService {
     public static function run() {
-        // Licenses that ran out stop their investments first, so they get no more profit.
+        // Expired licenses stop earning profit, but their investments still run to maturity.
         app(BotLicenseService::class)->expireLicenses();
 
             BotInvestment::with('bot', 'user', 'botLicense')
@@ -26,34 +29,18 @@ class BotProfitService {
                     foreach ($investments as $investment) {
                         if ($investment->is_early_terminated) continue;
 
-                        if (!$investment->botLicense || !$investment->botLicense->isActive()) {
-                            continue;
-                        }
-
                         $bot = $investment->bot;
                         $user = $investment->user;
 
-                        
+                        // Maturity comes before the license check, so investments under an expired
+                        // license still complete on their maturity date.
                         if ($investment->isMatured()) {
-                            $investment->update(['status' => 'completed']);
+                            self::complete($investment);
+                            continue;
+                        }
 
-                            WalletService::debit(
-                                $user,
-                                $investment->amount,
-                                LedgerReference::BOT_INVESTMENT_COMPLETED,
-                                $investment->id,
-                                'investment is complete',
-                                LedgerAsset::LOCKEDBALANCE
-                            );
-
-                            WalletService::credit(
-                                $user,
-                                $investment->amount,
-                                LedgerReference::BOT_INVESTMENT_COMPLETED,
-                                $investment->id,
-                                'investment is complete',
-                                LedgerAsset::MAIN
-                            );
+                        // No active license: the investment keeps running but earns nothing.
+                        if (!$investment->botLicense || !$investment->botLicense->isActive()) {
                             continue;
                         }
 
@@ -155,5 +142,45 @@ class BotProfitService {
                     RoiPromoService::sendRewardEmail($investment, $profit, $extra);
                 }
             });
+    }
+
+    // Returns the locked funds at maturity. A termination request the admin never answered
+    // is settled here: the early exit fee is taken before the investment is completed.
+    private static function complete(BotInvestment $investment): void {
+        try {
+            DB::transaction(function () use ($investment) {
+                $user = $investment->user;
+                $amount = (string) $investment->amount;
+
+                $termination = $investment->status === BotInvestmentStatus::TERMINATIONREQUEST
+                    ? BotTermination::where('bot_investment_id', $investment->id)->whereNull('terminated_at')->latest()->first()
+                    : null;
+
+                if ($termination) {
+                    $penaltyPercent = (string) $investment->bot->early_withdrawal_penalty_percent;
+                    $penalty = bcmul($amount, bcdiv($penaltyPercent, '100', 8), 8);
+                    $returned = bcsub($amount, $penalty, 8);
+
+                    WalletService::debit($user, $returned, LedgerReference::BOT_TERMINATION, $investment->id, 'early exit settled at maturity', LedgerAsset::LOCKEDBALANCE);
+                    WalletService::debit($user, $penalty, LedgerReference::BOT_TERMINATION_FEE, $investment->id, 'early exit fee', LedgerAsset::LOCKEDBALANCE);
+                    WalletService::credit($user, $returned, LedgerReference::BOT_TERMINATION, $investment->id, 'early exit settled at maturity', LedgerAsset::MAIN);
+
+                    $termination->update([
+                        'penalty_percent' => $penaltyPercent,
+                        'penalty_amount' => $penalty,
+                        'amount_returned' => $returned,
+                        'terminated_at' => now(),
+                    ]);
+                } else {
+                    WalletService::debit($user, $amount, LedgerReference::BOT_INVESTMENT_COMPLETED, $investment->id, 'investment is complete', LedgerAsset::LOCKEDBALANCE);
+                    WalletService::credit($user, $amount, LedgerReference::BOT_INVESTMENT_COMPLETED, $investment->id, 'investment is complete', LedgerAsset::MAIN);
+                }
+
+                $investment->update(['status' => BotInvestmentStatus::COMPLETED]);
+            });
+        } catch (\Throwable $e) {
+            // Runs as a savepoint inside the chunk transaction, so one failure doesn't undo other payouts.
+            Log::error("Could not complete bot investment {$investment->id}: {$e->getMessage()}");
+        }
     }
 }
