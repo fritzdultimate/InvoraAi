@@ -10,19 +10,17 @@ use App\Services\Card\CardOrderException;
 use App\Services\Card\CardOrderService;
 use App\Services\Card\CardProgram;
 use App\Services\Wallet\WalletService;
-use Livewire\Attributes\Computed;
+use Illuminate\Validation\ValidationException;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
+/**
+ * Opening the sheet, switching tabs and moving between steps all happen in the
+ * browser (Alpine). Only place() talks to the server, and it re-checks everything.
+ */
 #[Layout('components.layouts.app')]
 class Index extends Component
 {
-    public string $network = 'all';
-
-    // order sheet
-    public ?int $productId = null;
-    public int $step = 1;
-    public string $form = 'physical';
     public string $name_on_card = '';
     public string $phone = '';
     public string $address_line1 = '';
@@ -43,98 +41,28 @@ class Index extends Component
         $this->balance = CardProgram::allowedBalances()[0]->value ?? '';
     }
 
-    #[Computed]
-    public function product(): ?CardProduct
-    {
-        return $this->productId ? CardProduct::find($this->productId) : null;
-    }
-
-    // steps shown in the sheet; virtual cards skip delivery
-    #[Computed]
-    public function steps(): array
-    {
-        $steps = ['details' => 'Card'];
-
-        if ($this->form === CardForm::PHYSICAL->value) {
-            $steps['delivery'] = 'Delivery';
-        }
-
-        return $steps + ['payment' => 'Payment', 'review' => 'Review'];
-    }
-
-    public function stepKey(): string
-    {
-        return array_keys($this->steps)[$this->step - 1] ?? 'details';
-    }
-
-    public function choose(int $productId, CardOrderService $service): void
+    public function place(int $productId, string $form, CardOrderService $service)
     {
         $product = CardProduct::available()->find($productId);
+        $type = CardForm::tryFrom($form);
 
-        if (! $product) {
+        if (! $product || ! $type || ! $product->offers($type)) {
             $this->dispatch('error', message: 'This card is not available.');
             return;
         }
 
-        if ($reason = $service->blockReason(auth()->user(), $product)) {
-            $this->dispatch('error', message: $reason);
+        try {
+            $this->validate($this->rules($type), ['agree.accepted' => 'Please confirm the pre-order terms.']);
+        } catch (ValidationException $e) {
+            // send the errors to the sheet so it can jump back to the right step
+            $this->dispatch('ic-invalid', errors: collect($e->errors())->map(fn ($m) => $m[0])->all());
             return;
         }
-
-        $this->resetValidation();
-        $this->productId = $product->id;
-        $this->form = $product->forms()[0]->value;
-        $this->step = 1;
-        $this->agree = false;
-        unset($this->product, $this->steps);
-    }
-
-    // switching type changes which steps the sheet has
-    public function updatedForm(): void
-    {
-        unset($this->steps);
-    }
-
-    public function close(): void
-    {
-        $this->productId = null;
-        $this->step = 1;
-    }
-
-    public function next(): void
-    {
-        $this->validate($this->rulesFor($this->stepKey()));
-
-        if ($this->step < count($this->steps)) {
-            $this->step++;
-        }
-    }
-
-    public function back(): void
-    {
-        $this->step = max(1, $this->step - 1);
-    }
-
-    public function place(CardOrderService $service)
-    {
-        $product = $this->product;
-
-        if (! $product) {
-            return;
-        }
-
-        $rules = $this->rulesFor('details') + $this->rulesFor('payment') + ['agree' => ['accepted']];
-
-        if ($this->form === CardForm::PHYSICAL->value) {
-            $rules += $this->rulesFor('delivery');
-        }
-
-        $this->validate($rules, ['agree.accepted' => 'Please confirm the pre-order terms.']);
 
         try {
             $order = $service->placeOrder(auth()->user(), $product, LedgerAsset::from($this->balance), [
+                'form' => $type->value,
                 'name_on_card' => $this->name_on_card,
-                'form' => $this->form,
                 'phone' => $this->phone,
                 'address_line1' => $this->address_line1,
                 'address_line2' => $this->address_line2,
@@ -153,14 +81,16 @@ class Index extends Component
         return $this->redirectRoute('cards.order', $order);
     }
 
-    protected function rulesFor(string $step): array
+    protected function rules(CardForm $type): array
     {
-        return match ($step) {
-            'details' => [
-                'name_on_card' => ['required', 'string', 'min:3', 'max:26', 'regex:/^[A-Za-z .\'-]+$/'],
-                'form' => ['required', 'in:'.implode(',', array_map(fn ($f) => $f->value, $this->product?->forms() ?? []))],
-            ],
-            'delivery' => [
+        $rules = [
+            'name_on_card' => ['required', 'string', 'min:3', 'max:26', 'regex:/^[A-Za-z .\'-]+$/'],
+            'balance' => ['required', 'in:'.implode(',', array_map(fn ($a) => $a->value, CardProgram::allowedBalances()))],
+            'agree' => ['accepted'],
+        ];
+
+        if ($type === CardForm::PHYSICAL) {
+            $rules += [
                 'phone' => ['required', 'string', 'max:30'],
                 'address_line1' => ['required', 'string', 'max:255'],
                 'address_line2' => ['nullable', 'string', 'max:255'],
@@ -168,10 +98,10 @@ class Index extends Component
                 'state' => ['required', 'string', 'max:100'],
                 'postal_code' => ['nullable', 'string', 'max:20'],
                 'country' => ['required', 'string', 'max:100'],
-            ],
-            'payment' => ['balance' => ['required', 'in:'.implode(',', array_map(fn ($a) => $a->value, CardProgram::allowedBalances()))]],
-            default => [],
-        };
+            ];
+        }
+
+        return $rules;
     }
 
     protected function validationAttributes(): array
@@ -182,13 +112,12 @@ class Index extends Component
     public function render(CardOrderService $service)
     {
         $user = auth()->user();
-
-        $products = CardProduct::available()
-            ->when($this->network !== 'all', fn ($q) => $q->where('network', $this->network))
-            ->get();
+        $products = CardProduct::available()->get();
 
         return view('livewire.dashboard.cards.index', [
             'products' => $products,
+            // why each card can't be ordered right now (null = it can)
+            'reasons' => $products->mapWithKeys(fn ($p) => [$p->id => $service->blockReason($user, $p)]),
             'orders' => CardOrder::where('user_id', $user->id)->latest()->get(),
             'blocked' => $service->blockReason($user),
             'notice' => CardProgram::notice(),

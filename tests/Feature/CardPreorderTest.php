@@ -147,24 +147,6 @@ it('only sells the type the admin chose', function () {
         ->toThrow(CardOrderException::class, 'address');
 });
 
-it('skips the delivery step for virtual in the order sheet', function () {
-    $this->visa->update(['form' => 'both']);
-    $this->actingAs(cardUser(1000));
-
-    \Livewire\Livewire::test(\App\Livewire\Dashboard\Cards\Index::class)
-        ->call('choose', $this->visa->id)
-        ->set('form', 'virtual')
-        ->set('name_on_card', 'Ada Obi')
-        ->call('next')
-        ->assertSet('step', 2)
-        ->assertSee('Pay the pre-order fee from')
-        ->call('next')
-        ->set('agree', true)
-        ->call('place')
-        ->assertHasNoErrors();
-
-    expect(CardOrder::first()->form)->toBe(\App\Enums\CardForm::VIRTUAL);
-});
 
 it('only takes payment from allowed balances', function () {
     CustomSetting::set('cards.allowed_balances', 'deposit');
@@ -272,42 +254,54 @@ it('skips shipping for virtual cards', function () {
     expect(fn () => $this->service->advance($order, CardOrderStatus::SHIPPED))->toThrow(CardOrderException::class);
 });
 
-it('walks the order sheet step by step and places the order', function () {
+
+
+it('places an order from the page and checks the fields on the server', function () {
     $user = cardUser(1000);
     $this->actingAs($user);
 
     \Livewire\Livewire::test(\App\Livewire\Dashboard\Cards\Index::class)
-        ->call('choose', $this->visa->id)
-        ->assertSet('productId', $this->visa->id)
         ->set('name_on_card', '')
-        ->call('next')
-        ->assertHasErrors('name_on_card')
+        ->call('place', $this->visa->id, 'physical')
+        ->assertDispatched('ic-invalid', fn ($name, $params) => isset($params['errors']['name_on_card'], $params['errors']['address_line1'], $params['errors']['agree']))
         ->set('name_on_card', 'Ada Obi')
-        ->call('next')
-        ->assertSet('step', 2)
-        ->call('next')
-        ->assertHasErrors(['address_line1', 'city', 'phone'])
         ->set('address_line1', '1 Marina')->set('city', 'Lagos')->set('state', 'Lagos')->set('country', 'Nigeria')->set('phone', '+2348000000000')
-        ->call('next')
-        ->assertSet('step', 3)
-        ->call('next')
-        ->assertSet('step', 4)
-        ->call('place')
-        ->assertHasErrors('agree')
         ->set('agree', true)
-        ->call('place')
+        ->call('place', $this->visa->id, 'physical')
         ->assertRedirect(route('cards.order', CardOrder::first()));
 
     expect(CardOrder::first()->address_line1)->toBe('1 Marina')->and(mainBalance($user))->toBe(700.0);
 });
 
-it('blocks the sheet for users without KYC', function () {
-    $this->actingAs(cardUser(1000, 'pending'));
+it('orders a virtual card without an address', function () {
+    $this->visa->update(['form' => 'both']);
+    $this->actingAs(cardUser(1000));
 
     \Livewire\Livewire::test(\App\Livewire\Dashboard\Cards\Index::class)
-        ->call('choose', $this->visa->id)
-        ->assertSet('productId', null)
+        ->set('name_on_card', 'Ada Obi')
+        ->set('agree', true)
+        ->call('place', $this->visa->id, 'virtual')
+        ->assertNotDispatched('ic-invalid');
+
+    expect(CardOrder::first()->form)->toBe(\App\Enums\CardForm::VIRTUAL);
+});
+
+it('refuses a type the card does not offer and blocks unverified users', function () {
+    $this->actingAs(cardUser(1000));
+    \Livewire\Livewire::test(\App\Livewire\Dashboard\Cards\Index::class)
+        ->set('name_on_card', 'Ada Obi')->set('agree', true)
+        ->call('place', $this->visa->id, 'virtual')
         ->assertDispatched('error');
+
+    $this->actingAs(cardUser(1000, 'pending'));
+    \Livewire\Livewire::test(\App\Livewire\Dashboard\Cards\Index::class)
+        ->assertSee('Complete identity verification')
+        ->set('name_on_card', 'Ada Obi')->set('agree', true)
+        ->set('address_line1', '1 Marina')->set('city', 'Lagos')->set('state', 'Lagos')->set('country', 'Nigeria')->set('phone', '1')
+        ->call('place', $this->visa->id, 'physical')
+        ->assertDispatched('error');
+
+    expect(CardOrder::count())->toBe(0);
 });
 
 it('shows an order only to its owner and lets them cancel', function () {

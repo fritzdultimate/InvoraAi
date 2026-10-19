@@ -12,7 +12,64 @@
     $first = auth()->user()->name;
 @endphp
 
-<div class="ic-page">
+
+
+<div class="ic-page" x-data="{ network: 'all', open: null }"
+     x-effect="document.body.classList.toggle('ic-sheet-open', open !== null); if (window.smartsupp) smartsupp(open !== null ? 'chat:hide' : 'chat:show')">
+    <script>
+        // order sheet logic; one instance per card, all in the browser
+        window.icSheet = window.icSheet || function (cfg) {
+            return {
+                step: 0,
+                form: cfg.forms[0],
+                errors: {},
+                busy: false,
+                labels: { details: 'Card', delivery: 'Delivery', payment: 'Payment', review: 'Review' },
+                fieldStep: { name_on_card: 'details', phone: 'delivery', address_line1: 'delivery', city: 'delivery', state: 'delivery', country: 'delivery', balance: 'payment', agree: 'review' },
+                get steps() { return this.form === 'physical' ? ['details', 'delivery', 'payment', 'review'] : ['details', 'payment', 'review']; },
+                get key() { return this.steps[this.step]; },
+                get last() { return this.step === this.steps.length - 1; },
+                reset() { this.step = 0; this.errors = {}; this.form = cfg.forms[0]; },
+                check(key) {
+                    const w = this.$wire, e = {};
+                    if (key === 'details') {
+                        const n = (w.name_on_card || '').trim();
+                        if (n.length < 3) e.name_on_card = 'Enter the name to print, at least 3 letters.';
+                        else if (! /^[A-Za-z .'-]+$/.test(n)) e.name_on_card = 'Use letters, spaces, dots, hyphens or apostrophes only.';
+                    }
+                    if (key === 'delivery') {
+                        [['address_line1', 'Enter your address.'], ['city', 'Enter your city.'], ['state', 'Enter your state or region.'], ['country', 'Enter your country.'], ['phone', 'Enter a phone number.']]
+                            .forEach(([f, m]) => { if (! (w[f] || '').trim()) e[f] = m; });
+                    }
+                    if (key === 'payment') {
+                        if (! w.balance) e.balance = 'Choose a balance.';
+                        else if ((cfg.balances[w.balance] ?? 0) < cfg.fee) e.balance = 'That balance is too low for this card.';
+                    }
+                    if (key === 'review' && ! w.agree) e.agree = 'Please confirm the pre-order terms.';
+                    this.errors = e;
+                    return Object.keys(e).length === 0;
+                },
+                next() {
+                    if (! this.check(this.key)) return;
+                    this.step++;
+                    this.$refs.body.scrollTop = 0;
+                },
+                back() { this.errors = {}; this.step = Math.max(0, this.step - 1); },
+                async pay() {
+                    if (this.busy || ! this.check('review')) return;
+                    this.busy = true;
+                    try { await this.$wire.place(cfg.id, this.form); } finally { this.busy = false; }
+                },
+                serverErrors(errors) {
+                    this.errors = errors;
+                    const first = Object.keys(errors)[0];
+                    const at = this.steps.indexOf(this.fieldStep[first] ?? 'review');
+                    if (at >= 0) this.step = at;
+                },
+            };
+        };
+    </script>
+
 
     {{-- ============ HERO ============ --}}
     <section class="ic-hero">
@@ -25,7 +82,7 @@
             <p class="ic-hero__lead">Reserve a Visa or Mastercard in a few taps. Pay the pre-order fee from your balance, follow every step of production and delivery, and get the full fee back if your order is cancelled or not approved.</p>
 
             <div class="ic-hero__cta">
-                <a href="#catalogue" class="ic-btn ic-btn--lg">Choose your card <iconify-icon icon="solar:arrow-right-linear"></iconify-icon></a>
+                <a href="#catalogue" class="ic-btn ic-btn--lg">Choose card <iconify-icon icon="solar:arrow-right-linear"></iconify-icon></a>
                 <a href="#how" class="ic-btn ic-btn--ghost ic-btn--lg">How it works</a>
             </div>
 
@@ -132,18 +189,20 @@
             </div>
             <div class="ic-segment" role="tablist">
                 @foreach (['all' => 'All', 'visa' => 'Visa', 'mastercard' => 'Mastercard'] as $key => $label)
-                    <button type="button" wire:click="$set('network', '{{ $key }}')" role="tab" @class(['is-active' => $network === $key]) aria-selected="{{ $network === $key ? 'true' : 'false' }}">{{ $label }}</button>
+                    <button type="button" role="tab" x-on:click="network = '{{ $key }}'" :class="network === '{{ $key }}' && 'is-active'" :aria-selected="network === '{{ $key }}'" @class(['is-active' => $key === 'all'])>{{ $label }}</button>
                 @endforeach
             </div>
         </div>
 
-        <div class="ic-grid" wire:loading.class="opacity-60" wire:target="network">
+        <div class="ic-grid">
             @forelse ($products as $product)
                 @php
                     $left = $product->slotsLeft();
                     $meter = round($product->spending_limit / $maxLimit * 100);
+                    $reason = $reasons[$product->id];
                 @endphp
-                <article @class(['ic-product', 'ic-product--featured' => $product->is_featured]) wire:key="product-{{ $product->id }}">
+                <article @class(['ic-product', 'ic-product--featured' => $product->is_featured]) wire:key="product-{{ $product->id }}"
+                         x-show="network === 'all' || network === '{{ $product->network->value }}'">
                     <div class="ic-product__stage ic-glow--{{ $product->design }}">
                         @if ($product->is_featured)
                             <span class="ic-product__ribbon"><iconify-icon icon="solar:crown-star-bold"></iconify-icon>Most popular</span>
@@ -153,10 +212,8 @@
 
                     <div class="ic-product__body">
                         <div class="ic-product__head">
-                            <div>
-                                <h3>{{ $product->name }}</h3>
-                                @if ($product->tagline)<p class="ic-muted">{{ $product->tagline }}</p>@endif
-                            </div>
+                            <h3>{{ $product->name }}</h3>
+                            @if ($product->tagline)<p class="ic-muted">{{ $product->tagline }}</p>@endif
                         </div>
 
                         <div class="ic-product__chips">
@@ -200,13 +257,15 @@
                             <div class="ic-stock"><i style="width: {{ $product->stock ? round(($product->stock - $left) / $product->stock * 100) : 0 }}%"></i></div>
                         @endif
 
-                        <button type="button" class="ic-btn ic-btn--block ic-btn--lg {{ $product->is_featured ? 'ic-btn--shine' : 'ic-btn--ghost' }}"
-                                wire:click="choose({{ $product->id }})" wire:loading.attr="disabled" wire:target="choose({{ $product->id }})"
-                                @disabled($blocked || $left === 0)>
-                            <span wire:loading.remove wire:target="choose({{ $product->id }})">{{ $left === 0 ? 'Sold out' : 'Pre-order '.$product->network->label() }}</span>
-                            <iconify-icon icon="solar:arrow-right-linear" wire:loading.remove wire:target="choose({{ $product->id }})"></iconify-icon>
-                            <span wire:loading wire:target="choose({{ $product->id }})">Checking…</span>
-                        </button>
+                        @if ($reason)
+                            <button type="button" class="ic-btn ic-btn--block ic-btn--lg ic-btn--ghost" disabled>{{ $left === 0 ? 'Sold out' : 'Not available' }}</button>
+                            @unless ($blocked)<p class="ic-reason">{{ $reason }}</p>@endunless
+                        @else
+                            <button type="button" class="ic-btn ic-btn--block ic-btn--lg {{ $product->is_featured ? 'ic-btn--shine' : 'ic-btn--ghost' }}"
+                                    x-on:click="open = {{ $product->id }}; $dispatch('ic-open', {{ $product->id }})">
+                                Pre-order {{ $product->network->label() }} <iconify-icon icon="solar:arrow-right-linear"></iconify-icon>
+                            </button>
+                        @endif
                     </div>
                 </article>
             @empty
@@ -227,7 +286,7 @@
                     <h2 class="ic-h2">Compare the cards</h2>
                 </div>
             </div>
-            <div class="ic-compare">
+            <div class="ic-compare ic-only-wide">
                 <table>
                     <thead>
                         <tr>
@@ -248,6 +307,20 @@
                         <tr><td>Refund if not approved</td>@foreach ($all as $p)<td><iconify-icon icon="solar:check-circle-bold" class="ic-good"></iconify-icon> Full</td>@endforeach</tr>
                     </tbody>
                 </table>
+            </div>
+            {{-- phones get one compact card per product instead of a wide table --}}
+            <div class="ic-compare-list ic-only-narrow">
+                @foreach ($all as $p)
+                    <div @class(['ic-compare-card', 'is-featured' => $p->is_featured])>
+                        <p class="ic-compare-card__title"><span class="ic-compare__dot ic-dot--{{ $p->design }}"></span>{{ $p->name }}</p>
+                        <dl>
+                            <div><dt>Fee</dt><dd>${{ number_format($p->preorder_fee, 2) }}</dd></div>
+                            <div><dt>Limit</dt><dd>{{ $p->limitLabel() }}</dd></div>
+                            <div><dt>Type</dt><dd>{{ $p->formLabel() }}</dd></div>
+                            <div><dt>Delivery</dt><dd>{{ $p->delivery_estimate ?: '—' }}</dd></div>
+                        </dl>
+                    </div>
+                @endforeach
             </div>
         </section>
     @endif
@@ -314,84 +387,105 @@
         </section>
     @endif
 
-    {{-- ============ ORDER SHEET ============ --}}
-    @if ($this->product)
-        @php $product = $this->product; $steps = $this->steps; $key = $this->stepKey(); $isPhysical = $form === 'physical'; @endphp
-        <div class="ic-sheet" x-data x-on:keydown.escape.window="$wire.close()" wire:key="sheet-{{ $product->id }}">
-            <div class="ic-sheet__backdrop" wire:click="close"></div>
-            <div class="ic-sheet__panel" role="dialog" aria-modal="true" aria-labelledby="ic-sheet-title">
+    {{-- ============ ORDER SHEETS (one per card, opened instantly) ============ --}}
+    @foreach ($products as $product)
+        @continue($reasons[$product->id])
+        @php $forms = array_map(fn ($f) => $f->value, $product->forms()); @endphp
+        <div class="ic-sheet" x-cloak wire:key="sheet-{{ $product->id }}"
+             x-show="open === {{ $product->id }}"
+             x-data="icSheet({ id: {{ $product->id }}, forms: @js($forms), fee: {{ (float) $product->preorder_fee }}, balances: @js($balances->map(fn ($b) => $b['amount'])) })"
+             x-on:ic-open.window="if ($event.detail === {{ $product->id }}) reset()"
+             x-on:ic-invalid.window="if (open === {{ $product->id }}) serverErrors($event.detail.errors)"
+             x-on:keydown.escape.window="if (open === {{ $product->id }}) open = null">
+            <div class="ic-sheet__backdrop" x-on:click="open = null" x-show="open === {{ $product->id }}"></div>
+            <div class="ic-sheet__panel" role="dialog" aria-modal="true" aria-label="Pre-order {{ $product->name }}"
+                 x-show="open === {{ $product->id }}" x-transition:enter="ic-enter" x-transition:enter-start="ic-enter-start" x-transition:leave="ic-leave" x-transition:leave-end="ic-leave-end">
                 <header class="ic-sheet__header">
                     <div>
                         <p class="ic-muted">Pre-order</p>
-                        <h3 id="ic-sheet-title">{{ $product->name }}</h3>
+                        <h3>{{ $product->name }}</h3>
                     </div>
-                    <button type="button" class="ic-icon-btn" wire:click="close" aria-label="Close"><iconify-icon icon="radix-icons:cross-2"></iconify-icon></button>
+                    <button type="button" class="ic-icon-btn" x-on:click="open = null" aria-label="Close">
+                        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                    </button>
                 </header>
 
                 <ol class="ic-stepper">
-                    @foreach (array_values($steps) as $i => $label)
-                        <li @class(['is-done' => $i + 1 < $step, 'is-current' => $i + 1 === $step])><span>{{ $i + 1 < $step ? '✓' : $i + 1 }}</span>{{ $label }}</li>
-                    @endforeach
+                    <template x-for="(s, i) in steps" :key="s">
+                        <li :class="{ 'is-done': i < step, 'is-current': i === step }"><span x-text="i < step ? '✓' : i + 1"></span><b x-text="labels[s]"></b></li>
+                    </template>
                 </ol>
 
-                <div class="ic-sheet__body">
+                <div class="ic-sheet__body" x-ref="body">
                     <div class="ic-sheet__preview ic-glow--{{ $product->design }}">
-                        <x-cards.visual :network="$product->network" :design="$product->design" live="$wire.name_on_card" :name="$name_on_card" />
-                        <div class="ic-sheet__summary">
-                            <div><span>Fee</span><strong>${{ number_format($product->preorder_fee, 2) }}</strong></div>
-                            <div><span>Limit</span><strong>{{ $product->limitLabel() }}</strong></div>
-                            <div class="ic-sheet__summary-wide"><span>Type</span><strong>{{ $isPhysical ? 'Physical card' : 'Virtual card' }}</strong></div>
-                        </div>
+                        <x-cards.visual :network="$product->network" :design="$product->design" live="$wire.name_on_card" :name="$name_on_card" :tilt="false" />
+                        <dl class="ic-sheet__summary">
+                            <div><dt>Fee</dt><dd>${{ number_format($product->preorder_fee, 2) }}</dd></div>
+                            <div><dt>Limit</dt><dd>{{ $product->limitLabel() }}</dd></div>
+                            <div><dt>Type</dt><dd x-text="form === 'physical' ? 'Physical card' : 'Virtual card'"></dd></div>
+                        </dl>
                     </div>
 
                     <div class="ic-sheet__form">
-                        @if ($key === 'details')
-                            @if (count($product->forms()) > 1)
+                        {{-- step: card --}}
+                        <div class="ic-step-pane" x-show="key === 'details'">
+                            @if (count($forms) > 1)
                                 <h4 class="ic-h4">Which type do you want?</h4>
                                 <div class="ic-types">
-                                    <label @class(['ic-type', 'is-selected' => $isPhysical])>
-                                        <input type="radio" wire:model.live="form" value="physical" class="sr-only">
-                                        <iconify-icon icon="solar:delivery-bold"></iconify-icon>
+                                    <button type="button" class="ic-type" :class="form === 'physical' && 'is-selected'" x-on:click="form = 'physical'">
+                                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><circle cx="7" cy="17.5" r="1.8" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="17" cy="17.5" r="1.8" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>
                                         <strong>Physical</strong>
-                                        <small>Made and shipped to your address</small>
-                                    </label>
-                                    <label @class(['ic-type', 'is-selected' => ! $isPhysical])>
-                                        <input type="radio" wire:model.live="form" value="virtual" class="sr-only">
-                                        <iconify-icon icon="solar:smartphone-2-bold"></iconify-icon>
+                                        <small>Made and shipped to you</small>
+                                    </button>
+                                    <button type="button" class="ic-type" :class="form === 'virtual' && 'is-selected'" x-on:click="form = 'virtual'">
+                                        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="2.5" width="10" height="19" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M11 18.5h2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
                                         <strong>Virtual</strong>
-                                        <small>Ready in your dashboard, no shipping</small>
-                                    </label>
+                                        <small>In your dashboard, no shipping</small>
+                                    </button>
                                 </div>
-                                @error('form')<em class="ic-error">{{ $message }}</em>@enderror
                             @endif
 
                             <h4 class="ic-h4">How should your name appear?</h4>
-                            <p class="ic-muted">Up to 26 letters. It is printed exactly as entered.</p>
+                            <p class="ic-muted">Up to 26 letters. Printed exactly as entered.</p>
                             <label class="ic-field">
                                 <span>Name on card</span>
-                                <input type="text" wire:model="name_on_card" maxlength="26" autocomplete="cc-name" class="ic-input ic-input--caps" placeholder="ADA OBI">
-                                @error('name_on_card')<em>{{ $message }}</em>@enderror
+                                <input type="text" wire:model="name_on_card" maxlength="26" autocomplete="cc-name" class="ic-input ic-input--caps" placeholder="ADA OBI" :class="errors.name_on_card && 'is-invalid'">
+                                <em x-show="errors.name_on_card" x-text="errors.name_on_card"></em>
                             </label>
-                        @elseif ($key === 'delivery')
+                        </div>
+
+                        {{-- step: delivery --}}
+                        <div class="ic-step-pane" x-show="key === 'delivery'">
                             <h4 class="ic-h4">Where should we send it?</h4>
                             <p class="ic-muted">The courier may call this number on delivery.</p>
                             <div class="ic-form-grid">
-                                <label class="ic-field ic-field--full"><span>Address</span><input type="text" wire:model="address_line1" autocomplete="address-line1" class="ic-input">@error('address_line1')<em>{{ $message }}</em>@enderror</label>
-                                <label class="ic-field ic-field--full"><span>Apartment, suite <small>(optional)</small></span><input type="text" wire:model="address_line2" autocomplete="address-line2" class="ic-input"></label>
-                                <label class="ic-field"><span>City</span><input type="text" wire:model="city" autocomplete="address-level2" class="ic-input">@error('city')<em>{{ $message }}</em>@enderror</label>
-                                <label class="ic-field"><span>State / region</span><input type="text" wire:model="state" autocomplete="address-level1" class="ic-input">@error('state')<em>{{ $message }}</em>@enderror</label>
-                                <label class="ic-field"><span>Postal code <small>(optional)</small></span><input type="text" wire:model="postal_code" autocomplete="postal-code" class="ic-input"></label>
-                                <label class="ic-field"><span>Country</span><input type="text" wire:model="country" autocomplete="country-name" class="ic-input">@error('country')<em>{{ $message }}</em>@enderror</label>
-                                <label class="ic-field ic-field--full"><span>Phone</span><input type="tel" wire:model="phone" autocomplete="tel" class="ic-input" placeholder="+234 …">@error('phone')<em>{{ $message }}</em>@enderror</label>
+                                @foreach ([
+                                    ['address_line1', 'Address', 'address-line1', 'text', true],
+                                    ['address_line2', 'Apartment, suite (optional)', 'address-line2', 'text', true],
+                                    ['city', 'City', 'address-level2', 'text', false],
+                                    ['state', 'State / region', 'address-level1', 'text', false],
+                                    ['postal_code', 'Postal code (optional)', 'postal-code', 'text', false],
+                                    ['country', 'Country', 'country-name', 'text', false],
+                                    ['phone', 'Phone', 'tel', 'tel', true],
+                                ] as [$field, $label, $auto, $type, $full])
+                                    <label @class(['ic-field', 'ic-field--full' => $full])>
+                                        <span>{{ $label }}</span>
+                                        <input type="{{ $type }}" wire:model="{{ $field }}" autocomplete="{{ $auto }}" class="ic-input" :class="errors.{{ $field }} && 'is-invalid'">
+                                        <em x-show="errors.{{ $field }}" x-text="errors.{{ $field }}"></em>
+                                    </label>
+                                @endforeach
                             </div>
-                        @elseif ($key === 'payment')
+                        </div>
+
+                        {{-- step: payment --}}
+                        <div class="ic-step-pane" x-show="key === 'payment'">
                             <h4 class="ic-h4">Pay the pre-order fee from</h4>
                             <p class="ic-muted">${{ number_format($product->preorder_fee, 2) }} is taken now and returned if the pre-order is cancelled or not approved.</p>
                             <div class="ic-options">
                                 @foreach ($balances as $value => $b)
                                     @php $short = $b['amount'] < (float) $product->preorder_fee; @endphp
-                                    <label @class(['ic-option', 'is-selected' => $balance === $value, 'is-short' => $short])>
-                                        <input type="radio" wire:model.live="balance" value="{{ $value }}" class="sr-only">
+                                    <label @class(['ic-option', 'is-short' => $short]) :class="$wire.balance === '{{ $value }}' && 'is-selected'">
+                                        <input type="radio" wire:model="balance" value="{{ $value }}" class="sr-only">
                                         <span class="ic-option__radio"></span>
                                         <span class="ic-option__body">
                                             <strong>{{ $b['label'] }}</strong>
@@ -401,51 +495,41 @@
                                     </label>
                                 @endforeach
                             </div>
-                            @error('balance')<em class="ic-error">{{ $message }}</em>@enderror
-                            @if (($balances[$balance]['amount'] ?? 0) < (float) $product->preorder_fee)
-                                <a href="{{ route('deposit') }}" class="ic-link"><iconify-icon icon="solar:card-send-linear"></iconify-icon>Top up your balance</a>
-                            @endif
-                        @else
+                            <em class="ic-error" x-show="errors.balance" x-text="errors.balance"></em>
+                            <a href="{{ route('deposit') }}" class="ic-link" x-show="errors.balance"><iconify-icon icon="solar:card-send-linear"></iconify-icon>Top up your balance</a>
+                        </div>
+
+                        {{-- step: review --}}
+                        <div class="ic-step-pane" x-show="key === 'review'">
                             <h4 class="ic-h4">Check and confirm</h4>
                             <dl class="ic-review">
-                                <div><dt>Card</dt><dd>{{ $product->name }} · {{ $product->network->label() }}</dd></div>
-                                <div><dt>Type</dt><dd>{{ $isPhysical ? 'Physical card' : 'Virtual card' }}</dd></div>
-                                <div><dt>Name on card</dt><dd class="ic-mono">{{ strtoupper($name_on_card) }}</dd></div>
-                                @if ($isPhysical)
-                                    <div><dt>Deliver to</dt><dd>{{ collect([$address_line1, $address_line2, $city, $state, $postal_code, $country])->filter()->implode(', ') }}</dd></div>
-                                @endif
+                                <div><dt>Card</dt><dd>{{ $product->name }}</dd></div>
+                                <div><dt>Type</dt><dd x-text="form === 'physical' ? 'Physical card' : 'Virtual card'"></dd></div>
+                                <div><dt>Name on card</dt><dd class="ic-mono" x-text="($wire.name_on_card || '').toUpperCase()"></dd></div>
+                                <div x-show="form === 'physical'"><dt>Deliver to</dt><dd x-text="[$wire.address_line1, $wire.address_line2, $wire.city, $wire.state, $wire.postal_code, $wire.country].filter(Boolean).join(', ')"></dd></div>
                                 <div><dt>Card limit</dt><dd>{{ $product->limitLabel() }}</dd></div>
-                                <div><dt>Paid from</dt><dd>{{ $balances[$balance]['label'] ?? '' }}</dd></div>
+                                <div><dt>Paid from</dt><dd x-text="@js($balances->map(fn ($b) => $b['label']))[$wire.balance] ?? ''"></dd></div>
                                 <div class="ic-review__total"><dt>Pre-order fee</dt><dd>${{ number_format($product->preorder_fee, 2) }}</dd></div>
                             </dl>
                             <label class="ic-check">
                                 <input type="checkbox" wire:model="agree">
                                 <span>I understand the fee is taken now and refunded in full if my pre-order is cancelled or not approved. Delivery times are estimates.</span>
                             </label>
-                            @error('agree')<em class="ic-error">{{ $message }}</em>@enderror
-                        @endif
+                            <em class="ic-error" x-show="errors.agree" x-text="errors.agree"></em>
+                        </div>
                     </div>
                 </div>
 
                 <footer class="ic-sheet__footer">
-                    @if ($step > 1)
-                        <button type="button" class="ic-btn ic-btn--ghost" wire:click="back">Back</button>
-                    @else
-                        <button type="button" class="ic-btn ic-btn--ghost" wire:click="close">Cancel</button>
-                    @endif
-
-                    @if ($step < count($steps))
-                        <button type="button" class="ic-btn" wire:click="next" wire:loading.attr="disabled" wire:target="next">
-                            Continue <iconify-icon icon="solar:arrow-right-linear"></iconify-icon>
-                        </button>
-                    @else
-                        <button type="button" class="ic-btn ic-btn--shine" wire:click="place" wire:loading.attr="disabled" wire:target="place">
-                            <span wire:loading.remove wire:target="place">Pay ${{ number_format($product->preorder_fee, 2) }} &amp; pre-order</span>
-                            <span wire:loading wire:target="place">Placing pre-order…</span>
-                        </button>
-                    @endif
+                    <button type="button" class="ic-btn ic-btn--ghost ic-btn--back" x-on:click="step === 0 ? open = null : back()" x-text="step === 0 ? 'Cancel' : 'Back'">Cancel</button>
+                    <button type="button" class="ic-btn" x-show="! last" x-on:click="next()">Continue</button>
+                    <button type="button" class="ic-btn ic-btn--shine" x-show="last" x-cloak x-on:click="pay()" :disabled="busy">
+                        <span x-show="! busy">Pay ${{ number_format($product->preorder_fee, 2) }}</span>
+                        <span x-show="busy" x-cloak class="ic-spin"></span>
+                        <span x-show="busy" x-cloak>Placing…</span>
+                    </button>
                 </footer>
             </div>
         </div>
-    @endif
+    @endforeach
 </div>
