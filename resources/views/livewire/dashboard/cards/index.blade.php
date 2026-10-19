@@ -189,7 +189,7 @@
             </div>
             <div class="ic-segment" role="tablist">
                 @foreach (['all' => 'All', 'visa' => 'Visa', 'mastercard' => 'Mastercard'] as $key => $label)
-                    <button type="button" role="tab" x-on:click="network = '{{ $key }}'" :class="network === '{{ $key }}' && 'is-active'" :aria-selected="network === '{{ $key }}'" @class(['is-active' => $key === 'all'])>{{ $label }}</button>
+                    <button type="button" role="tab" x-on:click="network = '{{ $key }}'" :class="{ 'is-active': network === '{{ $key }}' }" :aria-selected="network === '{{ $key }}'">{{ $label }}</button>
                 @endforeach
             </div>
         </div>
