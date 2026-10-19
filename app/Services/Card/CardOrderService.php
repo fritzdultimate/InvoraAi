@@ -2,6 +2,7 @@
 
 namespace App\Services\Card;
 
+use App\Enums\CardForm;
 use App\Enums\CardOrderStatus;
 use App\Enums\LedgerAsset;
 use App\Enums\LedgerReference;
@@ -23,7 +24,7 @@ class CardOrderService
     // Why this user can't order this card right now, or null if they can.
     public function blockReason(User $user, ?CardProduct $product = null): ?string
     {
-        if (! CardProgram::isOpen()) {
+        if (! CardProgram::isEnabled() || ! CardProgram::isOpen()) {
             return 'Card pre-orders are closed at the moment.';
         }
 
@@ -62,7 +63,8 @@ class CardOrderService
     /**
      * Charges the pre-order fee and creates the order.
      *
-     * $details: name_on_card plus, for physical cards, phone and the address fields.
+     * $details: name_on_card, form (needed when the card is offered as both),
+     * and for physical cards the phone and address fields.
      */
     public function placeOrder(User $user, CardProduct $product, LedgerAsset $balance, array $details): CardOrder
     {
@@ -73,6 +75,16 @@ class CardOrderService
 
             if ($reason = $this->blockReason($user, $product)) {
                 throw new CardOrderException($reason);
+            }
+
+            $form = CardForm::tryFrom($details['form'] ?? '') ?? $product->forms()[0];
+
+            if (! $product->offers($form)) {
+                throw new CardOrderException("This card is not available as a {$form->label()}.");
+            }
+
+            if ($form === CardForm::PHYSICAL && empty($details['address_line1'])) {
+                throw new CardOrderException('A delivery address is needed for a physical card.');
             }
 
             if (! in_array($balance, CardProgram::allowedBalances(), true)) {
@@ -89,7 +101,7 @@ class CardOrderService
                 'card_product_id' => $product->id,
                 'card_name' => $product->name,
                 'network' => $product->network,
-                'form' => $product->form,
+                'form' => $form,
                 'design' => $product->design,
                 'fee' => $product->preorder_fee,
                 'spending_limit' => $product->spending_limit,
@@ -97,13 +109,15 @@ class CardOrderService
                 'paid_from' => $balance->value,
                 'status' => CardOrderStatus::PENDING,
                 'name_on_card' => strtoupper(trim($details['name_on_card'])),
-                'phone' => $details['phone'] ?? null,
-                'address_line1' => $details['address_line1'] ?? null,
-                'address_line2' => $details['address_line2'] ?? null,
-                'city' => $details['city'] ?? null,
-                'state' => $details['state'] ?? null,
-                'postal_code' => $details['postal_code'] ?? null,
-                'country' => $details['country'] ?? null,
+                ...($form === CardForm::PHYSICAL ? [
+                    'phone' => $details['phone'] ?? null,
+                    'address_line1' => $details['address_line1'] ?? null,
+                    'address_line2' => $details['address_line2'] ?? null,
+                    'city' => $details['city'] ?? null,
+                    'state' => $details['state'] ?? null,
+                    'postal_code' => $details['postal_code'] ?? null,
+                    'country' => $details['country'] ?? null,
+                ] : []),
             ]);
 
             $ledger = WalletService::debit(

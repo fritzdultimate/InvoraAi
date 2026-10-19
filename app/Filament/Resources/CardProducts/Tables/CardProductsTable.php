@@ -32,7 +32,9 @@ class CardProductsTable
 
                 TextColumn::make('form')
                     ->label('Type')
-                    ->formatStateUsing(fn ($state) => $state->label()),
+                    ->badge()
+                    ->color('gray')
+                    ->formatStateUsing(fn ($state, CardProduct $record) => $record->formLabel()),
 
                 TextColumn::make('preorder_fee')
                     ->label('Fee')

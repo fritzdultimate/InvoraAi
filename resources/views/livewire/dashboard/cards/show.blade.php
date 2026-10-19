@@ -9,8 +9,8 @@
 
     <section class="ic-detail">
         <div class="ic-detail__card">
-            <div class="ic-hero__glow" aria-hidden="true"></div>
-            <x-cards.visual :network="$order->network" :design="$order->design" :name="$order->name_on_card" :last4="$order->last_four" :expiry="$order->expiry" size="lg" />
+            <div class="ic-hero__aurora" aria-hidden="true"></div>
+            <x-cards.visual :network="$order->network" :design="$order->design" :name="$order->name_on_card" :last4="$order->last_four" :expiry="$order->expiry" size="lg" flip />
 
             <div class="ic-detail__headline">
                 <span class="ic-status ic-status--{{ $status->color() }}">{{ $status->label() }}</span>

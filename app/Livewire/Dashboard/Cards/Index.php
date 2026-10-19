@@ -22,6 +22,7 @@ class Index extends Component
     // order sheet
     public ?int $productId = null;
     public int $step = 1;
+    public string $form = 'physical';
     public string $name_on_card = '';
     public string $phone = '';
     public string $address_line1 = '';
@@ -35,6 +36,8 @@ class Index extends Component
 
     public function mount(): void
     {
+        abort_unless(CardProgram::isEnabled(), 404);
+
         $this->name_on_card = strtoupper(substr(auth()->user()->name ?? '', 0, 26));
         $this->country = auth()->user()->kyc?->country ?? '';
         $this->balance = CardProgram::allowedBalances()[0]->value ?? '';
@@ -52,7 +55,7 @@ class Index extends Component
     {
         $steps = ['details' => 'Card'];
 
-        if ($this->product?->form === CardForm::PHYSICAL) {
+        if ($this->form === CardForm::PHYSICAL->value) {
             $steps['delivery'] = 'Delivery';
         }
 
@@ -80,9 +83,16 @@ class Index extends Component
 
         $this->resetValidation();
         $this->productId = $product->id;
+        $this->form = $product->forms()[0]->value;
         $this->step = 1;
         $this->agree = false;
         unset($this->product, $this->steps);
+    }
+
+    // switching type changes which steps the sheet has
+    public function updatedForm(): void
+    {
+        unset($this->steps);
     }
 
     public function close(): void
@@ -115,7 +125,7 @@ class Index extends Component
 
         $rules = $this->rulesFor('details') + $this->rulesFor('payment') + ['agree' => ['accepted']];
 
-        if ($product->form === CardForm::PHYSICAL) {
+        if ($this->form === CardForm::PHYSICAL->value) {
             $rules += $this->rulesFor('delivery');
         }
 
@@ -124,6 +134,7 @@ class Index extends Component
         try {
             $order = $service->placeOrder(auth()->user(), $product, LedgerAsset::from($this->balance), [
                 'name_on_card' => $this->name_on_card,
+                'form' => $this->form,
                 'phone' => $this->phone,
                 'address_line1' => $this->address_line1,
                 'address_line2' => $this->address_line2,
@@ -145,7 +156,10 @@ class Index extends Component
     protected function rulesFor(string $step): array
     {
         return match ($step) {
-            'details' => ['name_on_card' => ['required', 'string', 'min:3', 'max:26', 'regex:/^[A-Za-z .\'-]+$/']],
+            'details' => [
+                'name_on_card' => ['required', 'string', 'min:3', 'max:26', 'regex:/^[A-Za-z .\'-]+$/'],
+                'form' => ['required', 'in:'.implode(',', array_map(fn ($f) => $f->value, $this->product?->forms() ?? []))],
+            ],
             'delivery' => [
                 'phone' => ['required', 'string', 'max:30'],
                 'address_line1' => ['required', 'string', 'max:255'],

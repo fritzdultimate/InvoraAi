@@ -6,6 +6,7 @@ use App\Enums\CardOrderStatus;
 use App\Models\CardOrder;
 use App\Services\Card\CardOrderException;
 use App\Services\Card\CardOrderService;
+use App\Services\Card\CardProgram;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
@@ -16,7 +17,7 @@ class Show extends Component
 
     public function mount(CardOrder $order): void
     {
-        abort_unless($order->user_id === auth()->id(), 404);
+        abort_unless(CardProgram::isEnabled() && $order->user_id === auth()->id(), 404);
 
         $this->order = $order;
     }

@@ -12,6 +12,7 @@ use App\Models\CustomSetting;
 class CardProgram
 {
     public const DEFAULTS = [
+        'cards.enabled' => '0',
         'cards.program_open' => '1',
         'cards.require_kyc' => '1',
         'cards.require_active_license' => '0',
@@ -23,6 +24,12 @@ class CardProgram
     public static function get(string $key): string
     {
         return (string) CustomSetting::get($key, self::DEFAULTS[$key] ?? '');
+    }
+
+    // master switch: when off, the Cards section is hidden from users entirely
+    public static function isEnabled(): bool
+    {
+        return self::get('cards.enabled') === '1';
     }
 
     public static function isOpen(): bool

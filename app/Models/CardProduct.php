@@ -20,6 +20,12 @@ class CardProduct extends Model
         'violet' => 'Violet',
     ];
 
+    public const FORMS = [
+        'physical' => 'Physical only',
+        'virtual' => 'Virtual only',
+        'both' => 'Both, customer chooses',
+    ];
+
     public const LIMIT_PERIODS = [
         'daily' => 'per day',
         'monthly' => 'per month',
@@ -33,13 +39,32 @@ class CardProduct extends Model
 
     protected $casts = [
         'network' => CardNetwork::class,
-        'form' => CardForm::class,
         'preorder_fee' => 'decimal:2',
         'spending_limit' => 'decimal:2',
         'features' => 'array',
         'is_active' => 'boolean',
         'is_featured' => 'boolean',
     ];
+
+    // the card types a customer can order this card as
+    public function forms(): array
+    {
+        return $this->form === 'both' ? [CardForm::PHYSICAL, CardForm::VIRTUAL] : [CardForm::from($this->form)];
+    }
+
+    public function offers(CardForm $form): bool
+    {
+        return in_array($form, $this->forms(), true);
+    }
+
+    public function formLabel(): string
+    {
+        return match ($this->form) {
+            'both' => 'Physical or virtual',
+            'virtual' => 'Virtual',
+            default => 'Physical',
+        };
+    }
 
     public function orders(): HasMany
     {

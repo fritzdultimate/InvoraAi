@@ -2,7 +2,6 @@
 
 namespace App\Filament\Resources\CardProducts\Schemas;
 
-use App\Enums\CardForm;
 use App\Enums\CardNetwork;
 use App\Models\CardProduct;
 use Filament\Forms\Components\Select;
@@ -41,11 +40,17 @@ class CardProductForm
 
                         ToggleButtons::make('form')
                             ->label('Card type')
-                            ->options(CardForm::class)
-                            ->default(CardForm::PHYSICAL)
+                            ->options(CardProduct::FORMS)
+                            ->icons([
+                                'physical' => 'heroicon-o-truck',
+                                'virtual' => 'heroicon-o-device-phone-mobile',
+                                'both' => 'heroicon-o-squares-2x2',
+                            ])
+                            ->default('physical')
                             ->required()
                             ->inline()
-                            ->helperText('Physical cards ask for a delivery address and go through shipping.'),
+                            ->columnSpanFull()
+                            ->helperText('Physical cards are shipped to an address. Virtual cards go live in the dashboard. With "Both", the customer picks when ordering.'),
 
                         Select::make('design')
                             ->options(CardProduct::DESIGNS)
@@ -56,7 +61,8 @@ class CardProductForm
                         TextInput::make('delivery_estimate')
                             ->label('Delivery estimate')
                             ->maxLength(60)
-                            ->placeholder('10–15 business days'),
+                            ->placeholder('10–15 business days')
+                            ->helperText('For "Both", e.g. "Virtual instantly, physical in 10–15 days".'),
                     ]),
 
                 Section::make('Price and limit')

@@ -30,9 +30,20 @@ class CardProgramSettings extends Page
 
     public ?array $data = [];
 
+    public static function getNavigationBadge(): ?string
+    {
+        return CardProgram::isEnabled() ? null : 'Hidden';
+    }
+
+    public static function getNavigationBadgeColor(): ?string
+    {
+        return 'gray';
+    }
+
     public function mount(): void
     {
         $this->form->fill([
+            'enabled' => CardProgram::isEnabled(),
             'program_open' => CardProgram::isOpen(),
             'require_kyc' => CardProgram::requiresKyc(),
             'require_active_license' => CardProgram::requiresActiveLicense(),
@@ -47,13 +58,22 @@ class CardProgramSettings extends Page
         return $schema
             ->statePath('data')
             ->components([
+                Section::make('Cards for users')
+                    ->description('Master switch. While this is off, the Cards page and menu link are hidden from every user.')
+                    ->icon('heroicon-o-eye')
+                    ->schema([
+                        Toggle::make('enabled')
+                            ->label('Show Cards to users')
+                            ->onColor('success'),
+                    ]),
+
                 Section::make('Pre-orders')
                     ->icon('heroicon-o-credit-card')
                     ->columns(2)
                     ->schema([
                         Toggle::make('program_open')
                             ->label('Accept new pre-orders')
-                            ->helperText('Off stops new orders on every card. Existing orders keep moving.')
+                            ->helperText('Off keeps the page visible but stops new orders. Existing orders keep moving.')
                             ->columnSpanFull(),
 
                         Toggle::make('require_kyc')
@@ -113,6 +133,7 @@ class CardProgramSettings extends Page
     {
         $data = $this->form->getState();
 
+        CustomSetting::set('cards.enabled', $data['enabled'] ? '1' : '0');
         CustomSetting::set('cards.program_open', $data['program_open'] ? '1' : '0');
         CustomSetting::set('cards.require_kyc', $data['require_kyc'] ? '1' : '0');
         CustomSetting::set('cards.require_active_license', $data['require_active_license'] ? '1' : '0');

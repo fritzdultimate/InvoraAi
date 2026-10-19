@@ -35,6 +35,7 @@ beforeEach(function () {
     ]]);
 
     Mail::fake();
+    CustomSetting::set('cards.enabled', '1');
     \Spatie\Permission\Models\Role::findOrCreate('admin', 'web');
 
     $this->service = app(CardOrderService::class);
@@ -115,6 +116,54 @@ it('stops new orders when the program is closed', function () {
 
     expect(fn () => $this->service->placeOrder(cardUser(), $this->visa, LedgerAsset::MAIN, address()))
         ->toThrow(CardOrderException::class, 'closed');
+});
+
+it('hides cards and blocks orders until the admin enables them', function () {
+    CustomSetting::set('cards.enabled', '0');
+    $user = cardUser();
+    $this->actingAs($user);
+
+    \Livewire\Livewire::test(\App\Livewire\Dashboard\Cards\Index::class)->assertNotFound();
+    expect(fn () => $this->service->placeOrder($user, $this->visa, LedgerAsset::MAIN, address()))->toThrow(CardOrderException::class);
+});
+
+it('lets the customer pick physical or virtual when the card offers both', function () {
+    $this->visa->update(['form' => 'both']);
+
+    $virtual = $this->service->placeOrder(cardUser(), $this->visa, LedgerAsset::MAIN, ['name_on_card' => 'Ada Obi', 'form' => 'virtual']);
+    $physical = $this->service->placeOrder(cardUser(), $this->visa, LedgerAsset::MAIN, address() + ['form' => 'physical']);
+
+    expect($virtual->form)->toBe(\App\Enums\CardForm::VIRTUAL)
+        ->and($virtual->address_line1)->toBeNull()
+        ->and($physical->form)->toBe(\App\Enums\CardForm::PHYSICAL)
+        ->and($physical->address_line1)->toBe('1 Marina');
+});
+
+it('only sells the type the admin chose', function () {
+    expect(fn () => $this->service->placeOrder(cardUser(), $this->visa, LedgerAsset::MAIN, ['name_on_card' => 'Ada Obi', 'form' => 'virtual']))
+        ->toThrow(CardOrderException::class, 'not available');
+
+    expect(fn () => $this->service->placeOrder(cardUser(), $this->visa, LedgerAsset::MAIN, ['name_on_card' => 'Ada Obi']))
+        ->toThrow(CardOrderException::class, 'address');
+});
+
+it('skips the delivery step for virtual in the order sheet', function () {
+    $this->visa->update(['form' => 'both']);
+    $this->actingAs(cardUser(1000));
+
+    \Livewire\Livewire::test(\App\Livewire\Dashboard\Cards\Index::class)
+        ->call('choose', $this->visa->id)
+        ->set('form', 'virtual')
+        ->set('name_on_card', 'Ada Obi')
+        ->call('next')
+        ->assertSet('step', 2)
+        ->assertSee('Pay the pre-order fee from')
+        ->call('next')
+        ->set('agree', true)
+        ->call('place')
+        ->assertHasNoErrors();
+
+    expect(CardOrder::first()->form)->toBe(\App\Enums\CardForm::VIRTUAL);
 });
 
 it('only takes payment from allowed balances', function () {
@@ -295,14 +344,15 @@ describe('admin panel', function () {
     it('creates a card product', function () {
         \Livewire\Livewire::test(\App\Filament\Resources\CardProducts\Pages\CreateCardProduct::class)
             ->fillForm([
-                'name' => 'Invora Platinum', 'network' => 'mastercard', 'form' => 'virtual', 'design' => 'platinum',
+                'name' => 'Invora Platinum', 'network' => 'mastercard', 'form' => 'both', 'design' => 'platinum',
                 'preorder_fee' => 750, 'spending_limit' => 250000, 'limit_period' => 'monthly', 'max_per_user' => 1,
                 'features' => ['Concierge'],
             ])
             ->call('create')
             ->assertHasNoFormErrors();
 
-        expect(CardProduct::where('name', 'Invora Platinum')->first()->features)->toBe(['Concierge']);
+        $product = CardProduct::where('name', 'Invora Platinum')->first();
+        expect($product->features)->toBe(['Concierge'])->and($product->form)->toBe('both');
     });
 
     it('runs the order workflow from the table', function () {
@@ -333,13 +383,15 @@ describe('admin panel', function () {
 
     it('saves the program settings', function () {
         \Livewire\Livewire::test(\App\Filament\Pages\CardProgramSettings::class)
+            ->set('data.enabled', true)
             ->set('data.program_open', false)
             ->set('data.allowed_balances', ['deposit'])
             ->set('data.cancel_until', 'approved')
             ->set('data.notice', 'Shipping starts in November.')
             ->call('save');
 
-        expect(\App\Services\Card\CardProgram::isOpen())->toBeFalse()
+        expect(\App\Services\Card\CardProgram::isEnabled())->toBeTrue()
+            ->and(\App\Services\Card\CardProgram::isOpen())->toBeFalse()
             ->and(\App\Services\Card\CardProgram::cancelUntil())->toBe('approved')
             ->and(\App\Services\Card\CardProgram::allowedBalances())->toBe([LedgerAsset::DEPOSIT]);
     });
