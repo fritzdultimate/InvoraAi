@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\TradeController;
+use App\Livewire\Dashboard\Cards\Index as CardsIndex;
+use App\Livewire\Dashboard\Cards\Show as CardOrderShow;
 use App\Livewire\Dashboard\AppComingSoon;
 use App\Livewire\Dashboard\Bot;
 use App\Livewire\Dashboard\Deposit;
@@ -70,6 +72,9 @@ Route::get('/account/funding-rates', FundingRatesPage::class)->name('funding.liv
     Route::get('/referrals/tree', \App\Livewire\Dashboard\Referral\TreeView::class)->name('dashboard.referrals.tree');
 
     Route::get('/ranking', Ranking::class)->name('ranking');
+
+    Route::get('/cards', CardsIndex::class)->name('cards');
+    Route::get('/cards/{order:reference}', CardOrderShow::class)->name('cards.order');
 
 
     Route::prefix('support')->group(function () {

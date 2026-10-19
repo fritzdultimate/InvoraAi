@@ -52,6 +52,7 @@
             'resources/css/referral-direct.css',
             'resources/css/tickets.css',
             'resources/css/bot.css',
+            'resources/css/cards.css',
         ])
         <link rel="stylesheet" href="https://unpkg.com/intro.js/introjs.css">
         <script src="https://unpkg.com/intro.js/intro.js"></script>

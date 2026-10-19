@@ -214,6 +214,10 @@ class User extends Authenticatable implements FilamentUser{
         return $this->hasOne(Waitlist::class);
     }
 
+    public function cardOrders() {
+        return $this->hasMany(CardOrder::class);
+    }
+
     public function challengeEntries() {
         return $this->hasMany(ChallengeEntry::class);
     }

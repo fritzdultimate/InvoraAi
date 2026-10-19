@@ -62,6 +62,14 @@
 				</a>
 			</li>
 
+			<li>
+				<a href="{{ route('cards') }}">
+					<iconify-icon icon="solar:card-2-bold" class="menu-icon"></iconify-icon>
+					<span>Cards</span>
+					<span class="ms-auto rounded-full bg-primary-600/20 px-2 py-0.5 text-[10px] font-semibold text-primary-400">New</span>
+				</a>
+			</li>
+
 			<li class="sidebar-menu-group-title">License & Investment</li>
 
 			<li>

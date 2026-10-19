@@ -1,6 +1,6 @@
 {
   "resources/css/app.css": {
-    "file": "assets/app-CoX3Z8rB.css",
+    "file": "assets/app-OgiUu9p-.css",
     "src": "resources/css/app.css",
     "isEntry": true,
     "name": "app",
@@ -15,6 +15,15 @@
     "name": "bot",
     "names": [
       "bot.css"
+    ]
+  },
+  "resources/css/cards.css": {
+    "file": "assets/cards-QtTvHoBm.css",
+    "src": "resources/css/cards.css",
+    "isEntry": true,
+    "name": "cards",
+    "names": [
+      "cards.css"
     ]
   },
   "resources/css/deposit.css": {

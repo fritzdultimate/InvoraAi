@@ -22,6 +22,7 @@ export default defineConfig({
                 'resources/css/tickets.css',
                 'resources/css/bot.css',
                 'resources/css/leaderboard.css',
+                'resources/css/cards.css',
             ],
             refresh: true,
         }),
