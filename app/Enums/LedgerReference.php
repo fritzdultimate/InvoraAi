@@ -23,6 +23,7 @@ enum LedgerReference: string
     case REFERRALBONUSTRANSFER = 'referral_bonus_transfer';
     case REINVESTMENT = 'reinvestment';
     case MATCHINGDEPOSITBONUS = 'matching_deposit_bonus';
+    case MATCHING_BONUS_REMOVED = 'matching_bonus_removed';
     case CARD_PREORDER = 'card_preorder';
     case CARD_PREORDER_REFUND = 'card_preorder_refund';
 }
