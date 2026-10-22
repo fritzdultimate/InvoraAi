@@ -80,6 +80,7 @@ class  Overview extends Component {
         });
 
         $data = WalletLedger::where('user_id', auth()->id())
+            ->visibleToUser()
             ->where('created_at', '>=', now()->subDays(7))
             ->select(
                 DB::raw('DATE(created_at) as date'),
@@ -112,6 +113,7 @@ class  Overview extends Component {
      */
     public function render(): \Illuminate\View\View {
         $transactions = WalletLedger::where('user_id', auth()->id())
+            ->visibleToUser()
             ->when($this->search, fn ($q) =>
                 $q->where('reference_type', 'like', "%{$this->search}%")
             )

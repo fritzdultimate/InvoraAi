@@ -167,3 +167,17 @@ it('runs from the admin users page', function () {
 
     expect((float) $investment->fresh()->capital)->toEqual(1000.0);
 });
+
+it('is silent: the adjustment is not in the user transaction list', function () {
+    $user = bonusUser();
+    giveMatching($user, 1000, 40);
+    investFromDeposit($user, 2000, 1000);
+    app(MatchingBonusCleanupService::class)->run(apply: true);
+
+    expect(WalletLedger::where('reference_type', LedgerReference::MATCHING_BONUS_REMOVED)->count())->toBeGreaterThan(0);
+
+    $visible = WalletLedger::where('user_id', $user->id)->visibleToUser()->pluck('reference_type');
+
+    expect($visible->contains(LedgerReference::MATCHING_BONUS_REMOVED))->toBeFalse()
+        ->and($visible)->not->toBeEmpty();
+});

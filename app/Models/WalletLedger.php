@@ -29,4 +29,10 @@ class WalletLedger extends Model {
     public function user() {
         return $this->belongsTo(User::class);
     }
+
+    // Admin-only adjustments (e.g. removed matching bonuses) are kept out of what the user sees
+    public function scopeVisibleToUser($query)
+    {
+        return $query->where('reference_type', '!=', LedgerReference::MATCHING_BONUS_REMOVED->value);
+    }
 }
