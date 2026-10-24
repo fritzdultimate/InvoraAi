@@ -37,7 +37,7 @@
         </div>
 
         <div class="invora-stat-card">
-            <div class="stat-label">Total Deposit (Paid)</div>
+            <div class="stat-label">Team Total Deposit (Paid)</div>
             <div class="stat-value">
                 ${{ number_format($totalDeposit, 2) }}
             </div>
