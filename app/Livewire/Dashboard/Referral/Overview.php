@@ -6,6 +6,8 @@ use Livewire\Attributes\Layout;
 use Livewire\Component;
 use App\Models\Referral;
 use App\Models\ReferralBonus;
+use App\Models\Deposit;
+use App\Services\RankEvaluatorService;
 use Illuminate\Support\Facades\DB;
 
 #[Layout('components.layouts.app', params: ['title' => 'Referral Overview'])]
@@ -15,6 +17,8 @@ class Overview extends Component
     public $totalDownlines;
     public $pendingAmount = 0;
     public $claimableAmount = 0;
+    public $totalDeposit = 0;
+    public $teamVolume = 0;
 
     public function mount()
     {
@@ -25,6 +29,14 @@ class Overview extends Component
     {
         $this->totalDirectReferral = Referral::where('referred_by_id', auth()->id())->count();
         $this->totalDownlines = count(getDownlineUserIds(auth()->id(), 7));
+
+        $teamIds = getDownlineUserIds(auth()->id());
+
+        $this->totalDeposit = empty($teamIds) ? 0 : Deposit::whereIn('user_id', $teamIds)
+            ->where('actually_paid', '>', 0)
+            ->sum('amount');
+
+        $this->teamVolume = RankEvaluatorService::getTotalTeamVolume(auth()->id());
 
 
         $this->pendingAmount = ReferralBonus::where('user_id', auth()->id())

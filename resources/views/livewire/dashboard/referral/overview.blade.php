@@ -36,6 +36,20 @@
             </div>
         </div>
 
+        <div class="invora-stat-card">
+            <div class="stat-label">Total Deposit (Paid)</div>
+            <div class="stat-value">
+                ${{ number_format($totalDeposit, 2) }}
+            </div>
+        </div>
+
+        <div class="invora-stat-card">
+            <div class="stat-label">Team Volume</div>
+            <div class="stat-value">
+                ${{ number_format($teamVolume, 2) }}
+            </div>
+        </div>
+
         <div class="invora-stat-card highlight">
             <div class="stat-label">Total Earnings</div>
             <div class="stat-value glow">
