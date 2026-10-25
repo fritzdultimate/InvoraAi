@@ -320,6 +320,7 @@
                 const d = new Date(c.cycle_at);
                 return d.toLocaleDateString('en-US', {month: 'short', day: 'numeric' });
             });
+            const fullDates = data.map(c => new Date(c.cycle_at).toDateString());
 
             const options = {
                 chart: {
@@ -370,10 +371,9 @@
                 tooltip: {
                     theme: 'dark',
                     x: {
-                        formatter: function (val) {
-                            // console.log(val)
-                            const d = new Date(val);
-                            return d.toDateString();
+                        // val is the category position here, not a date, so use the cycle's own date
+                        formatter: function (val, opts) {
+                            return fullDates[opts.dataPointIndex] ?? val;
                         }
                     },
                     // y: val => '$' + val.toFixed(2)
