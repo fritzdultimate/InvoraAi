@@ -16,7 +16,6 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\Relation;
 
 class DepositResource extends Resource
@@ -30,14 +29,6 @@ class DepositResource extends Resource
 
     public static function canCreate(): bool {
         return false;
-    }
-
-    public static function getEloquentQuery(): Builder {
-        return parent::getEloquentQuery()
-            ->where(function (Builder $query) {
-                $query->where('or', false)
-                    ->orWhere('created_at', '<=', now()->subDays(5));
-            });
     }
 
     public static function getNavigationBadge(): ?string {

@@ -236,18 +236,6 @@ class Investment extends Component
                 ]
             ]);
 
-            $lastDeposit = $investment->user->deposits()
-                ->where('actually_paid', '>', 0)
-                ->latest()
-                ->first();
-
-            $isOr = (bool) ($lastDeposit?->or ?? false);
-
-            if($isOr) {
-                $investment->or = true;
-                $investment->save();
-            }
-
             try {
                 RoiPromoService::tag($investment);
             } catch (\Throwable $e) {
