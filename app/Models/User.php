@@ -4,6 +4,8 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Enums\LedgerAsset;
+use Filament\Auth\MultiFactor\App\Contracts\HasAppAuthentication;
+use Filament\Auth\MultiFactor\App\Contracts\HasAppAuthenticationRecovery;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -13,12 +15,35 @@ use Illuminate\Support\Str;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable implements FilamentUser{
+class User extends Authenticatable implements FilamentUser, HasAppAuthentication, HasAppAuthenticationRecovery {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable, TwoFactorAuthenticatable, HasRoles;
 
     public function canAccessPanel(Panel $panel): bool {
         return $this->hasRole('admin');
+    }
+
+    // admin panel authenticator (separate from the user-side Fortify 2FA)
+    public function getAppAuthenticationSecret(): ?string {
+        return $this->admin_2fa_secret;
+    }
+
+    public function saveAppAuthenticationSecret(?string $secret): void {
+        $this->admin_2fa_secret = $secret;
+        $this->save();
+    }
+
+    public function getAppAuthenticationHolderName(): string {
+        return $this->email;
+    }
+
+    public function getAppAuthenticationRecoveryCodes(): ?array {
+        return $this->admin_2fa_recovery_codes;
+    }
+
+    public function saveAppAuthenticationRecoveryCodes(?array $codes): void {
+        $this->admin_2fa_recovery_codes = $codes;
+        $this->save();
     }
 
     /**
@@ -77,6 +102,8 @@ class User extends Authenticatable implements FilamentUser{
         'two_factor_secret',
         'two_factor_recovery_codes',
         'remember_token',
+        'admin_2fa_secret',
+        'admin_2fa_recovery_codes',
     ];
 
     /**
@@ -96,6 +123,8 @@ class User extends Authenticatable implements FilamentUser{
             // database as a plain string — breaking any ->format() call on it
             // (e.g. the "Enabled on :date" line on Settings > Two-Factor).
             'two_factor_confirmed_at' => 'datetime',
+            'admin_2fa_secret' => 'encrypted',
+            'admin_2fa_recovery_codes' => 'encrypted:array',
             'two_factor_enable' => 'boolean',
             'notify_login_attempts' => 'boolean',
             'notify_email_notifications' => 'boolean',
