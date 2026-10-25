@@ -64,4 +64,10 @@ class Deposit extends Model {
     // public function transactions() {
     //     return $this->morphMany(Transaction::class, 'related');
     // }
+
+    // money the user actually paid in through a payment invoice (admin top-ups never land here)
+    public function scopeReal($query) {
+        return $query->where('actually_paid', '>', 0)
+            ->whereNotNull('nowpayments_invoice_id');
+    }
 }

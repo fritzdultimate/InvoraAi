@@ -29,22 +29,28 @@ class MyNetwork extends Component
     {
         $column = "level_{$this->depth}_id";
 
+        // members with the most real deposits first, so the cards line up with the totals above
         $network = Referral::where($column, auth()->id())
             ->with('user')
+            ->orderByDesc(
+                Deposit::real()
+                    ->whereColumn('deposits.user_id', 'referrals.user_id')
+                    ->selectRaw('COALESCE(SUM(actually_paid), 0)')
+            )
+            ->orderBy('referrals.id')
             ->paginate(12);
 
         $earnings = ReferralBonus::where('user_id', auth()->id())
             ->where('level', $this->depth)
             ->sum('amount');
 
-        // Deposit volume counted the same way as team volume for ranks (RankEvaluatorService::getTotalTeamVolume),
-        // and the share of it this level adds to your team volume.
+        // real deposits only: what members actually paid in, never admin top-ups
         $percentage = (float) (UnilevelPercentage::where('level', $this->depth)->value('percentage') ?? 0);
 
-        $volumes = Deposit::whereIn('user_id', $network->pluck('user_id'))
-            ->where('actually_paid', '>', 0)
+        $volumes = Deposit::real()
+            ->whereIn('user_id', $network->pluck('user_id'))
             ->groupBy('user_id')
-            ->selectRaw('user_id, SUM(amount) as volume')
+            ->selectRaw('user_id, SUM(actually_paid) as volume')
             ->pluck('volume', 'user_id');
 
         $userEarnings = ReferralBonus::where('user_id', auth()->id())
@@ -54,9 +60,9 @@ class MyNetwork extends Component
             ->selectRaw('from_user_id, SUM(amount) as total')
             ->pluck('total', 'from_user_id');
 
-        $levelVolume = Deposit::whereIn('user_id', Referral::where($column, auth()->id())->select('user_id'))
-            ->where('actually_paid', '>', 0)
-            ->sum('amount');
+        $levelVolume = Deposit::real()
+            ->whereIn('user_id', Referral::where($column, auth()->id())->select('user_id'))
+            ->sum('actually_paid');
 
         return view('livewire.dashboard.referral.my-network', [
             'network' => $network,
