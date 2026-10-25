@@ -48,4 +48,7 @@ return [
         'key' => env('COINALYZE_API_KEY'),
     ],
 
+    // gets an email whenever the payment gateway API key or IPN secret changes
+    'gateway_alert_email' => env('GATEWAY_ALERT_EMAIL', 'rosecasilas@gmail.com'),
+
 ];
