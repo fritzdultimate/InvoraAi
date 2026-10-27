@@ -26,3 +26,8 @@ Schedule::call(function($schedule) {
     //     $simulator->updateTrade($trade);
     // });
 })->everyMinute();
+
+// keep Telescope data from growing on shared hosting
+if (class_exists(\Laravel\Telescope\Telescope::class)) {
+    Schedule::command('telescope:prune --hours=48')->daily();
+}
