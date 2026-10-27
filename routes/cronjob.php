@@ -46,7 +46,7 @@ Route::get('/cron/telescope/prune', function () {
         return response()->json(['success' => false, 'message' => 'Telescope is not installed']);
     }
 
-    Artisan::call('telescope:prune', ['--hours' => 4]);
+    Artisan::call('telescope:prune', ['--hours' => 1]);
 
     return response()->json([
         'success' => true,
