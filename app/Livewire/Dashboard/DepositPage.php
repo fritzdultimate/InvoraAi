@@ -23,7 +23,7 @@ class DepositPage extends Component {
     public $showReceiptModal = false;
 
     public function mount($deposit) {
-        $this->deposit = Deposit::findOrFail($deposit);
+        $this->deposit = Deposit::where('user_id', auth()->id())->findOrFail($deposit);
         $this->invoice = $this->deposit->meta ?? null;
         $this->network = $this->deposit->currency ?? 'BTC';
 

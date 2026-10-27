@@ -71,7 +71,7 @@
             </div>
 
             <!-- Load More -->
-            @if (\App\Models\Notification::count() > $notifications->count())
+            @if (\App\Models\Notification::visibleTo(auth()->user())->count() > $notifications->count())
                 <div class="text-center py-3 px-4">
                     <a href="javascript:void(0)"
                         wire:click="loadMore"

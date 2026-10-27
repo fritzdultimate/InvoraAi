@@ -7,6 +7,7 @@ use App\Domain\Withdrawal\WithdrawalRules;
 use App\Enums\LedgerAsset;
 use App\Enums\LedgerReference;
 use App\Models\CustomSetting;
+use App\Models\User;
 use App\Models\WithdrawalCurrency;
 use App\Models\WithdrawalNetwork;
 use App\Services\NotificationService;
@@ -284,6 +285,7 @@ class Withdrawal extends Component {
         }
 
         return DB::transaction(function () use ($user, $amount, $from) {
+            $user = User::lockForUpdate()->find($user->id);
 
             if ($from === 'profit') {
                 if ($user->profit_balance < $amount) {

@@ -11,6 +11,7 @@ class NotificationService {
      */
     public static function getCriticalForUser(User $user) {
         return Notification::critical()
+            ->visibleTo($user)
             ->whereDoesntHave('users', function ($q) use ($user) {
                 $q->where('user_id', $user->id)
                   ->whereNotNull('dismissed_at');
@@ -20,25 +21,13 @@ class NotificationService {
     }
 
     public static function getForUser(User $user) {
-        return Notification::query()
-
-            // ✅ Global notifications (always include)
-            ->whereDoesntHave('users', function ($q) use ($user) {
-                $q->where('user_id', $user->id);
-            })
-
-            // ✅ OR notifications linked to user (any state)
-            ->orWhereHas('users', function ($q) use ($user) {
-                $q->where('user_id', $user->id);
-            })
-
+        return Notification::visibleTo($user)
             ->with(['users' => function ($q) use ($user) {
                 $q->where('user_id', $user->id);
             }])
-
             ->latest()
             ->get();
-    }  
+    }
 
     /**
      * Mark notifications as read
@@ -72,6 +61,7 @@ class NotificationService {
      */
     public static function create(array $data) {
         return Notification::create([
+            'user_id' => $data['user_id'] ?? null,
             'title' => $data['title'],
             'message' => $data['message'],
             'is_critical' => $data['is_critical'] ?? false,
@@ -80,7 +70,7 @@ class NotificationService {
     }
 
     public static function createForUser(User $user, array $data) {
-        $notification = self::create($data);
+        $notification = self::create(array_merge($data, ['user_id' => $user->id]));
 
         $user->notifications()->attach($notification->id);
 

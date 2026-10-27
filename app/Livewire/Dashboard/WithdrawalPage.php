@@ -16,7 +16,7 @@ class WithdrawalPage extends Component {
     public $expiresAt;
 
     public function mount($withdrawal) {
-        $this->withdrawal = Withdrawal::findOrFail($withdrawal);
+        $this->withdrawal = Withdrawal::where('user_id', auth()->id())->findOrFail($withdrawal);
         $this->network = $this->withdrawal->network;
 
         $this->expiresAt = $this->withdrawal->created_at->addMinutes(30);

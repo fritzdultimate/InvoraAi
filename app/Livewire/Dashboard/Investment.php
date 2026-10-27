@@ -77,7 +77,9 @@ class Investment extends Component
         $this->renewMode = false;
         $this->upgradedBotId = null;
 
-        $this->selectedLicense = BotLicense::with('bot')->findOrFail($licenseId);
+        $this->selectedLicense = BotLicense::with('bot')
+            ->where('user_id', auth()->id())
+            ->findOrFail($licenseId);
         $this->amount = null;
         $this->showModal = true;
     }
@@ -202,56 +204,63 @@ class Investment extends Component
             ],
         ]);
 
+        if ($this->selectedLicense->user_id != auth()->id() || ! $this->selectedLicense->expires_at?->isFuture()) {
+            $this->addError('amount', 'This license is not active. Please renew it first.');
+            return;
+        }
+
         try {
-            $realFundedAmount = $this->amount;
-            if($this->asset === 'deposit') {
-                $breakdown = DepositService::debitForInvestment(auth()->user(), $this->amount);
-                $realFundedAmount = $breakdown['from_deposit'];
-                // DepositService::debitForInvestment(auth()->user(), $this->amount);
-            } else {
-                WalletService::debit(
+            DB::transaction(function () {
+                $realFundedAmount = $this->amount;
+                if($this->asset === 'deposit') {
+                    $breakdown = DepositService::debitForInvestment(auth()->user(), $this->amount);
+                    $realFundedAmount = $breakdown['from_deposit'];
+                    // DepositService::debitForInvestment(auth()->user(), $this->amount);
+                } else {
+                    WalletService::debit(
+                        auth()->user(), 
+                        $this->amount, 
+                        LedgerReference::BOT_INVESTMENT, 
+                        $this->selectedLicense->id, 
+                        null, 
+                        LedgerAsset::MAIN
+                    );      
+                }  
+
+                $investment = BotInvestment::create([
+                    'user_id' => auth()->id(),
+                    'bot_id' => $this->selectedLicense->bot->id,
+                    'bot_license_id' => $this->selectedLicense->id,
+                    'amount' => $this->amount,
+                    'capital' => $this->amount,
+                    'referral_eligible_amount' => $realFundedAmount,
+                    'started_at' => now(),
+                    'locked_until' => now()->addDays($this->selectedLicense->bot->lock_days),
+                    'matures_at' => now()->addDays($this->selectedLicense->bot->lock_days),
+                    'next_cycle_at' => now()->addHours($this->selectedLicense->bot->payout_interval_hours),
+                    'meta' => [
+                        'daily_return_percent' => $this->selectedLicense->bot->daily_return_percent,
+                        'payout_interval_hours' => $this->selectedLicense->bot->payout_interval_hours,
+                    ]
+                ]);
+
+                try {
+                    RoiPromoService::tag($investment);
+                } catch (\Throwable $e) {
+                    report($e);
+                }
+
+                WalletService::credit(
                     auth()->user(), 
                     $this->amount, 
                     LedgerReference::BOT_INVESTMENT, 
-                    $this->selectedLicense->id, 
-                    null, 
-                    LedgerAsset::MAIN
-                );      
-            }  
+                    $investment->id,
+                    'locked investment', 
+                    LedgerAsset::LOCKEDBALANCE
+                );
 
-            $investment = BotInvestment::create([
-                'user_id' => auth()->id(),
-                'bot_id' => $this->selectedLicense->bot->id,
-                'bot_license_id' => $this->selectedLicense->id,
-                'amount' => $this->amount,
-                'capital' => $this->amount,
-                'referral_eligible_amount' => $realFundedAmount,
-                'started_at' => now(),
-                'locked_until' => now()->addDays($this->selectedLicense->bot->lock_days),
-                'matures_at' => now()->addDays($this->selectedLicense->bot->lock_days),
-                'next_cycle_at' => now()->addHours($this->selectedLicense->bot->payout_interval_hours),
-                'meta' => [
-                    'daily_return_percent' => $this->selectedLicense->bot->daily_return_percent,
-                    'payout_interval_hours' => $this->selectedLicense->bot->payout_interval_hours,
-                ]
-            ]);
-
-            try {
-                RoiPromoService::tag($investment);
-            } catch (\Throwable $e) {
-                report($e);
-            }
-
-            WalletService::credit(
-                auth()->user(), 
-                $this->amount, 
-                LedgerReference::BOT_INVESTMENT, 
-                $investment->id,
-                'locked investment', 
-                LedgerAsset::LOCKEDBALANCE
-            );
-
-            ReferralBonusService::distribute(auth()->user(), $investment);
+                ReferralBonusService::distribute(auth()->user(), $investment);
+            });
 
             $this->showModal = false;
             $this->dispatch('toast', payload: [
@@ -286,7 +295,9 @@ class Investment extends Component
     }
 
     public function openUpgradeModal($licenseId) {
-        $this->selectedLicense = BotLicense::with('bot')->findOrFail($licenseId);
+        $this->selectedLicense = BotLicense::with('bot')
+            ->where('user_id', auth()->id())
+            ->findOrFail($licenseId);
 
         $this->upgradeMode = true;
         $this->renewMode = false;

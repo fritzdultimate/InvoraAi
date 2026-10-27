@@ -13,3 +13,5 @@ Route::get('/trading/status', [TradeController::class, 'getTradingStatus'])
  
 Route::get('/trading/funding-window', [TradeController::class, 'checkFundingWindow'])
     ->name('trading.funding-window');
+
+Route::prefix('v1')->group(base_path('routes/api_v1.php'));

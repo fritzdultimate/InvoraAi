@@ -90,8 +90,8 @@ Route::get('/account/funding-rates', FundingRatesPage::class)->name('funding.liv
 
 });
 
-Route::post('/notifications/read/{id}', function ($id) {
-    $notification = Notification::findOrFail($id);
+Route::middleware('auth')->post('/notifications/read/{id}', function ($id) {
+    $notification = Notification::visibleTo(auth()->user())->findOrFail($id);
 
     auth()->user()->notifications()->syncWithoutDetaching([
         $notification->id => [

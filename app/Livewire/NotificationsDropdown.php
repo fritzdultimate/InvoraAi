@@ -21,7 +21,7 @@ class NotificationsDropdown extends Component {
     }
 
     public function open($id) {
-        $notification = Notification::findOrFail($id);
+        $notification = Notification::visibleTo(Auth::user())->findOrFail($id);
 
         // mark as read
         Auth::user()->notifications()->syncWithoutDetaching([
@@ -42,22 +42,26 @@ class NotificationsDropdown extends Component {
     public function loadNotifications() {
         $userId = Auth::id();
 
-        $this->notifications = Notification::with(['users' => function ($q) use($userId) {
+        $this->notifications = Notification::visibleTo(Auth::user())
+        ->with(['users' => function ($q) use($userId) {
             $q->where('user_id', $userId);
         }])
         ->latest()
         ->take($this->limit)
         ->get();
 
-        $this->unseenCount = Notification::whereHas('users', function($q) use($userId){
-            $q->where('user_id', $userId)->whereNull('seen_at');
-        })->count();
+        $this->unseenCount = Notification::visibleTo(Auth::user())
+            ->whereDoesntHave('users', function ($q) use ($userId) {
+                $q->where('user_id', $userId)->whereNotNull('notification_user.seen_at');
+            })
+            ->count();
     }
 
     public function loadMore() {
         $this->limit += 5;
 
-        $this->notifications = Notification::with(['users' => function ($q) {
+        $this->notifications = Notification::visibleTo(Auth::user())
+        ->with(['users' => function ($q) {
             $q->where('user_id', Auth::id());
         }])
         ->latest()
@@ -73,7 +77,11 @@ class NotificationsDropdown extends Component {
 
     public function markAllAsSeen() {
         $user = Auth::user();
-        $user->notifications()->update(['seen_at' => now()]);
+        $ids = Notification::visibleTo($user)->pluck('id');
+
+        $user->notifications()->syncWithoutDetaching(
+            $ids->mapWithKeys(fn ($id) => [$id => ['seen_at' => now()]])->all()
+        );
 
         $this->loadNotifications();
     }

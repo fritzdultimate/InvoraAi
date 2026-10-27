@@ -13,11 +13,12 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
 use Laravel\Fortify\TwoFactorAuthenticatable;
+use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements FilamentUser, HasAppAuthentication, HasAppAuthenticationRecovery {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, TwoFactorAuthenticatable, HasRoles;
+    use HasFactory, Notifiable, TwoFactorAuthenticatable, HasRoles, HasApiTokens;
 
     public function canAccessPanel(Panel $panel): bool {
         return $this->hasRole('admin');
@@ -206,7 +207,7 @@ class User extends Authenticatable implements FilamentUser, HasAppAuthentication
 
     public function notifications() {
         return $this->belongsToMany(Notification::class)
-            ->withPivot('read_at', 'dismissed_at')
+            ->withPivot('read_at', 'dismissed_at', 'seen_at')
             ->withTimestamps();
     }
 
