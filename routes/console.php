@@ -27,7 +27,3 @@ Schedule::call(function($schedule) {
     // });
 })->everyMinute();
 
-// keep Telescope data from growing on shared hosting
-if (class_exists(\Laravel\Telescope\Telescope::class)) {
-    Schedule::command('telescope:prune --hours=48')->daily();
-}

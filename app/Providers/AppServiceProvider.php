@@ -19,11 +19,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        // only wire Telescope when it's actually installed, so a missing or
-        // half-built vendor can never take the whole app down
-        if (class_exists(\Laravel\Telescope\Telescope::class)) {
-            $this->app->register(\App\Providers\TelescopeServiceProvider::class);
-        }
+        //
     }
 
     /**

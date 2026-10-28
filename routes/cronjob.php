@@ -41,19 +41,6 @@ Route::get('/cron/live-trade/sync', function() {
     GmxService::syncAll();
 });
 
-Route::get('/cron/telescope/prune', function () {
-    if (! class_exists(\Laravel\Telescope\Telescope::class)) {
-        return response()->json(['success' => false, 'message' => 'Telescope is not installed']);
-    }
-
-    Artisan::call('telescope:prune', ['--hours' => 1]);
-
-    return response()->json([
-        'success' => true,
-        'output' => trim(Artisan::output()),
-    ]);
-})->name('telescope.prune');
-
 Route::get('migrate/now/djjd', function() {
     try {
             // Capture output
