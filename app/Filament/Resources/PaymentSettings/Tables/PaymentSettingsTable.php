@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\PaymentSettings\Tables;
 
+use App\Models\PaymentSetting;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -18,9 +19,9 @@ class PaymentSettingsTable
                 TextColumn::make('provider')
                     ->searchable(),
                 TextColumn::make('api_key')
-                    ->searchable(),
+                    ->visible(fn () => PaymentSetting::canManageKeys()),
                 TextColumn::make('ipn_secret')
-                    ->searchable(),
+                    ->visible(fn () => PaymentSetting::canManageKeys()),
                 TextColumn::make('webhook_url')
                     ->searchable(),
                 IconColumn::make('is_active')

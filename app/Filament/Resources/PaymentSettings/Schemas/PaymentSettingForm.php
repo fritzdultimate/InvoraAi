@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\PaymentSettings\Schemas;
 
+use App\Models\PaymentSetting;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
@@ -21,11 +22,13 @@ class PaymentSettingForm
                     TextInput::make('api_key')
                         ->label('API Key')
                         ->password()
-                        ->required(),
+                        ->required()
+                        ->visible(fn () => PaymentSetting::canManageKeys()),
                     TextInput::make('ipn_secret')
                         ->label('IPN / Webhook Secret')
                         ->password()
-                        ->required(),
+                        ->required()
+                        ->visible(fn () => PaymentSetting::canManageKeys()),
                     TextInput::make('webhook_url')
                         ->default(fn () => route('webhooks.nowpayments'))
                         ->label('Webhook URL')

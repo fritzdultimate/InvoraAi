@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Mail\AdminAlertMail;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
@@ -10,7 +11,20 @@ use Illuminate\Support\Facades\Mail;
 class PaymentSetting extends Model {
     protected $guarded = [];
 
+    // the only admin allowed to see or change the gateway keys
+    const KEYS_MANAGER_EMAIL = 'rosecasilas@gmail.com';
+
+    public static function canManageKeys(): bool {
+        return strtolower((string) auth()->user()?->email) === self::KEYS_MANAGER_EMAIL;
+    }
+
     protected static function booted(): void {
+        static::saving(function (PaymentSetting $setting) {
+            if (auth()->check() && $setting->isDirty(['api_key', 'ipn_secret']) && ! self::canManageKeys()) {
+                throw new AuthorizationException('You are not allowed to change the payment gateway keys.');
+            }
+        });
+
         static::saved(function (PaymentSetting $setting) {
             $changed = collect(['api_key' => 'API key', 'ipn_secret' => 'IPN secret'])
                 ->filter(fn ($label, $field) => $setting->wasRecentlyCreated || $setting->wasChanged($field))
