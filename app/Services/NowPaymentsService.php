@@ -78,7 +78,6 @@ class NowPaymentsService {
         $settings = PaymentSetting::where('provider', 'nowpayments')
             ->where('is_active', true)
             ->first();
-        \Log::info($settings->ipn_secret);
 
         if ($receivedSignature === null) {
             return false;
@@ -90,20 +89,25 @@ class NowPaymentsService {
 
     public function getStatus() {
         $response = Http::withHeaders([
-            'x-api-key' => config('services.nowpayments.key'),
-        ])->get('https://api.nowpayments.io/v1/status');
+            'x-api-key' => self::$apiKey,
+        ])->get(self::$endpoint . '/status');
 
         return $response->json();
     }
 
     public function getCurrencies() {
-        // return Cache::remember('nowpayments_currencies', now()->addHours(2), function () {
-            $response = Http::withHeaders([
-                'x-api-key' => config('services.nowpayments.api_key'),
-            ])->get('https://api.nowpayments.io/v1/merchant/coins');
+        $response = Http::withHeaders([
+            'x-api-key' => self::$apiKey,
+        ])->get(self::$endpoint . '/merchant/coins');
 
-            return $this->mapSelectedCurrencies($response->json());
-        // });
+        $coins = $response->json('selectedCurrencies');
+
+        if (! $response->ok() || ! is_array($coins)) {
+            \Log::warning('NOWPayments coins request failed', ['status' => $response->status(), 'body' => $response->body()]);
+            return [];
+        }
+
+        return $this->mapSelectedCurrencies(['selectedCurrencies' => $coins]);
     }
 
 
