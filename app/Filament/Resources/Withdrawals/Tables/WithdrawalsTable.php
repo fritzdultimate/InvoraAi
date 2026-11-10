@@ -28,6 +28,7 @@ class WithdrawalsTable
                     ->weight('medium')
                     ->color('success')
                     ->description(fn (Withdrawal $record) => ucfirst($record->user->name))
+                    ->searchable(['email', 'name'])
                     ->sortable(),
                 TextColumn::make('meta.total_to_debit')
                     ->label('Amount')
