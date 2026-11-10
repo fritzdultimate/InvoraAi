@@ -12,7 +12,6 @@ use App\Models\BotLicense;
 use App\Models\User;
 use App\Services\DepositService;
 use App\Services\Promo\RoiPromoService;
-use App\Services\ReferralBonusService;
 use App\Services\Wallet\WalletService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -202,8 +201,6 @@ class BotController extends Controller
 
             WalletService::credit($user, $amount, LedgerReference::BOT_INVESTMENT, $investment->id,
                 'locked investment', LedgerAsset::LOCKEDBALANCE);
-
-            ReferralBonusService::distribute($user, $investment);
 
             return $investment;
         });

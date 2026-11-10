@@ -131,6 +131,12 @@ class DepositService {
             LedgerAsset::DEPOSIT
         );
 
+        try {
+            ReferralBonusService::distributeForDeposit($deposit, $usdAmount);
+        } catch (\Throwable $e) {
+            report($e);
+        }
+
         $bonus = self::depositBonus($deposit);
         self::matchingDepositBonus($deposit);
 

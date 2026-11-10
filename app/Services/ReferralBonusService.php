@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Enums\LedgerAsset;
 use App\Enums\LedgerReference;
 use App\Models\BotInvestment;
+use App\Models\Deposit;
 use App\Models\Referral;
 use App\Models\ReferralBonus;
 use App\Models\ReferralLevel;
@@ -95,13 +96,11 @@ class ReferralBonusService {
 
     }
 
-    public static function distribute(User $investor, BotInvestment $inv): void {
-        if ($investor->hasRole('leader') && !$investor->can_distribute_referral_bonus) return;
-
-        $eligibleAmount = $inv->referral_eligible_amount ?? $inv->capital; // fallback for pre-migration rows
-        if (bccomp((string) $eligibleAmount, '0', 8) <= 0) {
-            return;
-        }
+    // referral bonus is paid only on real deposits (gateway or admin-approved), never on investments
+    public static function distributeForDeposit(Deposit $deposit, float $amount): void {
+        $depositor = $deposit->user;
+        if (!$depositor || $amount <= 0) return;
+        if ($depositor->hasRole('leader') && !$depositor->can_distribute_referral_bonus) return;
 
         $levels = ReferralLevel::where('is_active', true)
             ->orderBy('level')
@@ -110,10 +109,10 @@ class ReferralBonusService {
 
         if ($levels->isEmpty()) return;
 
-        $referralTree = Referral::where('user_id', $investor->id)->first();
+        $referralTree = Referral::where('user_id', $depositor->id)->first();
         if (!$referralTree) return;
 
-        DB::transaction(function () use ($levels, $referralTree, $inv, $investor, $eligibleAmount) {
+        DB::transaction(function () use ($levels, $referralTree, $deposit, $depositor, $amount) {
             foreach ($levels as $config) {
                 $level = $config->level;
                 if ($level > 10) break;
@@ -123,36 +122,35 @@ class ReferralBonusService {
 
                 $referrer = User::find($referrerUserId);
                 if (!$referrer) continue;
-                if ($referrer->id === $investor->id) continue;
-                if ($investor->hasRole('leader') && !$investor->can_receive_referral_bonus) continue;
+                if ($referrer->id === $depositor->id) continue;
+                if ($depositor->hasRole('leader') && !$depositor->can_receive_referral_bonus) continue;
 
-                $amount = bcmul(
-                    (string) $eligibleAmount,
+                $bonus = bcmul(
+                    (string) $amount,
                     bcdiv((string) $config->percent, '100', 8),
                     8
                 );
 
-                if (bccomp($amount, '0', 8) <= 0) continue;
+                if (bccomp($bonus, '0', 8) <= 0) continue;
 
-                if (ReferralBonus::where('bot_investment_id', $inv->id)->where('level', $level)->exists()) {
+                if (ReferralBonus::where('deposit_id', $deposit->id)->where('level', $level)->exists()) {
                     continue;
                 }
 
                 ReferralBonus::create([
                     'user_id' => $referrer->id,
                     'referred_by_id' => $referrer->id,
-                    'from_user_id' => $investor->id,
-                    'bot_investment_id' => $inv->id,
+                    'from_user_id' => $depositor->id,
+                    'deposit_id' => $deposit->id,
                     'level' => $level,
                     'percent' => $config->percent,
-                    'amount' => $amount,
+                    'amount' => $bonus,
                     'status' => 'pending',
                     'claimable_at' => now()->addDays($config->lock_days),
                     'calculated_for' => now()->startOfDay(),
                     'meta' => [
-                        'bot_id' => $inv->bot->id,
-                        'investment_amount' => $inv->capital,
-                        'referral_eligible_amount' => $eligibleAmount,
+                        'deposit_reference' => $deposit->reference,
+                        'deposit_amount' => $amount,
                     ],
                 ]);
             }

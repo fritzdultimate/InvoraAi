@@ -11,6 +11,7 @@ class ReferralBonus extends Model {
         'level',
         'amount',
         'bot_investment_id',
+        'deposit_id',
         'status',
         'meta',
         'percent',
