@@ -59,11 +59,19 @@ class BotInvestmentService {
 
             $bot = $investment->bot;
 
-            $penaltyPercent = $bot->early_withdrawal_penalty_percent;
 
-            $penalty = $investment->amount * ($penaltyPercent / 100);
+            $amount = (string) $investment->amount;
+            $penaltyPercent = (string) $bot->early_withdrawal_penalty_percent;
 
-            $finalReturn = $investment->amount - $penalty;
+            // Calculate penalty
+            $penalty = bcdiv(
+                bcmul($amount, $penaltyPercent, 12),
+                '100',
+                8
+            );
+
+            // Calculate final return
+            $finalReturn = bcsub($amount, $penalty, 8);
 
             WalletService::debit(
                 $investment->user,
