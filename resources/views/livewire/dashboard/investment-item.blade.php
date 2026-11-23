@@ -122,10 +122,21 @@
             </div>
 
             <div class="invora-stat-card">
-                <span>Matures</span>
+                <span>Full Deposit Released</span>
                 <h3 style="font-size: 15px;">
-                    {{ $investment->matures_at->diffForHumans() }}
+                    {{ $investment->matures_at->format('M d, Y') }}
                 </h3>
+                <small style="color: #94a3b8;">
+                    @if($investment->status->value === 'completed')
+                        Returned to your main balance
+                    @elseif($investment->status->value === 'terminated')
+                        Ended early
+                    @elseif($investment->isMatured())
+                        Being returned on the next payout cycle
+                    @else
+                        {{ $investment->matures_at->diffForHumans() }}
+                    @endif
+                </small>
             </div>
 
         </div>

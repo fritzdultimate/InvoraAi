@@ -67,6 +67,18 @@
 
                             </div>
 
+                            {{-- LOCK-UP --}}
+                            <div style="margin-bottom: 18px; padding: 12px 14px; border-radius: 10px; background: rgba(59,130,246,.08); border: 1px solid rgba(59,130,246,.25);">
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <span style="font-size: 12px; color: #94a3b8;">Lock-up period</span>
+                                    <strong style="font-size: 14px; color: #fff;">{{ $bot->lock_days }} days</strong>
+                                </div>
+                                <p style="margin: 8px 0 0; font-size: 11.5px; line-height: 1.5; color: #94a3b8;">
+                                    Your full initial deposit is returned to your main balance {{ $bot->lock_days }} days after you start an investment, and you can withdraw it from then.
+                                    Ending an investment earlier costs a {{ rtrim(rtrim($bot->early_withdrawal_penalty_percent, '0'), '.') }}% early-exit fee.
+                                </p>
+                            </div>
+
 
                             {{-- PROFIT PREVIEW --}}
                             <div class="bot-profit">
@@ -223,6 +235,9 @@
                             </p>
                             <p>Max Investment:
                                 <span>${{ number_format($selectedBot->max_amount ?? 0, 2) }}</span>
+                            </p>
+                            <p>Lock-up Period:
+                                <span>{{ $selectedBot->lock_days ?? '--' }} days per investment</span>
                             </p>
                         </div>
 

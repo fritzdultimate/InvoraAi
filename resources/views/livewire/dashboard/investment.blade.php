@@ -202,7 +202,19 @@
                                 <span class="limit-label">Maximum</span>
                                 <span class="limit-value">${{ number_format($selectedLicense->bot->max_amount) }}</span>
                             </div>
+
+                            <div class="limit-item">
+                                <span class="limit-label">Lock-up</span>
+                                <span class="limit-value">{{ $selectedLicense->bot->lock_days }} Days</span>
+                            </div>
                         </div>
+
+                        <p class="modal-info-desc" style="margin-top: 12px;">
+                            Your full deposit is locked for {{ $selectedLicense->bot->lock_days }} days. If you start today, it is returned
+                            to your main balance on <strong>{{ now()->addDays($selectedLicense->bot->lock_days)->format('M d, Y') }}</strong>
+                            and you can withdraw it from then. Ending early costs a
+                            {{ rtrim(rtrim($selectedLicense->bot->early_withdrawal_penalty_percent, '0'), '.') }}% fee.
+                        </p>
 
                     @endif
                 </div>
