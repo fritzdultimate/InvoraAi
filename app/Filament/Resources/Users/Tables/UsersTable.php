@@ -6,6 +6,7 @@ use App\Enums\BotLicenseStatus;
 use App\Enums\LedgerAsset;
 use App\Enums\LedgerReference;
 use App\Models\User;
+use App\Services\Admin\AdminLogger;
 use App\Services\BalanceService;
 use App\Services\ReferralReassignmentService;
 use App\Services\Wallet\WalletService;
@@ -87,6 +88,12 @@ class UsersTable
                     ->state(fn ($record) => $record->hasRole('leader'))
                     ->trueColor('success')
                     ->falseColor('danger'),
+                TextColumn::make('leader_since')
+                    ->label('Leader since')
+                    ->dateTime()
+                    ->placeholder('-')
+                    ->sortable()
+                    ->toggleable(),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable(),
@@ -394,7 +401,11 @@ class UsersTable
                             $record->can_distribute_referral_bonus = in_array('distribute_referral', $permissions);
                             $record->can_receive_rank_bonus = in_array('receive_rank', $permissions);
                             $record->can_receive_rank_residual_bonus = in_array('receive_residual_bonus', $permissions);
+                            $record->leader_since = now();
+                            $record->leader_set_by = auth()->id();
                             $record->save();
+
+                            AdminLogger::record('leader_assigned', $record, "Made {$record->email} a leader", [], ['permissions' => $permissions]);
 
                             Notification::make()
                                 ->title('Leader role assigned')
@@ -418,6 +429,9 @@ class UsersTable
                             abort_unless($record->hasRole('leader'), 403);
 
                             $record->removeRole('leader');
+                            $record->update(['leader_since' => null, 'leader_set_by' => null]);
+
+                            AdminLogger::record('leader_removed', $record, "Removed leader role from {$record->email}");
 
                             Notification::make()
                                 ->title('Leader role removed')

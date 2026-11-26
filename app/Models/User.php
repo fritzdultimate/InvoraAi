@@ -90,7 +90,9 @@ class User extends Authenticatable implements FilamentUser, HasAppAuthentication
         'can_receive_referral_bonus',
         'can_distribute_referral_bonus',
         'can_receive_rank_bonus',
-        'can_receive_rank_residual_bonus'
+        'can_receive_rank_residual_bonus',
+        'leader_since',
+        'leader_set_by',
     ];
 
     /**
@@ -137,7 +139,8 @@ class User extends Authenticatable implements FilamentUser, HasAppAuthentication
             'can_receive_referral_bonus' => 'boolean',
             'can_distribute_referral_bonus' => 'boolean',
             'can_receive_rank_bonus' => 'boolean',
-            'can_receive_rank_residual_bonus' => 'boolean'
+            'can_receive_rank_residual_bonus' => 'boolean',
+            'leader_since' => 'datetime',
 
         ];
     }
