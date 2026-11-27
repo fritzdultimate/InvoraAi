@@ -17,7 +17,7 @@
 
         <div class="invora-header-left">
             <div>
-                <h6 class="invora-title">Active Investments</h6>
+                <h6 class="invora-title">My Investments</h6>
                 <span style="font-size:12px; color:var(--text-secondary)">
                     Track your capital in motion
                 </span>
@@ -25,12 +25,12 @@
         </div>
 
         <div class="invora-header-right">
-            <input :disable="false" type="text" wire:model.live="search" placeholder="Search..." class="invora-input datatable-input">
-
-            <select wire:model.live="type" class="invora-input datatable-selector" style="flex: 1;">
+            <select wire:model.live="statusFilter" class="invora-input datatable-selector" style="flex: 1;">
                 <option value="">All</option>
-                <option value="credit">Inflow</option>
-                <option value="debit">Outflow</option>
+                <option value="active">Running</option>
+                <option value="termination_requested">Termination pending</option>
+                <option value="completed">Completed</option>
+                <option value="terminated">Terminated</option>
             </select>
         </div>
 
@@ -69,12 +69,12 @@
                                     font-weight:600;
                                     color:#fff;
                                 ">
-                                    {{ strtoupper(substr($txn->bot->name, 0, 1)) }}
+                                    {{ strtoupper(substr($txn->bot?->name ?? 'B', 0, 1)) }}
                                 </div>
 
                                 <div>
                                     <div style="font-weight:500;">
-                                        {{ $txn->bot->name }}
+                                        {{ $txn->bot?->name ?? 'Bot' }}
                                     </div>
                                     <div style="font-size:12px; color:var(--text-secondary);">
                                         Bot
@@ -93,7 +93,7 @@
 
                         <td>
                             <span class="invora-credit">
-                                ${{ number_format($txn->amount,2) }}
+                                ${{ number_format($txn->capital ?? $txn->amount, 2) }}
                             </span>
                             <div style="font-size:12px; color:var(--text-secondary);">
                                 Capital
@@ -110,21 +110,13 @@
                         </td>
 
                         <td align="right">
-                            @if($txn->status->value === 'active')
-                                <span class="invora-badge invora-badge-green">Running</span>
-                            @elseif($txn->status->value === 'completed')
-                                <span class="invora-badge">Completed</span>
-                            @elseif($txn->status->value === 'termination_requested')
-                                <span class="invora-badge invora-badge-green">Running</span>
-                            @else
-                                <span class="invora-badge invora-badge-red">Stopped</span>
-                            @endif
+                            <span class="invora-badge {{ $txn->statusBadgeClass() }}">{{ $txn->statusLabel() }}</span>
                         </td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="4" style="padding:20px; text-align:center;">
-                            No transactions
+                        <td colspan="5" style="padding:20px; text-align:center;">
+                            No investments found
                         </td>
                     </tr>
                 @endforelse
@@ -133,7 +125,7 @@
     </div>
 
     <div class="invora-mobile">
-        @foreach($investments as $txn)
+        @forelse($investments as $txn)
             <a 
                 href="{{ route('investments.item', ['id' => $txn->uuid]) }}" 
                 class="invora-invest-card" 
@@ -145,12 +137,12 @@
 
                     <div class="invora-invest-bot">
                         <div class="invora-bot-icon">
-                            {{ strtoupper(substr($txn->bot->name, 0, 1)) }}
+                            {{ strtoupper(substr($txn->bot?->name ?? 'B', 0, 1)) }}
                         </div>
 
                         <div>
                             <div class="invora-bot-name">
-                                {{ $txn->bot->name }}
+                                {{ $txn->bot?->name ?? 'Bot' }}
                             </div>
                             <div class="invora-bot-sub">
                                 Bot
@@ -167,9 +159,8 @@
                 <!-- STATUS + DATE -->
                 <div class="invora-invest-bottom">
 
-                    <span class="invora-badge 
-                        {{ $txn->status->value === 'active' ? 'invora-badge-green' : ($txn->status->value === 'termination_requested' ? 'invora-badge-green' : 'invora-badge-red') }}">
-                        {{ $txn->status->value === 'active' ? 'Running' : ($txn->status->value === 'termination_requested' ? 'Running' : 'Stopped') }}
+                    <span class="invora-badge {{ $txn->statusBadgeClass() }}">
+                        {{ $txn->statusLabel() }}
                     </span>
 
                     <div class="invora-invest-date">
@@ -179,7 +170,11 @@
                 </div>
 
             </a>
-        @endforeach
+        @empty
+            <div style="padding:20px; text-align:center; color:var(--text-secondary);">
+                No investments found
+            </div>
+        @endforelse
     </div>
 
     <!-- PAGINATION -->

@@ -8,7 +8,9 @@ use App\Models\BotInvestment;
 use App\Models\BotTermination;
 use App\Services\Wallet\WalletService;
 use Illuminate\Support\Facades\DB;
+use App\Enums\BotInvestmentStatus;
 use Livewire\Attributes\Layout;
+use Livewire\Attributes\Locked;
 use Livewire\Component;
 use Number;
 
@@ -22,6 +24,9 @@ class InvestmentItem extends Component {
     public $title = '';
     public $message = '';
     public $confirmText;
+
+    // set by the server only -- the browser must not pick which method confirmAction() runs
+    #[Locked]
     public $action;
     public $warning;
 
@@ -40,12 +45,12 @@ class InvestmentItem extends Component {
     public function compoundProfit() {
         $inv = $this->investment;
 
-        if ($inv->isMatured()) return;
+        if ($inv->status !== BotInvestmentStatus::ACTIVE || $inv->isMatured()) return;
 
         $amount = (float) $this->compoundAmount;
 
-        if ($amount <= 0) {
-            $this->dispatch('error', message: 'Invalid amount');
+        if ($amount < 1) {
+            $this->dispatch('error', message: 'Minimum reinvest amount is $1');
             return;
         }
 
@@ -108,10 +113,8 @@ class InvestmentItem extends Component {
     }
 
     public function confirmAction() {
-        $action = $this->action;
-
-        if (method_exists($this, $action)) {
-            $this->$action();
+        if ($this->action === 'compoundProfit') {
+            $this->compoundProfit();
         }
 
         $this->showConfirm = false;
@@ -160,7 +163,7 @@ class InvestmentItem extends Component {
 
         if($termination) return;
 
-        if ($inv->isMatured()) return;
+        if ($inv->status !== BotInvestmentStatus::ACTIVE || $inv->isMatured()) return;
 
         DB::transaction(function () use($inv) {
 

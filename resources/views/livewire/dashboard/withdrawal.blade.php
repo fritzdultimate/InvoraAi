@@ -149,18 +149,8 @@
                 <div class="compound-invest-list">
 
                     @php
-                        $investments = auth()->user()->botInvestments()->where('status', 'active')->get();
-                        $maxProfit = $investments->max('total_profit');
-
-                        $investments = $investments->map(function ($inv) use ($maxProfit) {
-                            $inv->roi = $inv->amount > 0 
-                                ? ($inv->total_profit / $inv->amount) * 100 
-                                : 0;
-
-                            $inv->is_best = $inv->total_profit == $maxProfit;
-
-                            return $inv;
-                        });
+                        $investments = \App\Models\BotInvestment::compoundableFor(auth()->user());
+                        $hasRunning = auth()->user()->botInvestments()->where('status', 'active')->exists();
                     @endphp
 
                     @forelse($investments as $inv)
@@ -171,7 +161,7 @@
                         >
                             <div>
                                 <h5>
-                                    {{ $inv->bot->name }}
+                                    {{ $inv->bot?->name ?? 'Bot' }}
 
                                     @if($inv->is_best)
                                         <span class="badge">Recommended</span>
@@ -193,9 +183,13 @@
                             <i class="ri-arrow-right-s-line"></i>
                         </a>
                     @empty
-                        <div class="invora-empty">
-                            No active investments available
-                        </div>
+                    <div class="invora-empty">
+                        @if($hasRunning)
+                            Your running investments have no profit to compound yet (minimum $1).
+                        @else
+                            You have no running investments to compound.
+                        @endif
+                    </div>
                     @endforelse
 
                 </div>

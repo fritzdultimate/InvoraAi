@@ -14,16 +14,19 @@ use App\Services\Promo\RoiPromoService;
 use App\Services\Wallet\WalletService;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class Investment extends Component
 {
+    use WithPagination;
+
     public $amount;
     public $bot;
     public $license;
     public $showModal = false;
     public $selectedLicense;
     public $asset = 'main';
-    public $search;
+    public $statusFilter = '';
 
     public $upgradeMode = false;
     public $availableUpgradeBots;
@@ -96,15 +99,20 @@ class Investment extends Component
         $this->showModal = true;
     }
 
+    public function updatedStatusFilter() {
+        $this->resetPage();
+    }
+
     public function render() {
         $licenses = BotLicense::with('bot')
             ->where('user_id', auth()->id())
             ->latest()
             ->get();
-        $investments = BotInvestment::where([
-            'user_id' => auth()->id()
-        ])->latest()
-            ->paginate();
+        $investments = BotInvestment::with(['bot', 'botLicense'])
+            ->where('user_id', auth()->id())
+            ->when($this->statusFilter, fn ($q) => $q->where('status', $this->statusFilter))
+            ->latest()
+            ->paginate(10);
 
         return view('livewire.dashboard.investment', [
             'licenses' => $licenses,
