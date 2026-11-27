@@ -18,6 +18,8 @@ class Ranking extends Component {
 
     public $teamVolume = 0;
     public $directVolume = 0;
+    public $directReferrals = 0;
+    public $personalDeposits = 0;
     public $maxBonus = 0;
 
     public function mount() {
@@ -27,10 +29,11 @@ class Ranking extends Component {
 
         $this->teamVolume = RankEvaluatorService::getTotalTeamVolume($this->user->id);
 
-        $this->directVolume = BotInvestment::whereIn(
-            'user_id',
-            getDownlineUserIds($this->user->id, 1)
-        )->sum('amount');
+        $directIds = getDownlineUserIds($this->user->id, 1);
+
+        $this->directVolume = BotInvestment::whereIn('user_id', $directIds)->sum('amount');
+        $this->directReferrals = count($directIds);
+        $this->personalDeposits = $this->user->deposits()->real()->sum('actually_paid');
 
         $this->maxBonus = $this->user->deposits()->max('bonus') ?? 0;
 

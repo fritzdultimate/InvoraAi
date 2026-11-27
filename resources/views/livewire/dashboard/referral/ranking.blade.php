@@ -156,6 +156,16 @@
             flex-direction: column;
             gap: 2px;
         }
+        .rank-reqs-head {
+            margin-top: 20px;
+            padding-top: 16px;
+            border-top: 1px solid rgba(255,255,255,0.06);
+            font-size: 11px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: #94a3b8;
+        }
+
     </style>
 @endpush
 
@@ -179,14 +189,28 @@
                 <div class="rank-title flex items-center gap-2 mt-3">
                     {{ $currentRank?->name ?? 'Unranked' }}
 
-                    @unless (auth()->user()->isActive())
-                        <span x-data="{ open: false }" class="relative flex items-center" x-cloak style="position:relative">
-                            <iconify-icon icon="solar:info-circle-outline" style="font-size:20px;"
-                                class="cursor-pointer text-gray-400 hover:text-white transition"
-                                @click="open = !open"></iconify-icon>
+                    <span x-data="{ open: false }" class="relative flex items-center" x-cloak style="position:relative">
+                        <iconify-icon icon="solar:info-circle-outline" style="font-size:20px;"
+                            class="cursor-pointer text-gray-400 hover:text-white transition"
+                            @click="open = !open"></iconify-icon>
 
-                            <div x-show="open" @click.outside="open = false" x-transition class="invora-tooltip invora-rank-tooltip">
+                        <div x-show="open" @click.outside="open = false" x-transition class="invora-tooltip invora-rank-tooltip">
 
+                            @if($currentRank)
+                                <div class="title">How you reached {{ $currentRank->name }}</div>
+
+                                <div class="text">
+                                    You reached <strong>{{ $currentRank->name }}</strong> by building a team volume of at least
+                                    <strong>${{ number_format($currentRank->required_volume) }}</strong>.
+                                </div>
+
+                                <div class="text" style="margin-top:8px;">
+                                    Reward: <strong>+${{ number_format($currentRank->one_time_bonus, 2) }}</strong> one-time
+                                    @if($currentRank->bonus > 0)
+                                        and <strong>${{ number_format($currentRank->bonus, 2) }}</strong> daily
+                                    @endif
+                                </div>
+                            @else
                                 <div class="title">Why is my account unranked?</div>
 
                                 <div class="text">
@@ -197,75 +221,42 @@
                                 <div class="text" style="margin-top:8px;">
                                     Unlock your first rank by building your network and increasing your trading activity.
                                 </div>
+                            @endif
 
-                                <!-- ACTIVATION NOTE -->
-                                <div class="highlight-box warning hidden">
-                                    ⚠️ Team volume tracking only starts after you generate at least 
-                                    <strong>$500</strong> in trading volume within 30 days.
-                                </div>
+                            <div class="rank-legend">
+                                <span><strong>TV</strong> = Team Volume needed for each rank</span>
+                            </div>
 
-                                <!-- HOW TO -->
-                                <div class="steps">
-                                    <div class="step">
-                                        <span>1</span>
-                                        Build your team volume
-                                    </div>
-                                </div>
-
-                                <div class="rank-legend">
-                                    <span><strong>TV</strong> = Team Volume</span>
-                                </div>
-
-                                <div class="rank-ladder">
-
-                                    <div class="rank-item active">
-                                        <div class="rank-name">Amateur</div>
+                            <div class="rank-ladder">
+                                @foreach($ranks as $r)
+                                    <div class="rank-item {{ $currentRank && $r->level <= $currentRank->level ? 'active' : '' }}">
+                                        <div class="rank-name">{{ $r->name }}</div>
                                         <div class="rank-meta">
-                                            <span>TV: $4,999</span>
+                                            <span>TV: ${{ number_format($r->required_volume) }}</span>
                                         </div>
                                     </div>
+                                @endforeach
+                            </div>
 
-                                    <div class="rank-item">
-                                        <div class="rank-name">Bronze</div>
-                                        <div class="rank-meta">
-                                            <span>TV: $9,999</span>
-                                        </div>
-                                    </div>
+                            <div class="highlight-box" style="margin-top:10px;">
+                                💰 Each rank unlocks exclusive one-time rewards and daily earning bonuses.
+                            </div>
 
-                                    <div class="rank-item">
-                                        <div class="rank-name">Achiever</div>
-                                        <div class="rank-meta">
-                                            <span>TV: $19,999</span>
-                                        </div>
-                                    </div>
-
-                                    <div class="rank-item">
-                                        <div class="rank-name">Silver</div>
-                                        <div class="rank-meta">
-                                            <span>TV: $49,999</span>
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                                <div class="highlight-box" style="margin-top:10px;">
-                                    💰 Each rank unlocks exclusive one-time rewards and daily earning bonuses.
-                                </div>
-
-                                <!-- CTA -->
+                            @unless($currentRank)
                                 <a href="{{ route('bot') }}" class="invora-mini-btn">
                                     Start Building Rank →
                                 </a>
+                            @endunless
 
-                            </div>
-                        </span>
-                    @endunless
+                        </div>
+                    </span>
                 </div>
 
                 <div class="rank-sub">
                     Level {{ $currentRank?->level ?? 0 }}
                     • Achieved {{ optional($user->rank?->achieved_at)->format('M d, Y') ?? '—' }}
                 </div>
+
             </div>
 
             <div class="rank-total-earned">
@@ -274,6 +265,46 @@
             </div>
 
         </div>
+
+        @if($currentRank)
+            @php
+                $reqs = [
+                    ['Team Volume', $teamVolume, $currentRank->required_volume, true],
+                    ['Direct Referrals Volume', $directVolume, $currentRank->direct_referrals_volume, true],
+                    ['Personal Deposits', $personalDeposits, $currentRank->deposits, true],
+                    ['Direct Referrals', $directReferrals, $currentRank->direct_referrals, false],
+                ];
+            @endphp
+
+            <div class="rank-reqs-head">Requirements for {{ $currentRank->name }}</div>
+
+            <div class="rank-stats">
+                @foreach($reqs as [$label, $yours, $needed, $isMoney])
+                    @php
+                        $met = $yours >= $needed;
+                        $pct = $needed > 0 ? min(100, ($yours / $needed) * 100) : 100;
+                    @endphp
+                    <div class="stat-card">
+                        <div class="stat-top">
+                            <span class="stat-title">{{ $label }}</span>
+                            <span class="stat-badge {{ $met ? 'done' : '' }}">{{ $met ? '✓ Met' : 'Not met' }}</span>
+                        </div>
+
+                        <div class="stat-main">
+                            {{ $isMoney ? '$' : '' }}{{ number_format($yours) }}
+                        </div>
+
+                        <div class="stat-sub">
+                            of {{ $isMoney ? '$' : '' }}{{ number_format($needed) }} required
+                        </div>
+
+                        <div class="mini-bar">
+                            <div class="mini-fill" style="width: {{ $pct }}%"></div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        @endif
 
     </div>
 

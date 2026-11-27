@@ -117,13 +117,19 @@ class BotInvestmentService {
 
         $investment = $termination->botInvestment;
 
-        if ($investment->status !== BotInvestmentStatus::TERMINATIONREQUEST) {
-            throw new \Exception('Investment cannot be terminated. Investment is ' . $investment->status->value);
+        if ($termination->terminated_at !== null || $investment->status !== BotInvestmentStatus::TERMINATIONREQUEST) {
+            throw new \Exception('Only pending termination requests can be cancelled. Investment is ' . $investment->status->value);
         }
 
         return DB::transaction(function () use ($investment, $termination) {
+            // back to running; it earns again from the next cycle, nothing is back-paid
+            $investment->update([
+                'status' => BotInvestmentStatus::ACTIVE,
+                'next_cycle_at' => now()->addHours($investment->bot->payout_interval_hours),
+            ]);
 
-
+            // soft delete keeps the request on record
+            $termination->delete();
         });
     }
 

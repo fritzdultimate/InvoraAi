@@ -157,6 +157,35 @@ class BotTerminationsTable
                                 // throw $e;
                             }
                         }),
+                    Action::make('cancel')
+                        ->label('Cancel termination')
+                        ->color('warning')
+                        ->icon('heroicon-o-arrow-uturn-left')
+                        ->modalHeading('Cancel this termination request?')
+                        ->modalDescription('The investment goes back to running and earns again from the next profit cycle. No money moves.')
+                        ->requiresConfirmation()
+                        ->visible(fn (BotTermination $record) =>
+                            $record->terminated_at === null
+                            && ! $record->trashed()
+                            && $record->botInvestment?->status === BotInvestmentStatus::TERMINATIONREQUEST
+                        )
+                        ->action(function (BotTermination $record) {
+                            try {
+                                BotInvestmentService::deny($record);
+
+                                Notification::make()
+                                    ->title('Termination cancelled')
+                                    ->body('The investment is running again.')
+                                    ->success()
+                                    ->send();
+                            } catch (\Throwable $e) {
+                                Notification::make()
+                                    ->title('Could not cancel')
+                                    ->body($e->getMessage())
+                                    ->danger()
+                                    ->send();
+                            }
+                        }),
                     DeleteAction::make(),
                 ])
             ])
