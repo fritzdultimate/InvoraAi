@@ -11,6 +11,7 @@ use App\Models\User;
 use App\Models\WithdrawalCurrency;
 use App\Models\WithdrawalNetwork;
 use App\Services\NotificationService;
+use App\Services\Wallet\BalanceConversionService;
 use App\Services\Wallet\WalletService;
 use App\Services\WithdrawalService;
 use Illuminate\Support\Facades\DB;
@@ -268,86 +269,18 @@ class Withdrawal extends Component {
 
     }
 
+    // the same conversion the Wallet page uses (see BalanceConversionService)
     public function processConvert($from, $amount) {
-        $min_conversion = CustomSetting::get('minimum_conversion') ?? 10;
-        $user = auth()->user();
-        $amount = (float) $amount;
-
-        if ($amount <= 0) {
-            $this->dispatch('error', message: 'Invalid amount');
+        try {
+            $converted = BalanceConversionService::convert(auth()->user(), (string) $from, $this->toNumber($amount));
+        } catch (\DomainException $e) {
+            $this->dispatch('error', message: $e->getMessage());
             return;
         }
 
-        if ($amount < $min_conversion) {
-            $min_conversion = number_format($min_conversion, 2);
-            $this->dispatch('error', message: "Minimum conversion amount is $$min_conversion");
-            return;
-        }
+        $this->dispatch('success', message: '$' . number_format($converted, 2) . ' conversion was successful');
 
-        return DB::transaction(function () use ($user, $amount, $from) {
-            $user = User::lockForUpdate()->find($user->id);
-
-            if ($from === 'profit') {
-                if ($user->profit_balance < $amount) {
-                    $this->dispatch('error', message: 'Insufficient profit balance');
-                    return;
-                }
-
-                WalletService::debit(
-                    $user,
-                    $amount,
-                    LedgerReference::PROFITTRANSFER,
-                    null,
-                    'profit transfer to main balance',
-                    LedgerAsset::PROFIT
-                );
-
-                WalletService::credit(
-                    $user,
-                    $amount,
-                    LedgerReference::PROFITTRANSFER,
-                    null,
-                    'profit transfer from profit balance',
-                    LedgerAsset::MAIN
-                );
-
-                $this->dispatch('success', message: "$$amount convertion was successful");
-                return true;
-
-            } else {
-                if ($user->referral_balance < $amount) {
-                    $this->dispatch('error', message: 'Insufficient referral balance');
-                    return;
-                }
-
-                WalletService::debit(
-                    $user,
-                    $amount,
-                    LedgerReference::REFERRALBONUSTRANSFER,
-                    null,
-                    'referral bonus transfer to main balance',
-                    LedgerAsset::REFERRALBONUS
-                );
-
-                WalletService::credit(
-                    $user,
-                    $amount,
-                    LedgerReference::REFERRALBONUSTRANSFER,
-                    null,
-                    'referral bonus transfer from referral bonus balance',
-                    LedgerAsset::MAIN
-                );
-                $this->dispatch('success', message: "$$amount convertion was successful");
-                return true;
-            }
-
-            // NotificationService::createForUser($user, [
-            //     'title' => 'Conversion Successful',
-            //     'message' => "You converted $$amount successfully.",
-            // ]);
-
-            // return true;
-        });
+        return true;
     }
 
     public function render() {

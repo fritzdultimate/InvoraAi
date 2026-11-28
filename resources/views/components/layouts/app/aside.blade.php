@@ -49,6 +49,13 @@
 			</li>
 
 			<li>
+				<a href="{{ route('wallet') }}">
+					<iconify-icon icon="solar:wallet-money-bold" class="menu-icon"></iconify-icon>
+					<span>Wallet</span>
+				</a>
+			</li>
+
+			<li>
 				<a href="{{ route('withdrawal') }}">
 					<iconify-icon icon="ph:coins-bold" class="menu-icon"></iconify-icon>
 					<span>Withdrawal</span>

@@ -24,6 +24,7 @@ use App\Livewire\Dashboard\Support\CreateTicket;
 use App\Livewire\Dashboard\Support\Tickets;
 use App\Livewire\Dashboard\Support\ViewTicket;
 use App\Livewire\Dashboard\TradeDashboard;
+use App\Livewire\Dashboard\Wallet;
 use App\Livewire\Dashboard\Withdrawal;
 use App\Livewire\Dashboard\WithdrawalDetails;
 use App\Livewire\Dashboard\WithdrawalPage;
@@ -38,6 +39,7 @@ Route::middleware(['auth'])->prefix('dashboard')->group(function () {
 
     Route::get('/deposit/{deposit}', DepositPage::class)->name('deposit.page');
 
+    Route::get('/wallet', Wallet::class)->name('wallet');
     Route::get('/withdrawal', Withdrawal::class)->name('withdrawal');
     Route::get('/withdrawal/details', WithdrawalDetails::class)->name('withdrawal.details');
     Route::get('/withdrawal/{withdrawal}', WithdrawalPage::class)->name('withdrawal.page');
