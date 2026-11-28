@@ -4,6 +4,7 @@ namespace App\Filament\Resources\Deposits\Tables;
 
 use App\Enums\DepositStatus;
 use App\Models\Deposit;
+use App\Services\Admin\AdminDepositService;
 use App\Services\DepositService;
 use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
@@ -17,6 +18,8 @@ use Filament\Support\Exceptions\Halt;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Illuminate\Support\Collection;
+use Illuminate\Support\HtmlString;
 
 class DepositsTable
 {
@@ -65,10 +68,18 @@ class DepositsTable
                 TextColumn::make('actually_paid')
                     ->money('usd')
                     ->sortable(),
+                TextColumn::make('source')
+                    ->badge()
+                    ->formatStateUsing(fn (?string $state) => $state === 'admin' ? 'Admin' : 'Gateway')
+                    ->color(fn (?string $state) => $state === 'admin' ? 'warning' : 'gray')
+                    ->description(fn (Deposit $record) => $record->isAdminCreated() ? $record->creator?->name : null)
+                    ->toggleable(),
             ])
             ->defaultSort('created_at', 'desc')
 
             ->filters([
+                SelectFilter::make('source')
+                    ->options(['gateway' => 'Gateway', 'admin' => 'Admin']),
             ])
             ->recordActions([
                 ActionGroup::make([
@@ -124,6 +135,33 @@ class DepositsTable
                                     ->send();
                             }
                         }),
+                    Action::make('distributeReferral')
+                        ->label('Distribute referral bonus')
+                        ->icon('heroicon-o-share')
+                        ->color('info')
+                        ->requiresConfirmation()
+                        ->modalHeading('Distribute referral bonus')
+                        ->modalDescription(fn (Deposit $record) => 'Pay the upline of ' . $record->user?->email . ' on $' . number_format((float) $record->actually_paid, 2) . ' using the active referral levels. Each level is paid only once per deposit.')
+                        ->modalSubmitActionLabel('Distribute')
+                        ->visible(fn (Deposit $record) => AdminDepositService::canDistribute($record))
+                        ->action(function (Deposit $record) {
+                            try {
+                                self::distributedNotice(AdminDepositService::distributeReferralBonus($record));
+                            } catch (\DomainException $e) {
+                                Notification::make()->title($e->getMessage())->danger()->send();
+                            }
+                        }),
+
+                    Action::make('referralBonuses')
+                        ->label('Referral bonuses')
+                        ->icon('heroicon-o-users')
+                        ->color('gray')
+                        ->modalHeading(fn (Deposit $record) => 'Referral bonus for ' . $record->reference)
+                        ->modalContent(fn (Deposit $record) => view('filament.deposits.referral-bonuses', ['deposit' => $record]))
+                        ->modalSubmitAction(false)
+                        ->modalCancelActionLabel('Close')
+                        ->visible(fn (Deposit $record) => $record->referralBonuses()->exists()),
+
                     DeleteAction::make(),
                 ])
                 ->label('Action')
@@ -133,5 +171,28 @@ class DepositsTable
                     DeleteBulkAction::make(),
                 ]),
             ]);
+    }
+
+    // tells the admin who got paid and how much
+    public static function distributedNotice(Collection $bonuses): void
+    {
+        if ($bonuses->isEmpty()) {
+            Notification::make()
+                ->title('No referral bonus was given')
+                ->body('This user has no upline, no referral level is active, or every level was already paid.')
+                ->warning()
+                ->send();
+
+            return;
+        }
+
+        $lines = $bonuses->map(fn ($b) => 'L' . $b->level . ' · ' . e($b->user?->name ?? 'Deleted user') . ' (' . e($b->user?->email) . ') — <b>$' . number_format((float) $b->amount, 2) . '</b>');
+
+        Notification::make()
+            ->title('Referral bonus distributed: $' . number_format((float) $bonuses->sum('amount'), 2))
+            ->body(new HtmlString($lines->implode('<br>')))
+            ->success()
+            ->persistent()
+            ->send();
     }
 }

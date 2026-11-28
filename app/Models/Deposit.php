@@ -25,6 +25,10 @@ class Deposit extends Model {
         'created_at',
         'receipt_path',
         'receipt_uploaded_at',
+        'narration',
+        'confirmed_at',
+        'source',
+        'created_by',
     ];
 
     protected $casts = [
@@ -33,6 +37,7 @@ class Deposit extends Model {
         'created_at' => 'datetime',
         'received_at' => 'datetime',
         'receipt_uploaded_at' => 'datetime',
+        'confirmed_at' => 'datetime',
     ];
 
     public function markFinished(): self {
@@ -65,9 +70,22 @@ class Deposit extends Model {
     //     return $this->morphMany(Transaction::class, 'related');
     // }
 
-    // money the user actually paid in through a payment invoice (admin top-ups never land here)
+    public function creator() {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function referralBonuses() {
+        return $this->hasMany(ReferralBonus::class);
+    }
+
+    public function isAdminCreated(): bool {
+        return $this->source === 'admin';
+    }
+
+    // money that counts as a real deposit: paid through an invoice, or a deposit an admin created for the user.
+    // silent admin top-ups never create a deposit, so they never land here
     public function scopeReal($query) {
         return $query->where('actually_paid', '>', 0)
-            ->whereNotNull('nowpayments_invoice_id');
+            ->where(fn ($q) => $q->whereNotNull('nowpayments_invoice_id')->orWhere('source', 'admin'));
     }
 }

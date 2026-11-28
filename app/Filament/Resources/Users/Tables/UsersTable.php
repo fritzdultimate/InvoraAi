@@ -6,6 +6,7 @@ use App\Enums\BotLicenseStatus;
 use App\Enums\LedgerAsset;
 use App\Enums\LedgerReference;
 use App\Models\User;
+use App\Services\Admin\AdminDepositService;
 use App\Services\Admin\AdminLogger;
 use App\Services\BalanceService;
 use App\Services\ReferralReassignmentService;
@@ -21,6 +22,7 @@ use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Notifications\Notification;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
@@ -158,9 +160,23 @@ class UsersTable
                         ->icon('heroicon-o-plus-circle')
                         ->color('success')
                         ->form([
+                            Select::make('funding_type')
+                                ->label('How should this be funded?')
+                                ->options([
+                                    'silent' => 'Silent funding: balance only, not a deposit',
+                                    'deposit' => 'Finished deposit: counts as team volume',
+                                ])
+                                ->helperText(fn (Get $get) => $get('funding_type') === 'deposit'
+                                    ? 'Creates a finished deposit for this user and credits their deposit balance. It counts for team volume, ranks and leaderboard.'
+                                    : 'Only adds to the chosen balance. No deposit is recorded, so it does not count as volume and pays no referral bonus.')
+                                ->default('silent')
+                                ->required()
+                                ->live(),
+
                             TextInput::make('amount')
                                 ->numeric()
                                 ->required()
+                                ->prefix('$')
                                 ->minValue(0.0001),
 
                             Select::make('asset')
@@ -173,15 +189,59 @@ class UsersTable
                                     'locked_balance' => 'Locked Balance',
                                     'profit' => 'Profit Balance',
                                 ])
-                                ->required()
+                                ->required(fn (Get $get) => $get('funding_type') !== 'deposit')
+                                ->visible(fn (Get $get) => $get('funding_type') !== 'deposit')
                                 ->default('deposit'),
+
+                            TextInput::make('currency')
+                                ->default('usdt')
+                                ->required(fn (Get $get) => $get('funding_type') === 'deposit')
+                                ->visible(fn (Get $get) => $get('funding_type') === 'deposit')
+                                ->maxLength(20),
+
+                            Toggle::make('distribute_bonus')
+                                ->label('Distribute referral bonus to upline now')
+                                ->default(true)
+                                ->visible(fn (Get $get) => $get('funding_type') === 'deposit'),
 
                             Textarea::make('description')
                                 ->required()
+                                ->maxLength(250)
                                 ->label('Reason'),
                         ])
                         ->requiresConfirmation()
                         ->action(function ($record, array $data) {
+                            if (($data['funding_type'] ?? 'silent') === 'deposit') {
+                                try {
+                                    $deposit = AdminDepositService::create($record, [
+                                        'status' => 'finished',
+                                        'amount' => $data['amount'],
+                                        'actually_paid' => $data['amount'],
+                                        'currency' => $data['currency'] ?? 'usdt',
+                                        'note' => $data['description'],
+                                        'credit_wallet' => true,
+                                        'distribute_bonus' => ! empty($data['distribute_bonus']),
+                                    ]);
+                                } catch (\DomainException $e) {
+                                    Notification::make()->title($e->getMessage())->danger()->send();
+                                    return;
+                                }
+
+                                Notification::make()
+                                    ->title('Deposit created and balance funded')
+                                    ->body($deposit->reference)
+                                    ->success()
+                                    ->send();
+
+                                if (! empty($data['distribute_bonus'])) {
+                                    \App\Filament\Resources\Deposits\Tables\DepositsTable::distributedNotice(
+                                        $deposit->referralBonuses()->with('user')->orderBy('level')->get()
+                                    );
+                                }
+
+                                return;
+                            }
+
                             WalletService::credit(
                                 $record,
                                 $data['amount'],

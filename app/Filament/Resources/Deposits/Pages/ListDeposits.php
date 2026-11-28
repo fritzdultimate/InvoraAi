@@ -4,6 +4,10 @@ namespace App\Filament\Resources\Deposits\Pages;
 
 use App\Enums\DepositStatus;
 use App\Filament\Resources\Deposits\DepositResource;
+use App\Filament\Resources\Deposits\Schemas\AdminDepositForm;
+use App\Filament\Resources\Deposits\Tables\DepositsTable;
+use App\Models\User;
+use App\Services\Admin\AdminDepositService;
 use App\Models\Deposit;
 use Filament\Actions\Action;
 use Filament\Actions\CreateAction;
@@ -52,6 +56,40 @@ class ListDeposits extends ListRecords
 
     protected function getHeaderActions(): array {
         return [
+            Action::make('createDeposit')
+                ->label('Create deposit')
+                ->icon('heroicon-o-plus')
+                ->modalHeading('Create a deposit for a user')
+                ->modalDescription('Records a deposit on behalf of the user. Finished deposits count as team volume and can pay referral bonus to the upline.')
+                ->modalSubmitActionLabel('Create deposit')
+                ->schema(AdminDepositForm::fields())
+                ->requiresConfirmation()
+                ->action(function (array $data) {
+                    $user = User::find($data['user_id']);
+
+                    if (! $user) {
+                        Notification::make()->title('User not found')->danger()->send();
+                        return;
+                    }
+
+                    try {
+                        $deposit = AdminDepositService::create($user, $data);
+                    } catch (\DomainException $e) {
+                        Notification::make()->title($e->getMessage())->danger()->send();
+                        return;
+                    }
+
+                    Notification::make()
+                        ->title('Deposit created')
+                        ->body($deposit->reference . ' · $' . number_format((float) $deposit->actually_paid, 2) . ' for ' . $user->email)
+                        ->success()
+                        ->send();
+
+                    if (! empty($data['distribute_bonus']) && $deposit->status !== DepositStatus::PENDING) {
+                        DepositsTable::distributedNotice($deposit->referralBonuses()->with('user')->orderBy('level')->get());
+                    }
+                }),
+
             Action::make('clearCache')
                 ->label('Clear Cache')
                 ->icon('heroicon-o-arrow-path')
